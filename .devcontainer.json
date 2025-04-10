@@ -12,7 +12,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
-	"postCreateCommand": "npm install",
+	"postCreateCommand": ["npm install","npm audit"],
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -42,10 +42,13 @@
 		  "tabnine.tabnine-vscode",
 		  "timkmecl.chatgpt"
 		],
-		"extensions.ignoreRecommendations": true,
+		"extensions.ignoreRecommendations": false,
 		"files.autoSave": "afterDelay",
 		"files.exclude": {
+			".htmlvalidate.json":true,
+			".eslintrc.json":true,
 		//   "**/.*": true
+
 		},
 		"files.trimTrailingWhitespace": true,
 		"files.watcherExclude": {
