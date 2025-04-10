@@ -45,7 +45,7 @@
 		"extensions.ignoreRecommendations": true,
 		"files.autoSave": "afterDelay",
 		"files.exclude": {
-		  "**/.*": true
+		//   "**/.*": true
 		},
 		"files.trimTrailingWhitespace": true,
 		"files.watcherExclude": {
