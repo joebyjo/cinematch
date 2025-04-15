@@ -12,7 +12,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
-	"postCreateCommand": "cd backend && npm install && alias c=clear",
+	"postCreateCommand": "apt-get install -y make",
 
 	// Configure tool-specific properties.
 	"customizations": {
