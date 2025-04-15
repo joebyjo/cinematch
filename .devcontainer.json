@@ -12,7 +12,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
-	"postCreateCommand": ["npm install","npm audit"],
+	"postCreateCommand": "cd backend && npm install && alias c=clear",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -23,7 +23,9 @@
 				"vsls-contrib.gitdoc",
 				"ms-vsliveshare.vsliveshare-pack",
 				"tonybaloney.vscode-pets",
-				"unjinjang.rest-api-client"
+				"unjinjang.rest-api-client",
+				"ritwickdey.LiveServer",
+				"DigitalBrainstem.javascript-ejs-support"
 			]
 		}
 	},
@@ -46,7 +48,7 @@
 		"files.autoSave": "afterDelay",
 		"files.exclude": {
 			".htmlvalidate.json":true,
-			".eslintrc.json":true,
+			".eslintrc.json":true
 		//   "**/.*": true
 
 		},
