@@ -13,14 +13,12 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// use /frontend directory as default directory for static files.
-app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend'))); // use /frontend directory as default directory for static files.
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
