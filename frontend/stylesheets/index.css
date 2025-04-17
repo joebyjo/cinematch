@@ -1,0 +1,56 @@
+/* Defining Theme */
+@media (min-width: 1550px) {
+    :root {
+        --size: 16px;
+    }
+}
+
+@media (max-width: 1550px) {
+    :root {
+        --size: 12px;
+    }
+}
+
+@media (max-width: 950px) {
+    :root {
+        --size: 8px;
+    }
+}
+
+.light {
+    --primary-color: white;
+    --secondary-color: black;
+    --text-color: black;
+}
+
+.dark {
+    --primary-color: #3A3A3A;
+    --secondary-color: white;
+    --text-color: white;
+}
+
+.primary-bg-color {
+    background-color: var(--primary-color);
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.secondary-bg-color {
+    background-color: var(--secondary-color);
+}
+
+.secondary-color {
+    color: var(--secondary-color);
+}
+
+html {
+    font-size: var(--size);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}

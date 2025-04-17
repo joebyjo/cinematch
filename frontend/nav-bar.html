@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="light primary-bg-color">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar underline" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                 <!-- Josheen Edit this only: this is for Profile Pic -->
+                <div v-else class="profile-pic primary-color-nav-bar">
+                    Welcome, <b>J.K</b>!
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <main></main>
+
+</body>
+
+</html>
