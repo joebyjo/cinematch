@@ -30,14 +30,21 @@ router.get('/trending', async (req, res) => {
 router.get('/movie/:id', async (req, res) => {
     try {
 
-        const movie_response = await tmdb.get(`/movie/${req.params.id}`);
-        const release_response = await tmdb.get(`/movie/${req.params.id}/release_dates`);
-        const videos_response = await tmdb.get(`/movie/${req.params.id}/videos`);
+        const movieId = req.params.id;
+
+        // setting users country
+        const country = 'AU';
+
+        const [movieResp, releaseResp, videosResp] = await Promise.all([
+            tmdb.get(`/movie/${movieId}`),
+            tmdb.get(`/movie/${movieId}/release_dates`),
+            tmdb.get(`/movie/${movieId}/videos`)
+          ]);
 
 
-        const movie = movie_response.data;
-        const release = release_response.data.results;
-        const videos = videos_response.data.results;
+        const movie = movieResp.data;
+        const release = releaseResp.data.results;
+        const videos = videosResp.data.results;
 
         // remove unnecessary data
         const trimmedResults = {
@@ -52,21 +59,28 @@ router.get('/movie/:id', async (req, res) => {
             backdrop_path: movie.backdrop_path
         };
 
-        // setting users country
-        const country = 'AU';
-
-        const country_release_info =release.find(
-                (country_result) => country_result.iso_3166_1 === country
+        const countryReleaseInfo =release.find(
+                (countryResult) => countryResult.iso_3166_1 === country
             )
             .release_dates[0];
 
         // get movie certification in users country.
-        trimmedResults.certification = country_release_info.certification || 'NR';
+        trimmedResults.certification = countryReleaseInfo.certification || 'NR';
 
         // get release_date in user's country
-        [trimmedResults.release_date] = new Date(country_release_info.release_date).toISOString().split('T');
+        [trimmedResults.release_date] = new Date(countryReleaseInfo.release_date).toISOString().split('T');
 
-        // const trailers = videos.filter()
+        // get trailer from youtube
+        const trailers = videos.filter(
+            (value) => value.site==='YouTube'
+            && (value.type==='Trailer' || value.type==='Official Trailer')
+        );
+
+        // add trailer to response if it exists
+        if (trailers.length != 0){
+            const trailer = `https://www.youtube.com/watch?v=${trailers[0].key}`;
+            trimmedResults.trailer= trailer;
+        }
 
 
         res.status(200).json(trimmedResults);
