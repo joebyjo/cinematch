@@ -66,7 +66,7 @@ router.get('/movie/:id', async (req, res) => {
         // get release_date in user's country
         [trimmedResults.release_date] = new Date(country_release_info.release_date).toISOString().split('T');
 
-        const trailers = videos.filter()
+        // const trailers = videos.filter()
 
 
         res.status(200).json(trimmedResults);
