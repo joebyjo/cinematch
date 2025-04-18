@@ -1,0 +1,104 @@
+.light {
+    --primary-color-mylists: white;
+    --secondary-color-mylists: #3A3A3A;
+    --text-color: black;
+
+    --third-color-mylists: #B9B9B9;
+    --forth-color-mylists: #E3E3E3;
+}
+
+.dark {
+    --primary-color-mylists: #3A3A3A;
+    --secondary-color-mylists: white;
+    --text-color: white;
+
+    --third-color-mylists: #2B2B2B;
+    --forth-color-mylists: #3A3A3A;
+}
+
+.primary-bg-color-mylists {
+    background-color: var(--primary-color-mylists);
+}
+
+.primary-color-mylists {
+    color: var(--primary-color-mylists);
+}
+
+.secondary-bg-color-mylists {
+    background-color: var(--secondary-color-mylists);
+}
+
+.secondary-color-mylists {
+    color: var(--secondary-color-mylists);
+}
+
+.main-mylists {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    /* background-color: blue;
+    height: 50vh; */
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.heading-text {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    font-family: "Caudex", serif;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+#filters,
+#sort-by {
+    border-radius: 2rem 2rem 2rem 2rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--third-color-mylists);
+    border-width: 0;
+    text-align: center;
+}
+
+#filters {
+    margin-right: 1rem;
+}
+
+#sort-by {
+    margin-left: 1rem;
+}
+
+/* Table */
+
+.movie-table {
+    background-color: var(--third-color-mylists);
+    margin: 2rem 0 0 0;
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    width: 100%;
+
+}
+
+.movie-table th {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    background-color: var(--forth-color-mylists);
+    border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.movie-table tbody {
+    text-align: center;
+    background-color: var(--forth-color-mylists);
+}
