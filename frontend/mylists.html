@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/mylists.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/mylists.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="light primary-bg-color">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar underline" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <!-- Josheen Edit this only: this is for Profile Pic -->
+                <div v-else class="profile-pic primary-color-nav-bar">
+                    Welcome, <b>J.K</b>!
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-mylists">
+        <div class="hero-section">
+            <div class="heading-text">List of all the movies & tv <br>
+                shows you've interacted with
+            </div>
+            <div class="">
+                <select multiple name="filters" id="filters" class="secondary-color-mylists">
+                    <optgroup label="Add Filter"></optgroup>
+                        <option value="">Liked</option>
+                        <option value="">Watched</option>
+                        <optgroup label="Age Rating">
+                            <option value="">PG</option>
+                            <option value="">PG-13</option>
+                            <option value="">TV-MA</option>
+                        </optgroup>
+                </select>
+                <select name="sort-by" id="sort-by" class="secondary-color-mylists" @change="Sort($event.target.value)">
+                    <option value="" selected>Sort By</option>
+                    <option value="uh">User Rating: High to Low</option>
+                    <option value="ul">User Rating: Low to High</option>
+                    <option value="ih">IMDB Rating: High to Low</option>
+                    <option value="il">IMDB Rating: Low to High</option>
+                </select>
+            </div>
+        </div>
+
+        <table class="movie-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Genre</th>
+                <th>Liked</th>
+                <th>Watched</th>
+                <th>IMDb Rating</th>
+                <th>Age Rating</th>
+                <th>User Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="movie in movieData">
+                <td>{{ movie.Name }}</td>
+                <td>{{ movie.Genre }}</td>
+                <td>{{ movie.Liked }}</td>
+                <td>{{ movie.Watched }}</td>
+                <td>{{ movie.IMDbRating }} / 10</td>
+                <td>{{ movie.AgeRating }}</td>
+                <td>{{ draw(movie.UserRating) }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+    </main>
+
+</body>
+
+</html>
