@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const tmdb = require('../services/tmdb');
+const { tmdb, getImdbData } = require('../services/tmdb');
 
 // GET /api/movies/trending
 router.get('/trending', async (req, res) => {
     try {
         // get trending movies
         const response = await tmdb.get('/movie/popular');
-        const { results } =response.data;
+        const { results } = response.data;
 
         // remove unnecessary data
         const trimmedResults = results.map((movie) => ({
@@ -35,16 +35,18 @@ router.get('/movie/:id', async (req, res) => {
         // setting users country
         const country = 'AU';
 
-        const [movieResp, releaseResp, videosResp] = await Promise.all([
+        const [movieResp, releaseResp, videosResp, providersResp] = await Promise.all([
             tmdb.get(`/movie/${movieId}`),
             tmdb.get(`/movie/${movieId}/release_dates`),
-            tmdb.get(`/movie/${movieId}/videos`)
-          ]);
+            tmdb.get(`/movie/${movieId}/videos`),
+            tmdb.get(`/movie/${movieId}/watch/providers`)
+        ]);
 
 
         const movie = movieResp.data;
         const release = releaseResp.data.results;
         const videos = videosResp.data.results;
+        const providers = providersResp.data.results;
 
         // remove unnecessary data
         const trimmedResults = {
@@ -59,9 +61,9 @@ router.get('/movie/:id', async (req, res) => {
             backdrop_path: movie.backdrop_path
         };
 
-        const countryReleaseInfo =release.find(
-                (countryResult) => countryResult.iso_3166_1 === country
-            )
+        const countryReleaseInfo = release.find(
+            (countryResult) => countryResult.iso_3166_1 === country
+        )
             .release_dates[0];
 
         // get movie certification in users country.
@@ -72,16 +74,26 @@ router.get('/movie/:id', async (req, res) => {
 
         // get trailer from youtube
         const trailers = videos.filter(
-            (value) => value.site==='YouTube'
-            && (value.type==='Trailer' || value.type==='Official Trailer')
+            (value) => value.site === 'YouTube'
+                && (value.type === 'Trailer' || value.type === 'Official Trailer')
         );
 
         // add trailer to response if it exists
-        if (trailers.length != 0){
+        if (trailers.length !== 0) {
             const trailer = `https://www.youtube.com/watch?v=${trailers[0].key}`;
-            trimmedResults.trailer= trailer;
+            trimmedResults.trailer = trailer;
         }
 
+        // getting critic ratings and cast details
+        const { ratings, director, cast } = await getImdbData(movie.imdb_id);
+
+        trimmedResults.ratings = ratings;
+        trimmedResults.director = director;
+        trimmedResults.cast = cast;
+
+        // get country wise watch providers
+        const countryProviders = providers[country];
+        trimmedResults.watch_providers = countryProviders;
 
         res.status(200).json(trimmedResults);
 
