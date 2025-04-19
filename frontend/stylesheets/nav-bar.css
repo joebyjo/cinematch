@@ -162,3 +162,8 @@ nav a {
 .logout {
     color: #f17878;
 }
+
+.menu-icon {
+    width: 1.5rem;
+    margin-right:1rem;
+}
