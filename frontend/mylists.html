@@ -62,7 +62,8 @@
                 shows you've interacted with
             </div>
             <div class="">
-                <select multiple name="filters" id="filters" class="secondary-color-mylists">
+                <!-- Filter Option: Needs to be done -->
+                <!-- <select multiple name="filters" id="filters" class="secondary-color-mylists">
                     <optgroup label="Add Filter"></optgroup>
                         <option value="">Liked</option>
                         <option value="">Watched</option>
@@ -71,7 +72,10 @@
                             <option value="">PG-13</option>
                             <option value="">TV-MA</option>
                         </optgroup>
-                </select>
+                </select> -->
+                <!-- Filter Option ends -->
+
+                <!-- Sorting Option: Done -->
                 <select name="sort-by" id="sort-by" class="secondary-color-mylists" @change="Sort($event.target.value)">
                     <option value="" selected>Sort By</option>
                     <option value="uh">User Rating: High to Low</option>
@@ -79,33 +83,47 @@
                     <option value="ih">IMDB Rating: High to Low</option>
                     <option value="il">IMDB Rating: Low to High</option>
                 </select>
+                <!-- Sorting Option Ends -->
             </div>
         </div>
 
-        <table class="movie-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Genre</th>
-                <th>Liked</th>
-                <th>Watched</th>
-                <th>IMDb Rating</th>
-                <th>Age Rating</th>
-                <th>User Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="movie in movieData">
-                <td>{{ movie.Name }}</td>
-                <td>{{ movie.Genre }}</td>
-                <td>{{ movie.Liked }}</td>
-                <td>{{ movie.Watched }}</td>
-                <td>{{ movie.IMDbRating }} / 10</td>
-                <td>{{ movie.AgeRating }}</td>
-                <td>{{ draw(movie.UserRating) }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Table Option: CSS Need to be done -->
+        <div class="movie-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Liked</th>
+                    <th>Watched</th>
+                    <th>IMDb Rating</th>
+                    <th>Age Rating</th>
+                    <th>User Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="movie in limitMovieData">
+                    <td>{{ movie.Name }}</td>
+                    <td>{{ movie.Genre }}</td>
+                    <td>{{ movie.Liked }}</td>
+                    <td>{{ movie.Watched }}</td>
+                    <td>{{ movie.IMDbRating }} / 10</td>
+                    <td>{{ movie.AgeRating }}</td>
+                    <td>{{ drawStar(movie.UserRating) }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Table Ends -->
+
+            <!-- Below Buttons star -->
+            <div class="table-footer">
+                <select name="load-limit" id="load-limit" class="secondary-color-mylists" @change="changeLoadLimit($event.target.value)">
+                    <option v-for="limit in loadLimitArray()" :value="limit">Load Limit = {{limit}}</option>
+                </select>
+            </div>
+
+            <div></div>
+        </div>
 
     </main>
 

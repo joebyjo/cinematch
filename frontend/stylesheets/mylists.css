@@ -60,8 +60,21 @@
     text-align: center;
 }
 
-#filters,
 #sort-by {
+    border-radius: 2rem 2rem 2rem 2rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--third-color-mylists);
+    border-width: 0;
+    text-align: center;
+
+    margin-left: 1rem;
+}
+
+/* Needs to be edites: Liri & Josheen */
+#filters {
     border-radius: 2rem 2rem 2rem 2rem;
     font-family: "Inter", sans-serif;
     font-size: 1.5rem;
@@ -76,19 +89,16 @@
     margin-right: 1rem;
 }
 
-#sort-by {
-    margin-left: 1rem;
-}
-
-/* Table */
-
+/* Table: Need to be completed */
 .movie-table {
     background-color: var(--third-color-mylists);
     margin: 2rem 0 0 0;
     padding: 2rem 2rem 2rem 2rem;
     border-radius: 1rem 1rem 1rem 1rem;
-    width: 100%;
+}
 
+.movie-table table {
+    width: 100%;
 }
 
 .movie-table th {
@@ -101,4 +111,23 @@
 .movie-table tbody {
     text-align: center;
     background-color: var(--forth-color-mylists);
+}
+
+/* Liri & Josheen ends */
+
+.table-footer {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: space-between;
+}
+
+#load-limit {
+    background-color: var(--forth-color-mylists);
+
+    border-radius: 2rem 2rem 2rem 2rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-width: 0;
+    text-align: center;
 }
