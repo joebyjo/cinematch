@@ -136,7 +136,7 @@ nav a {
 .user-menu {
     position: absolute;
     width: 14rem;
-    background-color: #000000;
+    background-color: #ffffff;
     padding: 1rem;
     border-radius: 1.5rem;
     box-shadow: 0 0.5 1rem rgba(0,0,0,0.4);
@@ -145,4 +145,20 @@ nav a {
     gap: 1rem;
     margin-top: 16rem;
     margin-left: 1rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-family: "Cantarell";
+    font-size: 1.5rem;
+}
+
+.theme {
+    color: #787878;
+}
+
+.logout {
+    color: #f17878;
 }
