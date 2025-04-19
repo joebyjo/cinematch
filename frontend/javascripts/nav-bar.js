@@ -13,9 +13,6 @@ const profile = Vue.createApp({
         },
         onMenu() {
             this.showMenu = !this.showMenu;
-        },
-        offMenu() {
-            this.showMenu = false;
         }
     },
     mounted() {
