@@ -1,0 +1,125 @@
+.light {
+    --primary-color-footer: white;
+    --secondary-color-footer: black;
+    --text-color: black;
+}
+
+.dark {
+    --primary-color-footer: #3A3A3A;
+    --secondary-color-footer: white;
+    --text-color: white;
+}
+
+.primary-bg-color-footer {
+    background-color: var(--primary-color-footer);
+}
+
+.primary-color-footer {
+    color: var(--primary-color-footer);
+}
+
+.secondary-bg-color-footer {
+    background-color: var(--secondary-color-footer);
+}
+
+.secondary-color-footer {
+    color: var(--secondary-color-footer);
+}
+
+body {
+    margin: 0;
+    font-family: 'Cantarell', sans-serif;
+}
+.footer{
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    color: white;
+    font-family: 'Cantarell', sans-serif;
+}
+.footer-wave {
+    display: block;
+    width: 100%;
+    margin-bottom: -15rem; /* overlap the curve into footer nicely */
+  }
+
+.footer-wave-container {
+line-height:0 ;
+}
+
+/* Content above the SVG wave */
+.footer-content {
+    position: relative;
+    background-color: #9075A8;
+    padding: 3rem 2rem 1rem;
+    color: white;
+    align-items: center;
+}
+
+/* Text styles */
+.footer-text {
+    font-size: 1rem;
+    color: white;
+    margin: 0px;
+}
+
+footer-text em{
+    opacity: 0.8;
+    font-style: italic;
+}
+
+
+/* Up arrow link */
+.back-to-top {
+    display: inline-block;
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: 50%;
+    text-decoration: none;
+    color: grey;
+    font-size: 1.5rem;
+    line-height: 46px;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    background-color: rgb(221, 226, 226);
+    size: 1rem;
+}
+
+.copyright {
+    font-size: 2rem;
+    color: white;
+}
+
+ .footer-floating-content {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+}
+
+
+.footer-text-1,
+.footer-text-2 {
+    font-style: italic;
+    margin: 0;
+    font-size: 3.1rem;
+    line-height: 1.4;
+    color:grey;
+}
+
+.arrow-icon {
+    width: 100px;
+    height: 100px;
+    color: rgb(92, 92, 92);
+    stroke:rgb(92, 92, 92);
+    transition: transform 0.3s ease;
+}
+
+.arrow-icon:hover {
+    transform: translateY(-4px);
+}
+
