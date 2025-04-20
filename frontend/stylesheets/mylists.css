@@ -97,6 +97,15 @@
     width: 9rem;
 }
 
+.filter-option {
+    font-family: "Inter", sans-serif;
+    font-size: 125%;
+    color: #8a8a8a;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
 /* Table: Need to be completed */
 .movie-table {
     background-color: var(--third-color-mylists);
