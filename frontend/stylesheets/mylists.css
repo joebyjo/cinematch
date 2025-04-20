@@ -73,20 +73,15 @@
     margin-left: 1rem;
 }
 
-/* Needs to be edites: Liri & Josheen */
-#filters {
-    border-radius: 2rem 2rem 2rem 2rem;
+.filter-button {
     font-family: "Inter", sans-serif;
-    font-size: 1.5rem;
     font-weight: bold;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    background-color: var(--third-color-mylists);
+    font-size: 1.25rem;
+    color: #ffffff;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    background-color: #2a2a2a;
+    border-radius: 2rem;
     border-width: 0;
-    text-align: center;
-}
-
-#filters {
-    margin-right: 1rem;
 }
 
 /* Table: Need to be completed */
