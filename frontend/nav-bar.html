@@ -21,11 +21,12 @@
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
     <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
 
     <title>Home Page</title>
 </head>
 
-<body class="light primary-bg-color">
+<body class="dark primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -46,19 +47,22 @@
                 <!-- else -->
                 <div v-else class="user-container">
                     <div class="user-welcome">Welcome, <b>J.K</b>!</div>
-                    <img class="user-avatar" src="images/pfp.jpg" alt="User avatar" @click="onMenu">
+                    <img class="user-avatar" src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @onclick="settClick()">
-                        <img src="images/settings.png" alt="settings icon">
-                        Account Settings</div>
-                    <div class="theme">
-                        <img src="images/off.png" alt="theme off icon">
-                        Dark Theme</div>
-                    <div class="logout">
-                        <img src="images/logout.png" alt="logout icon">
-                        Logout</div>
+                    <div @click="redirect('/setting')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()" class="theme">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
+                        Dark Theme
+                    </div>
+                    <div @click="redirect('/logout')" class="logout">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        Logout
+                    </div>
                 </div>
             </div>
         </div>
