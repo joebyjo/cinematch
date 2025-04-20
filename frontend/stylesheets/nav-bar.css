@@ -1,11 +1,23 @@
 .light {
     --primary-color-nav-bar: white;
     --secondary-color-nav-bar: #3A3A3A;
+
+    --user-container-nav-bar: #3A3A3A;
+    --user-container-img-border: #2B2B2B;
+    --user-menu-color: white;
+    --box-shadow-nav-bar: rgba(0, 0, 0, 0.4);
+    --user-menu-text-color-nav-bar: black;
 }
 
 .dark {
     --primary-color-nav-bar: #3A3A3A;
     --secondary-color-nav-bar: white;
+
+    --user-container-nav-bar: #2B2B2B;
+    --user-container-img-border: white;
+    --user-menu-color: #2B2B2B;
+    --box-shadow-nav-bar: rgba(0, 0, 0, 0.4);
+    --user-menu-text-color-nav-bar: white;
 }
 
 .primary-bg-color-nav-bar {
@@ -108,7 +120,7 @@ nav a {
 .user-container {
     display: flex;
     flex-direction: row;
-    background-color: #3A3A3A;
+    background-color: var(--user-container-nav-bar);
     border-radius: 2rem 3rem 3rem 2rem;
     justify-content: space-between;
     transform: perspective(3rem) rotateY(-8deg);
@@ -129,17 +141,19 @@ nav a {
     width: 2.5rem;
     height: 3rem;
     border-radius: 50%;
-    border: 0.125rem solid #2b2b2b;
+    border: 0.125rem solid var(--user-container-img-border);
     transform: perspective(3rem) rotateY(7deg);
 }
+
+/* Change here */
 
 .user-menu {
     position: absolute;
     width: 14rem;
-    background-color: #ffffff;
+    background-color: var(--user-menu-color);
     padding: 1rem;
     border-radius: 1.5rem;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.4);
+    box-shadow: 0 0.5rem 1rem var(--box-shadow-nav-bar);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -147,13 +161,22 @@ nav a {
     margin-left: 1rem;
 }
 
-.menu-item {
+.user-menu div {
     display: flex;
     align-items: center;
-    color: #000000;
+    color: var(--user-menu-text-color-nav-bar);
     font-family: "Cantarell";
     font-size: 1.3rem;
     cursor: pointer;
+}
+
+.user-menu img {
+    width: 1.5rem;
+    margin-right:1rem;
+}
+
+.user-menu div:hover {
+    transform: scale(1.05);
 }
 
 .theme {
@@ -162,13 +185,4 @@ nav a {
 
 .logout {
     color: #f17878;
-}
-
-.menu-icon {
-    width: 1.5rem;
-    margin-right:1rem;
-}
-
-.menu-item:hover {
-    transform: scale(1.05);
 }

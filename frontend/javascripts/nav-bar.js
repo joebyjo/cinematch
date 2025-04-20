@@ -1,15 +1,19 @@
+function helperCheckLoginStatus() {
+    // checkif the user has login
+    console.log("Checking login status...");
+    return true;
+}
+
 const profile = Vue.createApp({
     data() {
         return {
-            isLogin: false,
+            isLogin: true,
             showMenu: false
         };
     },
     methods: {
         checkLoginStatus() {
-            // checkif the user has login
-            console.log("Checking login status...");
-            this.isLogin = true;
+            this.isLogin = helperCheckLoginStatus();
         },
         onMenu() {
             this.showMenu = !this.showMenu;
