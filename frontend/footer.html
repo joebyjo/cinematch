@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+
+    <title>footer example</title>
+</head>
+
+<body>
+
+    <!-- Just a placeholder top section -->
+    <div style="height: 800px; background-color: white;" id="top">
+        <h1 style="text-align:center; padding-top: 100px;">Scroll Down to See the Footer</h1>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-wave-container">
+            <img src="images/curve.svg" alt="wave curve" class="footer-wave" />
+
+            <!-- This group is now positioned ON the curve -->
+            <div class="footer-floating-content">
+                <p class="footer-text-1">Scrolled too far?</p>
+                <p class="footer-text-2">Jump back to the top</p>
+                <a href="#top" class="back-to-top" aria-label="Back to top">
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 8 12 16" />
+                        <polyline points="8 12 12 8 16 12" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-content">
+            <p class="copyright">© Cinematch 2025</p>
+        </div>
+    </footer>
+</body>
+</html>
