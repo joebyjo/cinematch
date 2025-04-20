@@ -48,15 +48,16 @@
                     <div class="user-welcome">Welcome, <b>J.K</b>!</div>
                     <img class="user-avatar" src="images/pfp.jpg" alt="User avatar" @click="onMenu">
                 </div>
+
                 <div v-show="showMenu" class="user-menu">
-                    <div class="menu-item">
-                        <img src="images/settings.png" alt="settings icon" class="menu-icon">
+                    <div @onclick="settClick()">
+                        <img src="images/settings.png" alt="settings icon">
                         Account Settings</div>
-                    <div class="menu-item theme">
-                        <img src="images/off.png" alt="theme off icon" class="menu-icon">
+                    <div class="theme">
+                        <img src="images/off.png" alt="theme off icon">
                         Dark Theme</div>
-                    <div class="menu-item logout">
-                        <img src="images/logout.png" alt="logout icon" class="menu-icon">
+                    <div class="logout">
+                        <img src="images/logout.png" alt="logout icon">
                         Logout</div>
                 </div>
             </div>
