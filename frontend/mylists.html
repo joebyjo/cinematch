@@ -62,14 +62,24 @@
                 shows you've interacted with
             </div>
             <div class="">
-                <!-- Filter Option:-->
-                <button type="button" class="filter-button">Add filters</button>
-                <div class="filter-menu">
-                    <div class="filter-option">Liked</div>
-                        <div class="filter-option">Watched</div>
-                        <div class="filter-option">PG</div>
-                        <div class="filter-option">PG-13</div>
-                        <div class="filter-option">TV-MA</div>
+                <!-- Filter Option: Done-->
+                <button type="button" class="filter-button" @click="filterMenu()">Add / remove filters</button>
+                <div v-show="showFilter" class="filter-menu">
+                    <label class="filter-option">
+                        <input type="checkbox"> Liked
+                      </label>
+                      <label class="filter-option">
+                        <input type="checkbox"> Watched
+                      </label>
+                      <label class="filter-option">
+                        <input type="checkbox"> PG
+                      </label>
+                      <label class="filter-option">
+                        <input type="checkbox"> PG-13
+                      </label>
+                      <label class="filter-option">
+                        <input type="checkbox"> TV-MA
+                      </label>
                 </div>
                 <!-- Filter Option ends -->
 

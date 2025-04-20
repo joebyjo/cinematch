@@ -930,7 +930,8 @@ const movieTable = Vue.createApp({
         return {
             movieData: [], // storing movieData
             loadLimit: 10, // how many movies to load at a time
-            startingIndex: 0 // staring index to sho movies from
+            startingIndex: 0, // staring index to sho movies from
+            showFilter: false
         };
     },
     methods: {
@@ -946,6 +947,9 @@ const movieTable = Vue.createApp({
         },
         loadLimitArray() {
             return helperLoadLimitArray(this.movieData.length);
+        },
+        filterMenu() {
+            this.showFilter = !this.showFilter;
         }
     },
     computed: {
