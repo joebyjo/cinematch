@@ -4,11 +4,23 @@ function helperCheckLoginStatus() {
     return true;
 }
 
-const profile = Vue.createApp({
+function helperChangeDark(isDark) {
+    if (isDark) {
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+    }
+}
+
+const { createApp } = Vue;
+createApp({
     data() {
         return {
             isLogin: true,
-            showMenu: false
+            showMenu: false,
+            isDark: true
         };
     },
     methods: {
@@ -17,11 +29,17 @@ const profile = Vue.createApp({
         },
         onMenu() {
             this.showMenu = !this.showMenu;
+        },
+        changeDark() {
+            this.isDark = !this.isDark;
+            helperChangeDark(this.isDark);
+        },
+        redirect(path) {
+            window.location.href = path;
         }
     },
+    computed: {},
     mounted() {
         this.checkLoginStatus();
     }
-});
-
-profile.mount('#profile');
+}).mount('#nav-bar');
