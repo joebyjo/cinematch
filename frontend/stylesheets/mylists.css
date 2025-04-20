@@ -60,29 +60,17 @@
     text-align: center;
 }
 
-#sort-by {
-    border-radius: 2rem 2rem 2rem 2rem;
-    font-family: "Inter", sans-serif;
-    font-size: 1.25rem;
-    font-weight: bold;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    background-color: var(--third-color-mylists);
-    border-width: 0;
-    text-align: center;
-
-    margin-left: 1rem;
-}
-
 .filter-button {
     font-family: "Inter", sans-serif;
     font-weight: bold;
     font-size: 1.25rem;
     color: #ffffff;
-    padding: 0.5rem 2rem 0.5rem 2rem;
+    padding: 0.6rem 2rem 0.6rem 2rem;
     background-color: #2a2a2a;
     border-radius: 2rem;
     border-width: 0;
     cursor: pointer;
+    margin-right: 4rem;
 }
 
 .filter-menu {
@@ -95,22 +83,32 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 0.5rem;
-    width: 9rem;
+    width: 14.5rem;
 }
 
 .filter-option {
     font-family: "Inter", sans-serif;
     font-size: 125%;
-    color: #8a8a8a;
-    text-align: center;
+    color: #ffffff;
+    background-color: #2a2a2a;
+    text-align: left;
     padding: 0.5rem;
     border-radius: 0.5rem;
+    border-width: 0;
     cursor: pointer;
 }
 
-.filter-option:hover{
-    background-color: #ffffff;
-    color: #000000;
+#sort-by {
+    border-radius: 2rem 2rem 2rem 2rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--third-color-mylists);
+    border-width: 0;
+    text-align: center;
+
+    margin-left: 1rem;
 }
 
 /* Table: Need to be completed */
