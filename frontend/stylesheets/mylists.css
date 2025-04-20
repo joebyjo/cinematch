@@ -84,6 +84,19 @@
     border-width: 0;
 }
 
+.filter-menu {
+    position: absolute;
+    background-color: #2a2a2a;
+    border: 0.1rem solid #8a8a8a;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    width: 9rem;
+}
+
 /* Table: Need to be completed */
 .movie-table {
     background-color: var(--third-color-mylists);
