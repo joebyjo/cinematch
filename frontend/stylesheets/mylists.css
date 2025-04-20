@@ -82,6 +82,7 @@
     background-color: #2a2a2a;
     border-radius: 2rem;
     border-width: 0;
+    cursor: pointer;
 }
 
 .filter-menu {
@@ -104,6 +105,7 @@
     text-align: center;
     padding: 0.5rem;
     border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .filter-option:hover{
