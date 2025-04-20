@@ -2,6 +2,7 @@
     --primary-color-footer: white;
     --secondary-color-footer: black;
     --text-color: black;
+    --purple-color-footer:
 }
 
 .dark {
@@ -30,30 +31,32 @@ body {
     margin: 0;
     font-family: 'Cantarell', sans-serif;
 }
-.footer{
+
+.footer {
+    width: 100vw;
     position: relative;
     text-align: center;
     overflow: hidden;
-    color: white;
     font-family: 'Cantarell', sans-serif;
 }
+
 .footer-wave {
     display: block;
     width: 100%;
-    margin-bottom: -15rem; /* overlap the curve into footer nicely */
-  }
+    margin-bottom: -7.3rem;
+    /* overlap the curve into footer nicely */
+}
 
 .footer-wave-container {
-line-height:0 ;
+    line-height: 0;
 }
 
 /* Content above the SVG wave */
 .footer-content {
     position: relative;
-    background-color: #9075A8;
-    padding: 3rem 2rem 1rem;
-    color: white;
+    background-color: transparent;
     align-items: center;
+    margin-bottom: -2rem;
 }
 
 /* Text styles */
@@ -63,14 +66,14 @@ line-height:0 ;
     margin: 0px;
 }
 
-footer-text em{
+footer-text em {
     opacity: 0.8;
     font-style: italic;
 }
 
 
 /* Up arrow link */
-.back-to-top {
+.footer-back-to-top {
     display: inline-block;
     width: 6.4rem;
     height: 6.4rem;
@@ -78,27 +81,27 @@ footer-text em{
     text-decoration: none;
     color: grey;
     font-size: 1.5rem;
-    line-height: 46px;
+    line-height: 1.2rem;
     transition: all 0.3s ease;
 }
 
-.back-to-top:hover {
-    background-color: rgb(221, 226, 226);
+.footer-back-to-top:hover {
+    background-color: rgb(227, 234, 234);
     size: 1rem;
 }
 
-.copyright {
+.footer-copyright {
     font-size: 2rem;
     color: white;
 }
 
- .footer-floating-content {
+.footer-floating-content {
     position: absolute;
-    top: 55%;
+    top: 35%;
     left: 50%;
     transform: translateX(-50%);
+    background-color: transparent;
     text-align: center;
-    color: white;
 }
 
 
@@ -107,19 +110,23 @@ footer-text em{
     font-style: italic;
     margin: 0;
     font-size: 3.1rem;
-    line-height: 1.4;
-    color:grey;
+    line-height: 3.4rem;
+    background-color: transparent;
+    color: grey;
 }
 
-.arrow-icon {
-    width: 100px;
-    height: 100px;
+.footer-arrow-icon {
+    width: 7.8rem;
+    height: 7.8rem;
     color: rgb(92, 92, 92);
-    stroke:rgb(92, 92, 92);
+    stroke: rgb(92, 92, 92);
     transition: transform 0.3s ease;
 }
 
-.arrow-icon:hover {
-    transform: translateY(-4px);
+.footer-arrow-icon:hover {
+    transform: translateY(-1rem);
 }
 
+.footer-button-padding {
+    padding: 2rem;
+}

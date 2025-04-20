@@ -27,35 +27,41 @@
     <title>footer example</title>
 </head>
 
-<body>
+<body class="light">
 
     <!-- Just a placeholder top section -->
-    <div style="height: 800px; background-color: white;" id="top">
-        <h1 style="text-align:center; padding-top: 100px;">Scroll Down to See the Footer</h1>
+    <div style="height: 800px;" id="top" class="primary-bg-color-footer">
+        <h1 style="text-align:center;margin: 0;">Scroll Down to See the Footer</h1>
     </div>
 
-    <footer class="footer">
+    <footer class="footer primary-bg-color-footer">
         <div class="footer-wave-container">
-            <img src="images/curve.svg" alt="wave curve" class="footer-wave" />
+            <img src="images/footer-curve.svg" alt="wave curve" class="footer-wave" />
 
             <!-- This group is now positioned ON the curve -->
-            <div class="footer-floating-content">
+            <div class="footer-floating-content primary-bg-color-footer">
+                <div>
                 <p class="footer-text-1">Scrolled too far?</p>
                 <p class="footer-text-2">Jump back to the top</p>
-                <a href="#top" class="back-to-top" aria-label="Back to top">
-                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 8 12 16" />
-                        <polyline points="8 12 12 8 16 12" />
-                    </svg>
-                </a>
+                </div>
+
+                <div class="footer-button-padding">
+                    <a href="#top" class="footer-back-to-top" aria-label="Back to top">
+                        <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 8 12 16" />
+                            <polyline points="8 12 12 8 16 12" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="footer-content">
-            <p class="copyright">© Cinematch 2025</p>
+        <div class="footer-content .primary-bg-color-footer ">
+            <p class="footer-copyright">© Cinematch 2025</p>
         </div>
     </footer>
 </body>
+
 </html>
