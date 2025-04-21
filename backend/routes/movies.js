@@ -1,6 +1,6 @@
 const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
-const { validate, validateSearchQuery, validateMovieId } = require('../services/validators');
+const { validate, validateSearchQuery, validateId } = require('../services/validators');
 
 const router = express.Router();
 
@@ -76,7 +76,7 @@ router.get('/now-playing', async (req, res) => {
 
 
 // get movie details for a movie
-router.get('/movie/:id', validateMovieId, validate, async (req, res) => {
+router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
     try {
 
         const movieId = req.params.id;
@@ -155,7 +155,7 @@ router.get('/movie/:id', validateMovieId, validate, async (req, res) => {
     }
 });
 
-router.get('/search', validateSearchQuery, validate, async (req, res) => {
+router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
 
     try {
 

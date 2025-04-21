@@ -7,11 +7,10 @@ const validate = (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
     next();
-    return;
 };
 
-const validateSearchQuery = [
-    query('q')
+const validateSearchQuery = (field = 'q') => [
+    query(field)
         .trim()
         .notEmpty()
         .withMessage('Query parameter "q" is required')
@@ -23,8 +22,8 @@ const validateSearchQuery = [
         .withMessage('Search query contains invalid characters')
 ];
 
-const validateMovieId = [
-    param('id')
+const validateId = (paramName = 'id') => [
+    param(paramName)
         .trim()
         .notEmpty()
         .withMessage('Movie ID is required')
@@ -36,5 +35,5 @@ const validateMovieId = [
 module.exports = {
     validate,
     validateSearchQuery,
-    validateMovieId
+    validateId
 };
