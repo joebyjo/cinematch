@@ -1,6 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const { tmdb, getImdbData } = require('../services/tmdb');
+const { validate, validateSearchQuery, validateMovieId } = require('../services/validators');
+
+const router = express.Router();
 
 // GET /api/movies/trending
 router.get('/trending', async (req, res) => {
@@ -74,7 +76,7 @@ router.get('/now-playing', async (req, res) => {
 
 
 // get movie details for a movie
-router.get('/movie/:id', async (req, res) => {
+router.get('/movie/:id', validateMovieId, validate, async (req, res) => {
     try {
 
         const movieId = req.params.id;
@@ -153,14 +155,23 @@ router.get('/movie/:id', async (req, res) => {
     }
 });
 
-router.get('/search', async (req, res) => {
+router.get('/search', validateSearchQuery, validate, async (req, res) => {
+
     try {
 
         const { query } = req;
 
-        const url = `/search/movie?query=${query.q}&include_adult=true`;
+        const url = "/search/movie"; // `/search/movie?query=${query.q}&include_adult=true`;
 
-        const { data } = await tmdb.get(url);
+        const { data } = await tmdb.get(
+            url,
+            {
+                params: {
+                    query: query.q,
+                    include_adult: true
+                }
+            });
+
         var { results } = data;
 
         results = results.slice(0, 5);
