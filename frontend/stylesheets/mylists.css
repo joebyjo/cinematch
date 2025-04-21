@@ -83,7 +83,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 0.5rem;
-    width: 14.5rem;
+    width: 10rem;
 }
 
 .filter-option {
@@ -98,6 +98,10 @@
     cursor: pointer;
 }
 
+.filter-option:hover {
+    background-color: #3A3A3A;
+}
+
 #sort-by {
     border-radius: 2rem 2rem 2rem 2rem;
     font-family: "Inter", sans-serif;
@@ -107,8 +111,12 @@
     background-color: var(--third-color-mylists);
     border-width: 0;
     text-align: center;
-
+    cursor: pointer;
     margin-left: 1rem;
+}
+
+.filter-button:hover, #sort-by:hover {
+    transform: scale(1.05);
 }
 
 /* Table: Need to be completed */
