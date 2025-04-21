@@ -64,9 +64,9 @@
     font-family: "Inter", sans-serif;
     font-weight: bold;
     font-size: 1.25rem;
-    color: #ffffff;
+    color: var(--text-color);
     padding: 0.6rem 2rem 0.6rem 2rem;
-    background-color: #2a2a2a;
+    background-color: var(--third-color-mylists);
     border-radius: 2rem;
     border-width: 0;
     cursor: pointer;
@@ -75,7 +75,7 @@
 
 .filter-menu {
     position: absolute;
-    background-color: #2a2a2a;
+    background-color: var(--third-color-mylists);
     border: 0.1rem solid #8a8a8a;
     border-radius: 1rem;
     padding: 0.5rem;
@@ -89,8 +89,8 @@
 .filter-option {
     font-family: "Inter", sans-serif;
     font-size: 125%;
-    color: #ffffff;
-    background-color: #2a2a2a;
+    color: var(--text-color);
+    background-color: var(--third-color-mylists);
     text-align: left;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -99,7 +99,7 @@
 }
 
 .filter-option:hover {
-    background-color: #3A3A3A;
+    background-color: var(--primary-color-mylists);
 }
 
 #sort-by {
