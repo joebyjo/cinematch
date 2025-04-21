@@ -7,6 +7,7 @@
     --user-menu-color: white;
     --box-shadow-nav-bar: rgba(0, 0, 0, 0.4);
     --user-menu-text-color-nav-bar: black;
+    --theme-color: #787878;
 }
 
 .dark {
@@ -16,8 +17,9 @@
     --user-container-nav-bar: #2B2B2B;
     --user-container-img-border: white;
     --user-menu-color: #2B2B2B;
-    --box-shadow-nav-bar: rgba(0, 0, 0, 0.4);
+    --box-shadow-nav-bar: rgba(102, 102, 102, 0.4);
     --user-menu-text-color-nav-bar: white;
+    --theme-color: whtie;
 }
 
 .primary-bg-color-nav-bar {
@@ -36,7 +38,7 @@
     color: var(--secondary-color-nav-bar);
 }
 
-.underline {
+.underline-nav-bar {
     text-decoration: underline;
     text-decoration-color: #DC6C99;
     text-underline-offset: 0.6rem;
@@ -70,14 +72,14 @@ nav a {
 
 }
 
-.logo,
-.login {
+.logo-nav-bar,
+.login-nav-bar {
     width: 20vw;
     display: flex;
     justify-content: center;
 }
 
-.logo>div {
+.logo-nav-bar>div {
     width: 20vw;
     display: flex;
     justify-content: center;
@@ -87,17 +89,17 @@ nav a {
 
 }
 
-.logo>div {
+.logo-nav-bar>div {
     border-radius: 0 2.5rem 0 0;
 }
 
-.logo a {
+.logo-nav-bar a {
     font-size: 1.7rem;
     font-family: "Chango", sans-serif;
 }
 
 
-.login>div {
+.login-nav-bar>div {
     border-radius: 2.5rem 0 0 0;
     width: 20vw;
     display: flex;
@@ -108,7 +110,7 @@ nav a {
 
 }
 
-.login>div>a {
+.login-nav-bar>div>a {
     padding: 0.5rem 3rem 0.5rem 3rem;
     border-radius: 2.5em 2.5em 2.5em 2.5em;
 
@@ -117,7 +119,7 @@ nav a {
     font-family: "Cantarell";
 }
 
-.user-container {
+.user-container-nav-bar {
     display: flex;
     flex-direction: row;
     background-color: var(--user-container-nav-bar);
@@ -129,7 +131,7 @@ nav a {
     margin-right: 4rem;
 }
 
-.user-welcome {
+.user-container-nav-bar>div {
     font-family: "Cantarell";
     font-size: 1.5rem;
     color: #ffffff;
@@ -137,15 +139,13 @@ nav a {
     white-space: nowrap;
 }
 
-.user-avatar {
+.user-container-nav-bar>img {
     width: 2.5rem;
     height: 3rem;
     border-radius: 50%;
     border: 0.125rem solid var(--user-container-img-border);
     transform: perspective(3rem) rotateY(7deg);
 }
-
-/* Change here */
 
 .user-menu {
     position: absolute;
@@ -180,9 +180,9 @@ nav a {
 }
 
 .theme {
-    color: #787878;
+    color: var(--theme-color);
 }
 
-.logout {
+.logout-nav-bar {
     color: #f17878;
 }
