@@ -63,28 +63,28 @@
             </div>
             <div class="filter-sort-section">
                 <!-- Filter Option: Done-->
-                <button type="button" class="filter-button" @click="filterMenu()">Add Filters</button>
+                <button type="button" class="filter-button" @click="toggleFilterMenu()">Add Filters</button>
                 <div v-show="showFilter" class="filter-menu">
                     <label class="filter-option">
-                        <input type="checkbox"> Liked
-                      </label>
-                      <label class="filter-option">
-                        <input type="checkbox"> Watched
-                      </label>
-                      <label class="filter-option">
-                        <input type="checkbox"> PG
-                      </label>
-                      <label class="filter-option">
-                        <input type="checkbox"> PG-13
-                      </label>
-                      <label class="filter-option">
-                        <input type="checkbox"> TV-MA
-                      </label>
-                </div>
+                      <input type="checkbox" value="Liked" v-model="selectedFilters"> Liked
+                    </label>
+                    <label class="filter-option">
+                      <input type="checkbox" value="Watched" v-model="selectedFilters"> Watched
+                    </label>
+                    <label class="filter-option">
+                      <input type="checkbox" value="PG" v-model="selectedFilters"> PG
+                    </label>
+                    <label class="filter-option">
+                      <input type="checkbox" value="PG-13" v-model="selectedFilters"> PG-13
+                    </label>
+                    <label class="filter-option">
+                      <input type="checkbox" value="R" v-model="selectedFilters"> R
+                    </label>
+                  </div>
                 <!-- Filter Option ends -->
 
                 <!-- Sorting Option: Done -->
-                <select name="sort-by" id="sort-by" class="secondary-color-mylists" @change="Sort($event.target.value)">
+                <select name="sort-by" id="sort-by" class="secondary-color-mylists" @change="sort($event.target.value)">
                     <option value="" selected>Sort By</option>
                     <option value="uh">User Rating: High to Low</option>
                     <option value="ul">User Rating: Low to High</option>
@@ -126,7 +126,7 @@
             <!-- Below Buttons star -->
             <div class="table-footer">
                 <select name="load-limit" id="load-limit" class="secondary-color-mylists" @change="changeLoadLimit($event.target.value)">
-                    <option v-for="limit in loadLimitArray()" :value="limit">Load Limit = {{limit}}</option>
+                    <option v-for="limit in loadLimitArray" :value="limit">Load Limit = {{limit}}</option>
                 </select>
             </div>
 
