@@ -109,7 +109,6 @@
     margin-left: 1rem;
 }
 
-/* Table: Need to be completed */
 .movie-table {
     background-color: var(--third-color-mylists);
     margin: 2rem 0 0 0;
@@ -164,6 +163,12 @@
 
 .movie-table tr:last-child td:last-child {
     border-radius: 0 0 1rem 0;
+}
+
+.movie-table td:first-child:hover {
+  font-style: italic;
+  color: #B9B9B9;
+  cursor: pointer;
 }
 
 .table-footer {
