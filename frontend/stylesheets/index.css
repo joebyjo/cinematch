@@ -54,3 +54,7 @@ body {
     padding: 0;
     color: var(--text-color);
 }
+
+main {
+    margin-bottom: 4rem;
+}

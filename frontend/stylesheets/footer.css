@@ -28,24 +28,30 @@
 }
 
 footer {
-    font-family: 'Cantarell', sans-serif;
     width: 100vw;
+    height: auto;
+    font-family: 'Cantarell', sans-serif;
     display: flex;
-    background-image: url(../images/footer-curve.svg);
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size: 100% auto;
-    height: 37.5rem;
     flex-direction: column;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
+
+    position: absolute;
+    bottom: 0;
+    background-color: transparent;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: -1;
 }
 
 /* Content above the SVG wave */
 .footer-content {
     background-color: transparent;
-    align-self: center;
-
     font-size: 2rem;
     color: white;
     text-align: end;
@@ -55,7 +61,7 @@ footer {
 .footer-floating-content {
     background-color: transparent;
     text-align: center;
-    margin-top: 10rem;
+    margin-bottom: 10rem;
 }
 
 

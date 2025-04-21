@@ -2,12 +2,102 @@
 <html lang="en">
 
 <head>
-    <title>Cinematch</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="scripts/index.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+
+    <title>Home Page</title>
 </head>
 
-<body>
+<body class="dark primary-bg-color" style="display: none">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar underline-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <div v-else class="user-container-nav-bar">
+                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                </div>
+
+                <div v-show="showMenu" class="user-menu">
+                    <div @click="redirect('/setting')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
+                        <span class="theme">Dark Theme</span>
+                    </div>
+                    <div @click="redirect('/logout')">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        <span class="logout-nav-bar">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main></main>
+
+    <footer class="footer">
+        <!-- Floating Content on top of background -->
+        <div class="footer-floating-content">
+            <div>
+                <p>Scrolled too far?</p>
+                <p>Jump back to the top</p>
+            </div>
+
+            <div class="footer-button-padding">
+                <a href="#top" class="footer-back-to-top" aria-label="Back to top">
+                    <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 8 12 16" />
+                        <polyline points="8 12 12 8 16 12" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer base content -->
+        <div class="footer-content">
+            © Cinematch 2025
+        </div>
+
+        <img class="wave" src="./images/footer-curve.svg" alt=""/>
+    </footer>
 
 </body>
 
