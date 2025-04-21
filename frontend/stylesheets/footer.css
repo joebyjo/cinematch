@@ -32,43 +32,44 @@ body {
     font-family: 'Cantarell', sans-serif;
 }
 
-.footer {
+footer {
     width: 100vw;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-    font-family: 'Cantarell', sans-serif;
-}
-
-.footer-wave {
-    display: block;
-    width: 100%;
-    margin-bottom: -7.3rem;
-    /* overlap the curve into footer nicely */
-}
-
-.footer-wave-container {
-    line-height: 0;
+    display: flex;
+    background-image: url(../images/footer-curve.svg);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% auto;
+    height: 37.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
 }
 
 /* Content above the SVG wave */
 .footer-content {
-    position: relative;
     background-color: transparent;
-    align-items: center;
-    margin-bottom: -2rem;
-}
+    align-self: center;
 
-/* Text styles */
-.footer-text {
-    font-size: 1rem;
+    font-size: 2rem;
     color: white;
-    margin: 0px;
+    text-align: end;
 }
 
-footer-text em {
-    opacity: 0.8;
+
+.footer-floating-content {
+    background-color: transparent;
+    text-align: center;
+    margin-top: 10rem;
+}
+
+
+.footer-floating-content p {
     font-style: italic;
+    margin: 0;
+    font-size: 2rem;
+    line-height: 3.4rem;
+    background-color: transparent;
+    color: grey;
 }
 
 
@@ -90,43 +91,19 @@ footer-text em {
     size: 1rem;
 }
 
-.footer-copyright {
-    font-size: 2rem;
-    color: white;
-}
-
-.footer-floating-content {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: transparent;
-    text-align: center;
-}
-
-
-.footer-text-1,
-.footer-text-2 {
-    font-style: italic;
-    margin: 0;
-    font-size: 3.1rem;
-    line-height: 3.4rem;
-    background-color: transparent;
-    color: grey;
-}
 
 .footer-arrow-icon {
-    width: 7.8rem;
-    height: 7.8rem;
+    width: 6rem;
+    height: 6rem;
     color: rgb(92, 92, 92);
     stroke: rgb(92, 92, 92);
     transition: transform 0.3s ease;
 }
 
 .footer-arrow-icon:hover {
-    transform: translateY(-1rem);
+    transform: translateY(-0.5rem);
 }
 
 .footer-button-padding {
-    padding: 2rem;
+    margin-top: 0.4rem;
 }
