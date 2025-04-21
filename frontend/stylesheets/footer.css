@@ -27,12 +27,8 @@
     color: var(--secondary-color-footer);
 }
 
-body {
-    margin: 0;
-    font-family: 'Cantarell', sans-serif;
-}
-
 footer {
+    font-family: 'Cantarell', sans-serif;
     width: 100vw;
     display: flex;
     background-image: url(../images/footer-curve.svg);
