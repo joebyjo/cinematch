@@ -28,26 +28,26 @@
 
 <body class="dark primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
-        <div class="logo secondary-bg-color-nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
         </div>
 
         <div class="nav secondary-bg-color-nav-bar">
-            <a class="primary-color-nav-bar underline" href="/home">HOME</a>
+            <a class="primary-color-nav-bar underline-nav-bar" href="/home">HOME</a>
             <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
             <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
             <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
         </div>
 
-        <div class="login secondary-bg-color-nav-bar">
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
                 <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
 
                 <!-- else -->
-                <div v-else class="user-container">
-                    <div class="user-welcome">Welcome, <b>J.K</b>!</div>
-                    <img class="user-avatar" src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                <div v-else class="user-container-nav-bar">
+                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
@@ -55,13 +55,13 @@
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
                         Account Settings
                     </div>
-                    <div @click="changeDark()" class="theme">
+                    <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
-                        Dark Theme
+                        <span class="theme">Dark Theme</span>
                     </div>
-                    <div @click="redirect('/logout')" class="logout">
+                    <div @click="redirect('/logout')">
                         <img src="images/logout-icon.png" alt="logout icon">
-                        Logout
+                        <span class="logout-nav-bar">Log out</span>
                     </div>
                 </div>
             </div>
