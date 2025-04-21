@@ -12,7 +12,7 @@ router.get('/trending', async (req, res) => {
         // remove unnecessary data
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
-            original_title: movie.original_title,
+            title: movie.title,
             poster_path: movie.poster_path
         }));
 
@@ -24,6 +24,53 @@ router.get('/trending', async (req, res) => {
 
     }
 });
+
+// GET /api/movies/top_rated
+router.get('/top-rated', async (req, res) => {
+    try {
+        // get top rated movies
+        const response = await tmdb.get('/movie/top_rated');
+        const { results } = response.data;
+
+        // remove unnecessary data
+        const trimmedResults = results.map((movie) => ({
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path
+        }));
+
+        res.status(200).json(trimmedResults);
+
+    } catch (error) {
+        console.error('TMDB error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch top rated movies' });
+
+    }
+});
+
+// GET /api/movies/now_playing
+router.get('/now-playing', async (req, res) => {
+    try {
+        // get movies now playing in cinemas
+        const response = await tmdb.get('/movie/now_playing');
+        const { results } = response.data;
+
+        // remove unnecessary data
+        const trimmedResults = results.map((movie) => ({
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path
+        }));
+
+        res.status(200).json(trimmedResults);
+
+    } catch (error) {
+        console.error('TMDB error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch now playing movies' });
+
+    }
+});
+
 
 
 // get movie details for a movie
@@ -55,7 +102,7 @@ router.get('/movie/:id', async (req, res) => {
             original_language: movie.original_language,
             overview: movie.overview,
             // release_date: movie.release_date,
-            original_title: movie.original_title,
+            title: movie.title,
             runtime: movie.runtime,
             poster_path: movie.poster_path,
             backdrop_path: movie.backdrop_path
@@ -97,6 +144,8 @@ router.get('/movie/:id', async (req, res) => {
 
         res.status(200).json(trimmedResults);
 
+        // TODO add to database
+
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ error: 'Failed to fetch movie' });
@@ -106,45 +155,41 @@ router.get('/movie/:id', async (req, res) => {
 
 router.get('/search', async (req, res) => {
     try {
-        // // get trending movies
-        // const response = await tmdb.get('/trending/movie/day');
-        // const { results } =response.data;
 
-        // // remove unnecessary data
-        // const trimmedResults = results.map((movie) => ({
-        //     id: movie.id,
-        //     original_title: movie.original_title,
-        //     poster_path: movie.poster_path
-        // }));
+        const { query } = req;
 
-        // res.status(200).json(trimmedResults);
+        const url = `/search/movie?query=${query.q}&include_adult=true`;
+
+        const { data } = await tmdb.get(url);
+        var { results } = data;
+
+        results = results.slice(0, 5);
+
+        const trimmedResults = results.map((movie) => ({
+            id: movie.id,
+            title: movie.title
+        }));
+
+        res.status(200).json(trimmedResults);
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch movie' });
-
+        res.status(500).json({ error: 'Failed to query movie' });
     }
 });
 
 
 router.get('/genres', async (req, res) => {
     try {
-        // // get trending movies
-        // const response = await tmdb.get('/trending/movie/day');
-        // const { results } =response.data;
+        // get genres
+        const response = await tmdb.get('/genre/movie/list');
+        const { genres } = response.data;
 
-        // // remove unnecessary data
-        // const trimmedResults = results.map((movie) => ({
-        //     id: movie.id,
-        //     original_title: movie.original_title,
-        //     poster_path: movie.poster_path
-        // }));
-
-        // res.status(200).json(trimmedResults);
+        res.status(200).json(genres);
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch movie' });
+        res.status(500).json({ error: 'Failed to fetch genres' });
 
     }
 });
