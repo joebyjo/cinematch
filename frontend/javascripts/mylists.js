@@ -34,6 +34,22 @@ function helperLoadLimitArray(len) {
     return arr;
 }
 
+function helperfilterData(selectedFilters, movieData) {
+    if (selectedFilters.length === 0) {
+        return movieData;
+    } else {
+        return movieData.filter(movie => {
+            return selectedFilters.some(filter => {
+                return (
+                    (filter === "Liked" && movie.Liked === "Yes") ||
+                    (filter === "Watched" && movie.Watched === "Yes") ||
+                    movie.AgeRating === filter
+                );
+            });
+        });
+    }
+}
+
 // getting the movieData from server
 function getMovieData() {
     return [
@@ -931,13 +947,17 @@ const movieTable = Vue.createApp({
             movieData: [], // storing movieData
             loadLimit: 10, // how many movies to load at a time
             startingIndex: 0, // staring index to sho movies from
-            showFilter: false
+            showFilter: false,
+            filteredMovieData: [],
+            selectedFilters: [],
+            recentSort: "intial"
         };
     },
     methods: {
-        Sort(e) {
+        sort(e) {
             // Sorts the data
-            this.movieData = helperSort(e, this.movieData);
+            this.recentSort = e;
+            this.filteredMovieData = helperSort(e, this.filteredMovieData);
         },
         drawStar(n) {
             return helperDraw(n);
@@ -945,20 +965,33 @@ const movieTable = Vue.createApp({
         changeLoadLimit(lim) {
             this.loadLimit = lim;
         },
-        loadLimitArray() {
-            return helperLoadLimitArray(this.movieData.length);
-        },
-        filterMenu() {
+        toggleFilterMenu() {
             this.showFilter = !this.showFilter;
+        },
+        filterData() {
+            this.filteredMovieData = helperfilterData(this.selectedFilters, this.movieData);
         }
     },
     computed: {
+        loadLimitArray() {
+            return helperLoadLimitArray(this.filteredMovieData.length);
+        },
         limitMovieData() {
-            return this.movieData.slice(this.startingIndex, this.startingIndex + this.loadLimit);
+            return this.filteredMovieData.slice(this.startingIndex, this.startingIndex + this.loadLimit);
+        }
+    },
+    watch: {
+        selectedFilters: {
+            handler() {
+                this.filterData();
+                this.sort(this.recentSort);
+            },
+            deep: true
         }
     },
     mounted() {
         this.movieData = getMovieData();
+        this.filteredMovieData = this.movieData;
     }
 });
 
