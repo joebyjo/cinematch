@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // helper functions
 
 function helperSort(e, movieData) { // Sorting the movies
@@ -37,17 +38,34 @@ function helperLoadLimitArray(len) {
 function helperfilterData(selectedFilters, movieData) {
     if (selectedFilters.length === 0) {
         return movieData;
-    } else {
-        return movieData.filter(movie => {
-            return selectedFilters.some(filter => {
-                return (
-                    (filter === "Liked" && movie.Liked === "Yes") ||
-                    (filter === "Watched" && movie.Watched === "Yes") ||
-                    movie.AgeRating === filter
-                );
-            });
-        });
     }
+        // return movieData.filter((movie) => selectedFilters.some((filter) => (
+        //             (filter === "Liked" && movie.Liked === "Yes")
+        //             || (filter === "Watched" && movie.Watched === "Yes")
+        //             || movie.AgeRating === filter
+        //         )));
+
+    const booleanFilters = selectedFilters.filter((f) => f === "Liked" || f === "Watched");
+    const ageRatingFilters = selectedFilters.filter((f) => f !== "Liked" && f !== "Watched");
+
+    return movieData.filter((movie) => {
+        let satisfiesBoolean = true; // Default to true if no boolean filters selected
+        if (booleanFilters.length > 0) {
+            // Check if movie satisfies AT LEAST ONE boolean filter (Liked OR Watched)
+            satisfiesBoolean = booleanFilters.some((filter) => (filter === "Liked" && movie.Liked === "Yes")
+                || (filter === "Watched" && movie.Watched === "Yes"));
+        }
+
+        let satisfiesAgeRating = true; // Default to true if no age rating filters selected
+        if (ageRatingFilters.length > 0) {
+            // Check if movie satisfies AT LEAST ONE age rating filter (e.g., 'PG' OR 'G')
+            satisfiesAgeRating = ageRatingFilters.some((filter) => movie.AgeRating === filter);
+        }
+
+        // The movie must satisfy conditions for BOTH categories (if filters exist in that category)
+        return satisfiesBoolean && satisfiesAgeRating;
+    });
+
 }
 
 // getting the movieData from server
@@ -941,6 +959,7 @@ function getMovieData() {
 
 
 // Main Vue File
+// eslint-disable-next-line no-undef
 const movieTable = Vue.createApp({
     data() {
         return {
