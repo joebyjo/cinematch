@@ -7,6 +7,7 @@ const profile = Vue.createApp({
     methods: {
         checkLoginStatus() {
             // checkif the user has login
+            // eslint-disable-next-line no-console
             console.log("Checking login status...");
             this.isLogin = true;
         }
