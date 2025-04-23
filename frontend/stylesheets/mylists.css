@@ -53,7 +53,6 @@
 .heading-text {
     display: flex;
     flex-direction: row;
-
     justify-content: center;
     font-family: "Caudex", serif;
     font-size: 2.5rem;
@@ -63,8 +62,8 @@
 .filter-button {
     font-family: "Inter", sans-serif;
     font-weight: bold;
-    font-size: 1.25rem;
-    color: var(--text-color);
+    font-size: 1.5rem;
+    color: #ffffff;
     padding: 0.6rem 2rem 0.6rem 2rem;
     background-color: var(--third-color-mylists);
     border-radius: 2rem;
@@ -105,7 +104,7 @@
 #sort-by {
     border-radius: 2rem 2rem 2rem 2rem;
     font-family: "Inter", sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: bold;
     padding: 0.5rem 1rem 0.5rem 1rem;
     background-color: var(--third-color-mylists);
@@ -123,19 +122,30 @@
 .movie-table {
     background-color: var(--third-color-mylists);
     margin: 2rem 0 0 0;
-    padding: 2rem 2rem 2rem 2rem;
-    border-radius: 1rem 1rem 1rem 1rem;
+    padding: 2rem;
+    border-radius: 2rem;
 }
 
 .movie-table table {
     width: 100%;
+    border-spacing: 0;
 }
 
 .movie-table th {
     font-family: "Inter", sans-serif;
     font-size: 1.5rem;
     background-color: var(--forth-color-mylists);
-    border-radius: 1rem 1rem 1rem 1rem;
+    border-radius: 4rem;
+    padding: 1rem;
+    border: 0.5rem solid var(--third-color-mylists);
+}
+
+.movie-table td {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    background-color: var(--forth-color-mylists);
+    border: 0.2px solid #8a8a8a;
+    padding: 1rem;
 }
 
 .movie-table tbody {
@@ -143,7 +153,33 @@
     background-color: var(--forth-color-mylists);
 }
 
-/* Liri & Josheen ends */
+.movie-table tr:first-child td {
+    border-width: 0;
+    border-color: var(--third-color-mylists);
+    background-color: var(--third-color-mylists);
+}
+
+.movie-table tr:nth-child(2) td:first-child {
+    border-radius: 1rem 0 0 0;
+}
+
+.movie-table tr:nth-child(2) td:last-child {
+    border-radius: 0 1rem 0 0;
+}
+
+.movie-table tr:last-child td:first-child {
+    border-radius: 0 0 0 1rem;
+}
+
+.movie-table tr:last-child td:last-child {
+    border-radius: 0 0 1rem 0;
+}
+
+.movie-table td:first-child:hover {
+  font-style: italic;
+  color: #B9B9B9;
+  cursor: pointer;
+}
 
 .table-footer {
     display: flex;
@@ -156,7 +192,7 @@
 
     border-radius: 2rem 2rem 2rem 2rem;
     font-family: "Inter", sans-serif;
-    font-size: 1rem;
+    font-size: 1.5rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-width: 0;
     text-align: center;
