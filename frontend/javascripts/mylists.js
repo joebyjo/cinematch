@@ -20,9 +20,19 @@ function helperDraw(n, status) { // drawing the star ratings
         return "N/A";
     }
 
+    // check if rating has .5
+    let fullStars = Math.floor(n);
+    let isHalf = false;
+    if (n % 1 !== 0) {
+        isHalf = true;
+    }
+
     var rating = "";
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < fullStars; i++) {
         rating += "⭐";
+    }
+    if (isHalf) {
+        rating += "½";
     }
     return rating;
 }
@@ -48,7 +58,7 @@ function getMovieData() {
             Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "PG-13",
-            UserRating: "4"
+            UserRating: "4.5"
         },
         {
             Name: "Interstellar",
