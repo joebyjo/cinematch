@@ -14,8 +14,12 @@ function helperSort(e, movieData) { // Sorting the movies
     return movieData;
 }
 
-function helperDraw(n) { // drawing the star ratings
+function helperDraw(n, status) { // drawing the star ratings
     // draws star in rating
+    if (status === "Not watched" || status === "To watch") {
+        return "N/A";
+    }
+
     var rating = "";
     for (let i = 0; i < n; i++) {
         rating += "⭐";
@@ -41,7 +45,7 @@ function getMovieData() {
             Name: "Inception",
             Genre: "Action, Sci-Fi, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -50,16 +54,16 @@ function getMovieData() {
             Name: "Interstellar",
             Genre: "Adventure, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "PG-13",
-            UserRating: "2"
+            UserRating: "5"
         },
         {
             Name: "Stranger Things",
             Genre: "Drama, Fantasy, Horror",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "PG-13",
             UserRating: "3"
@@ -68,16 +72,16 @@ function getMovieData() {
             Name: "The Shawshank Redemption",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "To watch",
             IMDbRating: "9.3",
             AgeRating: "R",
-            UserRating: "5"
+            UserRating: "0"
         },
         {
             Name: "The Godfather",
             Genre: "Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "9.2",
             AgeRating: "R",
             UserRating: "5"
@@ -86,16 +90,16 @@ function getMovieData() {
             Name: "Pulp Fiction",
             Genre: "Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Not watched",
             IMDbRating: "8.9",
             AgeRating: "R",
-            UserRating: "4"
+            UserRating: "0"
         },
         {
             Name: "The Dark Knight",
             Genre: "Action, Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "9.0",
             AgeRating: "PG-13",
             UserRating: "5"
@@ -104,7 +108,7 @@ function getMovieData() {
             Name: "Spirited Away",
             Genre: "Animation, Adventure, Family",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "PG",
             UserRating: "4"
@@ -113,16 +117,16 @@ function getMovieData() {
             Name: "Parasite",
             Genre: "Comedy, Drama, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "To watch",
             IMDbRating: "8.5",
             AgeRating: "R",
-            UserRating: "4"
+            UserRating: "0"
         },
         {
             Name: "Avengers: Endgame",
             Genre: "Action, Adventure, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -131,7 +135,7 @@ function getMovieData() {
             Name: "La La Land",
             Genre: "Comedy, Drama, Music",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.0",
             AgeRating: "PG-13",
             UserRating: "3"
@@ -140,25 +144,25 @@ function getMovieData() {
             Name: "Arrival",
             Genre: "Drama, Mystery, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "To watch",
             IMDbRating: "7.9",
             AgeRating: "PG-13",
-            UserRating: "4"
+            UserRating: "0"
         },
         {
             Name: "Fight Club",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Not watched",
             IMDbRating: "8.8",
             AgeRating: "R",
-            UserRating: "5"
+            UserRating: "0"
         },
         {
             Name: "Forrest Gump",
             Genre: "Comedy, Drama, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "PG-13",
             UserRating: "5"
@@ -167,7 +171,7 @@ function getMovieData() {
             Name: "The Matrix",
             Genre: "Action, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "R",
             UserRating: "4"
@@ -176,7 +180,7 @@ function getMovieData() {
             Name: "Seven Samurai",
             Genre: "Action, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "Not Rated",
             UserRating: "5"
@@ -185,7 +189,7 @@ function getMovieData() {
             Name: "Whiplash",
             Genre: "Drama, Music",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -194,7 +198,7 @@ function getMovieData() {
             Name: "The Lion King",
             Genre: "Animation, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "4"
@@ -203,7 +207,7 @@ function getMovieData() {
             Name: "Gladiator",
             Genre: "Action, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -212,7 +216,7 @@ function getMovieData() {
             Name: "The Departed",
             Genre: "Crime, Drama, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -221,7 +225,7 @@ function getMovieData() {
             Name: "Back to the Future",
             Genre: "Adventure, Comedy, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG",
             UserRating: "4"
@@ -230,7 +234,7 @@ function getMovieData() {
             Name: "Eternal Sunshine of the Spotless Mind",
             Genre: "Drama, Romance, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -239,7 +243,7 @@ function getMovieData() {
             Name: "Memento",
             Genre: "Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -248,7 +252,7 @@ function getMovieData() {
             Name: "Raiders of the Lost Ark",
             Genre: "Action, Adventure",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG",
             UserRating: "4"
@@ -257,7 +261,7 @@ function getMovieData() {
             Name: "WALL·E",
             Genre: "Animation, Adventure, Comedy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "G",
             UserRating: "4"
@@ -266,7 +270,7 @@ function getMovieData() {
             Name: "The Prestige",
             Genre: "Drama, Mystery, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -275,7 +279,7 @@ function getMovieData() {
             Name: "Inglourious Basterds",
             Genre: "Adventure, Drama, War",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -284,7 +288,7 @@ function getMovieData() {
             Name: "The Green Mile",
             Genre: "Crime, Drama, Fantasy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "5"
@@ -293,7 +297,7 @@ function getMovieData() {
             Name: "Se7en",
             Genre: "Crime, Drama, Mystery",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "4"
@@ -302,7 +306,7 @@ function getMovieData() {
             Name: "Good Will Hunting",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -311,7 +315,7 @@ function getMovieData() {
             Name: "Reservoir Dogs",
             Genre: "Crime, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -320,7 +324,7 @@ function getMovieData() {
             Name: "Amélie",
             Genre: "Comedy, Fantasy, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -329,7 +333,7 @@ function getMovieData() {
             Name: "Django Unchained",
             Genre: "Drama, Western",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -338,7 +342,7 @@ function getMovieData() {
             Name: "Guardians of the Galaxy",
             Genre: "Action, Adventure, Comedy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.0",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -347,7 +351,7 @@ function getMovieData() {
             Name: "The Social Network",
             Genre: "Biography, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "7.7",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -356,7 +360,7 @@ function getMovieData() {
             Name: "Oldboy",
             Genre: "Action, Drama, Mystery",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -365,7 +369,7 @@ function getMovieData() {
             Name: "Princess Mononoke",
             Genre: "Animation, Action, Adventure",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -374,7 +378,7 @@ function getMovieData() {
             Name: "The Usual Suspects",
             Genre: "Crime, Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -383,7 +387,7 @@ function getMovieData() {
             Name: "Casablanca",
             Genre: "Drama, Romance, War",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG",
             UserRating: "5"
@@ -392,7 +396,7 @@ function getMovieData() {
             Name: "Psycho",
             Genre: "Horror, Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -401,7 +405,7 @@ function getMovieData() {
             Name: "City Lights",
             Genre: "Comedy, Drama, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "5"
@@ -410,7 +414,7 @@ function getMovieData() {
             Name: "Modern Times",
             Genre: "Comedy, Drama, Family",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "5"
@@ -419,7 +423,7 @@ function getMovieData() {
             Name: "Once Upon a Time in the West",
             Genre: "Western",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -428,7 +432,7 @@ function getMovieData() {
             Name: "Rear Window",
             Genre: "Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG",
             UserRating: "4"
@@ -437,7 +441,7 @@ function getMovieData() {
             Name: "Sunset Boulevard",
             Genre: "Drama, Film-Noir",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "Not Rated",
             UserRating: "4"
@@ -446,7 +450,7 @@ function getMovieData() {
             Name: "Lawrence of Arabia",
             Genre: "Adventure, Biography, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "PG",
             UserRating: "4"
@@ -455,7 +459,7 @@ function getMovieData() {
             Name: "Lawrence of Arabia",
             Genre: "Adventure, Biography, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "PG",
             UserRating: "4"
@@ -465,7 +469,7 @@ function getMovieData() {
             Name: "Inception",
             Genre: "Action, Sci-Fi, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -474,7 +478,7 @@ function getMovieData() {
             Name: "Interstellar",
             Genre: "Adventure, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "PG-13",
             UserRating: "2"
@@ -483,7 +487,7 @@ function getMovieData() {
             Name: "Stranger Things",
             Genre: "Drama, Fantasy, Horror",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "PG-13",
             UserRating: "3"
@@ -492,7 +496,7 @@ function getMovieData() {
             Name: "The Shawshank Redemption",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "9.3",
             AgeRating: "R",
             UserRating: "5"
@@ -501,7 +505,7 @@ function getMovieData() {
             Name: "The Godfather",
             Genre: "Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "9.2",
             AgeRating: "R",
             UserRating: "5"
@@ -510,7 +514,7 @@ function getMovieData() {
             Name: "Pulp Fiction",
             Genre: "Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.9",
             AgeRating: "R",
             UserRating: "4"
@@ -519,7 +523,7 @@ function getMovieData() {
             Name: "The Dark Knight",
             Genre: "Action, Crime, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "9.0",
             AgeRating: "PG-13",
             UserRating: "5"
@@ -528,7 +532,7 @@ function getMovieData() {
             Name: "Spirited Away",
             Genre: "Animation, Adventure, Family",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "PG",
             UserRating: "4"
@@ -537,7 +541,7 @@ function getMovieData() {
             Name: "Parasite",
             Genre: "Comedy, Drama, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -546,7 +550,7 @@ function getMovieData() {
             Name: "Avengers: Endgame",
             Genre: "Action, Adventure, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -555,7 +559,7 @@ function getMovieData() {
             Name: "La La Land",
             Genre: "Comedy, Drama, Music",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.0",
             AgeRating: "PG-13",
             UserRating: "3"
@@ -564,7 +568,7 @@ function getMovieData() {
             Name: "Arrival",
             Genre: "Drama, Mystery, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "7.9",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -573,7 +577,7 @@ function getMovieData() {
             Name: "Fight Club",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "R",
             UserRating: "5"
@@ -582,7 +586,7 @@ function getMovieData() {
             Name: "Forrest Gump",
             Genre: "Comedy, Drama, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.8",
             AgeRating: "PG-13",
             UserRating: "5"
@@ -591,7 +595,7 @@ function getMovieData() {
             Name: "The Matrix",
             Genre: "Action, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.7",
             AgeRating: "R",
             UserRating: "4"
@@ -600,7 +604,7 @@ function getMovieData() {
             Name: "Seven Samurai",
             Genre: "Action, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "Not Rated",
             UserRating: "5"
@@ -609,7 +613,7 @@ function getMovieData() {
             Name: "Whiplash",
             Genre: "Drama, Music",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -618,7 +622,7 @@ function getMovieData() {
             Name: "The Lion King",
             Genre: "Animation, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "4"
@@ -627,7 +631,7 @@ function getMovieData() {
             Name: "Gladiator",
             Genre: "Action, Adventure, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -636,7 +640,7 @@ function getMovieData() {
             Name: "The Departed",
             Genre: "Crime, Drama, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -645,7 +649,7 @@ function getMovieData() {
             Name: "Back to the Future",
             Genre: "Adventure, Comedy, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG",
             UserRating: "4"
@@ -654,7 +658,7 @@ function getMovieData() {
             Name: "Eternal Sunshine of the Spotless Mind",
             Genre: "Drama, Romance, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -663,7 +667,7 @@ function getMovieData() {
             Name: "Memento",
             Genre: "Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -672,7 +676,7 @@ function getMovieData() {
             Name: "Raiders of the Lost Ark",
             Genre: "Action, Adventure",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG",
             UserRating: "4"
@@ -681,7 +685,7 @@ function getMovieData() {
             Name: "WALL·E",
             Genre: "Animation, Adventure, Comedy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "G",
             UserRating: "4"
@@ -690,7 +694,7 @@ function getMovieData() {
             Name: "The Prestige",
             Genre: "Drama, Mystery, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -699,7 +703,7 @@ function getMovieData() {
             Name: "Inglourious Basterds",
             Genre: "Adventure, Drama, War",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -708,7 +712,7 @@ function getMovieData() {
             Name: "The Green Mile",
             Genre: "Crime, Drama, Fantasy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "5"
@@ -717,7 +721,7 @@ function getMovieData() {
             Name: "Se7en",
             Genre: "Crime, Drama, Mystery",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "4"
@@ -726,7 +730,7 @@ function getMovieData() {
             Name: "Good Will Hunting",
             Genre: "Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -735,7 +739,7 @@ function getMovieData() {
             Name: "Reservoir Dogs",
             Genre: "Crime, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -744,7 +748,7 @@ function getMovieData() {
             Name: "Amélie",
             Genre: "Comedy, Fantasy, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "R",
             UserRating: "4"
@@ -753,7 +757,7 @@ function getMovieData() {
             Name: "Django Unchained",
             Genre: "Drama, Western",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -762,7 +766,7 @@ function getMovieData() {
             Name: "Guardians of the Galaxy",
             Genre: "Action, Adventure, Comedy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.0",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -771,7 +775,7 @@ function getMovieData() {
             Name: "The Social Network",
             Genre: "Biography, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "7.7",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -780,7 +784,7 @@ function getMovieData() {
             Name: "Oldboy",
             Genre: "Action, Drama, Mystery",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "R",
             UserRating: "4"
@@ -789,7 +793,7 @@ function getMovieData() {
             Name: "Princess Mononoke",
             Genre: "Animation, Action, Adventure",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -798,7 +802,7 @@ function getMovieData() {
             Name: "The Usual Suspects",
             Genre: "Crime, Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -807,7 +811,7 @@ function getMovieData() {
             Name: "Casablanca",
             Genre: "Drama, Romance, War",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG",
             UserRating: "5"
@@ -816,7 +820,7 @@ function getMovieData() {
             Name: "Psycho",
             Genre: "Horror, Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "R",
             UserRating: "4"
@@ -825,7 +829,7 @@ function getMovieData() {
             Name: "City Lights",
             Genre: "Comedy, Drama, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "5"
@@ -834,7 +838,7 @@ function getMovieData() {
             Name: "Modern Times",
             Genre: "Comedy, Drama, Family",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "G",
             UserRating: "5"
@@ -843,7 +847,7 @@ function getMovieData() {
             Name: "Once Upon a Time in the West",
             Genre: "Western",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.5",
             AgeRating: "PG-13",
             UserRating: "4"
@@ -852,7 +856,7 @@ function getMovieData() {
             Name: "Rear Window",
             Genre: "Mystery, Thriller",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "PG",
             UserRating: "4"
@@ -861,7 +865,7 @@ function getMovieData() {
             Name: "Sunset Boulevard",
             Genre: "Drama, Film-Noir",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.4",
             AgeRating: "Not Rated",
             UserRating: "4"
@@ -870,7 +874,7 @@ function getMovieData() {
             Name: "Lawrence of Arabia",
             Genre: "Adventure, Biography, Drama",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "PG",
             UserRating: "4"
@@ -879,7 +883,7 @@ function getMovieData() {
             Name: "2001: A Space Odyssey",
             Genre: "Mystery, Sci-Fi",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "G",
             UserRating: "4"
@@ -888,7 +892,7 @@ function getMovieData() {
             Name: "Singin' in the Rain",
             Genre: "Comedy, Musical, Romance",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.3",
             AgeRating: "G",
             UserRating: "4"
@@ -897,7 +901,7 @@ function getMovieData() {
             Name: "It's a Wonderful Life",
             Genre: "Drama, Family, Fantasy",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "PG",
             UserRating: "5"
@@ -906,7 +910,7 @@ function getMovieData() {
             Name: "The Silence of the Lambs",
             Genre: "Crime, Drama, Horror",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "4"
@@ -915,7 +919,7 @@ function getMovieData() {
             Name: "Saving Private Ryan",
             Genre: "Drama, War",
             Liked: "Yes",
-            Watched: "Yes",
+            Status: "Watched",
             IMDbRating: "8.6",
             AgeRating: "R",
             UserRating: "5"
@@ -939,8 +943,8 @@ const movieTable = Vue.createApp({
             // Sorts the data
             this.movieData = helperSort(e, this.movieData);
         },
-        drawStar(n) {
-            return helperDraw(n);
+        drawStar(movie) {
+            return helperDraw(movie.UserRating, movie.Status);
         },
         changeLoadLimit(lim) {
             this.loadLimit = lim;

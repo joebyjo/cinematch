@@ -125,7 +125,7 @@
     font-family: "Inter", sans-serif;
     font-size: 1.5rem;
     background-color: var(--forth-color-mylists);
-    border-radius: 2rem;
+    border-radius: 4rem;
     padding: 1rem;
     border: 0.5rem solid var(--third-color-mylists);
 }

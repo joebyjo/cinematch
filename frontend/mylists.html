@@ -102,10 +102,10 @@
                 <tr>
                     <th>Name</th>
                     <th>Genre</th>
-                    <th>Liked</th>
-                    <th>Watched</th>
-                    <th>IMDb Rating</th>
                     <th>Age Rating</th>
+                    <th>Status</th>
+                    <th>Liked?</th>
+                    <th>IMDb Rating</th>
                     <th>User Rating</th>
                 </tr>
                 </thead>
@@ -120,11 +120,12 @@
                 <tr v-for="movie in limitMovieData">
                     <td>{{ movie.Name }}</td>
                     <td>{{ movie.Genre }}</td>
-                    <td>{{ movie.Liked }}</td>
-                    <td>{{ movie.Watched }}</td>
-                    <td>{{ movie.IMDbRating }} / 10</td>
                     <td>{{ movie.AgeRating }}</td>
-                    <td>{{ drawStar(movie.UserRating) }}</td>
+                    <td>{{ movie.Status }}</td>
+                    <td>{{ movie.Liked }}</td>
+                    <td>{{ movie.IMDbRating }} / 10</td>
+                    <td>{{ drawStar(movie) }}</td>
+
                 </tr>
                 </tbody>
             </table>
