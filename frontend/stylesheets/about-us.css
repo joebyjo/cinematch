@@ -84,3 +84,19 @@ main {
     z-index: 5;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
 }
+
+.card:nth-child(1):hover {
+    transform: translateX(25rem) translateY(1rem) rotate(-7.5deg);
+}
+
+.card:nth-child(2):hover {
+    transform: translateX(8rem) translateY(-0.5rem) rotate(-2.5deg);
+}
+
+.card:nth-child(3):hover {
+    transform: translateX(-8rem) translateY(0) rotate(2.5deg);
+}
+
+.card:nth-child(4):hover {
+    transform: translateX(-24rem) translateY(1rem) rotate(7.5deg);
+}
