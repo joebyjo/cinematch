@@ -79,3 +79,8 @@ main {
     background-color: #C0474B;
     z-index: 4;
 }
+
+.card:hover {
+    z-index: 5;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
