@@ -1,8 +1,9 @@
 var express = require('express');
-const bcrypt = require('bcrypt');
+const passport = require('passport');
 const { validateSignup, validateLogin, validate } = require('../services/validators');
 const localStrategy = require('../services/local-strategy');
-const passport = require('passport');
+const { hashPassword } = require('../services/helpers');
+const db = require('../services/db');
 
 var router = express.Router();
 
@@ -13,36 +14,41 @@ var router = express.Router();
 
 
 
-router.post('/signup', validateSignup, validate, (req, res) => {
+router.post('/signup', validateSignup, validate, async (req, res) => {
 
-    // const { username, password } = req.body;
-    // const userExists = users.find(user => user.username === username);
-    // if (userExists) return res.status(400).json({ error: 'User already exists' });
+    const { username, password, firstName, lastName } = req.body;
 
-    // const hashedPassword = bcrypt.hashSync(password, 10);
-    // users.push({ username, password: hashedPassword });
+    try {
+        // hashing password
+        const hashedPassword = await hashPassword(password);
 
-    // return res.status(201).json({ message: 'User created' });
+
+        // inserting into db
+        await db.query(
+            'INSERT INTO USERS (user_name, password, first_name, last_name, registration_date) VALUES (?, ?, ?, ?, CURDATE())',
+            [username, hashedPassword, firstName, lastName]
+        );
+
+        res.status(201).json({ message: 'User created' });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 
 
 router.post('/login', validateLogin, validate, passport.authenticate("local"), (req, res) => {
 
-    // const { username, password } = req.body;
-    // const user = users.find(user => user.username === username);
-    // if (!user || !bcrypt.compareSync(password, user.password)) {
-    //     return res.status(401).json({ error: 'Invalid credentials' });
-    // }
-
-    // req.session.user = { username };
-    // res.json({ message: 'Login successful' });
+    // insert logic to log userlogin to db
 
     res.status(200).json({ msg: 'Login successful' });
 });
 
 router.post('/logout', (req, res) => {
     req.session.destroy(() => {
+        // clearing cookies to logout user
         res.clearCookie('sessionId');
         res.json({ msg: 'Logged out' });
     });
