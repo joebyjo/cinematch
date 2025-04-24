@@ -39,9 +39,10 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 
 
 
-router.post('/login', validateLogin, validate, passport.authenticate("local"), (req, res) => {
+router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
 
-    // insert logic to log userlogin to db
+    // updating last login time to database
+    await db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id])
 
     res.status(200).json({ msg: 'Login successful' });
 });
