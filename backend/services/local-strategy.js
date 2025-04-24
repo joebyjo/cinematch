@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const db = require('./db');
 
 
 passport.serializeUser((user, done) => {
@@ -7,10 +8,12 @@ passport.serializeUser((user, done) => {
 });
 
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser(async (id, done) => {
 
     try {
-        const findUser = { id: 1, username: 'joe', password: '12345', role: 'admin' }; // need to replace with database
+        const [queryResult] = await db.query('SELECT * FROM USERS WHERE id = ?', [id]);
+        const findUser = queryResult[0];
+        console.log(findUser);
         if (!findUser) throw new Error('User not found');
 
         done(null,findUser);
@@ -24,9 +27,12 @@ passport.deserializeUser((id, done) => {
 
 
 passport.use(
-    new LocalStrategy((username, password, done) => {
+    new LocalStrategy(async (username, password, done) => {
         try {
-            const findUser = { id: 1, username: 'joe', password: '12345' }; // need to replace with database
+
+            const [queryResult] = await db.query('SELECT id,user_name,password FROM USERS WHERE user_name = ?', [username]);
+            const findUser = queryResult[0]
+
             if (!findUser) throw new Error('User not found');
             if (findUser.password !==password) throw new Error('Incorrect credentials');
 
