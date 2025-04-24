@@ -1,6 +1,6 @@
 const { query, param, body, validationResult } = require('express-validator');
 
-// Middleware to check validation results
+// middleware to check validation results
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -9,7 +9,7 @@ const validate = (req, res, next) => {
     return next();
 };
 
-// Admin authorization middleware
+// admin authorization middleware
 const isAdmin = (req, res, next) => {
     const { user } = req.session;
 
@@ -19,6 +19,16 @@ const isAdmin = (req, res, next) => {
 
     return next();
 };
+
+// check if authenticated
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated && req.isAuthenticated()) {
+        return next();
+    }
+    // Optionally: customize this based on frontend/backend structure
+    return res.status(401).json({ message: 'You must be logged in to access this resource.' });
+}
+
 
 // query validator
 const validateSearchQuery = (field = 'q') => [
@@ -46,7 +56,7 @@ const validateId = (paramName = 'id') => [
 ];
 
 
-// Signup validation
+// signup validation
 const validateSignup = [
     body('username')
         .trim()
@@ -57,17 +67,6 @@ const validateSignup = [
         .withMessage('Username must be 3–10 characters long')
         .matches(/^[a-zA-Z0-9_]+$/)
         .withMessage('Username must only contain letters, numbers, and underscores'),
-
-    body('email')
-        .trim()
-        .escape()
-        .normalizeEmail()
-        .notEmpty()
-        .withMessage('Email is required')
-        .isEmail()
-        .withMessage('Invalid email address')
-        .matches(/^[^\s'"`;\\]+@[^\s'"`;\\]+\.[^\s'"`;\\]+$/)
-        .withMessage('Email contains invalid characters'),
 
     body('password')
         .trim()
@@ -84,11 +83,31 @@ const validateSignup = [
         .matches(/[\W_]/)
         .withMessage('Password must contain a special character')
         .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid or dangerous characters')
+        .withMessage('Password contains invalid or dangerous characters'),
+
+    body('firstName')
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage('First name is required')
+        .isAlpha()
+        .withMessage('First name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('First name must be at most 20 characters long'),
+
+    body('lastName')
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage('Last name is required')
+        .isAlpha()
+        .withMessage('Last name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('Last name must be at most 20 characters long')
 ];
 
 
-// Login validation
+// login validation
 const validateLogin = [
     body('username')
         .trim()
@@ -103,8 +122,8 @@ const validateLogin = [
         .trim()
         .notEmpty()
         .withMessage('Password is required')
-        .isLength({ min: 8, max: 100 })
-        .withMessage('Password must be at least 8 characters long')
+        .isLength({ min: 3, max: 100 })
+        .withMessage('Password must be at least 3 characters long')
         .matches(/^[^\s'"`;\\]+$/)
         .withMessage('Password contains invalid characters')
 ];
@@ -113,6 +132,7 @@ const validateLogin = [
 module.exports = {
     validate,
     isAdmin,
+    isAuthenticated,
     validateSearchQuery,
     validateId,
     validateSignup,
