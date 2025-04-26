@@ -19,9 +19,15 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
     const { username, password, firstName, lastName } = req.body;
 
     try {
+        // check if username already exists
+        const [existingUser] = await db.query('SELECT id FROM USERS WHERE user_name = ?',[username]);
+
+        if (existingUser.length > 0) {
+            return res.status(400).json({ error: 'Username already taken' });
+        }
+
         // hashing password
         const hashedPassword = await hashPassword(password);
-
 
         // inserting into db
         await db.query(
