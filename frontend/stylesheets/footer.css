@@ -28,7 +28,7 @@
 }
 
 footer {
-    width: 100vw;
+    width: 100%;
     height: auto;
     font-family: 'Cantarell', sans-serif;
     display: flex;
@@ -44,7 +44,7 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     z-index: 1;
 }
 

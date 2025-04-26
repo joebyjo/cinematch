@@ -46,7 +46,6 @@
 }
 
 nav {
-    width: 100vw;
     display: flex;
     flex-direction: row;
     height: 4.5rem;
@@ -69,7 +68,6 @@ nav a {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
 }
 
 .logo-nav-bar,
@@ -80,7 +78,7 @@ nav a {
 }
 
 .logo-nav-bar>div {
-    width: 20vw;
+    width: 100%;
     display: flex;
     justify-content: center;
     padding: 1rem 0 0.5rem 0;
