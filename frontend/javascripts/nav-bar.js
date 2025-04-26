@@ -1,7 +1,7 @@
 function helperCheckLoginStatus() {
     // checkif the user has login
     console.log("Checking login status...");
-    return true;
+    return false;
 }
 
 function helperChangeDark(isDark) {
