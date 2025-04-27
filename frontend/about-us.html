@@ -22,8 +22,9 @@
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
-    <script src="javascripts/nav-bar.js" defer></script>
+    <!-- <script src="javascripts/nav-bar.js" defer></script> -->
     <script src="javascripts/index.js" defer></script>
+    <script src="javascripts/about-us.js" defer></script>
 
     <title>Home Page</title>
 </head>
@@ -70,33 +71,45 @@
         </div>
     </nav>
 
-    <main>
-            <h1 class="about-us-heading">MEET THE CREATORS</h1>
-            <div class="cards-box">
-                <div class="card">
-                    <div class="card-frontside">
-                        <img src="images/josheen.PNG" alt="Creator 1 : Josheen" class="creator-img">
-                    </div>
+    <main id="about-us">
+        <h1 class="about-us-heading">MEET THE CREATORS</h1>
+        <div class="cards-box">
+            <div class="card" :class="{ flipped: isFlipped1 }" @click="flipCard(1)">
+                <div class="card-frontside">
+                    <img src="images/josheen.PNG" alt="Creator 1 : Josheen" class="creator-img">
                 </div>
-
-                <div class="card">
-                    <div class="card-frontside">
-                        <img src="images/joe.PNG" alt="Creator 2 : Joe" class="creator-img">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-frontside">
-                        <img src="images/liri.PNG" alt="Creator 3 : Liri" class="creator-img">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-frontside">
-                        <img src="images/hiten.PNG" alt="Creator 4 : Hiten" class="creator-img">
-                    </div>
+                <div class="card-backside">
+                    <p>JOSHEEN<br>(role)<br>fun fact:</p>
                 </div>
             </div>
+
+            <div class="card" :class="{ flipped: isFlipped2 }" @click="flipCard(2)">
+                <div class="card-frontside">
+                    <img src="images/joe.PNG" alt="Creator 2 : Joe" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <p>JOE<br>(role)<br>fun fact:</p>
+                </div>
+            </div>
+
+            <div class="card" :class="{ flipped: isFlipped3 }" @click="flipCard(3)">
+                <div class="card-frontside">
+                    <img src="images/liri.PNG" alt="Creator 3 : Liri" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <p>LIRI<br>(role)<br>fun fact:</p>
+                </div>
+            </div>
+
+            <div class="card" :class="{ flipped: isFlipped4 }" @click="flipCard(4)">
+                <div class="card-frontside">
+                    <img src="images/hiten.PNG" alt="Creator 4 : Hiten" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <p>HITEN<br>(role)<br>fun fact:</p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
