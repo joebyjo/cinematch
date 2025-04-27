@@ -64,10 +64,6 @@ main {
 .card-backside {
     transform: rotateY(180deg);
     padding: 1.5rem;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
 }
 
 .card.flipped .card-frontside {
@@ -79,11 +75,16 @@ main {
 }
 .backside-content {
     transform: rotateY(180deg);
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+    font-family: "Cantarell";
+    padding-left: 2rem;
 }
 
 .card:nth-child(1) {
-    transform: translateX(25rem) translateY(1rem) rotate(-15deg);
-    background-color: #f08080;
+    transform: translateX(25rem) translateY(0) rotate(-15deg);
+    background-color: #cd6948;
     z-index: 1;
 }
 
@@ -100,7 +101,7 @@ main {
 }
 
 .card:nth-child(4) {
-    transform: translateX(-24rem) translateY(1rem) rotate(15deg);
+    transform: translateX(-24rem) translateY(0.5rem) rotate(15deg);
     background-color: #C0474B;
     z-index: 4;
 }
@@ -115,33 +116,33 @@ main {
 }
 
 .card:nth-child(1):hover {
-    transform: translateX(25rem) translateY(1rem) rotate(-7.5deg);
+    transform: translateX(25rem) rotate(-7.5deg);
 }
 
 .card:nth-child(2):hover {
-    transform: translateX(8rem) translateY(-0.5rem) rotate(-2.5deg);
+    transform: translateX(8rem) rotate(-2.5deg);
 }
 
 .card:nth-child(3):hover {
-    transform: translateX(-8rem) translateY(0) rotate(2.5deg);
+    transform: translateX(-8rem) rotate(2.5deg);
 }
 
 .card:nth-child(4):hover {
-    transform: translateX(-24rem) translateY(1rem) rotateY(7.5deg);
+    transform: translateX(-24rem) rotate(7.5deg);
 }
 
 .card:nth-child(1).flipped {
-    transform: translateX(25rem) translateY(1rem) rotateY(180deg);
+    transform: translateX(25rem) rotate(-7.5deg) rotateY(180deg);
 }
 
 .card:nth-child(2).flipped {
-    transform: translateX(8rem) translateY(-0.5rem) rotateY(180deg);
+    transform: translateX(8rem) rotate(-2.5deg) rotateY(180deg);
 }
 
 .card:nth-child(3).flipped {
-    transform: translateX(-8rem) translateY(0) rotateY(180deg);
+    transform: translateX(-8rem) rotate(2.5deg) rotateY(180deg);
 }
 
 .card:nth-child(4).flipped {
-    transform: translateX(-24rem) translateY(1rem) rotateY(180deg);
+    transform: translateX(-24rem) rotate(7.5deg) rotateY(180deg);
 }
