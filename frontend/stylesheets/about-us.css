@@ -1,7 +1,7 @@
 :root {
-    --card-width: 3rem;
-    --card-height: 5rem;
-    --card-radius: 1.25rem;
+    --card-width: 20rem;
+    --card-height: 27rem;
+    --card-radius: 1.5rem;
     --card-gap: 1rem;
 }
 
@@ -29,13 +29,14 @@ main {
 }
 
 .card {
-        border-radius: var(--card-radius);
-        background-color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow: hidden;
-        width: fit-content;
+    border-radius: var(--card-radius);
+    background-color: #ffffff;
+    align-items: center;
+    overflow: hidden;
+    width: var(--card-width);
+    height: var(--card-height);
+    transition: all 0.5s ease;
+    transform-style: preserve-3d;
 }
 
 .creator-img {
@@ -43,9 +44,11 @@ main {
     max-width: 100%;
     height: auto;
     object-fit: cover;
+    border-radius: var(--card-radius);
 }
 
-.card-front {
+.card-frontside, .card-backside {
+    position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 1.25rem;
@@ -54,6 +57,25 @@ main {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    border-radius: var(--card-radius);
+    backface-visibility: hidden;
+}
+
+.card-backside {
+    transform: rotateY(180deg);
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.card.flipped .card-frontside {
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card-backside {
+    transform: rotateY(0deg); .
 }
 
 .card:nth-child(1) {
@@ -81,8 +103,12 @@ main {
 }
 
 .card:hover {
-    z-index: 5;
+    z-index: 6;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+.card.flipped {
+    z-index: 5;
 }
 
 .card:nth-child(1):hover {
@@ -98,5 +124,21 @@ main {
 }
 
 .card:nth-child(4):hover {
-    transform: translateX(-24rem) translateY(1rem) rotate(7.5deg);
+    transform: translateX(-24rem) translateY(1rem) rotateY(7.5deg);
+}
+
+.card:nth-child(1).flipped {
+    transform: translateX(25rem) translateY(1rem) rotateY(180deg);
+}
+
+.card:nth-child(2).flipped {
+    transform: translateX(8rem) translateY(-0.5rem) rotateY(180deg);
+}
+
+.card:nth-child(3).flipped {
+    transform: translateX(-8rem) translateY(0) rotateY(180deg);
+}
+
+.card:nth-child(4).flipped {
+    transform: translateX(-24rem) translateY(1rem) rotateY(180deg);
 }
