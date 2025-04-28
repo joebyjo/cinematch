@@ -53,11 +53,11 @@
 
                 <div v-show="showMenu" class="user-menu">
                     <div @click="redirect('/setting')">
-                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
                     <div @click="changeDark()">
-                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" src="./images/dark-on-icon.png" alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
                     <div @click="redirect('/logout')">
