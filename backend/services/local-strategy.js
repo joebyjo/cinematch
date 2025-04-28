@@ -32,7 +32,7 @@ passport.use(
         try {
 
             const [queryResult] = await db.query('SELECT id,user_name,password FROM USERS WHERE user_name = ?', [username]);
-            const findUser = queryResult[0]
+            const findUser = queryResult[0];
 
             if (!findUser) throw new Error('User not found');
 
