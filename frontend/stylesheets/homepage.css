@@ -1,0 +1,29 @@
+.light {
+    --primary-color-homepage: white;
+    --secondary-color-homepage: #3A3A3A;
+}
+
+.dark {
+    --primary-color-homepage: #3A3A3A;
+    --secondary-color-homepage: white;
+}
+
+.primary-bg-color-homepage {
+    background-color: var(--primary-color-homepage);
+}
+
+.primary-color-homepage {
+    color: var(--primary-color-homepage);
+}
+
+.secondary-bg-color-homepage {
+    background-color: var(--secondary-color-homepage);
+}
+
+.secondary-color-homepage {
+    color: var(--secondary-color-homepage);
+}
+
+main {
+    margin: 4rem 4rem 4rem 6rem;
+}
