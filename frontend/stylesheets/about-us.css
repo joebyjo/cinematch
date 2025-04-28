@@ -10,6 +10,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     margin-top: 2rem;
     gap: 3rem;
 }
@@ -72,6 +73,7 @@ main {
 .card.flipped .card-backside {
     transform: rotateY(0deg);
 }
+
 .backside-content {
     transform: rotateY(180deg);
     text-align: center;
@@ -82,25 +84,25 @@ main {
 }
 
 .card:nth-child(1) {
-    transform: translateX(22rem) translateY(0) rotate(-20deg);
+    transform: translateX(22rem) translateY(-1rem) rotate(-15deg);
     background-color: #cd6948;
     z-index: 1;
 }
 
 .card:nth-child(2) {
-    transform: translateX(8rem) translateY(-1.5rem) rotate(-10deg);
+    transform: translateX(8rem) translateY(-1.5rem) rotate(-5deg);
     background-color: #BE9847;
     z-index: 2;
 }
 
 .card:nth-child(3) {
-    transform: translateX(-6rem) translateY(-1rem) rotate(10deg);
+    transform: translateX(-6rem) translateY(-1rem) rotate(5deg);
     background-color: #6B5B9E;
     z-index: 3;
 }
 
 .card:nth-child(4) {
-    transform: translateX(-20rem) translateY(1rem) rotate(20deg);
+    transform: translateX(-20rem) translateY(0.5rem) rotate(15deg);
     background-color: #C0474B;
     z-index: 4;
 }
