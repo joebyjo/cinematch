@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
@@ -73,26 +74,48 @@
         </div>
     </nav>
 
-    <main>
+    <main id="homepage">
+        <!-- Liri and Josheen Pls do changes here -->
         <section class="hero-section">
 
         </section>
 
         <section class="middle-section">
-            <h1>OR</h1>
+            <span class="heading1">OR</span>
             <br>
-            <h2>Browse through our collection of movies & TV shows</h2>
-            <h3>(Click on the thumbnails to see more details)</h3>
+            <span class="heading2">Browse through our collection of movies & TV shows</span>
+            <span class="heading3">(Click on the thumbnails to see more details)</span>
         </section>
 
-        <div>
-            <h1>TRENDING</h1>
-        </div>
+        <section class="search-div">
+            <span class="heading1">TRENDING</span>
+
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"><span>Movies</span><span>TV Shows</span></span>
+            </label>
+
+            <div class="search-container">
+                <div class="search-container-div">
+                    <img src="./images/homepage-search-icon.png" alt="Search Icon">
+                </div>
+
+                <div class="search-container-div">
+                    <input type="text" id="searchInput" @input="searchMovies($event.target.value)" autofocus placeholder="Search here..." />
+                </div>
+
+                <div class="search-results" v-show="showSearchResult">
+                    <div v-for="sr in searchResults" @click="redirect('movies/api/' + sr.id)">{{sr.title}}</div>
+                </div>
+            </div>
+        </section>
 
         <div class="boxes"></div>
 
-        <h1>TOP RATED</h1>
+        <span class="heading1">TOP RATED</span>
         <div class="boxes"></div>
+
+        <span class="heading1">NOW PLAYING IN CINEMAS</span>
         <div class="boxes"></div>
     </main>
 
