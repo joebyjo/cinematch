@@ -25,5 +25,108 @@
 }
 
 main {
-    margin: 4rem 4rem 4rem 6rem;
+    margin: 4rem 4rem 20rem 4rem;
+}
+
+main {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+main .heading1 {
+    font-weight: 800;
+    font-size: 3rem;
+}
+
+main .heading2 {
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+main .heading3 {
+    font-weight: 200;
+    font-size: 1.6rem;
+}
+
+.middle-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+    margin-top: 4rem;
+}
+
+.search-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.search-container {
+    border-style: solid;
+    border-color: black;
+    border-radius: 2rem;
+    border-width: 0.1rem;
+    box-shadow: black;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 3rem;
+    padding: 0rem 1rem 0rem 1rem;
+    background-color: #F0F0F0;
+    width: 14rem;
+
+}
+
+.search-container-div input {
+    border-style: none;
+    background-color: transparent;
+    width: 100%;
+    font-size: medium;
+    outline: none;
+}
+
+.search-container-div {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+}
+
+.search-container-div img {
+    cursor: pointer;
+    height: 100%;
+    align-self: center;
+}
+
+.search-results {
+    position: absolute;
+    width: 13rem;
+    background-color: var(--user-menu-color);
+    padding: 0.5rem 1rem 0.5rem 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 0.5rem 1rem var(--box-shadow-nav-bar);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self:first baseline;
+    margin-top: 4rem;
+}
+
+.search-results>div {
+    display: flex;
+    justify-content: left;
+
+    color: var(--user-menu-text-color-nav-bar);
+    font-family: "Cantarell";
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.search-results>div:hover {
+    transform: scale(1.05);
 }
