@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
@@ -29,7 +31,7 @@
     <title>Home Page</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="light primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -71,37 +73,59 @@
         </div>
     </nav>
 
-    <main>
+    <main class="personalise-main">
         <!-- Liri Work here: Create the personalise page here -->
-    </main>
+         <div >
+            <section class="intro-section">
+                <div class = "main-title">✨YOUR MOVIE MATCHMAKER! ✨</div>
+                <div class = "main-subtitle">Swipe, match, and discover your next favorite films and shows with our personalized recommendation engine.</div>
+            </section>
+         </div>
+        <section class="genreform-section">
 
-    <footer class="footer">
-        <!-- Floating Content on top of background -->
-        <div class="footer-floating-content">
+            <div class="form-title">GETTING STARTED</div>
             <div>
-                <p>Scrolled too far?</p>
-                <p>Jump back to the top</p>
+                <svg width="100%" height="30" viewBox="0 10 800 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <!-- Left Diamond -->
+                    <polygon points="10,10 15,15 10,20 5,15" fill="white" />
+                    <!-- Line -->
+                    <line x1="10" y1="15" x2="790" y2="15" stroke="white" stroke-width="1" />
+                    <!-- Right Diamond -->
+                    <polygon points="790,10 795,15 790,20 785,15" fill="white" />
+                  </svg>
             </div>
+            <div class="form-subtitle">With your CINEMATCH Experience</div>
 
-            <div class="footer-button-padding">
-                <a href="#top" class="footer-back-to-top" aria-label="Back to top">
-                    <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 8 12 16" />
-                        <polyline points="8 12 12 8 16 12" />
-                    </svg>
-                </a>
-            </div>
-        </div>
+            <section class="buttonform-section">
+                <div class="genre-title">FAVOURITE GENRES</div>
+                <div class="genre-grid">
+                    <button class="pill">Action</button>
+                    <button class="pill">Adventure</button>
+                    <button class="pill">Animation</button>
+                    <button class="pill">Comedy</button>
+                    <button class="pill">Crime</button>
+                    <button class="pill">Documentary</button>
+                    <button class="pill">Drama</button>
+                    <button class="pill">Family</button>
+                    <button class="pill">Fantasy</button>
+                    <button class="pill">History</button>
+                    <button class="pill">Horror</button>
+                    <button class="pill">Music</button>
+                    <button class="pill">Mystery</button>
+                    <button class="pill">Romance</button>
+                    <button class="pill">Science Fiction</button>
+                    <button class="pill">TV Movie</button>
+                    <button class="pill">Thriller</button>
+                    <button class="pill">War</button>
+                    <button class="pill">Western</button>
+                </div>
 
-        <!-- Footer base content -->
-        <div class="footer-content">
-            © Cinematch 2025
-        </div>
+                <button type="button" class="next-btn">Next</button>
 
-        <img class="wave" src="./images/footer-curve.svg" alt=""/>
-    </footer>
+            </section>
+
+        </section>
+    </main>
 
 </body>
 
