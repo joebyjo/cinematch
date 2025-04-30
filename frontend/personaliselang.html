@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="stylesheets/index.css">
     <link rel="stylesheet" href="stylesheets/nav-bar.css">
     <link rel="stylesheet" href="stylesheets/footer.css">
-    <link rel="stylesheet" href="stylesheets/personalise.css">
     <link rel="stylesheet" href="stylesheets/personaliselang.css">
 
     <!-- Linking Java Script Files -->
@@ -74,7 +73,7 @@
         </div>
     </nav>
 
-    <main class="personalise-main" id="personalise-main">
+    <main class="personalise-main">
         <!-- Liri Work here: Create the personalise page here -->
          <div >
             <section class="intro-section">
@@ -82,7 +81,7 @@
                 <div class = "main-subtitle">Swipe, match, and discover your next favorite films and shows with our personalized recommendation engine.</div>
             </section>
          </div>
-        <section class="genreform-section">
+        <section class="gettingstarted-section">
 
             <div class="form-title">GETTING STARTED</div>
             <div>
@@ -97,35 +96,7 @@
             </div>
             <div class="form-subtitle">With your CINEMATCH Experience</div>
 
-            <section class="buttonform-section" v-show="showGenreGrid">
-                <div class="genre-title">FAVOURITE GENRES</div>
-                <div class="genre-grid">
-                    <button class="pill">Action</button>
-                    <button class="pill">Adventure</button>
-                    <button class="pill">Animation</button>
-                    <button class="pill">Comedy</button>
-                    <button class="pill">Crime</button>
-                    <button class="pill">Documentary</button>
-                    <button class="pill">Drama</button>
-                    <button class="pill">Family</button>
-                    <button class="pill">Fantasy</button>
-                    <button class="pill">History</button>
-                    <button class="pill">Horror</button>
-                    <button class="pill">Music</button>
-                    <button class="pill">Mystery</button>
-                    <button class="pill">Romance</button>
-                    <button class="pill">Science Fiction</button>
-                    <button class="pill">TV Movie</button>
-                    <button class="pill">Thriller</button>
-                    <button class="pill">War</button>
-                    <button class="pill">Western</button>
-                </div>
-
-                <button type="button" class="next-btn" @click="nextLangPage()">Next</button>
-
-            </section>
-
-            <section class="lang-section" v-show="showLangGrid">
+            <section class="lang-section">
                 <div class="language-select-wrapper">
 
                     <!-- Instructional text -->
@@ -148,13 +119,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="next-backbtn-styling">
-                  <button type="button" class="back-btn" @click="backGenrePage()">Back</button>
-                  <button type="button" class="next-btn" @click="nextLangPage()">Next</button>
-                </div>
 
             </section>
-
 
         </section>
     </main>
