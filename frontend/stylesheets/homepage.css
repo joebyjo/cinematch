@@ -26,6 +26,7 @@
 
 main {
     margin: 4rem 4rem 20rem 4rem;
+    padding: 0rem 2rem 0rem 2rem;
 }
 
 main {
@@ -58,11 +59,13 @@ main .heading3 {
     margin-top: 4rem;
 }
 
-.search-div {
+.heading-div {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin: 0rem 2rem 0rem 2rem;
 }
 
+/* Search Bar */
 .search-container {
     border-style: solid;
     border-color: black;
@@ -129,4 +132,57 @@ main .heading3 {
 
 .search-results>div:hover {
     transform: scale(1.05);
+}
+
+/* Search Bar ends */
+
+/* Boxes CSS */
+.boxes {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    width: 100%;
+    height: 27rem;
+
+    border: 1rem solid pink;
+    border-radius: 2rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.boxes div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+
+    height: 100%;
+    width: 13rem;
+
+    cursor: pointer;
+}
+
+.boxes img {
+    width: 100%;
+    height: 19.5rem;
+
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+    cursor: pointer;
+}
+
+.boxes span {
+    font-size: 1.5rem;
+}
+
+/* Josheen & Liri - button */
+.boxes button {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    align-self: center;
 }

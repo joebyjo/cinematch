@@ -23,6 +23,7 @@
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/homepage.js" defer></script>
     <script src="javascripts/index.js" defer></script>
@@ -76,7 +77,7 @@
 
     <main id="homepage">
         <!-- Liri and Josheen Pls do changes here -->
-        <section class="hero-section">
+        <section class="poster-personalise-page">
 
         </section>
 
@@ -87,11 +88,11 @@
             <span class="heading3">(Click on the thumbnails to see more details)</span>
         </section>
 
-        <section class="search-div">
+        <section class="heading-div">
             <span class="heading1">TRENDING</span>
 
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" v-model="isTVShows">
                 <span class="slider"><span>Movies</span><span>TV Shows</span></span>
             </label>
 
@@ -105,18 +106,42 @@
                 </div>
 
                 <div class="search-results" v-show="showSearchResult">
-                    <div v-for="sr in searchResults" @click="redirect('movies/api/' + sr.id)">{{sr.title}}</div>
+                    <div v-for="sr in searchResults" @click="redirect(sr.id)">{{sr.title}}</div>
                 </div>
             </div>
         </section>
 
-        <div class="boxes"></div>
+        <!-- Trending -->
+        <div class="boxes" id="trending">
+            <button type="button" @click="trendingSi = mod(this.trendingSi - 1, this.trending.length)"></button>
+            <div v-for="t in loadTrending" @click="redirect(t.id)">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <span>{{t.title}}</span>
+            </div>
+            <button type="button" @click="trendingSi = mod(this.trendingSi + 1, this.trending.length)"></button>
+        </div>
 
-        <span class="heading1">TOP RATED</span>
-        <div class="boxes"></div>
+        <!-- Top Rated -->
+        <div class="heading1 heading-div">TOP RATED</div>
+        <div class="boxes" id="top-rated">
+            <button type="button" @click="topRatedSi = mod(this.topRatedSi - 1, this.topRated.length)"></button>
+            <div v-for="t in loadTopRated" @click="redirect(t.id)">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <span>{{t.title}}</span>
+            </div>
+            <button type="button" @click="topRatedSi = mod(this.topRatedSi + 1, this.topRated.length)"></button>
+        </div>
 
-        <span class="heading1">NOW PLAYING IN CINEMAS</span>
-        <div class="boxes"></div>
+        <!-- Now Playing in Cinemas -->
+        <div class="heading1 heading-div">NOW PLAYING IN CINEMAS</div>
+        <div class="boxes" id="now-pic">
+            <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi - 1, this.nowPlaying.length)"></button>
+            <div v-for="t in loadNowPlaying" @click="redirect(t.id)">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <span>{{t.title}}</span>
+            </div>
+            <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi + 1, this.nowPlaying.length)"></button>
+        </div>
     </main>
 
     <footer class="footer">
@@ -128,7 +153,7 @@
             </div>
 
             <div class="footer-button-padding">
-                <a href="#top" class="footer-back-to-top" aria-label="Back to top">
+                <a href="#nav" class="footer-back-to-top" aria-label="Back to top">
                     <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10" />
