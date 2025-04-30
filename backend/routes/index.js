@@ -8,10 +8,10 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/home', function (req, res, next) {
-    // res.sendFile(path.join(__dirname, '../../frontend/home.html'));
+    res.sendFile(path.join(__dirname, '../../frontend/homepage.html'));
 
     req.session.visited = true;
-    res.send('works');
+    // res.send('works');
 
     console.log(req.session.id);
 });
