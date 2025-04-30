@@ -96,13 +96,13 @@
                 <span class="slider"><span>Movies</span><span>TV Shows</span></span>
             </label>
 
-            <div class="search-container">
+            <div class="search-container" tabindex="0" @focusout="focusOut()">
                 <div class="search-container-div">
                     <img src="./images/homepage-search-icon.png" alt="Search Icon">
                 </div>
 
                 <div class="search-container-div">
-                    <input type="text" id="searchInput" @input="searchMovies($event.target.value)" autofocus placeholder="Search here..." />
+                    <input type="text" id="searchInput" autocomplete="off" @input="searchMovies($event.target.value)" autofocus placeholder="Search here..." />
                 </div>
 
                 <div class="search-results" v-show="showSearchResult">

@@ -58,6 +58,11 @@ createApp({
         },
         mod(n, m) {
             return ((n % m) + m) % m;
+        },
+        focusOut() {
+            setTimeout(() => {
+                this.showSearchResult = false;
+            }, 300);
         }
     },
     watch: {
