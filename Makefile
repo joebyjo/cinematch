@@ -15,7 +15,7 @@ help:
 	@echo "  make dev               Start backend with nodemon"
 	@echo "  make start             Start the backend server"
 	@echo "  make db-create         Create the database and tables"
-	@echo "  db-start               Start mysql"
+	@echo "  make db-start               Start mysql"
 	@echo "  make db-seed           Insert initial seed data"
 	@echo "  make db-dump           Dump the database"
 	@echo "  make db-reset          Drop and recreate database"
@@ -34,6 +34,7 @@ start:
 	@cd $(BACKEND_DIR) && npm start
 
 dev:
+	@make db-start
 	@echo ' [*] Starting Dev'
 	@cd $(BACKEND_DIR) && npm run dev
 
@@ -46,7 +47,7 @@ db-start:
 	@echo ' [*] Started mysql'
 
 db-seed:
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/seed.sql
+	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/dump.sql
 	@echo ' [*] Populated database'
 
 db-dump:

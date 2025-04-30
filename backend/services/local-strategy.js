@@ -36,7 +36,7 @@ passport.use(
 
             if (!findUser) throw new Error('User not found');
 
-            const isMatch = await comparePassword(password, findUser.password);
+            const isMatch = comparePassword(password, findUser.password);
             if (!isMatch) throw new Error('Incorrect credentials');
 
             done(null,findUser);

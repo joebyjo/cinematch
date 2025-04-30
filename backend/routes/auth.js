@@ -21,7 +21,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
         }
 
         // hashing password
-        const hashedPassword = await hashPassword(password);
+        const hashedPassword = hashPassword(password);
 
         // inserting into db
         await db.query(
@@ -42,7 +42,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
 
     // updating last login time to database
-    await db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
+    db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
 
     res.status(200).json({ msg: 'Login successful' });
 });
