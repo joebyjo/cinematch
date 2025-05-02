@@ -5,6 +5,9 @@ const { insertMovie,getMovieData } = require('../services/helpers');
 
 const router = express.Router();
 
+const preferredProviders = [8, 9, 2, 10, 337, 531, 15, 350, 1968, 386, 1770, 1899];
+const preferredCountries = ['AU', 'US', 'GB', 'IN'];
+
 // GET /api/movies/trending
 router.get('/trending', async (req, res) => {
     try {
@@ -82,8 +85,12 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
 
         const movieId = req.params.id;
 
-        // setting users country
-        const country = 'AU';
+        // check if movie already exists in db and return
+        const dataFromDb = await getMovieData(movieId);
+        if (dataFromDb) {
+            return res.status(200).json(dataFromDb);
+        }
+
 
         const [movieResp, releaseResp, videosResp, providersResp] = await Promise.all([
             tmdb.get(`/movie/${movieId}`),
@@ -115,7 +122,7 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
         // get country specific release dates and certification
         try {
             const countryReleaseInfo = releaseResp.data.results
-            .find((countryResult) => countryResult.iso_3166_1 === country)
+            .find((countryResult) => countryResult.iso_3166_1 === preferredCountries[0])
             .release_dates[0];
 
             // get movie certification in users country.
@@ -171,12 +178,35 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
             console.error('OMDB error with parsing ratings:', err.message);
         }
 
-        // get country wise watch providers
-        const countryProviders = providers[country];
-        trimmedResults.watch_providers = countryProviders || null;
 
+        // get top 2 watch providers within the country if it is a popular platform sorted by custom priority list
+        // const countryProviders = (providers[country]?.flatrate || [])
+        //     .filter(p => preferredProviders.includes(p.provider_id))
+        //     .sort((a, b) =>
+        //         preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id)
+        //     )
+        //     .slice(0, 2);
+
+
+        // get top 2 watch providers according to countries if it is a popular platform sorted by custom priority list
+        const countryProviders = Array.from(
+            new Map(
+                preferredCountries.flatMap(c => providers[c]?.flatrate || [])
+                    .filter(p => preferredProviders.includes(p.provider_id))
+                    .map(p => [p.provider_id, p])
+            ).values()
+        ).sort(
+            (a, b) => preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id)
+        ).slice(0, 2);
+
+        // add watchproviders to results
+        trimmedResults.watch_providers = countryProviders;
+
+
+        // send results back to client
         res.status(200).json(trimmedResults);
 
+        // insert movie details into db
         insertMovie(trimmedResults);
 
     } catch (error) {
