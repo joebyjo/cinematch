@@ -74,6 +74,26 @@ CREATE TABLE `MOVIEGENRES` (
     CONSTRAINT `MOVIEGENRES_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `GENRES` (`id`) ON DELETE CASCADE
 );
 
+-- create watchproviders table
+CREATE TABLE `WATCHPROVIDERS` (
+  `id` int NOT NULL,
+  `provider_name` varchar(100) NOT NULL,
+  `logo_path` varchar(255) DEFAULT NULL,
+  `display_priority` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- create movieproviders table
+CREATE TABLE `MOVIEPROVIDERS` (
+  `movie_id` int NOT NULL,
+  `provider_id` int NOT NULL,
+  PRIMARY KEY (`movie_id`,`provider_id`),
+  KEY `provider_id` (`provider_id`),
+  CONSTRAINT `MOVIEPROVIDERS_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `MOVIES` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `MOVIEPROVIDERS_ibfk_2` FOREIGN KEY (`provider_id`) REFERENCES `WATCHPROVIDERS` (`id`) ON DELETE CASCADE
+);
+
+
 -- create useserratings table
 CREATE TABLE `USERRATINGS` (
     `id` int NOT NULL,

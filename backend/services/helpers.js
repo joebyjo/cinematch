@@ -47,6 +47,11 @@ async function insertMovie(movieData) {
                 db.query("INSERT INTO MOVIEGENRES (movie_id,genre_id) VALUES (?, ?)",[movieData.id,genre.id]);
             });
 
+            // add corresponding watch providers to MOVIEPROVIDERS table
+            for (const provider of movieData.watch_providers || []) {
+                db.query("INSERT INTO MOVIEPROVIDERS (movie_id, provider_id) VALUES (?, ?)", [movieData.id, provider.provider_id]);
+            }
+
         }
     } catch (err) {
         console.error('Error inserting movie:', err.message);
@@ -59,18 +64,30 @@ async function getMovieData(movieId) {
         // get movie details
         const [movieRows] = await db.query('SELECT * FROM MOVIES WHERE id = ?', [movieId]);
         if (movieRows.length === 0) {
-            throw new Error('Movie not found');
+            return false;
         }
         const movie = movieRows[0];
 
-        // get genres for the movie
-        const [genreRows] = await db.query(
-            `SELECT G.id, G.name
-             FROM GENRES G
-             JOIN MOVIEGENRES MG ON G.id = MG.genre_id
-             WHERE MG.movie_id = ?`,
-             [movieId]
-        );
+        // get genres and watch providers for the movie
+        const [genreResult, providerResult] = await Promise.all([
+            db.query(
+                `SELECT G.id, G.name
+                 FROM GENRES G
+                 JOIN MOVIEGENRES MG ON G.id = MG.genre_id
+                 WHERE MG.movie_id = ?`,
+                [movieId]
+            ),
+            db.query(
+                `SELECT P.id, P.provider_name, P.logo_path, P.display_priority
+                 FROM WATCHPROVIDERS P
+                 JOIN MOVIEPROVIDERS MP ON P.id = MP.provider_id
+                 WHERE MP.movie_id = ?`,
+                [movieId]
+            )
+        ]);
+
+        const [genreRows] = genreResult;
+        const [providerRows] = providerResult;
 
         // assemble movieData
         const movieData = {
@@ -90,7 +107,8 @@ async function getMovieData(movieId) {
             cast: movie.cast,
             imdb_rating: movie.imdb_rating,
             rotten_rating: movie.rotten_rating,
-            metacritic_rating: movie.metacritic_rating
+            metacritic_rating: movie.metacritic_rating,
+            watch_providers: providerRows || null
         };
 
         return movieData;
