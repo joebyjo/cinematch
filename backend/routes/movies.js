@@ -26,7 +26,7 @@ router.get('/trending', async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch trending movies' });
+        res.status(500).json({ msg: 'Failed to fetch trending movies' });
 
     }
 });
@@ -49,7 +49,7 @@ router.get('/top-rated', async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch top rated movies' });
+        res.status(500).json({ msg: 'Failed to fetch top rated movies' });
 
     }
 });
@@ -72,7 +72,7 @@ router.get('/now-playing', async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch now playing movies' });
+        res.status(500).json({ msg: 'Failed to fetch now playing movies' });
 
     }
 });
@@ -211,7 +211,7 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch movie' });
+        res.status(500).json({ msg: 'Failed to fetch movie' });
 
     }
 });
@@ -247,7 +247,7 @@ router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to query movie' });
+        res.status(500).json({ msg: 'Failed to query movie' });
     }
 });
 
@@ -262,7 +262,7 @@ router.get('/genres', async (req, res) => {
 
     } catch (error) {
         console.error('TMDB error:', error.message);
-        res.status(500).json({ error: 'Failed to fetch genres' });
+        res.status(500).json({ msg: 'Failed to fetch genres' });
 
     }
 });
