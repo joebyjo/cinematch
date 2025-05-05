@@ -17,7 +17,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
         const [existingUser] = await db.query('SELECT id FROM USERS WHERE user_name = ?',[username]);
 
         if (existingUser.length > 0) {
-            return res.status(400).json({ error: 'Username already taken' });
+            return res.status(400).json({ msg: 'Username already taken' });
         }
 
         // hashing password
@@ -29,7 +29,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
             [username, hashedPassword, firstName, lastName]
         );
 
-        res.status(201).json({ message: 'User created' });
+        res.status(201).json({ msg: 'User created' });
 
     } catch (err) {
         console.error(err);

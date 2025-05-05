@@ -1,28 +1,91 @@
 /* eslint-disable no-console */
 var express = require('express');
-const { validate } = require('../services/validators');
+const { isAuthenticated, validate } = require('../services/validators');
 const db = require('../services/db');
+const { Result } = require('express-validator');
 
 var router = express.Router();
 
 
 router.get('/', async (req, res) => {
 
-    const [queryResult] = await db.query('SELECT title, cast FROM MOVIES ');
+    // const [queryResult] = await db.query('SELECT title, cast FROM MOVIES ');
 
-    // if (req.user) {
-    //     res.status(200).send({ msg: "Authenticated" });
-    // } else {
-    //     res.status(401).send({ msg: "Not Authenticated" });
-    // }
+    // // if (req.user) {
+    // //     res.status(200).send({ msg: "Authenticated" });
+    // // } else {
+    // //     res.status(401).send({ msg: "Not Authenticated" });
+    // // }
 
-    const { query } = req;
+    const { certification, status, sort } = req.query;
 
-    console.log(query);
+    // plan out what the final query should look like if everything is ticked
+    // make this easily modifable with more filters and sort features
 
-    res.status(200).json(queryResult);
+    console.log(req.user.id);
 
 
+    res.status(200).json(req.query);
+
+});
+
+
+
+router.post('/', isAuthenticated, async (req, res) => {
+
+    const { movie_id, is_liked, watch_status } = req.body;
+
+    const [prefRes] = await db.query(
+        'SELECT id FROM PREFERENCES WHERE is_liked=? AND watch_status=?',
+        [is_liked, watch_status]
+    );
+
+    await db.query('INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',[req.user.id, prefRes[0].id, movie_id]);
+
+    res.status(200).json({msg: "Successfully added"});
+
+});
+
+router.post('/add-rating', isAuthenticated, async (req, res) => {
+
+    try {
+        // getting request body
+        const { movie_id, rating, review } = req.body;
+
+        // check if user already rated this movie
+        const [existing] = await db.query(`SELECT user_rating_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
+            [req.user.id, movie_id]
+        );
+
+
+        
+        if (existing.length > 0 && existing[0].user_rating_id) {
+
+            // update existing rating
+            await db.query(`UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
+                [rating, review, existing[0].user_rating_id]
+            );
+
+        } else {
+
+            // inserting user ratings
+            const [ratingsRes] = await db.query(
+                'INSERT INTO USERRATINGS (rating, review, modified_at) VALUES (?, ?, CURRENT_DATE())',
+                [rating, review]
+            );
+
+            // getting id of user rating that just got inserted
+            const {insertId} = ratingsRes;
+
+            // updating user preferences with new user rating id
+            await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?',[insertId, req.user.id, movie_id]);
+        }
+
+        res.status(200).json({msg: "Successfully added"});
+    } catch (err) {
+        console.error('Error adding/updating rating:', err.message);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
 
 });
 
