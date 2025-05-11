@@ -1,22 +1,22 @@
 html {
-    --primary-color: #056D5C;
+    --primary-color: #3B699A;
     --secondary-color: #7CD1B8;
     --text-color: white;
 }
 
-.primary-bg-color-login {
+.primary-bg-color-signup {
     background-color: var(--primary-color);
 }
 
-.primary-color-login {
+.primary-color-signup {
     color: var(--primary-color);
 }
 
-.secondary-bg-color-login {
+.secondary-bg-color-signup {
     background-color: var(--secondary-color);
 }
 
-.secondary-color-login {
+.secondary-color-signup {
     color: var(--secondary-color);
 }
 
@@ -54,21 +54,21 @@ main>div {
     text-decoration-thickness: 0.1rem;
 }
 
-.login-button {
+.signup-button {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
 
-.login-button>button {
+.signup-button>button {
     width: 15rem;
     border-radius: 3rem;
     font-size: 2.5rem;
     padding: 0.5rem 0rem 0.5rem 0rem;
 }
 
-.login-button>span {
+.signup-button>span {
     margin-top: 2rem;
     font-size: 1.2rem;
 }
@@ -99,12 +99,12 @@ main>div {
     font-size: 1.2rem;
 }
 
-.login-img {
-    /* image in login page */
-    background-image: url("../images/login-bg.png");
+.signup-img {
+    /* image in signup page */
+    background-image: url("../images/signup-bg.png");
     background-repeat: no-repeat;
     background-size:contain;
-    background-position: right;
+    background-position: left;
 }
 
 .input-password {

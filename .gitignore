@@ -110,3 +110,6 @@ dist
 
 # VSCode configs
 .vscode/
+
+# Database dump
+backend/db/dump.sql
