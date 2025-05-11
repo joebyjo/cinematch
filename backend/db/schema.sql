@@ -3,38 +3,35 @@ CREATE DATABASE IF NOT EXISTS cinematch;
 USE cinematch;
 
 DROP TABLE IF EXISTS `USERPREFERENCES`;
+DROP TABLE IF EXISTS `USERS`;
 DROP TABLE IF EXISTS `USERRATINGS`;
+DROP TABLE IF EXISTS `PREFERENCES`;
+DROP TABLE IF EXISTS `MOVIEPROVIDERS`;
 DROP TABLE IF EXISTS `MOVIEGENRES`;
 DROP TABLE IF EXISTS `MOVIES`;
+DROP TABLE IF EXISTS `WATCHPROVIDERS`;
 DROP TABLE IF EXISTS `GENRES`;
-DROP TABLE IF EXISTS `PREFERENCES`;
-DROP TABLE IF EXISTS `USERS`;
 
 
--- create users table
-CREATE TABLE `USERS` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `user_name` varchar(10) NOT NULL,
-    `password` varchar(256) NOT NULL,
-    `first_name` varchar(20) NOT NULL,
-    `last_name` varchar(20) NOT NULL,
-    `last_login` datetime DEFAULT NULL,
-    `role` varchar(5) NOT NULL DEFAULT 'user',
-    `profile_picture_url` varchar(256) DEFAULT NULL,
-    `registration_date` date NOT NULL DEFAULT (curdate()),
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `user_name` (`user_name`)
-);
-
--- create preferences table
-CREATE TABLE `PREFERENCES` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `is_liked` BOOLEAN DEFAULT FALSE,
-    `watch_status` TINYINT DEFAULT 0,
+-- create genres table
+CREATE TABLE `GENRES` (
+    `id` int NOT NULL,
+    `name` varchar(20) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
-INSERT INTO `PREFERENCES` VALUES (1,1,0),(2,1,1),(3,1,2),(4,0,0),(5,0,1),(6,0,2);
+INSERT INTO `GENRES` VALUES (12,'Adventure'),(14,'Fantasy'),(16,'Animation'),(18,'Drama'),(27,'Horror'),(28,'Action'),(35,'Comedy'),(36,'History'),(37,'Western'),(53,'Thriller'),(80,'Crime'),(99,'Documentary'),(878,'Science Fiction'),(9648,'Mystery'),(10402,'Music'),(10749,'Romance'),(10751,'Family'),(10752,'War'),(10759,'Action & Adventure'),(10762,'Kids'),(10763,'News'),(10764,'Reality'),(10765,'Sci-Fi & Fantasy'),(10766,'Soap'),(10767,'Talk'),(10768,'War & Politics'),(10770,'TV Movie');
+
+-- create watchproviders table
+CREATE TABLE `WATCHPROVIDERS` (
+    `id` int NOT NULL,
+    `provider_name` varchar(100) NOT NULL,
+    `logo_path` varchar(255) DEFAULT NULL,
+    `display_priority` int DEFAULT NULL,
+    PRIMARY KEY (`id`)
+);
+
+INSERT INTO `WATCHPROVIDERS` VALUES (2,'Apple TV','/9ghgSC0MA082EL6HLCW3GalykFD.jpg',2),(8,'Netflix','/pbpMk2JmcoNnQwx5JGpXngfoWtp.jpg',5),(9,'Amazon Prime Video','/pvske1MyAoymrs5bguRfVqYiM9a.jpg',2),(10,'Amazon Video','/seGSXajazLMCKGB5hnRCidtjay1.jpg',5),(15,'Hulu','/bxBlRPEPpMVDc4jMhSrTf2339DW.jpg',7),(337,'Disney Plus','/97yvRBw1GzX7fXprcF80er19ot.jpg',26),(350,'Apple TV+','/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg',9),(386,'Peacock Premium','/2aGrp1xw3qhwCYvNGAJZPdjfeeX.jpg',14),(531,'Paramount Plus','/h5DcR0J2EESLitnhR8xLG1QymTE.jpg',6),(1770,'Paramount+ with Showtime','/kkUHFtdjasnnOknZN69TbZ2fCTh.jpg',19),(1899,'Max','/170ZfHTLT6ZlG38iLLpNYcBGUkG.jpg',28),(1968,'Crunchyroll Amazon Channel','/pgjz7bzfBq4nFDu8JJDLBoUVAX8.jpg',13);
 
 -- create movies table
 CREATE TABLE `MOVIES` (
@@ -57,15 +54,6 @@ CREATE TABLE `MOVIES` (
     PRIMARY KEY (`id`)
 );
 
--- create genres table
-CREATE TABLE `GENRES` (
-    `id` int NOT NULL,
-    `name` varchar(20) NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
-INSERT INTO `GENRES` VALUES (12,'Adventure'),(14,'Fantasy'),(16,'Animation'),(18,'Drama'),(27,'Horror'),(28,'Action'),(35,'Comedy'),(36,'History'),(37,'Western'),(53,'Thriller'),(80,'Crime'),(99,'Documentary'),(878,'Science Fiction'),(9648,'Mystery'),(10402,'Music'),(10749,'Romance'),(10751,'Family'),(10752,'War'),(10759,'Action & Adventure'),(10762,'Kids'),(10763,'News'),(10764,'Reality'),(10765,'Sci-Fi & Fantasy'),(10766,'Soap'),(10767,'Talk'),(10768,'War & Politics'),(10770,'TV Movie');
-
 -- create moviesgenres table
 CREATE TABLE `MOVIEGENRES` (
     `movie_id` int NOT NULL,
@@ -75,18 +63,6 @@ CREATE TABLE `MOVIEGENRES` (
     CONSTRAINT `MOVIEGENRES_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `MOVIES` (`id`) ON DELETE CASCADE,
     CONSTRAINT `MOVIEGENRES_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `GENRES` (`id`) ON DELETE CASCADE
 );
-
--- create watchproviders table
-CREATE TABLE `WATCHPROVIDERS` (
-    `id` int NOT NULL,
-    `provider_name` varchar(100) NOT NULL,
-    `logo_path` varchar(255) DEFAULT NULL,
-    `display_priority` int DEFAULT NULL,
-    PRIMARY KEY (`id`)
-);
-
-INSERT INTO `WATCHPROVIDERS` VALUES (2,'Apple TV','/9ghgSC0MA082EL6HLCW3GalykFD.jpg',2),(8,'Netflix','/pbpMk2JmcoNnQwx5JGpXngfoWtp.jpg',5),(9,'Amazon Prime Video','/pvske1MyAoymrs5bguRfVqYiM9a.jpg',2),(10,'Amazon Video','/seGSXajazLMCKGB5hnRCidtjay1.jpg',5),(15,'Hulu','/bxBlRPEPpMVDc4jMhSrTf2339DW.jpg',7),(337,'Disney Plus','/97yvRBw1GzX7fXprcF80er19ot.jpg',26),(350,'Apple TV+','/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg',9),(386,'Peacock Premium','/2aGrp1xw3qhwCYvNGAJZPdjfeeX.jpg',14),(531,'Paramount Plus','/h5DcR0J2EESLitnhR8xLG1QymTE.jpg',6),(1770,'Paramount+ with Showtime','/kkUHFtdjasnnOknZN69TbZ2fCTh.jpg',19),(1899,'Max','/170ZfHTLT6ZlG38iLLpNYcBGUkG.jpg',28),(1968,'Crunchyroll Amazon Channel','/pgjz7bzfBq4nFDu8JJDLBoUVAX8.jpg',13);
-
 
 -- create movieproviders table
 CREATE TABLE `MOVIEPROVIDERS` (
@@ -98,15 +74,38 @@ CREATE TABLE `MOVIEPROVIDERS` (
     CONSTRAINT `MOVIEPROVIDERS_ibfk_2` FOREIGN KEY (`provider_id`) REFERENCES `WATCHPROVIDERS` (`id`) ON DELETE CASCADE
 );
 
+-- create preferences table
+CREATE TABLE `PREFERENCES` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `is_liked` BOOLEAN DEFAULT FALSE,
+    `watch_status` TINYINT DEFAULT 0,
+    PRIMARY KEY (`id`)
+);
+
+INSERT INTO `PREFERENCES` VALUES (1,1,0),(2,1,1),(3,1,2),(4,0,0),(5,0,1),(6,0,2);
+
+-- create users table
+CREATE TABLE `USERS` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `user_name` varchar(10) NOT NULL,
+    `password` varchar(256) NOT NULL,
+    `first_name` varchar(20) NOT NULL,
+    `last_name` varchar(20) NOT NULL,
+    `last_login` datetime DEFAULT NULL,
+    `role` varchar(5) NOT NULL DEFAULT 'user',
+    `profile_picture_url` varchar(256) DEFAULT NULL,
+    `registration_date` date NOT NULL DEFAULT (curdate()),
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `user_name` (`user_name`)
+);
 
 -- create useserratings table
 CREATE TABLE `USERRATINGS` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `rating` float DEFAULT NULL,
-    `review` varchar(200) DEFAULT NULL,
-    `watched_at` date DEFAULT NULL,
-    `reviewed_at` date DEFAULT NULL,
-    PRIMARY KEY (`id`)
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rating` float DEFAULT NULL,
+  `review` varchar(200) DEFAULT NULL,
+  `modified_at` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 -- create userpreferences table
@@ -125,3 +124,7 @@ CREATE TABLE `USERPREFERENCES` (
     CONSTRAINT `USERPREFERENCES_ibfk_3` FOREIGN KEY (`movie_id`) REFERENCES `MOVIES` (`id`) ON DELETE CASCADE,
     CONSTRAINT `USERPREFERENCES_ibfk_4` FOREIGN KEY (`user_rating_id`) REFERENCES `USERRATINGS` (`id`) ON DELETE CASCADE
 );
+
+
+
+

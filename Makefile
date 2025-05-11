@@ -40,6 +40,7 @@ dev:
 
 db-create:
 	@mysql -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
+	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
 	@echo ' [*] Created database'
 
 db-start:
@@ -55,7 +56,7 @@ db-dump:
 	@echo ' [*] Dumped database'
 
 db-reset:
-	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME); CREATE DATABASE $(DB_NAME);"
+	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
+	@echo ' [*] Reset the database'
 	@make db-create
 	@make db-seed
-	@echo ' [*] Reset the database'
