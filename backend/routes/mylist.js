@@ -6,6 +6,8 @@ const { Result } = require('express-validator');
 
 var router = express.Router();
 
+router.use(isAuthenticated);
+
 
 router.get('/', async (req, res) => {
 
@@ -31,38 +33,69 @@ router.get('/', async (req, res) => {
 
 
 
-router.post('/', isAuthenticated, async (req, res) => {
+router.post('/', async (req, res) => {
 
-    const { movie_id, is_liked, watch_status } = req.body;
+    try {
+        const { movie_id, is_liked, watch_status } = req.body;
 
-    const [prefRes] = await db.query(
-        'SELECT id FROM PREFERENCES WHERE is_liked=? AND watch_status=?',
-        [is_liked, watch_status]
-    );
+        // check if user already has preferences for this this movie
+        const [existing] = await db.query(
+            `SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
+            [req.user.id, movie_id]
+        );
 
-    await db.query('INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',[req.user.id, prefRes[0].id, movie_id]);
 
-    res.status(200).json({msg: "Successfully added"});
+        // get preference id that matches
+        const [prefRes] = await db.query(
+            'SELECT id FROM PREFERENCES WHERE is_liked=? AND watch_status=?',
+            [is_liked, watch_status]
+        );
+
+        if (existing.length > 0 && existing[0].preference_id) {
+
+            // update existing preference
+            await db.query(
+                `UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?`,
+                [prefRes[0].id, req.user.id, movie_id]
+            );
+
+        } else {
+            // insert new preference for movie
+            await db.query(
+                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
+                [req.user.id, prefRes[0].id, movie_id]
+            );
+
+        }
+
+        res.status(200).json({
+            msg: "Successfully added"
+        });
+    } catch (err) {
+        console.error('Error adding/updating watch status and preference:', err.message);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
 
 });
 
-router.post('/add-rating', isAuthenticated, async (req, res) => {
+router.post('/add-rating', async (req, res) => {
 
     try {
         // getting request body
         const { movie_id, rating, review } = req.body;
 
         // check if user already rated this movie
-        const [existing] = await db.query(`SELECT user_rating_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
+        const [existing] = await db.query(
+            `SELECT user_rating_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
             [req.user.id, movie_id]
         );
 
 
-        
         if (existing.length > 0 && existing[0].user_rating_id) {
 
             // update existing rating
-            await db.query(`UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
+            await db.query(
+                `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
                 [rating, review, existing[0].user_rating_id]
             );
 
@@ -75,13 +108,15 @@ router.post('/add-rating', isAuthenticated, async (req, res) => {
             );
 
             // getting id of user rating that just got inserted
-            const {insertId} = ratingsRes;
+            const { insertId } = ratingsRes;
 
             // updating user preferences with new user rating id
             await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?',[insertId, req.user.id, movie_id]);
         }
 
-        res.status(200).json({msg: "Successfully added"});
+        res.status(200).json({
+            msg: "Successfully added"
+        });
     } catch (err) {
         console.error('Error adding/updating rating:', err.message);
         res.status(500).json({ msg: 'Internal server error' });
