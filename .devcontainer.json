@@ -12,7 +12,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
-	"postCreateCommand": "apt-get install -y make",
+	"postCreateCommand": "apt-get install -y make && make install",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -25,7 +25,10 @@
 				"tonybaloney.vscode-pets",
 				"unjinjang.rest-api-client",
 				"ritwickdey.LiveServer",
-				"DigitalBrainstem.javascript-ejs-support"
+				"DigitalBrainstem.javascript-ejs-support",
+				"eamodio.gitlens",
+				"mhutchie.git-graph",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	},

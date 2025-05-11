@@ -20,21 +20,23 @@
     <link rel="stylesheet" href="stylesheets/index.css">
     <link rel="stylesheet" href="stylesheets/nav-bar.css">
     <link rel="stylesheet" href="stylesheets/footer.css">
-    <link rel="stylesheet" href="stylesheets/login.css">
+    <link rel="stylesheet" href="stylesheets/signup.css">
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/index.js" defer></script>
-    <script src="javascripts/login.js" defer></script>
+    <script src="javascripts/signup.js" defer></script>
 
     <title>Home Page</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
 
-    <main class="primary-bg-color-login" id="login-page">
+    <main class="primary-bg-color-signup" id="signup-page">
+        <div class="signup-img"></div>
+
         <div class="content">
             <span>Welcome back!</span>
 
@@ -54,14 +56,12 @@
                 <!-- <span>Forget Password</span> -->
             </div>
 
-            <div class="login-button">
-                <span style="color: red;" v-show="loginFailed">Email or password incorrect</span>
-                <button @click="login()">Login</button>
+            <div class="signup-button">
+                <span style="color: red;" v-show="signupFailed">Email or password incorrect</span>
+                <button @click="signup()">signup</button>
                 <span>Don't have an account? <a href="/sign-up">Sign up here</a></span>
             </div>
         </div>
-
-        <div class="login-img"></div>
     </main>
 
 </body>
