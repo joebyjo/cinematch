@@ -2,12 +2,14 @@
     --primary-color-homepage: white;
     --secondary-color-homepage: #3A3A3A;
     --box-shadow-homepage: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.4);
+    --border-homepage: #000000
 }
 
 .dark {
     --primary-color-homepage: #3A3A3A;
     --secondary-color-homepage: white;
     --box-shadow-homepage: 0 0.5rem 0.5rem rgba(255, 255, 255, 0.4);
+    --border-homepage: #ffffff
 }
 
 .primary-bg-color-homepage {
@@ -73,7 +75,6 @@ main .heading3 {
     border-color: black;
     border-radius: 2rem;
     border-width: 0.1rem;
-    box-shadow: black;
     margin-top: 1.5rem;
     display: flex;
     justify-content: space-around;
@@ -81,7 +82,7 @@ main .heading3 {
     height: 3rem;
     padding: 0rem 1rem 0rem 1rem;
     background-color: #F0F0F0;
-    width: 14rem;
+    width: 20rem;
 
 }
 
@@ -109,31 +110,33 @@ main .heading3 {
 
 .search-results {
     position: absolute;
-    width: 13rem;
+    width: 19rem;
     background-color: var(--user-menu-color);
     padding: 0.5rem 1rem 0.5rem 2rem;
     border-radius: 1.5rem;
     box-shadow: 0 0.5rem 1rem var(--box-shadow-nav-bar);
-
+    gap: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-self:first baseline;
     margin-top: 4rem;
+    border: 0.1rem solid var(--border-homepage);
 }
 
 .search-results>div {
     display: flex;
     justify-content: left;
-
     color: var(--user-menu-text-color-nav-bar);
     font-family: "Cantarell";
     font-size: 1.3rem;
-    cursor: pointer;
+    white-space: nowrap;
+    overflow: scroll;
 }
 
 .search-results>div:hover {
-    transform: scale(1.05);
+    color: #8d8d8d;
+    cursor: pointer;
 }
 
 /* Search Bar ends */
