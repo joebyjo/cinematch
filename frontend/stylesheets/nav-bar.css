@@ -157,6 +157,7 @@ nav a {
     gap: 1rem;
     margin-top: 16rem;
     margin-left: 1rem;
+    z-index: 3;
 }
 
 .user-menu div {
