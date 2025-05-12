@@ -225,6 +225,8 @@ main .heading3 {
 
 .text-content h1 {
   font-size: 3.5rem;
+  line-height: 1.6;
+  letter-spacing: 0.6rem;
   font-family: 'Caudex', serif;
   color: #ffffff;
 }
@@ -232,4 +234,14 @@ main .heading3 {
 .highlight-images {
     font-family: sans-serif;
     color: #fec7e8;
+}
+
+.start-button {
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  margin: -2rem 0 5rem 13rem;
+  background: white;
+  color: black;
+  font-size: 1.5rem;
+  border-radius: 2rem;
 }
