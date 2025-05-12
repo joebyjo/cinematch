@@ -16,5 +16,23 @@ router.get('/home', function (req, res, next) {
     // console.log(req.session.id);
 });
 
+router.get('/login', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/login.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get('/signup', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/signup.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
 
 module.exports = router;

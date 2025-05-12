@@ -37,6 +37,16 @@ main>div {
     height: 100vh;
 }
 
+/* image */
+.signup-img {
+    /* image in signup page */
+    background-image: url("../images/signup-bg.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: left;
+}
+
+/* Content div */
 .content {
     display: flex;
     flex-direction: column;
@@ -54,6 +64,7 @@ main>div {
     text-decoration-thickness: 0.1rem;
 }
 
+/* Sign up button */
 .signup-button {
     display: flex;
     flex-direction: column;
@@ -73,6 +84,7 @@ main>div {
     font-size: 1.2rem;
 }
 
+/* input Div */
 .input {
     display: flex;
     flex-direction: column;
@@ -83,40 +95,25 @@ main>div {
 
 .input>div {
     display: flex;
+    gap: 5rem;
+}
+
+.input-div {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 0.5rem;
 }
 
-.input span {
+.input-div span {
     font-size: 2rem;
 }
 
-.input input {
+.input-div input {
     width: 20rem;
     border-radius: 3rem;
     padding: 1rem 1rem 1rem 1rem;
     font-size: 1.2rem;
-}
-
-.signup-img {
-    /* image in signup page */
-    background-image: url("../images/signup-bg.png");
-    background-repeat: no-repeat;
-    background-size:contain;
-    background-position: left;
-}
-
-.input-password {
-    /* password input box */
-    margin-left: 3rem;
-}
-
-.input-password>div>button {
-    /* Eye button */
-    border-radius: 50%;
-    height: 2rem;
-    width: 2rem;
 }
 
 
