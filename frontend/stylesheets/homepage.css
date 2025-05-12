@@ -186,3 +186,37 @@ main .heading3 {
 
     align-self: center;
 }
+
+.poster-personalise-page {
+  margin-top: 10rem;
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: url('../images/banner-bg.jpg') no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 2rem;
+  padding: 2.5rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+  max-width: 65%;
+  margin: 0 auto;
+  height: 20rem;
+}
+
+.text-content {
+  margin-top: 2rem;
+}
+
+.text-content h1 {
+  font-size: 3.5rem;
+  font-family: 'Caudex', serif;
+  color: #ffffff;
+}
+
+.highlight-images {
+    font-family: sans-serif;
+    color: #fec7e8;
+}

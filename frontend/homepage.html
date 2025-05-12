@@ -10,10 +10,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
@@ -76,9 +79,19 @@
     </nav>
 
     <main id="homepage">
-        <!-- Liri and Josheen Pls do changes here -->
         <section class="poster-personalise-page">
-
+            <div class="banner">
+                <div class="text-content">
+                    <h1>
+                        Personalise your<br>
+                        <span class="highlight-images">
+                            WATCHING
+                        </span><br>
+                        experience today
+                    </h1>
+                    <a href="#personalise" class="start-button">Start now</a>
+                </div>
+            </div>
         </section>
 
         <section class="middle-section">
@@ -102,7 +115,8 @@
                 </div>
 
                 <div class="search-container-div">
-                    <input type="text" id="searchInput" autocomplete="off" @input="searchMovies($event.target.value)" autofocus placeholder="Search here..." />
+                    <input type="text" id="searchInput" autocomplete="off" @input="searchMovies($event.target.value)"
+                        autofocus placeholder="Search here..." />
                 </div>
 
                 <div class="search-results" v-show="showSearchResult">
