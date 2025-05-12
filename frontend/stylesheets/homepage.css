@@ -244,4 +244,11 @@ main .heading3 {
   color: black;
   font-size: 1.5rem;
   border-radius: 2rem;
+  text-decoration: none;
+}
+
+.start-button:hover {
+  transition: 0.5s;
+  background: #352a50;
+  color: #ffffff;
 }
