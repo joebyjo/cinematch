@@ -169,7 +169,7 @@
         <!-- Now Playing in Cinemas -->
         <div class="heading1 heading-div">NOW PLAYING IN CINEMAS</div>
         <div class="boxes" id="now-pic">
-            <button type="button" @click="trendingSi = mod(this.trendingSi - 1, this.trending.length)" class="green">
+            <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi - 1, this.nowPlaying.length)" class="green">
                 <svg width="53" height="52"><use xlink:href="#arrow-left"></use></svg>
             </button>
             <div v-for="t in loadNowPlaying" @click="redirect(t.id)">
