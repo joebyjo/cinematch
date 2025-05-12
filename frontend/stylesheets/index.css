@@ -70,7 +70,7 @@ body {
     display: inline-block;
     width: 15rem;
     height: 3rem;
-
+    margin-top: 1.5rem;
     font-size: 1.2rem;
 }
 
@@ -81,35 +81,35 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #818181;
     -webkit-transition: .4s;
     transition: .4s;
 
     /* round */
     border-radius: 2rem;
-
+    padding-left: 0.4rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
     font-weight: 500;
+    border: 0.3rem solid #818181;
 }
 
 /* the circle in between */
 .slider:before {
     position: absolute;
-    width: 50%;
+    width: 45%;
     height: 100%;
     left: 0rem;
     bottom: 0rem;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-
+    padding-right: 0.4rem;
     border-radius: 2rem;
     color: black;
     content: "Movies";
     font-weight: 500;
-
     display: flex;
     justify-content: center;
     align-items: center;

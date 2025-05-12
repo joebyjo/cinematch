@@ -44,7 +44,7 @@ main .heading1 {
 
 main .heading2 {
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 main .heading3 {
@@ -74,7 +74,7 @@ main .heading3 {
     border-radius: 2rem;
     border-width: 0.1rem;
     box-shadow: black;
-
+    margin-top: 1.5rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
