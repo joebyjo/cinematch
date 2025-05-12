@@ -233,6 +233,8 @@ main .heading3 {
 
 .highlight-images {
   display: inline-flex;
+  vertical-align: middle;
+  pointer-events: none;
 }
 
 .highlight-images img {
