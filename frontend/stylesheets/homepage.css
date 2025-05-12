@@ -224,6 +224,7 @@ main .heading3 {
 
 .text-content {
   margin-top: 2rem;
+  z-index: 1;
 }
 
 .text-content h1 {
