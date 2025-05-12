@@ -252,3 +252,20 @@ main .heading3 {
   background: #352a50;
   color: #ffffff;
 }
+
+.characters {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 120%;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+}
+
+.characters img {
+  height: 120%;
+  object-fit: contain;
+  border-bottom-right-radius: 2rem;
+  pointer-events: none;
+}
