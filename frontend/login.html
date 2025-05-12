@@ -32,7 +32,7 @@
     <title>Home Page</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
 
     <main class="primary-bg-color-login" id="login-page">
         <div class="content">
@@ -40,7 +40,7 @@
 
             <div class="input">
                 <div>
-                    <span>Email Address / Username</span>
+                    <span>Username</span>
                     <input type="text" v-model="email">
                     <span></span>
                 </div>
@@ -57,7 +57,7 @@
             <div class="login-button">
                 <span style="color: red;" v-show="loginFailed">Email or password incorrect</span>
                 <button @click="login()">Login</button>
-                <span>Don't have an account? <a href="/sign-up">Sign up here</a></span>
+                <span>Don't have an account? <a href="/signup">Sign up here</a></span>
             </div>
         </div>
 

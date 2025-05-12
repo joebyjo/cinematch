@@ -38,28 +38,37 @@
         <div class="signup-img"></div>
 
         <div class="content">
-            <span>Welcome back!</span>
+            <span>Ready to join in?</span>
 
             <div class="input">
                 <div>
-                    <span>Email Address / Username</span>
-                    <input type="text" v-model="email">
-                    <span></span>
-                </div>
-                <div class="input-password">
-                    <span>Enter Password</span>
-                    <div>
-                        <input :type="showPass ? 'input' : 'password'" v-model="password">
-                        <button type="button" @click="showPass = !showPass">Show Pass</button>
+                    <div class="input-div">
+                        <span>First Name</span>
+                        <input type="text" v-model="firstName">
+                    </div>
+
+                    <div class="input-div">
+                        <span>Last Name</span>
+                        <input type="text" v-model="lastName">
                     </div>
                 </div>
-                <!-- <span>Forget Password</span> -->
+                <div>
+                    <div class="input-div">
+                        <span>Username</span>
+                        <input type="text" v-model="email">
+                    </div>
+
+                    <div class="input-div">
+                        <span>Create Password</span>
+                        <input type="text" v-model="password">
+                    </div>
+                </div>
             </div>
 
             <div class="signup-button">
-                <span style="color: red;" v-show="signupFailed">Email or password incorrect</span>
-                <button @click="signup()">signup</button>
-                <span>Don't have an account? <a href="/sign-up">Sign up here</a></span>
+                <span style="color: red;" v-show="signupFailed">{{ message }}</span>
+                <button @click="signup()">Sign up</button>
+                <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
         </div>
     </main>

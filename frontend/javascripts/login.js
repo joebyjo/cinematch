@@ -26,8 +26,8 @@ createApp({
         redirect(path) {
             window.location.href = path;
         },
-        login() {
-            const res = helperLogin(this.email, this.password);
+        async login() {
+            const res = await helperLogin(this.email, this.password);
             if (res === 0) {
                 this.redirect('/home');
             } else {
