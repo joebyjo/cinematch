@@ -39,7 +39,7 @@ main {
 
 main .heading1 {
     font-weight: 800;
-    font-size: 3rem;
+    font-size: 5rem;
 }
 
 main .heading2 {
@@ -145,7 +145,7 @@ main .heading3 {
     width: 100%;
     height: 27rem;
 
-    border: 1rem solid pink;
+    border: 1rem solid;
     border-radius: 2rem;
 
     display: flex;
@@ -178,15 +178,47 @@ main .heading3 {
 
 .boxes span {
     font-size: 1.5rem;
+    color: #2a2a2a;
 }
 
-/* Josheen & Liri - button */
-.boxes button {
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
+#trending {
+    background-color: #F4ECFC;
+    border-color: #8F75A9;
+}
 
-    align-self: center;
+#top-rated {
+    background-color: #E6F9FF;
+    border-color: #7593A9;
+}
+
+#now-pic {
+    background-color: #E4FFE6;
+    border-color: #75A976;
+}
+
+.boxes button {
+  width: 5em;
+  height: 5em;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  background: transparent;
+  align-self: center;
+}
+
+button svg {
+  color: currentColor;
+  fill: transparent;
+}
+
+button.purple svg {
+  color: #8F75A9;
+}
+button.blue svg {
+  color: #7593A9;
+}
+button.green svg {
+  color: #75A976;
 }
 
 .poster-personalise-page {
