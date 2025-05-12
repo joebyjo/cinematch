@@ -232,8 +232,13 @@ main .heading3 {
 }
 
 .highlight-images {
-    font-family: sans-serif;
-    color: #fec7e8;
+  display: inline-flex;
+}
+
+.highlight-images img {
+  height: 5rem;
+  display: inline-block;
+  pointer-events: none;
 }
 
 .start-button {
