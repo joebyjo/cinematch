@@ -44,7 +44,7 @@ async function insertMovie(movieData) {
 
             // add corresponding genres to MOVIEGENRES table
             movieData.genres.forEach(async (genre) => {
-                db.query("INSERT INTO MOVIEGENRES (movie_id,genre_id) VALUES (?, ?)",[movieData.id,genre.id]);
+                db.query("INSERT INTO MOVIEGENRES (movie_id,genre_id) VALUES (?, ?)", [movieData.id, genre.id]);
             });
 
             // add corresponding watch providers to MOVIEPROVIDERS table
@@ -99,7 +99,7 @@ async function getMovieData(movieId) {
             runtime: movie.run_time,
             poster_path: movie.poster_url,
             backdrop_path: movie.backdrop_url,
-            genres: genreRows  || null,
+            genres: genreRows || null,
             certification: movie.certification,
             release_date: new Date(movie.release_date).toISOString().split('T')[0] || null,
             trailer: movie.trailer_url,
@@ -119,10 +119,73 @@ async function getMovieData(movieId) {
 }
 
 
+function formatMovies(rows) {
+    const movieMap = {};
+
+    // Check if the fields are present in the query
+    const hasGenres = rows.length > 0 && 'genre_id' in rows[0] && 'genre_name' in rows[0];
+    const hasProviders = rows.length > 0 && 'watchprovider_id' in rows[0] && 'watchprovider_name' in rows[0];
+
+    for (const row of rows) {
+        const key = row.title + row.release_date;
+
+        if (!movieMap[key]) {
+            movieMap[key] = { ...row };
+
+            if (hasGenres) movieMap[key].genres = [];
+            if (hasProviders) movieMap[key].watch_providers = [];
+
+            // Clean up fields used for arrays
+            if (hasGenres) {
+                delete movieMap[key].genre_id;
+                delete movieMap[key].genre_name;
+            }
+
+            if (hasProviders) {
+                delete movieMap[key].watchprovider_id;
+                delete movieMap[key].watchprovider_name;
+                delete movieMap[key].watchprovider_logo_path;
+                delete movieMap[key].watchprovider_priority;
+            }
+        }
+
+        if (hasGenres && row.genre_id && row.genre_name) {
+            const genreExists = movieMap[key].genres.some((g) => g.id === row.genre_id);
+            if (!genreExists) {
+                movieMap[key].genres.push({
+                    id: row.genre_id,
+                    name: row.genre_name
+                });
+            }
+        }
+
+        if (hasProviders && row.watchprovider_id && row.watchprovider_name) {
+            const providerExists = movieMap[key].watch_providers.some(
+                (wp) => wp.id === row.watchprovider_id
+            );
+
+            if (!providerExists) {
+                movieMap[key].watch_providers.push({
+                    id: row.watchprovider_id,
+                    name: row.watchprovider_name,
+                    logo_path: row.watchprovider_logo_path,
+                    display_priority: row.watchprovider_priority
+                });
+            }
+        }
+    }
+
+    return Object.values(movieMap);
+}
+
+
+
+
 
 module.exports = {
     hashPassword,
     comparePassword,
     insertMovie,
-    getMovieData
+    getMovieData,
+    formatMovies
 };
