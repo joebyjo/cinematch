@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 var express = require('express');
-const { isAuthenticated, validate } = require('../services/validators');
+const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { Result } = require('express-validator');
+const { formatMovies } = require('../services/helpers');
 
 var router = express.Router();
 
@@ -10,25 +10,115 @@ router.use(isAuthenticated);
 
 
 router.get('/', async (req, res) => {
+    try {
+        const { genre, certification, status, my_rating, sort, page = 1, limit = 10 } = req.query;
 
-    // const [queryResult] = await db.query('SELECT title, cast FROM MOVIES ');
+        // check if page and limit are valid
+        if (isNaN(page) || page < 1 || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ msg: 'Invalid page or limit parameter' });
+        }
 
-    // // if (req.user) {
-    // //     res.status(200).send({ msg: "Authenticated" });
-    // // } else {
-    // //     res.status(401).send({ msg: "Not Authenticated" });
-    // // }
+        const validFields = ['release_date', 'imdb_rating', 'my_rating'];
+        const validDirections = ['asc', 'desc'];
 
-    const { certification, status, sort } = req.query;
+        // check if sort is valid
+        if (sort) {
+            const [field, direction] = sort.split('.');
 
-    // plan out what the final query should look like if everything is ticked
-    // make this easily modifable with more filters and sort features
+            if (!validFields.includes(field) || !validDirections.includes(direction.toLowerCase())){
+                return res.status(400).json({ msg: 'Invalid sort parameter' });
+            }
+        }
 
-    console.log(req.user.id);
+        // setting offset based on page
+        const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
+        // initating variables to store filters and values
+        const filters = [];
+        const values = [req.user.id];
 
-    res.status(200).json(req.query);
+        // add genres to filters
+        if (genre) {
+            const genreArray = Array.isArray(genre) ? genre : [genre];
+            if (genreArray.length > 0) {
+                const placeholders = genreArray.map(() => '?').join(',');
+                filters.push(`genre_id IN (${placeholders})`);
+                values.push(...genreArray);
+            }
+        }
 
+        // add certification to filters
+        if (certification) {
+            const certArray = Array.isArray(certification) ? certification : [certification];
+            if (certArray.length > 0) {
+                const placeholders = certArray.map(() => '?').join(',');
+                filters.push(`certification IN (${placeholders})`);
+                values.push(...certArray);
+            }
+        }
+
+        // add watch status to filters
+        if (status) {
+            filters.push(`watch_status = ?`);
+            values.push(status);
+        }
+
+        // add my_rating to filters
+        if (my_rating) {
+            filters.push(`my_rating = ?`);
+            values.push(my_rating);
+        }
+
+        // creating filters string for query
+        let filterClause = '';
+        if (filters.length > 0) {
+            filterClause = ' AND ' + filters.join(' AND ');
+        }
+
+        // getting paginated movie_ids with filters
+        const movieIdQuery = `
+            SELECT DISTINCT movie_id, MAX(created_at) as latest_created
+            FROM MOVIELIST
+            WHERE user_id = ? ${filterClause}
+            GROUP BY movie_id
+            ORDER BY latest_created DESC
+            LIMIT ? OFFSET ?
+        `;
+        const movieIdValues = [...values, parseInt(limit, 10), offset];
+        const [idRows] = await db.query(movieIdQuery, movieIdValues);
+        const movieIds = idRows.map((row) => row.movie_id);
+
+        // return if no movies match filters
+        if (movieIds.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        // get full details of movies with movie_id we found using filtering
+        let finalQuery = `
+            SELECT title, genre_id, genre_name, release_date, watch_status, certification, imdb_rating, my_rating
+            FROM MOVIELIST
+            WHERE user_id = ? AND movie_id IN (${movieIds.map(() => '?').join(',')})
+        `;
+
+        const finalValues = [req.user.id, ...movieIds];
+
+        // adding sorting
+        if (sort) {
+            const [field, direction] = sort.split('.');
+            if (validFields.includes(field) && validDirections.includes(direction.toLowerCase())) {
+                finalQuery = ` ORDER BY ${field} ${direction.toUpperCase()}, created_at DESC`;
+            }
+        }
+
+        // return final data
+        const [rows] = await db.query(finalQuery, finalValues);
+        const formatted = formatMovies(rows);
+        return res.status(200).json(formatted);
+
+    } catch (err) {
+        console.error('Error retrieving mylist: ', err.message);
+        res.status(500).json({ msg: 'Error retrieving mylist' });
+    }
 });
 
 
@@ -111,7 +201,7 @@ router.post('/add-rating', async (req, res) => {
             const { insertId } = ratingsRes;
 
             // updating user preferences with new user rating id
-            await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?',[insertId, req.user.id, movie_id]);
+            await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
         }
 
         res.status(200).json({
