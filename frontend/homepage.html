@@ -121,12 +121,12 @@
 
             <div class="search-container" tabindex="0" @focusout="focusOut()">
                 <div class="search-container-div">
-                    <img src="./images/search.png" alt="Search Icon">
+                    <img src="./images/search.png" alt="Search Icon" class="search-icon">
                 </div>
 
                 <div class="search-container-div">
                     <input type="text" id="searchInput" autocomplete="off" @input="searchMovies($event.target.value)"
-                        autofocus placeholder="Search a show here..." />
+                        placeholder="Search a show here..." />
                 </div>
 
                 <div class="search-results" v-show="showSearchResult">
