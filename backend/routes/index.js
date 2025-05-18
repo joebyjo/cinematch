@@ -8,13 +8,57 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/home', function (req, res, next) {
-    // res.sendFile(path.join(__dirname, '../../frontend/home.html'));
+    res.sendFile(path.join(__dirname, '../../frontend/homepage.html'));
 
     req.session.visited = true;
-    res.send('works');
+    // res.send('works');
 
-    console.log(req.session.id);
+    // console.log(req.session.id);
 });
 
+router.get('/personalise', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/personalise.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get('/login', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/login.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get('/signup', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/signup.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get('/mylists', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/mylists.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get('/aboutus', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/about-us.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
 
 module.exports = router;

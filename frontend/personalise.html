@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/personalise.css">
+    <link rel="stylesheet" href="stylesheets/personaliselang.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/personaliselang.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="dark primary-bg-color" style="display: none">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar underline-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <div v-else class="user-container-nav-bar">
+                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                </div>
+
+                <div v-show="showMenu" class="user-menu">
+                    <div @click="redirect('/setting')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" src="./" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" src="./" alt="theme off icon">
+                        <span class="theme">Dark Theme</span>
+                    </div>
+                    <div @click="redirect('/logout')">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        <span class="logout-nav-bar">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="personalise-main" id="personalise-main">
+        <!-- Liri Work here: Create the personalise page here -->
+         <div >
+            <section class="intro-section">
+                <div class = "main-title">✨YOUR MOVIE MATCHMAKER! ✨</div>
+                <div class = "main-subtitle">Swipe, match, and discover your next favorite films and shows with our personalized recommendation engine.</div>
+            </section>
+         </div>
+        <section class="genreform-section">
+
+            <div class="form-title">GETTING STARTED</div>
+            <div>
+                <svg width="100%" height="30" viewBox="0 10 800 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <!-- Left Diamond -->
+                    <polygon points="10,10 15,15 10,20 5,15" fill="white" />
+                    <!-- Line -->
+                    <line x1="10" y1="15" x2="790" y2="15" stroke="white" stroke-width="1" />
+                    <!-- Right Diamond -->
+                    <polygon points="790,10 795,15 790,20 785,15" fill="white" />
+                  </svg>
+            </div>
+            <div class="form-subtitle">With your CINEMATCH Experience</div>
+
+            <section class="buttonform-section" v-show="showGenreGrid">
+                <div class="genre-title">FAVOURITE GENRES</div>
+                <div class="genre-grid">
+                    <button class="pill">Action</button>
+                    <button class="pill">Adventure</button>
+                    <button class="pill">Animation</button>
+                    <button class="pill">Comedy</button>
+                    <button class="pill">Crime</button>
+                    <button class="pill">Documentary</button>
+                    <button class="pill">Drama</button>
+                    <button class="pill">Family</button>
+                    <button class="pill">Fantasy</button>
+                    <button class="pill">History</button>
+                    <button class="pill">Horror</button>
+                    <button class="pill">Music</button>
+                    <button class="pill">Mystery</button>
+                    <button class="pill">Romance</button>
+                    <button class="pill">Science Fiction</button>
+                    <button class="pill">TV Movie</button>
+                    <button class="pill">Thriller</button>
+                    <button class="pill">War</button>
+                    <button class="pill">Western</button>
+                </div>
+
+                <button type="button" class="next-btn" @click="nextLangPage()">Next</button>
+
+            </section>
+
+            <section class="lang-section" v-show="showLangGrid">
+                <div class="language-select-wrapper">
+
+                    <!-- Instructional text -->
+                     <div class="lang-title">LANGUAGES</div>
+                    <div class="language-label">Choose one or more languages you enjoy watching movies in</div>
+
+                    <!-- Selected Chips -->
+                    <div id="chip-list" class="chip-list"></div>
+
+                    <!-- Custom Dropdown -->
+                    <div class="custom-dropdown">
+                      <div class="dropdown-toggle" id="dropdown-toggle">Select Languages</div>
+                      <div class="dropdown-menu" id="dropdown-menu">
+                        <label><input type="checkbox" value="English"> English</label>
+                        <label><input type="checkbox" value="Hindi"> Hindi</label>
+                        <label><input type="checkbox" value="Japanese"> Japanese</label>
+                        <label><input type="checkbox" value="Korean"> Korean</label>
+                        <label><input type="checkbox" value="German"> German</label>
+                        <label><input type="checkbox" value="Spanish"> Spanish</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="next-backbtn-styling">
+                  <button type="button" class="back-btn" @click="backGenrePage()">Back</button>
+                  <button type="button" class="next-btn" @click="nextLangPage()">Next</button>
+                </div>
+
+            </section>
+
+
+        </section>
+    </main>
+
+</body>
+
+</html>
