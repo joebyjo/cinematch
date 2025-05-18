@@ -80,12 +80,12 @@ main .heading3 {
     border-width: 0.1rem;
     margin-top: 1.5rem;
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     align-items: center;
     height: 3rem;
     padding: 0rem 1rem 0rem 1rem;
     background-color: #F0F0F0;
-    width: 20rem;
+    width: 15rem;
 
 }
 
@@ -113,7 +113,7 @@ main .heading3 {
 
 .search-results {
     position: absolute;
-    width: 19rem;
+    width: 14rem;
     background-color: var(--user-menu-color);
     padding: 0.5rem 1rem 0.5rem 2rem;
     border-radius: 1.5rem;
@@ -121,9 +121,9 @@ main .heading3 {
     gap: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-self:first baseline;
     margin-top: 4rem;
+    margin-left: -1rem;
     border: 0.1rem solid var(--border-homepage);
 }
 
