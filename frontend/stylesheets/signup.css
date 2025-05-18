@@ -1,6 +1,6 @@
 html {
     --primary-color: #3B699A;
-    --secondary-color: #7CD1B8;
+    --secondary-color: #8EC2FF;
     --text-color: white;
 }
 
@@ -73,15 +73,35 @@ main>div {
 }
 
 .signup-button>button {
-    width: 15rem;
+    font-family: "Montserrat", sans-serif;
+    width: 12rem;
+    border: 0.15rem solid #8EC2FF;
     border-radius: 3rem;
-    font-size: 2.5rem;
+    font-size: 2rem;
     padding: 0.5rem 0rem 0.5rem 0rem;
+    background-color: #2d588b;
+    color: #ffffff;
 }
 
 .signup-button>span {
+    font-family: "Cantarell", sans-serif;
+    font-weight: bold;
     margin-top: 2rem;
     font-size: 1.2rem;
+    color: #1B385B;
+}
+
+.signup-button > button:hover {
+    color: #0E2A42;
+    background: linear-gradient(to right, #B3CCE9 39%, #2C5789 100%);
+}
+
+.signup-button > button {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: inherit;
 }
 
 /* input Div */
@@ -107,13 +127,25 @@ main>div {
 
 .input-div span {
     font-size: 2rem;
+    font-family: "Cantarell", sans-serif;
 }
 
 .input-div input {
-    width: 20rem;
+    width: 15rem;
     border-radius: 3rem;
-    padding: 1rem 1rem 1rem 1rem;
+    border: 0.15rem solid #20426A;
+    padding: 0.8rem;
     font-size: 1.2rem;
+    background-color: #5D88BB;
 }
 
+input[type="text"] {
+  color: #20426A;
+  font-size: 1.5rem;
+}
 
+#fail-signup {
+    color: #FFAEAE;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
