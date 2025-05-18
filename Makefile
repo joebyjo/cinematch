@@ -11,14 +11,14 @@ include $(BACKEND_DIR)/.env
 .PHONY: help
 help:
 	@echo "Usage:"
-	@echo "  make install           Install backend dependencies"
-	@echo "  make dev               Start backend with nodemon"
-	@echo "  make start             Start the backend server"
-	@echo "  make db-create         Create the database and tables"
-	@echo "  db-start               Start mysql"
-	@echo "  make db-seed           Insert initial seed data"
-	@echo "  make db-dump           Dump the database"
-	@echo "  make db-reset          Drop and recreate database"
+	@echo "    make install           Install backend dependencies"
+	@echo "    make dev               Start backend with nodemon"
+	@echo "    make start             Start the backend server"
+	@echo "    make db-start          Start mysql"
+	@echo "    make db-create         Create the database and tables"
+	@echo "    make db-seed           Insert initial seed data"
+	@echo "    make db-dump           Dump the database"
+	@echo "    make db-reset          Drop and recreate database"
 
 install:
 	@cd $(BACKEND_DIR) && npm install
@@ -34,11 +34,13 @@ start:
 	@cd $(BACKEND_DIR) && npm start
 
 dev:
+	@make db-start
 	@echo ' [*] Starting Dev'
 	@cd $(BACKEND_DIR) && npm run dev
 
 db-create:
 	@mysql -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
+	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
 	@echo ' [*] Created database'
 
 db-start:
@@ -54,7 +56,8 @@ db-dump:
 	@echo ' [*] Dumped database'
 
 db-reset:
-	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME); CREATE DATABASE $(DB_NAME);"
+	@make db-start
+	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
+	@echo ' [*] Reset the database'
 	@make db-create
 	@make db-seed
-	@echo ' [*] Reset the database'
