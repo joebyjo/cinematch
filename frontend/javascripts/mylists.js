@@ -78,8 +78,18 @@ const movieTable = Vue.createApp({
             this.movies = res.data || [];
         },
         createUrl() {
-            // creates custom Url to send api
-            return "";
+            // base url
+            const url = new URL("/api/mylist", window.location.origin);
+
+            // Set query parameters
+            url.searchParams.set("page", this.page);
+            url.searchParams.set("limit", this.load);
+
+            if (this.sort) {
+                url.searchParams.set("sort", this.sort);
+            }
+
+            return url;
         },
         helperMovieGenres(genres) {
             if (!genres) return "N/A";
