@@ -48,7 +48,7 @@ db-start:
 	@echo ' [*] Started mysql'
 
 db-seed:
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/dump.sql
+	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/seed.sql
 	@echo ' [*] Populated database'
 
 db-dump:
