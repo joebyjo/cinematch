@@ -34,5 +34,14 @@ router.get('/signup', function (req, res, next) {
     // console.log(req.session.id);
 });
 
+router.get('/mylists', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/mylists.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
 
 module.exports = router;
