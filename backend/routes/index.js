@@ -43,5 +43,13 @@ router.get('/mylists', function (req, res, next) {
     // console.log(req.session.id);
 });
 
+router.get('/aboutus', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/about-us.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
 
 module.exports = router;
