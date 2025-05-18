@@ -55,6 +55,84 @@ body {
     color: var(--text-color);
 }
 
-main {
-    margin-top: 5rem;
+/* Slider - Toggle Button from movies to TV shows*/
+ /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
+
+.toggle-text {
+    pointer-events: none;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 15rem;
+    height: 3rem;
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #818181;
+    -webkit-transition: .4s;
+    transition: .4s;
+
+    /* round */
+    border-radius: 2rem;
+    padding-left: 0.4rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 500;
+    color: #ffffff;
+    border: 0.3rem solid #818181;
+}
+
+/* the circle in between */
+.slider:before {
+    position: absolute;
+    width: 45%;
+    height: 100%;
+    left: 0rem;
+    bottom: 0rem;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    padding-right: 0.4rem;
+    border-radius: 2rem;
+    color: black;
+    content: "Movies";
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(7.5rem);
+    -ms-transform: translateX(7.5rem);
+    transform: translateX(7.5rem);
+
+    content: "TV Shows";
+}
+
+/* html for toggle
+<label class="switch">
+    <input type="checkbox">
+    <span class="slider"><span>Movies</span><span>TV Shows</span></span>
+</label> */
