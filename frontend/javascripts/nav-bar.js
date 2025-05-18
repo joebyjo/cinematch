@@ -1,20 +1,45 @@
-const profile = Vue.createApp({
+function helperCheckLoginStatus() {
+    // checkif the user has login
+    console.log("Checking login status...");
+    return true;
+}
+
+function helperChangeDark(isDark) {
+    if (isDark) {
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+    }
+}
+
+const { createApp } = Vue;
+createApp({
     data() {
         return {
-            isLogin: false
+            isLogin: true,
+            showMenu: false,
+            isDark: true
         };
     },
     methods: {
         checkLoginStatus() {
-            // checkif the user has login
-            // eslint-disable-next-line no-console
-            console.log("Checking login status...");
-            this.isLogin = true;
+            this.isLogin = helperCheckLoginStatus();
+        },
+        onMenu() {
+            this.showMenu = !this.showMenu;
+        },
+        changeDark() {
+            this.isDark = !this.isDark;
+            helperChangeDark(this.isDark);
+        },
+        redirect(path) {
+            window.location.href = path;
         }
     },
+    computed: {},
     mounted() {
         this.checkLoginStatus();
     }
-});
-
-profile.mount('#profile');
+}).mount('#nav-bar');
