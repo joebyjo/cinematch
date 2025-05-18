@@ -1,0 +1,110 @@
+.light {
+    --primary-color-footer: white;
+    --secondary-color-footer: black;
+    --text-color: black;
+    --purple-color-footer:
+}
+
+.dark {
+    --primary-color-footer: #3A3A3A;
+    --secondary-color-footer: white;
+    --text-color: white;
+}
+
+.primary-bg-color-footer {
+    background-color: var(--primary-color-footer);
+}
+
+.primary-color-footer {
+    color: var(--primary-color-footer);
+}
+
+.secondary-bg-color-footer {
+    background-color: var(--secondary-color-footer);
+}
+
+.secondary-color-footer {
+    color: var(--secondary-color-footer);
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    font-family: 'Cantarell', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    position: absolute;
+    background-color: transparent;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+/* Content above the SVG wave */
+.footer-content {
+    background-color: transparent;
+    font-size: 2rem;
+    color: white;
+    text-align: end;
+}
+
+
+.footer-floating-content {
+    background-color: transparent;
+    text-align: center;
+    margin-bottom: 10rem;
+}
+
+
+.footer-floating-content p {
+    font-style: italic;
+    margin: 0;
+    font-size: 2rem;
+    line-height: 3.4rem;
+    background-color: transparent;
+    color: grey;
+}
+
+
+/* Up arrow link */
+.footer-back-to-top {
+    display: inline-block;
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: 50%;
+    text-decoration: none;
+    color: grey;
+    font-size: 1.5rem;
+    line-height: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.footer-back-to-top:hover {
+    background-color: rgb(227, 234, 234);
+    size: 1rem;
+}
+
+
+.footer-arrow-icon {
+    width: 6rem;
+    height: 6rem;
+    color: rgb(92, 92, 92);
+    stroke: rgb(92, 92, 92);
+    transition: transform 0.3s ease;
+}
+
+.footer-arrow-icon:hover {
+    transform: translateY(-0.5rem);
+}
+
+.footer-button-padding {
+    margin-top: 0.4rem;
+}

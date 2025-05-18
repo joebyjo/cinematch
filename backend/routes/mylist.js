@@ -106,7 +106,7 @@ router.get('/', async (req, res) => {
         if (sort) {
             const [field, direction] = sort.split('.');
             if (validFields.includes(field) && validDirections.includes(direction.toLowerCase())) {
-                finalQuery = ` ORDER BY ${field} ${direction.toUpperCase()}, created_at DESC`;
+                finalQuery += ` ORDER BY ${field} ${direction.toUpperCase()}, created_at DESC`;
             }
         }
 
