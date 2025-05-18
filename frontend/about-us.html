@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/about-us.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/about-us.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="dark primary-bg-color" style="display: none">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar underline-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <div v-else class="user-container-nav-bar">
+                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                </div>
+
+                <div v-show="showMenu" class="user-menu">
+                    <div @click="redirect('/setting')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
+                        <span class="theme">Dark Theme</span>
+                    </div>
+                    <div @click="redirect('/logout')">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        <span class="logout-nav-bar">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="about-us">
+        <svg viewBox="0 0 500 70" class="curved-svg">
+            <path id="curve" d="M60,100 Q250,-50 450,100" fill="transparent"/>
+            <text class="curved-text">
+              <textPath href="#curve" startOffset="50%" text-anchor="middle">
+                MEET THE CREATORS
+              </textPath>
+            </text>
+          </svg>
+        <div class="cards-box">
+            <div class="card" :class="{ flipped: isFlipped1 }" @click="flipCard(1)">
+                <div class="card-frontside">
+                    <img src="images/creator1.PNG" alt="Creator 1 : Josheen" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <div class="backside-content">
+                        <p><b>JOSHEEN</b></p><br>
+                        <p>(Lead UI/UX Designer & Frontend Developer)</p><br>
+                        <p><i>"Current search history: remove image bg"</i></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" :class="{ flipped: isFlipped2 }" @click="flipCard(2)">
+                <div class="card-frontside">
+                    <img src="images/creator2.PNG" alt="Creator 2 : Joe" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <div class="backside-content">
+                        <p><b>JOE</b></p><br>
+                        <p>(Lead Backend and API Integration Specialist)</p><br>
+                        <p><i>"Zzz Zzz Zzz"</i></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" :class="{ flipped: isFlipped3 }" @click="flipCard(3)">
+                <div class="card-frontside">
+                    <img src="images/creator3.PNG" alt="Creator 3 : Liri" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <div class="backside-content">
+                        <p><b>LIRI</b></p><br>
+                        <p>(Frontend & Backend Integration Officer)</p><br>
+                        <p><i>"Stu(dying)."</i></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" :class="{ flipped: isFlipped4 }" @click="flipCard(4)">
+                <div class="card-frontside">
+                    <img src="images/creator4.PNG" alt="Creator 4 : Hiten" class="creator-img">
+                </div>
+                <div class="card-backside">
+                    <div class="backside-content">
+                        <p><b>HITEN</b></p><br>
+                        <p>(Backend Developer and Database Manager)</p><br>
+                        <p><i>"Guys, I fixed that bug...but now we have another one."</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="member-box">
+            <div class="top-left-member"></div>
+            <div class="top-right-member"></div>
+            <div class="bottom-left-member"></div>
+            <div class="bottom-right-member"></div>
+            <div class="message-box">
+                <h2>Hello Stranger!</h2>
+                <p>We are a team of four passionate students (and friends) who collaborated on this project as part of our university course on Web and Database Design (UoA).</p>
+                <p>Cinematch is like that friend who always knows what movie you're in the mood for. No more scrolling for hours. We kept things simple, smooth and <span class="emphasis">hopefully</span> bug-free.</p>
+                <p>Some of us worked on the front-end, others on the back-end and database but in the end, we built something that's fun and easy to use.</p>
+                <p>Thank you for visiting Cinematch — we hope you enjoy exploring it as much as we enjoyed building it!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- Floating Content on top of background -->
+        <div class="footer-floating-content">
+            <div>
+                <p>Scrolled too far?</p>
+                <p>Jump back to the top</p>
+            </div>
+
+            <div class="footer-button-padding">
+                <a href="#top" class="footer-back-to-top" aria-label="Back to top">
+                    <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 8 12 16" />
+                        <polyline points="8 12 12 8 16 12" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer base content -->
+        <div class="footer-content">
+            © Cinematch 2025
+        </div>
+
+        <img class="wave" src="./images/footer-curve.svg" alt=""/>
+    </footer>
+
+</body>
+
+</html>
