@@ -25,8 +25,8 @@ function isAuthenticated(req, res, next) {
     if (req.isAuthenticated && req.isAuthenticated()) {
         return next();
     }
-    // Optionally: customize this based on frontend/backend structure
-    return res.status(401).json({ message: 'You must be logged in to access this resource.' });
+
+    return res.status(401).json({ msg: 'You must be logged in to access this resource.' });
 }
 
 

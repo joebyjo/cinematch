@@ -23,6 +23,7 @@
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/mylists.js" defer></script>
     <script src="javascripts/index.js" defer></script>
@@ -102,12 +103,12 @@
                 <!-- Filter Option ends -->
 
                 <!-- Sorting Option: Done -->
-                <select name="sort-by" id="sort-by" class="secondary-color-mylists" @change="sort($event.target.value)">
+                <select name="sort-by" id="sort-by" class="secondary-color-mylists" v-model="sort">
                     <option value="" selected>Sort By</option>
-                    <option value="uh">User Rating: High to Low</option>
-                    <option value="ul">User Rating: Low to High</option>
-                    <option value="ih">IMDB Rating: High to Low</option>
-                    <option value="il">IMDB Rating: Low to High</option>
+                    <option value="my_rating.desc">User Rating: High to Low</option>
+                    <option value="my_rating.asc">User Rating: Low to High</option>
+                    <option value="imdb_rating.desc">IMDB Rating: High to Low</option>
+                    <option value="imdb_rating.asc">IMDB Rating: Low to High</option>
                 </select>
                 <!-- Sorting Option Ends -->
             </div>
@@ -120,30 +121,32 @@
                 <tr>
                     <th>Name</th>
                     <th>Genre</th>
-                    <th>Age Rating</th>
+                    <th>Release <br> Date</th>
                     <th>Status</th>
-                    <th>Liked?</th>
+                    <th>Age rating</th>
                     <th>IMDb Rating</th>
                     <th>User Rating</th>
                 </tr>
                 </thead>
                 <tbody>
+
                 <tr><td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td></tr>
-                <tr v-for="movie in limitMovieData">
-                    <td>{{ movie.Name }}</td>
-                    <td>{{ movie.Genre }}</td>
-                    <td>{{ movie.AgeRating }}</td>
-                    <td>{{ movie.Status }}</td>
-                    <td>{{ movie.Liked }}</td>
-                    <td>{{ movie.IMDbRating }} / 10</td>
-                    <td>{{ drawStar(movie) }}</td>
+                    <td></td>
+                </tr>
 
+                <tr v-for="movie in movies">
+                    <td>{{ helperCheckEmpty(movie.title) }}</td>
+                    <td>{{ helperMovieGenres(movie.genres) }}</td>
+                    <td>{{ helperMovieDate(movie.release_date) }}</td>
+                    <td><img :src="helperMovieStatus(movie.watch_status)" src="/" alt="movie.watch_status"></td>
+                    <td>{{ helperCheckEmpty(movie.certification) }}</td>
+                    <td>{{ helperImdbRating(movie.imdb_rating) }}</td>
+                    <td>{{ helperMyRating(movie.my_rating) }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -151,8 +154,8 @@
 
             <!-- Below Buttons star -->
             <div class="table-footer">
-                <select name="load-limit" id="load-limit" class="secondary-color-mylists" @change="changeLoadLimit($event.target.value)">
-                    <option v-for="limit in loadLimitArray" :value="limit">Load Limit = {{limit}}</option>
+                <select name="load-limit" id="load-limit" class="secondary-color-mylists" v-model.number="load">
+                    <option v-for="limit in loadLimitArray()" :value="limit">Load Limit = {{limit}}</option>
                 </select>
             </div>
 
@@ -162,7 +165,7 @@
 
     </main>
 
-        <footer class="footer">
+    <footer class="footer">
         <!-- Floating Content on top of background -->
         <div class="footer-floating-content">
             <div>

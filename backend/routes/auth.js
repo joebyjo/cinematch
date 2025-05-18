@@ -17,11 +17,11 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
         const [existingUser] = await db.query('SELECT id FROM USERS WHERE user_name = ?',[username]);
 
         if (existingUser.length > 0) {
-            return res.status(400).json({ error: 'Username already taken' });
+            return res.status(400).json({ msg: 'Username already taken' });
         }
 
         // hashing password
-        const hashedPassword = await hashPassword(password);
+        const hashedPassword = hashPassword(password);
 
         // inserting into db
         await db.query(
@@ -29,7 +29,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
             [username, hashedPassword, firstName, lastName]
         );
 
-        res.status(201).json({ message: 'User created' });
+        res.status(201).json({ msg: 'User created' });
 
     } catch (err) {
         console.error(err);
@@ -42,7 +42,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
 
     // updating last login time to database
-    await db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
+    db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
 
     res.status(200).json({ msg: 'Login successful' });
 });
