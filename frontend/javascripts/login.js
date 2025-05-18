@@ -1,8 +1,8 @@
-async function helperLogin(email, password) {
+async function helperLogin(username, password) {
     try {
         // eslint-disable-next-line no-undef
         const res = await axios.post('/api/auth/login', {
-            username: email,
+            username: username,
             password: password
         });
 
@@ -18,7 +18,7 @@ createApp({
         return {
             showPass: false,
             password: "",
-            email: "",
+            username: "",
             loginFailed: false
         };
     },
@@ -27,7 +27,7 @@ createApp({
             window.location.href = path;
         },
         async login() {
-            const res = await helperLogin(this.email, this.password);
+            const res = await helperLogin(this.username, this.password);
             if (res === 0) {
                 this.redirect('/home');
             } else {

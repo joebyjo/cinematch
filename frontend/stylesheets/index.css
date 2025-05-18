@@ -55,6 +55,8 @@ body {
     color: var(--text-color);
 }
 
+<<<<<<< HEAD
+=======
 /* Slider - Toggle Button from movies to TV shows*/
  /* Hide default HTML checkbox */
 .switch input {
@@ -136,3 +138,4 @@ input:checked + .slider:before {
     <input type="checkbox">
     <span class="slider"><span>Movies</span><span>TV Shows</span></span>
 </label> */
+>>>>>>> frontend

@@ -15,6 +15,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
@@ -66,7 +68,7 @@
             </div>
 
             <div class="signup-button">
-                <span style="color: red;" v-show="signupFailed">{{ message }}</span>
+                <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
                 <button @click="signup()">Sign up</button>
                 <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
