@@ -43,7 +43,7 @@
             <div class="input">
                 <div>
                     <span>Enter Username</span>
-                    <input type="text" v-model="email">
+                    <input type="text" v-model="username">
                     <span></span>
                 </div>
                 <div class="input-password">
@@ -57,7 +57,7 @@
             </div>
 
             <div class="login-button">
-                <span v-show="loginFailed" class="fail-login">Email or password incorrect</span>
+                <span v-show="loginFailed" id="fail-login">Username or password incorrect</span>
                 <button @click="login()">Login</button>
                 <span>Don't have an account? <a href="/signup">Sign up here</a></span>
             </div>
