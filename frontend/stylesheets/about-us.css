@@ -3,8 +3,36 @@
     --card-height: 27rem;
     --card-radius: 1.5rem;
     --card-gap: 1rem;
+    --primary-bg-color: white;
+    --secondary-bg-color: black;
+    --text-color: black;
+    --card-color-1: #cd6948;
+    --card-color-2: #BE9847;
+    --card-color-3: #6B5B9E;
+    --card-color-4: #C0474B;
+    --message-box-bg: #e9e9e9;
+    --message-box-text: #343434;
+    --border-text-box: #000000;
+
 }
 
+.dark {
+    --primary-bg-color: #121212;
+    --secondary-bg-color: white;
+    --text-color: white;
+    --card-color-1: #8b3e2b;
+    --card-color-2: #8b6c2b;
+    --card-color-3: #45386e;
+    --card-color-4: #7d2e31;
+    --message-box-bg: #2b2b2b;
+    --message-box-text: #e9e9e9;
+    --border-text-box: #e9e9e9;
+}
+
+body {
+    background-color: --primary-bg-color;
+    color: --message-box-text;
+}
 
 
 main {
@@ -25,7 +53,7 @@ main {
 .curved-text {
     font-size: 1.5rem;
     font-weight: bold;
-    fill: #2b2b2b;
+    fill: var(--message-box-text);
     font-family: "Montserrat";
 }
 
@@ -93,25 +121,25 @@ main {
 
 .card:nth-child(1) {
     transform: translateX(22rem) translateY(-1rem) rotate(-15deg);
-    background-color: #cd6948;
+    background-color: var(--card-color-1);
     z-index: 1;
 }
 
 .card:nth-child(2) {
     transform: translateX(8rem) translateY(-1.5rem) rotate(-5deg);
-    background-color: #BE9847;
+    background-color: var(--card-color-2);
     z-index: 2;
 }
 
 .card:nth-child(3) {
     transform: translateX(-6rem) translateY(-1rem) rotate(5deg);
-    background-color: #6B5B9E;
+    background-color: var(--card-color-3);
     z-index: 3;
 }
 
 .card:nth-child(4) {
     transform: translateX(-20rem) translateY(0.5rem) rotate(15deg);
-    background-color: #C0474B;
+    background-color: var(--card-color-4);
     z-index: 4;
 }
 
@@ -159,9 +187,9 @@ main {
 .message-box {
     width: 50rem;
     height: fit-content;
-    background-color: #e9e9e9;
+    background-color: var(--message-box-bg);
     border-radius: var(--card-radius);
-    border: 0.25rem solid #000000;
+    border: 0.25rem solid var(--border-text-box);
     padding: 2.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1;
@@ -171,4 +199,6 @@ main {
     margin-top: 5rem;
     margin-bottom: 5rem;
     box-shadow: #000000, ;
+    color: var(--message-box-text);
 }
+
