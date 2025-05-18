@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/signup.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+    <script src="javascripts/signup.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="primary-bg-color" style="display: none">
+
+    <main class="primary-bg-color-signup" id="signup-page">
+        <div class="signup-img"></div>
+
+        <div class="content">
+            <span>Ready to join in?</span>
+
+            <div class="input">
+                <div>
+                    <div class="input-div">
+                        <span>First Name</span>
+                        <input type="text" v-model="firstName">
+                    </div>
+
+                    <div class="input-div">
+                        <span>Last Name</span>
+                        <input type="text" v-model="lastName">
+                    </div>
+                </div>
+                <div>
+                    <div class="input-div">
+                        <span>Username</span>
+                        <input type="text" v-model="email">
+                    </div>
+
+                    <div class="input-div">
+                        <span>Create Password</span>
+                        <input type="text" v-model="password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="signup-button">
+                <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
+                <button @click="signup()">Sign up</button>
+                <span>Have an account already? <a href="/login">Login here</a></span>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

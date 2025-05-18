@@ -1,0 +1,377 @@
+.light {
+    --primary-color: white;
+    --secondary-color: rgb(184, 182, 182);
+    --tertiary-color:black;
+    --text-color: black;
+    --text-shadow:rgb(242, 241, 241);
+    --title-color: #353434;
+    --secondary-title-color:#212121;
+    --hover-color:#666565;
+    --outline-color:#dddddd;
+    --secondary-background-color:#000000;
+    --nextbutton-color:rgb(63, 63, 63);
+    --nextbutton-text-color:white;
+    --buttomform-section:#dddddd;
+    --buttongradient-left-color:#cd42e2;
+    --buttongradient-right-color:#3fcfda;
+    --dropdown-outline-color:#8e8e8e;
+    --dropdown-menu-hover-color:#cacaca;
+}
+
+.dark {
+    --primary-color: #3A3A3A;
+    --secondary-color: #2B2B2B;
+    --tertiary-color:black;
+    --text-color: white;
+    --text-shadow:black;
+    --title-color: #cacaca;
+    --secondary-title-color:#E3E2E2;
+    --hover-color:#848484;
+    --outline-color:#767676;
+    --secondary-background-color:#aaa;
+    --nextbutton-color:rgb(43, 43, 43);
+    --nextbutton-text-color:white;
+    --nextbutton-outline-color:rgb(85, 85, 85);
+    --buttomform-section:#3A3A3A;
+    --buttongradient-left-color:#f272ff;
+    --buttongradient-right-color:#6dd5fa;
+    --dropdown-outline-color:#646464;
+    --dropdown-menu-hover-color:#454545;
+
+}
+
+.primary-bg-color {
+    background-color: var(--primary-color);
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.secondary-bg-color {
+    background-color: var(--secondary-color);
+}
+
+.secondary-color {
+    color: var(--secondary-color);
+}
+
+.personalise-main {
+    margin-bottom: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro-section {
+    text-align: center;
+    margin-bottom: 3rem;
+
+}
+
+.main-title {
+    font-family: Montserrat;
+    font-size: 3.4rem;
+    font-weight: 900;
+    margin-top: 3rem;
+    outline: 5rem;
+    text-shadow: 0.4rem 0.4rem var(--text-shadow);
+
+}
+
+.main-subtitle {
+    font-style: italic;
+    font-size: 1.1rem;
+    /* color: #cacaca; */
+    color: var( --title-color)
+
+}
+
+.gettingstarted-section {
+    background-color: var(--secondary-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 100rem;
+    outline: 0.1rem solid var(--outline-color);
+    text-align: center;
+}
+
+.form-title {
+    font-family: Montserrat;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.5rem;
+}
+
+.form-subtitle {
+    font-family: Cantarell;
+    font-size: 1rem;
+    margin-top: -1rem;
+}
+
+.pill {
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    border: 0.0 solid transparent;
+    background-color: transparent;
+    /* color: #D9D9D9; */
+    color: var( --title-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease, background 0.3s ease;
+    background-clip: padding-box;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0.3rem 0.3rem 0.1rem rgb(115, 115, 115);
+
+}
+
+.pill:hover {
+    transform: scale(1.1);
+}
+
+/* Gradient border using background */
+.pill::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: 3rem;
+    padding: 0.3rem;
+    background-color: transparent;
+
+     background: linear-gradient(to right, var(--buttongradient-left-color), var(--buttongradient-right-color));
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+
+}
+
+/* Selected state: gradient fill */
+.pill.selected {
+    background: linear-gradient(to right, var(--buttongradient-left-color), var(--buttongradient-right-color));
+    color: var(--primary-color);
+}
+
+.pill-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* align to left */
+    gap: 1rem 1rem;
+    padding: 1rem;
+  }
+
+/* Keep ::before even when selected (but it gets hidden behind the fill) */
+.pill.selected::before {
+    display: none;
+}
+
+.next-btn {
+    background: var(--nextbutton-color);
+    color:var(--nextbutton-text-color);
+    padding: 0.6rem 2.2rem ;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-style: solid;
+    border-color: var(--nextbutton-outline-color);
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+    transition: background-color 0.2s;
+}
+
+.next-btn:hover {
+    background-color: var(--hover-color);
+}
+
+.next-btn:disabled {
+    background-color: var(--secondary-background-color);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.back-btn {
+  background: var(--nextbutton-color);
+  color:var(--nextbutton-text-color);
+  padding: 0.6rem 2.2rem ;
+  border-radius: 2rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-style: solid;
+  border-color: var(--nextbutton-outline-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+  background-color: var(--hover-color);
+}
+
+.back-btn:disabled {
+  background-color: var(--secondary-background-color);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.next-backbtn-styling {
+  display:flex;
+  justify-content: center;
+  gap: 5rem;
+}
+
+.lang-section {
+    background-color: var(--buttomform-section);
+    border-radius: 1rem;
+    border: 0.1rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    margin-top: 3rem;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+}
+
+.lang-title {
+    font-family: Montserrat;
+    font-size: 3.4rem;
+    font-weight: 900;
+    color: var(--secondary-title-color);
+    letter-spacing: 0.2rem;
+    text-shadow: 0.rem 0.2rem 0.4rem var(--text-shadow) ;
+}
+
+
+
+.language-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 4rem auto;
+    max-width: 50rem;
+    font-family: 'Cantarell', sans-serif;
+  }
+
+  .language-label {
+    font-size: 1.2rem;
+    color: var(--title-color);
+    font-style: italic;
+    text-align: center;
+
+  }
+
+  /* CHIP STYLING */
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+  }
+
+  .chip {
+    /* font-size: 1.2rem;
+    font-weight: 500; */
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    position: relative;
+    /* color: white; */
+
+    color: var( --title-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    font: Montserrat;
+
+
+
+    background-color: transparent;
+    z-index: 0;
+
+    /* Double background trick for gradient border */
+    background:
+      linear-gradient(var(--buttomform-section),var(--buttomform-section)) padding-box, /* inner bg */
+      linear-gradient(to right, var(--buttongradient-left-color), var(--buttongradient-right-color)) border-box; /* border gradient */
+    border: 0.2rem solid transparent; /* transparent border used for trick */
+  }
+
+
+  .chip .remove {
+    margin-left: 0.6rem;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  /* DROPDOWN STYLING */
+  .custom-dropdown {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 0.9rem;
+    border: 0.4rem solid var(--dropdown-outline-color);
+    box-sizing: border-box;
+  }
+
+  .dropdown-toggle {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #9b9b9b;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 0.9rem;
+    text-align: left;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-toggle::after {
+    content: '▼';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  /* Arrow rotated UP when menu is open */
+.dropdown-toggle.open::after {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .dropdown-menu {
+    display: none;
+    text-align: left;
+    top: 100%;
+    width: 100%;
+    background-color: var(--secondary-color);
+    border-radius: 0 0 0.5rem 0.5rem;
+    z-index: 10;
+    max-height: 15rem;
+    overflow-y: auto;
+  }
+
+  .dropdown-menu label {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: 0.12rem solid var(--dropdown-outline-color);
+  transition: background-color 0.2s ease, border 0.2s ease;
+
+  }
+
+  /*  Hover effect */
+.dropdown-menu label:hover {
+    background-color: var(--dropdown-menu-hover-color);
+  }
+  .dropdown-menu input[type="checkbox"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+  }
