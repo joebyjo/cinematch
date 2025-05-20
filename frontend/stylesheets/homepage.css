@@ -177,7 +177,7 @@ main .heading3 {
 }
 
 .boxes div:hover {
-    transform: scale(2.05);
+    transform: scale(1.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.3); */
 }
@@ -237,6 +237,10 @@ button.green svg {
   color: #75A976;
 }
 
+button:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 .poster-personalise-page {
   margin-top: 10rem;
 }
