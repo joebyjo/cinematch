@@ -29,6 +29,12 @@
     --text-color: white;
 }
 
+
+body {
+    transition: background-color 0.7s ease, color 0.7s ease;
+}
+
+
 .primary-bg-color {
     background-color: var(--primary-color);
 }

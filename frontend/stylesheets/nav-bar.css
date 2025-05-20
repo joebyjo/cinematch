@@ -21,6 +21,16 @@
     --user-menu-text-color-nav-bar: white;
     --theme-color: whtie;
 }
+.primary-bg-color-nav-bar,
+.secondary-bg-color-nav-bar,
+.primary-color-nav-bar,
+.secondary-color-nav-bar,
+.user-container-nav-bar,
+.user-menu,
+.theme,
+.logout-nav-bar{
+    transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease;
+}
 
 .primary-bg-color-nav-bar {
     background-color: var(--primary-color-nav-bar);

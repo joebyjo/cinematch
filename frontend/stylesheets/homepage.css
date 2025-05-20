@@ -12,6 +12,9 @@
     --border-homepage: #ffffff
 }
 
+
+
+
 .primary-bg-color-homepage {
     background-color: var(--primary-color-homepage);
 }
