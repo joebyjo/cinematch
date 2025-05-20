@@ -1,7 +1,7 @@
 const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
 const { validate, validateSearchQuery, validateId } = require('../services/validators');
-const { insertMovie,getMovieData } = require('../services/helpers');
+const { insertMovie, getMovieData, getGenreData } = require('../services/helpers');
 
 const router = express.Router();
 
@@ -255,8 +255,7 @@ router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
 router.get('/genres', async (req, res) => {
     try {
         // get genres
-        const response = await tmdb.get('/genre/movie/list');
-        const { genres } = response.data;
+        const genres = await getGenreData();
 
         res.status(200).json(genres);
 
