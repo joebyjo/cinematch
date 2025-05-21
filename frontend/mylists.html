@@ -82,23 +82,41 @@
             </div>
             <div class="filter-sort-section">
                 <!-- Filter Option: Done-->
-                <button type="button" class="filter-button" @click="toggleFilterMenu()">Add Filters</button>
+                <button type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
                 <div v-show="showFilter" class="filter-menu">
-                    <label class="filter-option">
-                      <input type="checkbox" value="Liked" v-model="selectedFilters"> Liked
+
+                    <!-- Genres -->
+                    <label class="filter-option" id="genres">
+                        <button type="button" class="filter-button" @click="showGenres = !showGenres">Genres</button>
                     </label>
-                    <label class="filter-option">
-                      <input type="checkbox" value="Watched" v-model="selectedFilters"> Watched
+
+                    <div v-show="showGenres" class="filter-menu">
+                        <label v-for="genre in genres" class="filter-option" :id="genre.name">
+                            <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
+                        </label>
+                    </div>
+
+                    <!-- Age Rating -->
+                    <label class="filter-option" id="ageRating">
+                        <button type="button" class="filter-button" @click="showAgeRating = !showAgeRating">Age Rating</button>
                     </label>
-                    <label class="filter-option">
-                      <input type="checkbox" value="PG" v-model="selectedFilters"> PG
+
+                    <div v-show="showAgeRating" class="filter-menu">
+                        <label v-for="age in ageRatings" class="filter-option" :id="age">
+                            <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
+                        </label>
+                    </div>
+
+                    <!-- Status -->
+                    <label class="filter-option" id="status">
+                        <button type="button" class="filter-button" @click="showStatus = !showStatus">Status</button>
                     </label>
-                    <label class="filter-option">
-                      <input type="checkbox" value="PG-13" v-model="selectedFilters"> PG-13
-                    </label>
-                    <label class="filter-option">
-                      <input type="checkbox" value="R" v-model="selectedFilters"> R
-                    </label>
+
+                    <div v-show="showStatus" class="filter-menu">
+                        <label v-for="status in statuses" class="filter-option" :id="status">
+                            <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
+                        </label>
+                    </div>
                   </div>
                 <!-- Filter Option ends -->
 
