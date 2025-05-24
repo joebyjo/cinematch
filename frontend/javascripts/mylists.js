@@ -61,6 +61,9 @@ function helperLoadLimitArray(len) {
 // eslint-disable-next-line no-undef
 const movieTable = Vue.createApp({
     data() {
+
+
+
         return {
             load: 10,
             page: 1,
@@ -78,7 +81,11 @@ const movieTable = Vue.createApp({
             genres: [],
             ageRatings: ["NR", "M", "PG"],
             statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
+
+
         };
+
+
     },
     methods: {
         loadLimitArray() {
