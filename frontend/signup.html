@@ -69,7 +69,7 @@
 
             <div class="signup-button">
                 <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
-                <button @click="signup()">Sign up</button>
+                <button type="button" @click="signup()">Sign up</button>
                 <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
         </div>
