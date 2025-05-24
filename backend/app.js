@@ -10,6 +10,7 @@ const { COOKIE_SECRET } = process.env;
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
+const tvRouter = require('./routes/tv');
 const authRouter = require('./routes/auth');
 const mylistRouter = require('./routes/mylist');
 
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/mylist', mylistRouter);
 
