@@ -1,3 +1,14 @@
+async function helperLogout(path) {
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.post(path);
+        return 0;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        return 1;
+    }
+}
+
 function helperCheckLoginStatus() {
     // checkif the user has login
     console.log("Checking login status...");
@@ -35,7 +46,10 @@ createApp({
             helperChangeDark(this.isDark);
         },
         redirect(path) {
-            window.location.href = path;
+            if (path === "/logout") {
+                helperLogout('api/auth/logout');
+                window.location.href = '/home';
+            }
         }
     },
     computed: {},
