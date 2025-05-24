@@ -24,6 +24,7 @@
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/about-us.js" defer></script>
     <script src="javascripts/index.js" defer></script>
@@ -57,11 +58,11 @@
 
                 <div v-show="showMenu" class="user-menu">
                     <div @click="redirect('/setting')">
-                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" src="./" alt="settings icon">
                         Account Settings
                     </div>
                     <div @click="changeDark()">
-                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" src="./" alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
                     <div @click="redirect('/logout')">
