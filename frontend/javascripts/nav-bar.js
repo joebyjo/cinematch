@@ -9,10 +9,16 @@ async function helperLogout(path) {
     }
 }
 
-function helperCheckLoginStatus() {
+async function helperCheckLoginStatus() {
     // checkif the user has login
-    console.log("Checking login status...");
-    return true;
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.get('api/auth/status');
+        return true;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        return false;
+    }
 }
 
 function helperChangeDark(isDark) {
@@ -35,8 +41,8 @@ createApp({
         };
     },
     methods: {
-        checkLoginStatus() {
-            this.isLogin = helperCheckLoginStatus();
+        async checkLoginStatus() {
+            this.isLogin = await helperCheckLoginStatus();
         },
         onMenu() {
             this.showMenu = !this.showMenu;
