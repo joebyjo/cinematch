@@ -94,7 +94,11 @@
                         <button type="button" class="filter-button" @click="showGenres = !showGenres">Genres</button>
                     </label>
 
-                    <div v-show="showGenres" class="filter-menu">
+                    <div v-show="showGenres" class="filter-menu genre-dropdown">
+                        <div class="genre-controls">
+    <button class="genre-btn" @click="selectAllGenres">Select All</button>
+    <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+  </div>
                         <label v-for="genre in genres" class="filter-option" :id="genre.name">
                             <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
                         </label>
