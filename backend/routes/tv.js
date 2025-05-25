@@ -195,6 +195,42 @@ router.get('/show/:id', validateId('id'), validate, async (req, res) => {
 });
 
 
+router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
+
+    try {
+
+        const { query } = req;
+
+        const url = "/search/tv";
+
+        const { data } = await tmdb.get(
+            url,
+            {
+                params: {
+                    query: query.q,
+                    include_adult: true
+                }
+            }
+        );
+
+        var { results } = data;
+
+        results = results.slice(0, 5);
+
+        const trimmedResults = results.map((show) => ({
+            id: show.id,
+            title: show.name
+        }));
+
+        res.status(200).json(trimmedResults);
+
+    } catch (error) {
+        console.error('TMDB error:', error.message);
+        res.status(500).json({ msg: 'Failed to query tv show' });
+    }
+});
+
+
 
 
 module.exports = router;
