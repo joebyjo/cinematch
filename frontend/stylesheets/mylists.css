@@ -151,8 +151,8 @@ main {
     background-color: var(--forth-color-mylists);
     border: 0.2px solid #8a8a8a;
     padding: 1rem;
-    vertical-align: middle;
-    height: 3rem;
+    vertical-align: top;
+    word-wrap: break-word;
 
 }
 
@@ -219,7 +219,6 @@ justify-content: center;
   line-height: 1.5;
   overflow: hidden;
   gap: 2rem;
-  max-height: 3rem;
 }
 
 

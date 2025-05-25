@@ -186,3 +186,6 @@ const movieTable = Vue.createApp({
 
 movieTable.mount('.main-mylists');
 // End of Vue Script
+
+
+
