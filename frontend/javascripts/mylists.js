@@ -88,6 +88,13 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+        selectAllGenres() {
+  this.filter.genre = this.genres.map(g => g.id);
+},
+clearAllGenres() {
+  this.filter.genre = [];
+},
+
         loadLimitArray() {
             return helperLoadLimitArray(100);
         },
