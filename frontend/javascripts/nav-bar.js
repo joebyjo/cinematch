@@ -31,6 +31,7 @@ function helperChangeDark(isDark) {
     }
 }
 
+// eslint-disable-next-line no-undef
 const { createApp } = Vue;
 createApp({
     data() {
