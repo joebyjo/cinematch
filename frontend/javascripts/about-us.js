@@ -1,5 +1,6 @@
 // const { createApp } = Vue;
 
+// eslint-disable-next-line no-undef
 createApp({
     data() {
         return {
