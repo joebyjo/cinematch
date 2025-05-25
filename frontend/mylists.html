@@ -87,46 +87,44 @@
             <div class="filter-sort-section">
                 <!-- Filter Option: Done-->
                 <button type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
-                <div v-show="showFilter" class="filter-menu">
-
-                    <!-- Genres -->
-                    <label class="filter-option" id="genres">
-                        <button type="button" class="filter-button" @click="showGenres = !showGenres">Genres</button>
-                    </label>
-
-                    <div v-show="showGenres" class="filter-menu genre-dropdown">
-                        <div class="genre-controls">
-    <button class="genre-btn" @click="selectAllGenres">Select All</button>
-    <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+                <div v-show="showFilter" class="filter-menu-accordion">
+  <!-- Genres Accordion -->
+  <div class="accordion-section">
+    <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
+    <div class="accordion-body" v-show="activeAccordion === 'genres'">
+      <div class="genre-controls">
+        <button class="genre-btn" @click="selectAllGenres">Select All</button>
+        <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+      </div>
+      <div class="genre-grid">
+        <label v-for="genre in genres" class="filter-option" :id="genre.name">
+          <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
+        </label>
+      </div>
+    </div>
   </div>
-                        <label v-for="genre in genres" class="filter-option" :id="genre.name">
-                            <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
-                        </label>
-                    </div>
 
-                    <!-- Age Rating -->
-                    <label class="filter-option" id="ageRating">
-                        <button type="button" class="filter-button" @click="showAgeRating = !showAgeRating">Age
-                            Rating</button>
-                    </label>
+  <!-- Age Rating Accordion -->
+  <div class="accordion-section">
+    <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
+    <div class="accordion-body" v-show="activeAccordion === 'age'">
+      <label v-for="age in ageRatings" class="filter-option" :id="age">
+        <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
+      </label>
+    </div>
+  </div>
 
-                    <div v-show="showAgeRating" class="filter-menu">
-                        <label v-for="age in ageRatings" class="filter-option" :id="age">
-                            <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
-                        </label>
-                    </div>
+  <!-- Status Accordion -->
+  <div class="accordion-section">
+    <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
+    <div class="accordion-body" v-show="activeAccordion === 'status'">
+      <label v-for="status in statuses" class="filter-option" :id="status">
+        <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
+      </label>
+    </div>
+  </div>
+</div>
 
-                    <!-- Status -->
-                    <label class="filter-option" id="status">
-                        <button type="button" class="filter-button" @click="showStatus = !showStatus">Status</button>
-                    </label>
-
-                    <div v-show="showStatus" class="filter-menu">
-                        <label v-for="status in statuses" class="filter-option" :id="status">
-                            <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
-                        </label>
-                    </div>
-                </div>
                 <!-- Filter Option ends -->
 
                 <!-- Sorting Option: Done -->
