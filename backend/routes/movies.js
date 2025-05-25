@@ -91,18 +91,11 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
             return res.status(200).json(dataFromDb);
         }
 
-
-        const [movieResp, releaseResp, videosResp, providersResp] = await Promise.all([
-            tmdb.get(`/movie/${movieId}`),
-            tmdb.get(`/movie/${movieId}/release_dates`),
-            tmdb.get(`/movie/${movieId}/videos`),
-            tmdb.get(`/movie/${movieId}/watch/providers`)
-        ]);
-
+        const movieResp = await tmdb.get(`/movie/${movieId}?append_to_response=release_dates%2Cvideos%2Cwatch%2Fproviders`);
 
         const movie = movieResp.data;
-        const videos = videosResp.data.results;
-        const providers = providersResp.data.results;
+        const videos = movie.videos?.results || [];
+        const providers = movie['watch/providers']?.results || {};
 
         // remove unnecessary data
         const trimmedResults = {
@@ -177,15 +170,6 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
         } catch (err) {
             console.error('OMDB error with parsing ratings:', err.message);
         }
-
-
-        // get top 2 watch providers within the country if it is a popular platform sorted by custom priority list
-        // const countryProviders = (providers[country]?.flatrate || [])
-        //     .filter(p => preferredProviders.includes(p.provider_id))
-        //     .sort((a, b) =>
-        //         preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id)
-        //     )
-        //     .slice(0, 2);
 
 
         // get top 2 watch providers according to countries if it is a popular platform sorted by custom priority list
