@@ -78,6 +78,8 @@ const movieTable = Vue.createApp({
             showGenres: false,
             showAgeRating: false,
             showStatus: false,
+            activeAccordion: null,
+
             genres: [],
             ageRatings: ["NR", "M", "PG"],
             statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
@@ -88,6 +90,10 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+
+         toggleAccordion(section) {
+  this.activeAccordion = this.activeAccordion === section ? null : section;
+},
         selectAllGenres() {
   this.filter.genre = this.genres.map(g => g.id);
 },
@@ -176,6 +182,7 @@ clearAllGenres() {
         }
     },
     watch: {
+
         SortorFilterMovies: {
             handler() {
                 const url = this.createUrl();
