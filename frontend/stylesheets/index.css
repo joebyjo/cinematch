@@ -29,6 +29,12 @@
     --text-color: white;
 }
 
+
+body {
+    transition: background-color 0.7s ease, color 0.7s ease;
+}
+
+
 .primary-bg-color {
     background-color: var(--primary-color);
 }
@@ -136,3 +142,26 @@ input:checked + .slider:before {
     <input type="checkbox">
     <span class="slider"><span>Movies</span><span>TV Shows</span></span>
 </label> */
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Adjust as needed */
+}
+
+.spinner {
+  width: 4rem;
+  height: 4rem;
+  border: 0.5rem solid rgba(255, 255, 255, 0.3);
+  border-top: 0.5rem solid #75A976; /* Accent color */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
