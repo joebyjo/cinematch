@@ -57,10 +57,17 @@ createApp({
                 helperLogout('api/auth/logout');
                 window.location.href = '/home';
             }
+        },
+        clickOutside(e) {
+            const profile = document.getElementById('profile');
+            if (this.showMenu && profile && !profile.contains(e.target)) {
+                this.showMenu = false;
+            }
         }
     },
     computed: {},
     mounted() {
         this.checkLoginStatus();
+        document.addEventListener('click', this.clickOutside);
     }
 }).mount('#nav-bar');
