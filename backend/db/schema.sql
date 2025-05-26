@@ -132,7 +132,7 @@ CREATE TABLE `SESSIONS` (
   `expires` int unsigned NOT NULL,
   `data` text,
   `user_id` int DEFAULT NULL,
-  `ip_address` varchar(16) DEFAULT NULL,
+  `ip_address` varchar(64) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `last_seen` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

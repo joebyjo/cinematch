@@ -69,7 +69,7 @@ app.use(async (req, res, next) => {
         try {
             await db.query(
                 `UPDATE SESSIONS SET last_seen = NOW() WHERE id = ?`,
-                [req.user.id]
+                [req.sessionID]
             );
 
         } catch (err) {
