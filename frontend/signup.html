@@ -62,7 +62,12 @@
 
                     <div class="input-div">
                         <span>Create Password</span>
-                        <input type="text" v-model="password">
+                        <div class="pass-info">
+                            <input type="text" v-model="password">
+                            <button type="button" class="info-icon"></button>
+                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase
+                                letter, and a special character.</div>
+                        </div>
                     </div>
                 </div>
             </div>
