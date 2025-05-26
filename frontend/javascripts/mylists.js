@@ -61,15 +61,46 @@ function helperLoadLimitArray(len) {
 // eslint-disable-next-line no-undef
 const movieTable = Vue.createApp({
     data() {
+
+
+
         return {
             load: 10,
             page: 1,
             sort: "",
-            filter: [],
-            movies: []
+            filter: {
+                genre: [],
+                status: [],
+                ageRating: []
+            },
+            movies: [],
+            showFilter: false,
+            showGenres: false,
+            showAgeRating: false,
+            showStatus: false,
+            activeAccordion: null,
+
+            genres: [],
+            ageRatings: ["NR", "M", "PG"],
+            statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
+
+
         };
+
+
     },
     methods: {
+
+         toggleAccordion(section) {
+  this.activeAccordion = this.activeAccordion === section ? null : section;
+},
+        selectAllGenres() {
+  this.filter.genre = this.genres.map(g => g.id);
+},
+clearAllGenres() {
+  this.filter.genre = [];
+},
+
         loadLimitArray() {
             return helperLoadLimitArray(100);
         },
@@ -88,6 +119,18 @@ const movieTable = Vue.createApp({
             if (this.sort) {
                 url.searchParams.set("sort", this.sort);
             }
+
+            this.filter.genre.forEach((genre) => {
+                url.searchParams.append("genre", genre);
+            });
+
+            this.filter.status.forEach((status) => {
+                url.searchParams.append("status", status);
+            });
+
+            this.filter.ageRating.forEach((ageRating) => {
+                url.searchParams.append("certification", ageRating);
+            });
 
             return url;
         },
@@ -121,17 +164,25 @@ const movieTable = Vue.createApp({
         helperMovieStatus(s) {
             if (!s) return "/";
             return helperDrawStatus(s);
+        },
+        async getGenres(url) {
+            const res = await helperGetMovieData(url);
+            this.genres = res.data || [];
         }
     },
     computed: {
         SortorFilterMovies() {
             return {
                 load: this.load,
-                sort: this.sort
+                sort: this.sort,
+                'filter.genre': this.filter.genre,
+                'filter.status': this.filter.status,
+                'filter.ageRating': this.filter.ageRating
             };
         }
     },
     watch: {
+
         SortorFilterMovies: {
             handler() {
                 const url = this.createUrl();
@@ -143,8 +194,12 @@ const movieTable = Vue.createApp({
     },
     mounted() {
         this.getMovieData('/api/mylist');
+        this.getGenres('/api/movies/genres');
     }
 });
 
 movieTable.mount('.main-mylists');
 // End of Vue Script
+
+
+
