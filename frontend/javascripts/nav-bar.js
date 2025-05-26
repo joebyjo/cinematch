@@ -36,14 +36,16 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            isLogin: true,
+            isLogin: false,
             showMenu: false,
-            isDark: true
+            isDark: true,
+            inProcess: true
         };
     },
     methods: {
         async checkLoginStatus() {
             this.isLogin = await helperCheckLoginStatus();
+            this.inProcess = false;
         },
         onMenu() {
             this.showMenu = !this.showMenu;
