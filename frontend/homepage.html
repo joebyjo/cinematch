@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="stylesheets/homepage.css">
 
     <!-- Linking Java Script Files -->
-    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/homepage.js" defer></script>
@@ -50,7 +50,7 @@
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
-                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+                <a v-if="!isLogin" href="/login" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
 
                 <!-- else -->
                 <div v-else class="user-container-nav-bar">
@@ -142,7 +142,7 @@
             </button>
 
             <div v-for="t in loadTrending" @click="redirect(t.id)">
-                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
 
@@ -158,7 +158,7 @@
                 <svg width="53" height="52"><use xlink:href="#arrow-left"></use></svg>
             </button>
             <div v-for="t in loadTopRated" @click="redirect(t.id)">
-                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
             <button type="button" @click="topRatedSi = mod(this.topRatedSi + 1, this.topRated.length)" class="blue">
@@ -173,7 +173,7 @@
                 <svg width="53" height="52"><use xlink:href="#arrow-left"></use></svg>
             </button>
             <div v-for="t in loadNowPlaying" @click="redirect(t.id)">
-                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title">
+                <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
             <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi + 1, this.nowPlaying.length)" class="green">

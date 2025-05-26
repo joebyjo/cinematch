@@ -1,7 +1,7 @@
 async function helperLogin(username, password) {
     try {
         // eslint-disable-next-line no-undef
-        const res = await axios.post('/api/auth/login', {
+        await axios.post('/api/auth/login', {
             username: username,
             password: password
         });
@@ -13,6 +13,7 @@ async function helperLogin(username, password) {
     }
 }
 
+// eslint-disable-next-line no-undef
 createApp({
     data() {
         return {

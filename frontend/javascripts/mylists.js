@@ -20,7 +20,7 @@ function helperDrawStatus(s) {
         return "/images/my-lists/bookmarked.png";
     }
 
-    return "/";
+    return "";
 }
 
 function helperDraw(n, status) { // drawing the star ratings
