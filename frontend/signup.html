@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="stylesheets/signup.css">
 
     <!-- Linking Java Script Files -->
-    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/index.js" defer></script>
@@ -62,14 +62,19 @@
 
                     <div class="input-div">
                         <span>Create Password</span>
-                        <input type="text" v-model="password">
+                        <div class="pass-info">
+                            <input type="text" v-model="password">
+                            <button type="button" class="info-icon"></button>
+                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase
+                                letter, and a special character.</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="signup-button">
                 <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
-                <button @click="signup()">Sign up</button>
+                <button type="button" @click="signup()">Sign up</button>
                 <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
         </div>

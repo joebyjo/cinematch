@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="stylesheets/personaliselang.css">
 
     <!-- Linking Java Script Files -->
-    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/personaliselang.js" defer></script>
     <script src="javascripts/index.js" defer></script>
@@ -48,7 +49,7 @@
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
-                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+                <a v-if="!isLogin" href="/login" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
 
                 <!-- else -->
                 <div v-else class="user-container-nav-bar">
@@ -58,11 +59,11 @@
 
                 <div v-show="showMenu" class="user-menu">
                     <div @click="redirect('/setting')">
-                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" src="./" alt="settings icon">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" alt="settings icon">
                         Account Settings
                     </div>
                     <div @click="changeDark()">
-                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" src="./" alt="theme off icon">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
                     <div @click="redirect('/logout')">

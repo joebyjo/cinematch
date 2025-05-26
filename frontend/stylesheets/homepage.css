@@ -256,7 +256,7 @@ button:hover{
   border-radius: 2rem;
   padding: 2.5rem;
   box-shadow: var(--box-shadow-homepage);
-  max-width: 65%;
+  max-width: 75rem;
   margin: 0 auto;
   position: relative;
   overflow: visible;
