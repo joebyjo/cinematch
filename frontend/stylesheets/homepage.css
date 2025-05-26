@@ -137,7 +137,8 @@ main .heading3 {
     font-family: "Cantarell";
     font-size: 1.3rem;
     white-space: nowrap;
-    overflow: scroll;
+    overflow-x: scroll;
+    scrollbar-width: none;
 }
 
 .search-results>div:hover {
