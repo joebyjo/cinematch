@@ -180,6 +180,14 @@ function formatMovies(rows) {
 
 
 
+async function getGenreData() {
+    try {
+        const [rows] = await db.query('SELECT id, name FROM GENRES');
+        return rows;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 
 module.exports = {
@@ -187,5 +195,6 @@ module.exports = {
     comparePassword,
     insertMovie,
     getMovieData,
-    formatMovies
+    formatMovies,
+    getGenreData
 };
