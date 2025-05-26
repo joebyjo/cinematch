@@ -81,6 +81,7 @@ main>div {
     padding: 0.5rem 0rem 0.5rem 0rem;
     background-color: #2d588b;
     color: #ffffff;
+    cursor: pointer;
 }
 
 .signup-button>span {

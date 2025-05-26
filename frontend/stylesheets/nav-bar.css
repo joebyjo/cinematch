@@ -85,6 +85,7 @@ nav a {
 
 nav a:hover {
     transform: translateY(-2px) scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .nav a:hover::after {
@@ -125,6 +126,7 @@ nav a:hover {
 .logo-nav-bar a {
     font-size: 1.7rem;
     font-family: "Chango", sans-serif;
+    pointer-events: none;
 }
 
 
