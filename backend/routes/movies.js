@@ -2,11 +2,10 @@ const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
 const { validate, validateSearchQuery, validateId } = require('../services/validators');
 const { insertMovie, getMovieData, getGenreData } = require('../services/helpers');
+const [preferredProviders, preferredCountries] = require('../services/constants');
 
 const router = express.Router();
 
-const preferredProviders = [8, 9, 2, 10, 337, 531, 15, 350, 1968, 386, 1770, 1899];
-const preferredCountries = ['AU', 'US', 'GB', 'IN'];
 
 // GET /api/movies/trending
 router.get('/trending', async (req, res) => {
