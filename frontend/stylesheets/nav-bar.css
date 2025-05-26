@@ -197,7 +197,6 @@ nav a:hover {
     color: var(--user-menu-text-color-nav-bar);
     font-family: "Cantarell";
     font-size: 1.3rem;
-    cursor: pointer;
 }
 
 .user-menu img {
@@ -206,7 +205,9 @@ nav a:hover {
 }
 
 .user-menu div:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .theme {
