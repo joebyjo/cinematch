@@ -4,11 +4,11 @@ const db = require('./db');
 const SALT_ROUNDS = 10;
 
 function hashPassword(password) {
-    return bcrypt.hash(password, SALT_ROUNDS);
+    return bcrypt.hashSync(password, SALT_ROUNDS);
 }
 
 function comparePassword(plainText, hash) {
-    return bcrypt.compare(plainText, hash);
+    return bcrypt.compareSync(plainText, hash);
 }
 
 async function insertMovie(movieData) {

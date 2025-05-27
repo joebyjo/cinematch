@@ -4,7 +4,7 @@ const { query, param, body, validationResult } = require('express-validator');
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ msg: errors.array()[0].msg });
     }
     return next();
 };
@@ -63,10 +63,8 @@ const validateSignup = [
         .escape()
         .notEmpty()
         .withMessage('Username is required')
-        .isLength({ min: 3, max: 10 })
-        .withMessage('Username must be 3–10 characters long')
-        .matches(/^[a-zA-Z0-9_]+$/)
-        .withMessage('Username must only contain letters, numbers, and underscores'),
+        .isLength({ min: 3 })
+        .withMessage('Username must be minimum 2 letters long'),
 
     body('password')
         .trim()
@@ -91,9 +89,7 @@ const validateSignup = [
         .notEmpty()
         .withMessage('First name is required')
         .isAlpha()
-        .withMessage('First name must contain only letters')
-        .isLength({ max: 20 })
-        .withMessage('First name must be at most 20 characters long'),
+        .withMessage('First name must contain only letters'),
 
     body('lastName')
         .trim()
@@ -102,8 +98,6 @@ const validateSignup = [
         .withMessage('Last name is required')
         .isAlpha()
         .withMessage('Last name must contain only letters')
-        .isLength({ max: 20 })
-        .withMessage('Last name must be at most 20 characters long')
 ];
 
 
@@ -111,18 +105,17 @@ const validateSignup = [
 const validateLogin = [
     body('username')
         .trim()
+        .escape()
         .notEmpty()
         .withMessage('Username is required')
-        .isLength({ min: 3, max: 10 })
-        .withMessage('Username must be between 3 and 10 characters')
-        .isAlphanumeric()
-        .withMessage('Username should only contain letters and numbers'),
+        .isLength({ min: 3 })
+        .withMessage('Username must be minimum 2 letters long'),
 
     body('password')
         .trim()
         .notEmpty()
         .withMessage('Password is required')
-        .isLength({ min: 3, max: 100 })
+        .isLength({ min: 3 })
         .withMessage('Password must be at least 3 characters long')
         .matches(/^[^\s'"`;\\]+$/)
         .withMessage('Password contains invalid characters')

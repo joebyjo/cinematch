@@ -81,6 +81,7 @@ main>div {
     padding: 0.5rem 0rem 0.5rem 0rem;
     background-color: #2d588b;
     color: #ffffff;
+    cursor: pointer;
 }
 
 .signup-button>span {
@@ -148,4 +149,48 @@ input[type="text"] {
     color: #FFAEAE;
     margin-bottom: 1.5rem;
     font-weight: normal;
+}
+
+.pass-info {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-icon {
+    background-image: url('../images/info-icon.png');
+    height: 2rem;
+    width: 2rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    background-color: #2d496c;
+    color: #e6e6e6;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #8EC2FF;
+    font-size: 1rem;
+    font-family: "Cantarell", sans-serif;
+    max-width: 15rem;
+    display: none;
+    z-index: 2;
+    margin-left: 0.3rem;
+}
+
+.info-icon:hover + .tooltip {
+    display: block;
+}
+
+.input>div:nth-child(2) {
+    margin-left: 3.25rem;
 }

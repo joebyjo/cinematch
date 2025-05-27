@@ -21,6 +21,16 @@
     --user-menu-text-color-nav-bar: white;
     --theme-color: whtie;
 }
+.primary-bg-color-nav-bar,
+.secondary-bg-color-nav-bar,
+.primary-color-nav-bar,
+.secondary-color-nav-bar,
+.user-container-nav-bar,
+.user-menu,
+.theme,
+.logout-nav-bar{
+    transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease;
+}
 
 .primary-bg-color-nav-bar {
     background-color: var(--primary-color-nav-bar);
@@ -49,7 +59,6 @@ nav {
     display: flex;
     flex-direction: row;
     height: 4.5rem;
-
     justify-content: space-evenly;
 }
 
@@ -58,6 +67,29 @@ nav a {
     font-size: 1.5rem;
     font-weight: 500;
     font-family: "Cantarell";
+
+
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 0.19rem;
+    bottom: 0.70rem;
+    left: 0;
+    background-color: var(--primary-color-nav-bar); /* Or any highlight color */
+    transition: width 0.3s ease;
+}
+
+
+nav a:hover {
+    transform: translateY(-2px) scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
 }
 
 .nav {
@@ -94,6 +126,7 @@ nav a {
 .logo-nav-bar a {
     font-size: 1.7rem;
     font-family: "Chango", sans-serif;
+    pointer-events: none;
 }
 
 
@@ -166,7 +199,6 @@ nav a {
     color: var(--user-menu-text-color-nav-bar);
     font-family: "Cantarell";
     font-size: 1.3rem;
-    cursor: pointer;
 }
 
 .user-menu img {
@@ -175,7 +207,9 @@ nav a {
 }
 
 .user-menu div:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .theme {
