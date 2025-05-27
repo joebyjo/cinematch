@@ -127,13 +127,25 @@
                 <!-- Filter Option ends -->
 
                 <!-- Sorting Option: Done -->
-                <select name="sort-by" id="sort-by" class="secondary-color-mylists" v-model="sort">
+                <!-- <select name="sort-by" id="sort-by" class="sort-dropdown " v-model="sort">
                     <option value="" selected>Sort By</option>
                     <option value="my_rating.desc">User Rating: High to Low</option>
                     <option value="my_rating.asc">User Rating: Low to High</option>
                     <option value="imdb_rating.desc">IMDB Rating: High to Low</option>
                     <option value="imdb_rating.asc">IMDB Rating: Low to High</option>
-                </select>
+                </select> -->
+
+                <div class="custom-dropdown">
+  <button type="button" class="filter-button" @click="showSort = !showSort">
+    Sort By
+  </button>
+  <div v-show="showSort" class="custom-dropdown-menu">
+    <div class="dropdown-option" @click="sort = 'my_rating.desc'; showSort = false">User Rating: High to Low</div>
+    <div class="dropdown-option" @click="sort = 'my_rating.asc'; showSort = false">User Rating: Low to High</div>
+    <div class="dropdown-option" @click="sort = 'imdb_rating.desc'; showSort = false">IMDB Rating: High to Low</div>
+    <div class="dropdown-option" @click="sort = 'imdb_rating.asc'; showSort = false">IMDB Rating: Low to High</div>
+  </div>
+</div>
                 <!-- Sorting Option Ends -->
             </div>
         </div>

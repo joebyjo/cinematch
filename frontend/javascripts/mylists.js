@@ -65,6 +65,7 @@ const movieTable = Vue.createApp({
 
 
         return {
+            showSort: false,
             load: 10,
             page: 1,
             sort: "",
@@ -79,6 +80,7 @@ const movieTable = Vue.createApp({
             showAgeRating: false,
             showStatus: false,
             activeAccordion: null,
+
 
             genres: [],
             ageRatings: ["NR", "M", "PG"],
