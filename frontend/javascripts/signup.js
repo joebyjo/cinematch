@@ -16,10 +16,11 @@ async function helperSignup(firstName, lastName, email, password) {
             return e.response;
         }
 
-        return { status: 500, data: { error: 'Unexpected error' } };
+        return { status: 500, data: { msg: 'Unexpected error' } };
     }
 }
 
+// eslint-disable-next-line no-undef
 createApp({
     data() {
         return {
@@ -41,8 +42,7 @@ createApp({
             if (res.status === 200 || res.status === 201) {
                 this.redirect('/login');
             } else {
-                console.log(res.data);
-                this.message = res.data.errors[0].msg;
+                this.message = res.data.msg;
                 this.signupFailed = true;
             }
         }

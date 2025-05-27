@@ -151,6 +151,13 @@ main {
     background-color: var(--forth-color-mylists);
     border: 0.2px solid #8a8a8a;
     padding: 1rem;
+    vertical-align: top;
+    word-wrap: break-word;
+
+}
+
+.movie-table tr {
+  height: 3rem; /* ensure all rows stay equal height */
 }
 
 .movie-table tbody {
@@ -201,4 +208,71 @@ main {
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-width: 0;
     text-align: center;
+}
+
+
+.genre-cell {
+    display: flex;
+  flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+  line-height: 1.5;
+  overflow: hidden;
+  gap: 2rem;
+}
+
+
+.genre-badge {
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: "Inter", sans-serif;
+  white-space: nowrap;
+  background-color: grey;
+}
+
+/* Optional: Define custom colors by genre name */
+.genre-action {
+  background-color: #e63946;
+}
+
+.genre-comedy {
+  background-color: #f4a261;
+}
+
+.genre-drama {
+  background-color: #457b9d;
+}
+
+.genre-fantasy {
+  background-color: #9b5de5;
+}
+
+.genre-romance {
+  background-color: #ffb4a2;
+}
+
+.genre-animation {
+  background-color: #fca311;
+}
+
+.genre-thriller {
+  background-color: #8d99ae;
+}
+
+.genre-scifi {
+  background-color: #00b4d8;
+}
+
+.genre-horror {
+  background-color: #6a040f;
+}
+
+.genre-adventure {
+  background-color: #6a994e;
+}
+
+.genre-crime {
+  background-color: #6c757d;
 }
