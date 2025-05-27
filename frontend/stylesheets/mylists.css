@@ -66,30 +66,18 @@ main {
     text-align: center;
 }
 
+
 .filter-button {
     font-family: "Inter", sans-serif;
     font-weight: bold;
     font-size: 1.5rem;
-    color: #ffffff;
+    color:var(--secondary-color-mylists) ;
     padding: 0.6rem 2rem 0.6rem 2rem;
     background-color: var(--third-color-mylists);
     border-radius: 2rem;
     border-width: 0;
     cursor: pointer;
     margin-right: 4rem;
-}
-
-.filter-menu {
-    position: absolute;
-    background-color: var(--third-color-mylists);
-    border: 0.1rem solid #8a8a8a;
-    border-radius: 1rem;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    width: 10rem;
 }
 
 .filter-option {
@@ -355,6 +343,7 @@ justify-content: center;
 
 
 .filter-menu-accordion {
+    margin-top: 0.3rem;
   position: absolute;
   background-color: var(--third-color-mylists);
   border: 0.1rem solid #8a8a8a;
