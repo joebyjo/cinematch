@@ -96,18 +96,43 @@ main {
     background-color: var(--primary-color-mylists);
 }
 
-#sort-by {
-    border-radius: 2rem 2rem 2rem 2rem;
-    font-family: "Inter", sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    background-color: var(--third-color-mylists);
-    border-width: 0;
-    text-align: center;
-    cursor: pointer;
-    margin-left: 1rem;
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
 }
+
+.custom-dropdown-menu {
+  position: absolute;
+  top: 2.8rem;
+  background-color: var(--third-color-mylists);
+  border: 1px solid #aaa;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  z-index: 1000;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.dropdown-option {
+  font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  background-color: var(--forth-color-mylists);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-option:hover {
+  background-color: var(--fifth-color-mylists);
+}
+
+
+
 
 .filter-button:hover, #sort-by:hover {
     transform: scale(1.05);
