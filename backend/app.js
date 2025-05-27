@@ -16,6 +16,7 @@ const moviesRouter = require('./routes/movies');
 const tvRouter = require('./routes/tv');
 const authRouter = require('./routes/auth');
 const mylistRouter = require('./routes/mylist');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -86,6 +87,7 @@ app.use('/api/movies', moviesRouter);
 app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/mylist', mylistRouter);
+app.use('/api/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
