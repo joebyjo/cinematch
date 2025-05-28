@@ -79,14 +79,14 @@
         </div>
     </nav>
 
-    <main class="main-mylists">
+    <main ref="mainContainer" class="main-mylists">
         <div class="hero-section">
             <div class="heading-text"> My Movie List
             </div>
             <div class="filter-sort-section">
                 <!-- Filter Option: Done-->
-                <button type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
-                <div v-show="showFilter" class="filter-menu-accordion">
+                <button ref="filterBtn" type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
+                <div v-show="showFilter" ref="filterMenu" class="filter-menu-accordion" @click.stop>
   <!-- Genres Accordion -->
   <div class="accordion-section">
     <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
@@ -136,10 +136,10 @@
                 </select> -->
 
                 <div class="custom-dropdown">
-  <button type="button" class="filter-button" @click="showSort = !showSort">
+  <button ref="sortBtn" type="button" class="filter-button" @click="showSort = !showSort">
     Sort By
   </button>
-  <div v-show="showSort" class="custom-dropdown-menu">
+  <div  ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
     <div class="dropdown-option" @click="sort = 'my_rating.desc'; showSort = false">User Rating: High to Low</div>
     <div class="dropdown-option" @click="sort = 'my_rating.asc'; showSort = false">User Rating: Low to High</div>
     <div class="dropdown-option" @click="sort = 'imdb_rating.desc'; showSort = false">IMDB Rating: High to Low</div>
