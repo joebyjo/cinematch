@@ -202,7 +202,7 @@
                             </div>
                         </td>
                         <td class="release-date">{{ helperMovieDate(movie.release_date) }}</td>
-                        <td><img :src="helperMovieStatus(movie.watch_status)" src="/" :alt="movie.watch_status"></td>
+                        <td><img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"  class="status-icon" @click="toggleStatus(movie)"></td>
                         <td class="age-rating">{{ helperCheckEmpty(movie.certification) }}</td>
                         <td class="imdb-rating">{{ helperImdbRating(movie.imdb_rating) }}</td>
                         <td>{{ helperMyRating(movie.my_rating) }}</td>

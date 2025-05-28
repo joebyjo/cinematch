@@ -95,6 +95,21 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+async toggleStatus(movie) {
+  // Cycle to next status (0 → 1 → 2 → 0)
+  movie.watch_status = (movie.watch_status + 1) % 3;
+
+  try {
+    await axios.post('/api/mylist/', {
+      movie_id: movie.movie_id,
+      is_liked: 1, // fallback default (e.g., liked)
+      watch_status: movie.watch_status
+    });
+  } catch (error) {
+    console.error("Failed to update status:", error);
+    // Optionally revert the change if API call fails
+  }
+},
 
     toggleFilter() {
   this.showFilter = !this.showFilter;
@@ -219,7 +234,7 @@ clearAllGenres() {
                 'filter.ageRating': this.filter.ageRating
             };
         },
-        
+
     },
     watch: {
         page() {
