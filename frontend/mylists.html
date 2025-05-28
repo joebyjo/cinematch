@@ -141,15 +141,25 @@
                         Sort By
                     </button>
                     <div ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
-                        <div class="dropdown-option" @click="sort = 'my_rating.desc'; showSort = false">User Rating:
-                            High to Low</div>
-                        <div class="dropdown-option" @click="sort = 'my_rating.asc'; showSort = false">User Rating: Low
-                            to High</div>
-                        <div class="dropdown-option" @click="sort = 'imdb_rating.desc'; showSort = false">IMDB Rating:
-                            High to Low</div>
-                        <div class="dropdown-option" @click="sort = 'imdb_rating.asc'; showSort = false">IMDB Rating:
-                            Low to High</div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'my_rating.desc' }"
+                            @click="sort = 'my_rating.desc'; showSort = false">
+                            User Rating: High to Low
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'my_rating.asc' }"
+                            @click="sort = 'my_rating.asc'; showSort = false">
+                            User Rating: Low to High
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'imdb_rating.desc' }"
+                            @click="sort = 'imdb_rating.desc'; showSort = false">
+                            IMDB Rating: High to Low
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'imdb_rating.asc' }"
+                            @click="sort = 'imdb_rating.asc'; showSort = false">
+                            IMDB Rating: Low to High
+                        </div>
                     </div>
+
+
                 </div>
                 <!-- Sorting Option Ends -->
             </div>
@@ -221,11 +231,11 @@
             <!-- Next Page Functions & Buttons -->
             <div></div>
             <div class="pagination-controls">
-                <button  type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
+                <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
 
-                <button  type="button" v-for="n in visiblePages" :key="n" :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
-                    @click="typeof n === 'number' && (page = n)"
-                    :disabled="n === '...'">
+                <button type="button" v-for="n in visiblePages" :key="n"
+                    :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
+                    @click="typeof n === 'number' && (page = n)" :disabled="n === '...'">
 
                     {{ n }}
                 </button>
