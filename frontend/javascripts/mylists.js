@@ -13,7 +13,7 @@ async function helperGetMovieData(url) {
 
 function helperDrawStatus(s) {
     if (s === 0) {
-        return "/images/my-lists/eye-slash-solid 1.png";
+        return "/images/my-lists/eye-slash-solid.png";
     } if (s === 1) {
         return "/images/my-lists/eye.png";
     } if (s === 2) {
@@ -69,6 +69,8 @@ const movieTable = Vue.createApp({
             showSort: false,
             load: 10,
             page: 1,
+            totalPages:1,
+            totalMovies:0,
             sort: "",
             filter: {
                 genre: [],
@@ -104,30 +106,26 @@ toggleSort() {
   this.showSort = !this.showSort;
   this.showFilter = false; // close other menu
 },
-
 handleClickOutside(event) {
-  const clickedOutsideFilter =
-    this.showFilter &&
-    this.$refs.filterMenu &&
-    this.$refs.filterBtn &&
-    !this.$refs.filterMenu.contains(event.target) &&
-    !this.$refs.filterBtn.contains(event.target);
+  const filterBtn = this.$refs.filterBtn;
+  const filterMenu = this.$refs.filterMenu;
 
-  const clickedOutsideSort =
-    this.showSort &&
-    this.$refs.sortMenu &&
-    this.$refs.sortBtn &&
-    !this.$refs.sortMenu.contains(event.target) &&
-    !this.$refs.sortBtn.contains(event.target);
+  const sortBtn = this.$refs.sortBtn;
+  const sortMenu = this.$refs.sortMenu;
 
-  if (clickedOutsideFilter) {
-    this.showFilter = false;
-  }
+  const loadLimitWrapper = this.$refs.loadLimitWrapper;
 
-  if (clickedOutsideSort) {
-    this.showSort = false;
-  }
+  const clickedEl = event.target;
+
+  const clickedInsideFilter = filterBtn?.contains(clickedEl) || filterMenu?.contains(clickedEl);
+  const clickedInsideSort = sortBtn?.contains(clickedEl) || sortMenu?.contains(clickedEl);
+  const clickedInsideLoadLimit = loadLimitWrapper?.contains(clickedEl);
+
+  if (!clickedInsideFilter) this.showFilter = false;
+  if (!clickedInsideSort) this.showSort = false;
+  if (!clickedInsideLoadLimit) this.showLoadLimit = false;
 },
+
 
 
 
@@ -148,6 +146,8 @@ clearAllGenres() {
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
             this.movies = res.data || [];
+            this.totalMovies = res.data.total || 0;
+    this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
         createUrl() {
             // base url
@@ -203,7 +203,6 @@ clearAllGenres() {
             return helperDraw(r);
         },
         helperMovieStatus(s) {
-            if (!s) return "/";
             return helperDrawStatus(s);
         },
         async getGenres(url) {
@@ -220,18 +219,53 @@ clearAllGenres() {
                 'filter.status': this.filter.status,
                 'filter.ageRating': this.filter.ageRating
             };
-        }
+        },
+        visiblePages() {
+    const pages = [];
+    const maxShown = 5; // number of visible pages (excluding first and last)
+
+    if (this.totalPages <= maxShown + 2) {
+      // If total pages are small, just show all
+      for (let i = 1; i <= this.totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first, last and around current page
+      pages.push(1);
+
+      if (this.page > 3) pages.push("...");
+
+      const start = Math.max(2, this.page - 1);
+      const end = Math.min(this.totalPages - 1, this.page + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (this.page < this.totalPages - 2) pages.push("...");
+
+      pages.push(this.totalPages);
+    }
+
+    return pages;
+  }
     },
     watch: {
+        page() {
+    const url = this.createUrl();
+    this.getMovieData(url);
+  },
 
         SortorFilterMovies: {
             handler() {
+                this.page = 1;
                 const url = this.createUrl();
                 this.getMovieData(url);
             },
             deep: false,
             immediate: false
         }
+
     },
     mounted() {
         this.getMovieData('/api/mylist');

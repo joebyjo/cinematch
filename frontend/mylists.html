@@ -192,7 +192,7 @@
                             </div>
                         </td>
                         <td class="release-date">{{ helperMovieDate(movie.release_date) }}</td>
-                        <td><img :src="helperMovieStatus(movie.watch_status)" src="/" alt="movie.watch_status"></td>
+                        <td><img :src="helperMovieStatus(movie.watch_status)" src="/" :alt="movie.watch_status"></td>
                         <td class="age-rating">{{ helperCheckEmpty(movie.certification) }}</td>
                         <td class="imdb-rating">{{ helperImdbRating(movie.imdb_rating) }}</td>
                         <td>{{ helperMyRating(movie.my_rating) }}</td>
@@ -220,6 +220,19 @@
 
             <!-- Next Page Functions & Buttons -->
             <div></div>
+            <div class="pagination-controls">
+                <button  type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
+
+                <button  type="button" v-for="n in visiblePages" :key="n" :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
+                    @click="typeof n === 'number' && (page = n)"
+                    :disabled="n === '...'">
+
+                    {{ n }}
+                </button>
+
+                <button type="button" class="page-arrow" :disabled="page === totalPages" @click="page++">→</button>
+            </div>
+
         </div>
 
     </main>
