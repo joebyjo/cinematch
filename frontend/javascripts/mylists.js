@@ -68,8 +68,8 @@ const movieTable = Vue.createApp({
             showSort: false,
             load: 10,
             page: 1,
-            totalPages:1,
-            totalMovies:0,
+            totalPages:3,
+            totalMovies:26,
             sort: "",
             filter: {
                 genre: [],

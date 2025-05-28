@@ -154,12 +154,19 @@ main {
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
-
 }
 
 .dropdown-option:hover {
   background-color: var(--fifth-color-mylists);
 }
+
+.dropdown-option.selected {
+  background-color: var(--secondary-color-mylists);
+  color: var(--primary-color-mylists);
+  font-weight: bold;
+  border: 1px solid white;
+}
+
 
 
 
