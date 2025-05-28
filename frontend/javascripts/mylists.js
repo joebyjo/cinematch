@@ -219,35 +219,7 @@ clearAllGenres() {
                 'filter.ageRating': this.filter.ageRating
             };
         },
-        visiblePages() {
-    const pages = [];
-    const maxShown = 5; // number of visible pages (excluding first and last)
-
-    if (this.totalPages <= maxShown + 2) {
-      // If total pages are small, just show all
-      for (let i = 1; i <= this.totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Always show first, last and around current page
-      pages.push(1);
-
-      if (this.page > 3) pages.push("...");
-
-      const start = Math.max(2, this.page - 1);
-      const end = Math.min(this.totalPages - 1, this.page + 1);
-
-      for (let i = start; i <= end; i++) {
-        pages.push(i);
-      }
-
-      if (this.page < this.totalPages - 2) pages.push("...");
-
-      pages.push(this.totalPages);
-    }
-
-    return pages;
-  }
+        
     },
     watch: {
         page() {
