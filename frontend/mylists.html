@@ -233,14 +233,15 @@
             <div class="pagination-controls">
                 <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
 
-                <button type="button" v-for="n in visiblePages" :key="n"
+                <button v-for="n in visiblePages" :key="n" :disabled="n === '...'"
                     :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
-                    @click="typeof n === 'number' && (page = n)" :disabled="n === '...'">
-
+                    @click="typeof n === 'number' && (page = n)">
                     {{ n }}
                 </button>
 
+
                 <button type="button" class="page-arrow" :disabled="page === totalPages" @click="page++">→</button>
+
             </div>
 
         </div>
