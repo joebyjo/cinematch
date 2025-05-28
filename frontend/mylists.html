@@ -85,44 +85,45 @@
             </div>
             <div class="filter-sort-section">
                 <!-- Filter Option: Done-->
-                <button ref="filterBtn" type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
+                <button ref="filterBtn" type="button" class="filter-button" @click="showFilter = !showFilter">Add
+                    Filters</button>
                 <div v-show="showFilter" ref="filterMenu" class="filter-menu-accordion" @click.stop>
-  <!-- Genres Accordion -->
-  <div class="accordion-section">
-    <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
-    <div class="accordion-body" v-show="activeAccordion === 'genres'">
-      <div class="genre-controls">
-        <button class="genre-btn" @click="selectAllGenres">Select All</button>
-        <button class="genre-btn" @click="clearAllGenres">Clear All</button>
-      </div>
-      <div class="genre-grid">
-        <label v-for="genre in genres" class="filter-option" :id="genre.name">
-          <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
-        </label>
-      </div>
-    </div>
-  </div>
+                    <!-- Genres Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'genres'">
+                            <div class="genre-controls">
+                                <button class="genre-btn" @click="selectAllGenres">Select All</button>
+                                <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+                            </div>
+                            <div class="genre-grid">
+                                <label v-for="genre in genres" class="filter-option" :id="genre.name">
+                                    <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
-  <!-- Age Rating Accordion -->
-  <div class="accordion-section">
-    <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
-    <div class="accordion-body" v-show="activeAccordion === 'age'">
-      <label v-for="age in ageRatings" class="filter-option" :id="age">
-        <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
-      </label>
-    </div>
-  </div>
+                    <!-- Age Rating Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'age'">
+                            <label v-for="age in ageRatings" class="filter-option" :id="age">
+                                <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
+                            </label>
+                        </div>
+                    </div>
 
-  <!-- Status Accordion -->
-  <div class="accordion-section">
-    <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
-    <div class="accordion-body" v-show="activeAccordion === 'status'">
-      <label v-for="status in statuses" class="filter-option" :id="status">
-        <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
-      </label>
-    </div>
-  </div>
-</div>
+                    <!-- Status Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'status'">
+                            <label v-for="status in statuses" class="filter-option" :id="status">
+                                <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Filter Option ends -->
 
@@ -136,16 +137,20 @@
                 </select> -->
 
                 <div class="custom-dropdown">
-  <button ref="sortBtn" type="button" class="filter-button" @click="showSort = !showSort">
-    Sort By
-  </button>
-  <div  ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
-    <div class="dropdown-option" @click="sort = 'my_rating.desc'; showSort = false">User Rating: High to Low</div>
-    <div class="dropdown-option" @click="sort = 'my_rating.asc'; showSort = false">User Rating: Low to High</div>
-    <div class="dropdown-option" @click="sort = 'imdb_rating.desc'; showSort = false">IMDB Rating: High to Low</div>
-    <div class="dropdown-option" @click="sort = 'imdb_rating.asc'; showSort = false">IMDB Rating: Low to High</div>
-  </div>
-</div>
+                    <button ref="sortBtn" type="button" class="filter-button" @click="showSort = !showSort">
+                        Sort By
+                    </button>
+                    <div ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
+                        <div class="dropdown-option" @click="sort = 'my_rating.desc'; showSort = false">User Rating:
+                            High to Low</div>
+                        <div class="dropdown-option" @click="sort = 'my_rating.asc'; showSort = false">User Rating: Low
+                            to High</div>
+                        <div class="dropdown-option" @click="sort = 'imdb_rating.desc'; showSort = false">IMDB Rating:
+                            High to Low</div>
+                        <div class="dropdown-option" @click="sort = 'imdb_rating.asc'; showSort = false">IMDB Rating:
+                            Low to High</div>
+                    </div>
+                </div>
                 <!-- Sorting Option Ends -->
             </div>
         </div>
@@ -198,9 +203,19 @@
 
             <!-- Below Buttons star -->
             <div class="table-footer">
-                <select name="load-limit" id="load-limit" class="secondary-color-mylists" v-model.number="load">
-                    <option v-for="limit in loadLimitArray()" :value="limit">Load Limit = {{limit}}</option>
-                </select>
+                <div class="custom-dropdown" ref="loadLimitWrapper">
+                    <button type="button" class="load-button" @click="showLoadLimit = !showLoadLimit">
+                        Load Limit<span v-if="load"> = {{ load }}</span>
+                        <span class="arrow">&#9662;</span> <!-- ▼ -->
+                    </button>
+                    <div v-show="showLoadLimit" class="custom-dropdown-menu">
+                        <div class="dropdown-option" v-for="limit in loadLimitArray()" :key="limit"
+                            @click="load = limit; showLoadLimit = false">
+                            Load Limit = {{ limit }}
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Next Page Functions & Buttons -->

@@ -80,6 +80,7 @@ const movieTable = Vue.createApp({
             showGenres: false,
             showAgeRating: false,
             showStatus: false,
+            showLoadLimit: false,
             activeAccordion: null,
 
 
