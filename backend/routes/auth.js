@@ -1,6 +1,7 @@
 var express = require('express');
 const passport = require('passport');
 const { validateSignup, validateLogin, validate } = require('../services/validators');
+const localStrategy = require('../services/local-strategy');
 const { hashPassword } = require('../services/helpers');
 const db = require('../services/db');
 
@@ -32,7 +33,7 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
@@ -49,10 +50,10 @@ router.post('/login', validateLogin, validate, passport.authenticate("local"), a
             [req.user.id, req.ip, req.sessionID]
         );
 
-        res.status(200).json({ msg: 'Login successful' });
+        return res.status(200).json({ msg: 'Login successful' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ msg: 'Login session failed' });
+        return res.status(500).json({ msg: 'Login session failed' });
     }
 });
 
@@ -60,7 +61,7 @@ router.post('/logout', (req, res) => {
     req.session.destroy(() => {
         // clearing cookies to logout user
         res.clearCookie('sessionId');
-        res.json({ msg: 'Logged out' });
+        return res.json({ msg: 'Logged out' });
     });
 });
 

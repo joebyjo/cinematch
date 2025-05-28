@@ -82,7 +82,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
