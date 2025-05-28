@@ -20,7 +20,7 @@ const adminRouter = require('./routes/admin');
 
 const app = express();
 
-// Session store using existing db config
+// session store using existing db config
 const sessionStore = new MySQLStore(
     {
         createDatabaseTable: false,
@@ -63,7 +63,7 @@ app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); 
 app.use(async (req, res, next) => {
 
     // checking if it is a page and not static assets
-    const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i)
+    const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i);
 
     // update last_seen if user is authenticate and is requesting a non static asset
     if (req.isAuthenticated() && req.sessionID && isPage) {
