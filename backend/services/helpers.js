@@ -186,6 +186,27 @@ async function getGenreData() {
         return rows;
     } catch (err) {
         console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getLangData() {
+    try {
+        const [rows] = await db.query('SELECT DISTINCT original_language from MOVIES;');
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getWatchProvidersData() {
+    try {
+        const [rows] = await db.query('select provider_name FROM WATCHPROVIDERS;');
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
     }
 }
 
@@ -196,5 +217,7 @@ module.exports = {
     insertMovie,
     getMovieData,
     formatMovies,
-    getGenreData
+    getGenreData,
+    getLangData,
+    getWatchProvidersData
 };
