@@ -33,8 +33,49 @@ router.get('/me', async (req, res) => {
 })
 
 
+// route to update user settings
+router.put('/me', async (req, res) => {
+    const { id } = req.user;
+    const { first_name, last_name, password } = req.body;
+
+    // checking if password matches
+    const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
+    const findUser = queryResult[0];
+
+    const isMatch = comparePassword(password, findUser.password);
+
+    if (!isMatch) return res.status(401).json({ msg: "Password incorrect"})
+
+    try {
+        const updates = [];
+        const values = [];
+
+        if (first_name) {
+            updates.push('first_name = ?');
+            values.push(first_name);
+        }
+        if (last_name) {
+            updates.push('last_name = ?');
+            values.push(last_name);
+        }
+
+        if (updates.length === 0) {
+            return res.status(400).json({ msg: 'No fields to update' });
+        }
+
+        values.push(id);
+        await db.query(`UPDATE USERS SET ${updates.join(', ')} WHERE id = ?`, values);
+
+        res.json({ msg: 'User updated' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: `Failed to update user: ${err}` });
+    }
+});
 
 
+
+// route to delete users
 router.delete('/me', async (req, res) => {
   try {
 
