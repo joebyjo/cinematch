@@ -63,7 +63,6 @@ const movieTable = Vue.createApp({
     data() {
 
 
-
         return {
 
             showSort: false,
