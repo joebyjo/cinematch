@@ -95,7 +95,7 @@ router.get('/', async (req, res) => {
 
         // get full details of movies with movie_id we found using filtering
         let finalQuery = `
-            SELECT title, genre_id, genre_name, release_date, watch_status, certification, imdb_rating, my_rating
+            SELECT movie_id, title, genre_id, genre_name, release_date, watch_status, certification, imdb_rating, my_rating
             FROM MOVIELIST
             WHERE user_id = ? AND movie_id IN (${movieIds.map(() => '?').join(',')})
         `;

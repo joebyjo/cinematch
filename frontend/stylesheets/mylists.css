@@ -526,3 +526,12 @@ justify-content: center;
   color: white;
 }
 
+.status-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.status-icon:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
