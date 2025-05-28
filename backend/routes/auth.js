@@ -1,7 +1,6 @@
 var express = require('express');
 const passport = require('passport');
 const { validateSignup, validateLogin, validate } = require('../services/validators');
-const localStrategy = require('../services/local-strategy');
 const { hashPassword } = require('../services/helpers');
 const db = require('../services/db');
 
@@ -29,11 +28,11 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
             [username, hashedPassword, firstName, lastName]
         );
 
-        res.status(201).json({ msg: 'User created' });
+        return res.status(201).json({ msg: 'User created' });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
     }
 });
 
