@@ -202,10 +202,37 @@
                             </div>
                         </td>
                         <td class="release-date">{{ helperMovieDate(movie.release_date) }}</td>
-                        <td><img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"  class="status-icon" @click="toggleStatus(movie)"></td>
+                        <td><img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"
+                                class="status-icon" @click="toggleStatus(movie)"></td>
                         <td class="age-rating">{{ helperCheckEmpty(movie.certification) }}</td>
                         <td class="imdb-rating">{{ helperImdbRating(movie.imdb_rating) }}</td>
-                        <td>{{ helperMyRating(movie.my_rating) }}</td>
+                        <td class="rating-cell">
+                            <div class="star-rating" @mouseleave="movie.hoverRating = 0">
+                                <template v-for="i in 5">
+                                    <div class="star-container"
+                                        @mousemove="movie.hoverRating = (getMouseX($event) < 0.5 ? i - 0.5 : i)"
+                                        @click="setUserRating(movie, (getMouseX($event) < 0.5 ? i - 0.5 : i))">
+                                        <svg viewBox="0 0 24 24" class="star" :class="{ filled: (movie.hoverRating || movie.my_rating) >= i,
+                       half: (movie.hoverRating || movie.my_rating) === i - 0.5 }">
+                                            <defs>
+                                                <linearGradient id="half-grad" x1="0" x2="1" y1="0" y2="0">
+                                                    <stop offset="50%" stop-color="gold" />
+                                                    <stop offset="50%" stop-color="#444" />
+                                                </linearGradient>
+                                            </defs>
+                                            <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10"
+                                                :fill="(movie.hoverRating || movie.my_rating) >= i
+    ? 'gold'
+    : (movie.hoverRating || movie.my_rating) === i - 0.5
+      ? 'url(#half-grad)'
+      : '#444'" />
+                                        </svg>
+                                    </div>
+                                </template>
+                        </td>
+                        </td>
+
+
                     </tr>
                 </tbody>
             </table>

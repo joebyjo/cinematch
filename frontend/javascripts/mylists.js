@@ -95,6 +95,27 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+ getMouseX(event) {
+  const rect = event.currentTarget.getBoundingClientRect();
+  return (event.clientX - rect.left) / rect.width;
+},
+
+async setUserRating(movie, rating) {
+  movie.my_rating = rating;
+
+  console.log(movie);
+
+  try {
+    await axios.post('/api/mylist/add-rating', {
+      movie_id: movie.movie_id,
+      rating: rating
+    });
+    console.log("Rating updated to", rating);
+  } catch (error) {
+    console.error("Failed to update rating:", error);
+  }
+},
+
 async toggleStatus(movie) {
   // Cycle to next status (0 → 1 → 2 → 0)
   movie.watch_status = (movie.watch_status + 1) % 3;
@@ -159,7 +180,10 @@ clearAllGenres() {
         },
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
-            this.movies = res.data || [];
+             this.movies = (res.data || []).map(movie => ({
+    ...movie,
+    hoverRating: 0 // add temporary field for hover effect
+  }));
             this.totalMovies = res.data.total || 0;
     this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
@@ -254,6 +278,7 @@ clearAllGenres() {
 
     },
     mounted() {
+
         this.getMovieData('/api/mylist');
         this.getGenres('/api/movies/genres');
          window.addEventListener("click", this.handleClickOutside);

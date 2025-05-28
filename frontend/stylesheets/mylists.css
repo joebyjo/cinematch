@@ -526,12 +526,33 @@ justify-content: center;
   color: white;
 }
 
-.status-icon {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+.rating-cell {
+  text-align: center;
 }
 
-.status-icon:hover {
-  transform: scale(1.1);
-  filter: brightness(1.2);
+.star-rating {
+  display: flex;
+  gap: 0.1rem;
+  cursor: pointer;
+}
+
+.star-container {
+  width: 2rem;
+  height: 2rem;
+}
+
+.star {
+  width: 100%;
+  height: 100%;
+  color: #444; /* default: empty */
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star.half {
+  color: url(#half-grad); /* half gold, half dark */
+  fill: url(#half-grad);
 }
