@@ -6,6 +6,7 @@
     --third-color-mylists: #B9B9B9;
     --forth-color-mylists: #E3E3E3;
     --fifth-color-mylists: #E3E3E3;
+     --sixth-color-mylists:#a0a0a0;
 }
 
 .dark {
@@ -16,6 +17,7 @@
     --third-color-mylists: #2B2B2B;
     --forth-color-mylists: #3A3A3A;
     --fifth-color-mylists:#767474;
+    --sixth-color-mylists: #454545;
 }
 
 .primary-bg-color-mylists {
@@ -75,10 +77,12 @@ main {
     padding: 0.6rem 2rem 0.6rem 2rem;
     background-color: var(--third-color-mylists);
     border-radius: 2rem;
-    border-width: 0;
     cursor: pointer;
     margin-right: 4rem;
+
 }
+
+
 
 .filter-option {
     font-family: "Inter", sans-serif;
@@ -116,6 +120,31 @@ main {
   margin-top: 0.5rem;
 }
 
+.custom-dropdown .load-button{
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ffffff;
+  padding: 0.6rem 1.1rem;
+  background-color: var(--sixth-color-mylists);
+  border-radius: 1rem;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.1s ease-in-out;
+  margin-top: -0.3rem;
+  cursor:pointer;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+
+
 .dropdown-option {
   font-family: "Inter", sans-serif;
   font-size: 1.2rem;
@@ -124,7 +153,8 @@ main {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+
 }
 
 .dropdown-option:hover {
@@ -230,6 +260,12 @@ td.movie-title:hover {
   font-style: italic;
   color: #B9B9B9;
   cursor: pointer;
+}
+
+.load-button:hover{
+ transform: scale(1.02);
+  border: 1px solid rgb(166, 166, 166);
+  transition: all 0.2s ease-in-out;
 }
 
 
