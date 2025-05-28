@@ -1,0 +1,15 @@
+body {
+    background-color: #000000;
+}
+
+.background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../images/movie-poster.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+  z-index: -1;
+}
