@@ -65,6 +65,7 @@ const movieTable = Vue.createApp({
 
 
         return {
+
             showSort: false,
             load: 10,
             page: 1,
@@ -92,6 +93,43 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+
+    toggleFilter() {
+  this.showFilter = !this.showFilter;
+  this.showSort = false; // close other menu
+},
+
+toggleSort() {
+  this.showSort = !this.showSort;
+  this.showFilter = false; // close other menu
+},
+
+handleClickOutside(event) {
+  const clickedOutsideFilter =
+    this.showFilter &&
+    this.$refs.filterMenu &&
+    this.$refs.filterBtn &&
+    !this.$refs.filterMenu.contains(event.target) &&
+    !this.$refs.filterBtn.contains(event.target);
+
+  const clickedOutsideSort =
+    this.showSort &&
+    this.$refs.sortMenu &&
+    this.$refs.sortBtn &&
+    !this.$refs.sortMenu.contains(event.target) &&
+    !this.$refs.sortBtn.contains(event.target);
+
+  if (clickedOutsideFilter) {
+    this.showFilter = false;
+  }
+
+  if (clickedOutsideSort) {
+    this.showSort = false;
+  }
+},
+
+
+
 
          toggleAccordion(section) {
   this.activeAccordion = this.activeAccordion === section ? null : section;
@@ -197,7 +235,11 @@ clearAllGenres() {
     mounted() {
         this.getMovieData('/api/mylist');
         this.getGenres('/api/movies/genres');
-    }
+         window.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+  window.removeEventListener("click", this.handleClickOutside);
+}
 });
 
 movieTable.mount('.main-mylists');
