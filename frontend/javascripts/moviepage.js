@@ -1,6 +1,11 @@
+// get movie id from url
+const urlParams = new URLSearchParams(window.location.search);
+const movieId = urlParams.get('id');
+
 const app = Vue.createApp({
   data() {
     return {
+      movie: {},
       selectedRating: 0,
       hoverRating: 0,
       isSaved: false,
@@ -8,6 +13,14 @@ const app = Vue.createApp({
     };
   },
   methods: {
+    async fetchMovieData() {
+        try {
+            const response = await axios.get('/api/movies/movie/' + movieId);
+            this.movie = response.data;
+        } catch (error) {
+            console.log("Error fetching movie details:", error);
+        }
+    },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
       if (current >= index+1) return 'images/full-star.svg';
@@ -29,10 +42,16 @@ const app = Vue.createApp({
     },
     toggleSaved() {
       this.isSaved = !this.isSaved;
-      },
+    },
     toggleWatched() {
       this.isWatched = !this.isWatched;
     }
-  }
-});
-app.mount('#movie');
+  },
+    mounted() {
+      if (movieId) {
+        this.fetchMovieData();
+      } else {
+        console.error('No movie ID provided');
+      }
+    }
+}).mount('#movie');

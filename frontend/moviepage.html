@@ -29,7 +29,10 @@
 </head>
 
 <body id="movie">
-    <div class="background"></div>
+    <div class="background"
+        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : 'images/movie-poster.jpg'})` }">
+    </div>
+
     <div class="container">
         <!-- poster -->
         <div class="poster-section">
