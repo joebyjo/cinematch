@@ -86,7 +86,7 @@
 
                     <div class="user-ratings">
                         <p>YOUR<br>RATING</p>
-                        <div class="star-rating">
+                        <div class="stars">
                             <img v-for="(star, index) in 5" :key="index" :src="getStarImage(index)" class="star"
                                 alt="star" @mousemove="onHover(index, $event)" @mouseleave="clearHover"
                                 @click="selectRating(index, $event)" />

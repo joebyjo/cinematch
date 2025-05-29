@@ -210,6 +210,5 @@ strong {
 }
 
 .stars {
-  font-size: 1.375rem;
-  color: #b383ff;
+    cursor: pointer;
 }
