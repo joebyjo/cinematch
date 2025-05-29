@@ -39,12 +39,27 @@ createApp({
             isLogin: false,
             showMenu: false,
             isDark: true,
-            inProcess: true
+            inProcess: true,
+            userName: "guest",
+            firstName: "guest",
+            lastName: "user",
+            profilePic:"" // add default profile pic path 
         };
     },
     methods: {
         async checkLoginStatus() {
             this.isLogin = await helperCheckLoginStatus();
+
+            if (this.isLogin) {
+                const { data } = await axios.get('api/users/me');
+                this.isDark = data.theme==='dark' ? true : false;
+                helperChangeDark(this.isDark);
+                this.userName = data.user_name;
+                this.firstName = data.first_name;
+                this.lastName = data.last_name;
+                this.profilePic = data.profile_picture_url;
+            }
+
             this.inProcess = false;
         },
         onMenu() {
@@ -52,7 +67,19 @@ createApp({
         },
         changeDark() {
             this.isDark = !this.isDark;
+
+            // updating users preference for theme
+            if (this.isDark) {
+                const res = axios.post('api/users/theme',{theme:"dark"});
+            } else {
+                const res = axios.post('api/users/theme',{theme:"light"});
+            }
+
+            // adding transition between theme change
+            document.body.classList.add('theme-transition');
             helperChangeDark(this.isDark);
+            setTimeout(() => {document.body.classList.remove('theme-transition');}, 700);
+
         },
         redirect(path) {
             if (path === "/logout") {
@@ -67,7 +94,16 @@ createApp({
             }
         }
     },
-    computed: {},
+    computed: {
+
+        // for welcome message in navbar
+        initials() {
+            if (this.firstName && this.lastName) {
+                return `${this.firstName[0].toUpperCase()}.${this.lastName[0].toUpperCase()}`;
+            }
+            return '';
+        }
+    },
     mounted() {
         this.checkLoginStatus();
         document.addEventListener('click', this.clickOutside);
