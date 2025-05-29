@@ -25,6 +25,15 @@ const app = Vue.createApp({
         if (!m) return 'N/A';
         return m + ' min';
     },
+    formatGenres(genres) {
+        if (!genres || genres.length === 0) return 'N/A';
+        return genres.map(function (g) {
+          return g.name;
+        }).join(' · ');
+    },
+    formatCast(cast) {
+        return cast || 'N/A';
+    },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
       if (current >= index+1) return 'images/full-star.svg';
