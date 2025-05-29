@@ -19,18 +19,20 @@
     --user-menu-color: #2B2B2B;
     --box-shadow-nav-bar: rgba(102, 102, 102, 0.4);
     --user-menu-text-color-nav-bar: white;
-    --theme-color: whtie;
+    --theme-color: white;
 }
-.primary-bg-color-nav-bar,
-.secondary-bg-color-nav-bar,
-.primary-color-nav-bar,
-.secondary-color-nav-bar,
-.user-container-nav-bar,
-.user-menu,
-.theme,
-.logout-nav-bar{
+
+.theme-transition .primary-bg-color-nav-bar,
+.theme-transition .secondary-bg-color-nav-bar,
+.theme-transition .primary-color-nav-bar,
+.theme-transition .secondary-color-nav-bar,
+.theme-transition .user-container-nav-bar,
+.theme-transition .user-menu,
+.theme-transition .theme,
+.theme-transition .logout-nav-bar {
     transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease;
 }
+
 
 .primary-bg-color-nav-bar {
     background-color: var(--primary-color-nav-bar);
