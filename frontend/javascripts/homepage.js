@@ -30,8 +30,9 @@ createApp({
     },
     methods: {
         redirect(path) {
-            const searchLink = (this.isTVShows ? "/api/TV-shows/TV-show/" : "/api/movies/movie/");
-            window.location.href = searchLink + path;
+            // const searchLink = (this.isTVShows ? "/api/TV-shows/TV-show/" : "/api/movies/movie/");
+            // window.location.href = searchLink + path;
+            window.location.href = `moviepage.html?id=${path}`;
         },
         async searchMovies(searchQuery) {
             if (searchQuery.length <= 3) {
