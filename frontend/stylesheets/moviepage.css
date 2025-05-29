@@ -67,7 +67,7 @@ body::before {
     z-index: 2;
 }
 
-.title-row {
+.first-row {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -109,6 +109,13 @@ body::before {
     margin-right: 1.2rem;
 }
 
+.second-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30rem;
+}
+
 .numeric-row {
     display: flex;
     flex-direction: row;
@@ -118,5 +125,11 @@ body::before {
 
 .numeric-row>span {
     padding: 0 0.5rem 0 0.5rem;
-    margin-top: -1rem;
+}
+
+.user-options-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
 }
