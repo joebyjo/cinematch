@@ -23,6 +23,7 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/index.js" defer></script>
+    <script src="javascripts/moviepage.js" defer></script>
 
     <title>Home Page</title>
 </head>
@@ -72,24 +73,23 @@
                 <div class="ratings">
                     <div class="online-ratings">
                         <p>RATINGS</p>
-                        <div class="rating-block"><img src="https://www.cdnlogo.com/logos/i/79/imdb.svg"
-                                alt="imdb" class="icon">
+                        <div class="rating-block"><img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb"
+                                class="icon">
                             <span>8.7 / 10</span>
                         </div><br>
-                        <div class="rating-block"><img src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png" alt="rt"
-                                class="icon">
+                        <div class="rating-block"><img
+                                src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
+                                alt="rt" class="icon">
                             <span>73%</span>
                         </div>
                     </div>
 
                     <div class="user-ratings">
                         <p>YOUR<br>RATING</p>
-                        <div class="stars">
-                            <img src="images/hollow-star.svg" alt="hollow star">
-                            <img src="images/hollow-star.svg" alt="hollow star">
-                            <img src="images/hollow-star.svg" alt="hollow star">
-                            <img src="images/hollow-star.svg" alt="hollow star">
-                            <img src="images/hollow-star.svg" alt="hollow star">
+                        <div class="star-rating">
+                            <img v-for="(star, index) in 5" :key="index" :src="getStarImage(index)" class="star"
+                                alt="star" @mousemove="onHover(index, $event)" @mouseleave="clearHover"
+                                @click="selectRating(index, $event)" />
                         </div>
                     </div>
                 </div>
