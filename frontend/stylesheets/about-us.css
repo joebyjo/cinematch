@@ -1,0 +1,204 @@
+:root {
+    --card-width: 20rem;
+    --card-height: 27rem;
+    --card-radius: 1.5rem;
+    --card-gap: 1rem;
+    --primary-bg-color: white;
+    --secondary-bg-color: black;
+    --text-color: black;
+    --card-color-1: #cd6948;
+    --card-color-2: #BE9847;
+    --card-color-3: #6B5B9E;
+    --card-color-4: #C0474B;
+    --message-box-bg: #e9e9e9;
+    --message-box-text: #343434;
+    --border-text-box: #000000;
+
+}
+
+.dark {
+    --primary-bg-color: #121212;
+    --secondary-bg-color: white;
+    --text-color: white;
+    --card-color-1: #8b3e2b;
+    --card-color-2: #8b6c2b;
+    --card-color-3: #45386e;
+    --card-color-4: #7d2e31;
+    --message-box-bg: #2b2b2b;
+    --message-box-text: #e9e9e9;
+    --border-text-box: #e9e9e9;
+}
+
+body {
+    background-color: --primary-bg-color;
+    color: --message-box-text;
+}
+
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 3rem;
+}
+
+.curved-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.curved-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    fill: var(--message-box-text);
+    font-family: "Montserrat";
+}
+
+.cards-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 5rem;
+}
+
+.card {
+    border-radius: var(--card-radius);
+    background-color: #ffffff;
+    align-items: center;
+    overflow: hidden;
+    width: var(--card-width);
+    height: var(--card-height);
+    transition: all 0.5s ease;
+    transform-style: preserve-3d;
+}
+
+.creator-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+}
+
+.card-frontside, .card-backside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    backface-visibility: hidden;
+}
+
+.card-backside {
+    transform: rotateY(180deg);
+    padding: 1.5rem;
+}
+
+.card.flipped .card-frontside {
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card-backside {
+    transform: rotateY(0deg);
+}
+
+.backside-content {
+    transform: rotateY(180deg);
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+    font-family: "Cantarell";
+    padding-left: 2rem;
+}
+
+.card:nth-child(1) {
+    transform: translateX(22rem) translateY(-1rem) rotate(-15deg);
+    background-color: var(--card-color-1);
+    z-index: 1;
+}
+
+.card:nth-child(2) {
+    transform: translateX(8rem) translateY(-1.5rem) rotate(-5deg);
+    background-color: var(--card-color-2);
+    z-index: 2;
+}
+
+.card:nth-child(3) {
+    transform: translateX(-6rem) translateY(-1rem) rotate(5deg);
+    background-color: var(--card-color-3);
+    z-index: 3;
+}
+
+.card:nth-child(4) {
+    transform: translateX(-20rem) translateY(0.5rem) rotate(15deg);
+    background-color: var(--card-color-4);
+    z-index: 4;
+}
+
+.card:hover {
+    z-index: 6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+.card.flipped {
+    z-index: 5;
+}
+
+.card:nth-child(1):hover {
+    transform: translateX(22rem) translateY(0) rotate(-17.5deg);
+}
+
+.card:nth-child(2):hover {
+    transform: translateX(8rem) translateY(-1.5rem) rotate(-7.5deg);
+}
+
+.card:nth-child(3):hover {
+    transform: translateX(-6rem) translateY(-1rem) rotate(7.5deg);
+}
+
+.card:nth-child(4):hover {
+    transform: translateX(-20rem) translateY(1rem) rotate(17.5deg);
+}
+
+.card:nth-child(1).flipped {
+    transform: translateX(22rem) translateY(0) rotate(-17.5deg) rotateY(180deg);
+}
+
+.card:nth-child(2).flipped {
+    transform: translateX(8rem) translateY(-1.5rem) rotate(-7.5deg) rotateY(180deg);
+}
+
+.card:nth-child(3).flipped {
+    transform: translateX(-6rem) translateY(-1rem) rotate(7.5deg) rotateY(180deg);
+}
+
+.card:nth-child(4).flipped {
+    transform: translateX(-20rem) translateY(1rem) rotate(17.5deg) rotateY(180deg);
+}
+
+.message-box {
+    width: 50rem;
+    height: fit-content;
+    background-color: var(--message-box-bg);
+    border-radius: var(--card-radius);
+    border: 0.25rem solid var(--border-text-box);
+    padding: 2.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    font-family: "Chivo Mono", monospace;
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    box-shadow: #000000, ;
+    color: var(--message-box-text);
+}
+

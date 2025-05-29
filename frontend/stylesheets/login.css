@@ -1,0 +1,186 @@
+html {
+    --primary-color: #3C8972;
+    --secondary-color: #7CD1B8;
+    --text-color: white;
+}
+
+.primary-bg-color-login {
+    background-color: var(--primary-color);
+}
+
+.primary-color-login {
+    color: var(--primary-color);
+}
+
+.secondary-bg-color-login {
+    background-color: var(--secondary-color);
+}
+
+.secondary-color-login {
+    color: var(--secondary-color);
+}
+
+html {
+    font-size: var(--size);
+}
+
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+main>div {
+    width: 50%;
+    height: 100vh;
+}
+
+.logo-home a {
+    position: absolute;
+    left: 5.7rem;
+    top: 1.5rem;
+    font-size: 1.7rem;
+    font-family: "Chango", sans-serif;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.content>span {
+    font-size: 4.5rem;
+    font-family: "Caudex", serif;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: underline var(--secondary-color);
+    text-underline-offset: 1.2rem;
+    text-decoration-thickness: 0.1rem;
+}
+
+.login-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.login-button>button {
+    font-family: "Montserrat", sans-serif;
+    width: 12rem;
+    border: 0.15rem solid #7CD1B8;
+    border-radius: 3rem;
+    font-size: 2rem;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+    background-color: #28725A;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.login-button>span {
+    font-family: "Cantarell", sans-serif;
+    font-weight: bold;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #004D3B;
+}
+
+.login-button > button:hover {
+    color: #003E2B;
+    background: linear-gradient(to right, #C5EFCD 39%, #257D67 100%);
+}
+
+.login-button > button {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: inherit;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 3rem;
+}
+
+.input>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.input span {
+    font-size: 2rem;
+    font-family: "Cantarell", sans-serif;
+}
+
+.input input {
+    width: 15rem;
+    border-radius: 3rem;
+    border: 0.15rem solid #07624B;
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    background-color: #65B099;
+}
+
+.login-img {
+    /* image in login page */
+    background-image: url("../images/login-bg.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: right;
+}
+
+.input-password {
+    /* password input box */
+    margin-left: 3rem;
+    padding: 0.8rem;
+
+}
+
+.input-password>div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.show-icon, .hide-icon {
+    /* Eye button */
+    height: 2.5rem;
+    width: 2.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.show-icon {
+    background-image: url("../images/show-pass.png");
+}
+
+.hide-icon {
+    background-image: url("../images/hide-pass.png");
+}
+
+input[type="text"], input[type="password"] {
+  color: #004D3B;
+  font-size: 1.5rem;
+}
+
+#fail-login {
+    color: #FFAEAE;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}

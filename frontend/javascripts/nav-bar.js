@@ -1,7 +1,24 @@
-function helperCheckLoginStatus() {
+async function helperLogout(path) {
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.post(path);
+        return 0;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        return 1;
+    }
+}
+
+async function helperCheckLoginStatus() {
     // checkif the user has login
-    console.log("Checking login status...");
-    return true;
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.get('api/auth/status');
+        return true;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        return false;
+    }
 }
 
 function helperChangeDark(isDark) {
@@ -14,18 +31,21 @@ function helperChangeDark(isDark) {
     }
 }
 
+// eslint-disable-next-line no-undef
 const { createApp } = Vue;
 createApp({
     data() {
         return {
-            isLogin: true,
+            isLogin: false,
             showMenu: false,
-            isDark: true
+            isDark: true,
+            inProcess: true
         };
     },
     methods: {
-        checkLoginStatus() {
-            this.isLogin = helperCheckLoginStatus();
+        async checkLoginStatus() {
+            this.isLogin = await helperCheckLoginStatus();
+            this.inProcess = false;
         },
         onMenu() {
             this.showMenu = !this.showMenu;
@@ -35,11 +55,21 @@ createApp({
             helperChangeDark(this.isDark);
         },
         redirect(path) {
-            window.location.href = path;
+            if (path === "/logout") {
+                helperLogout('api/auth/logout');
+                window.location.href = '/home';
+            }
+        },
+        clickOutside(e) {
+            const profile = document.getElementById('profile');
+            if (this.showMenu && profile && !profile.contains(e.target)) {
+                this.showMenu = false;
+            }
         }
     },
     computed: {},
     mounted() {
         this.checkLoginStatus();
+        document.addEventListener('click', this.clickOutside);
     }
 }).mount('#nav-bar');
