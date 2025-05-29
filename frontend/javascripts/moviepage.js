@@ -21,6 +21,10 @@ const app = Vue.createApp({
             console.log("Error fetching movie details:", error);
         }
     },
+    formatRuntime(m) {
+        if (!m) return 'N/A';
+        return m + ' min';
+    },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
       if (current >= index+1) return 'images/full-star.svg';
