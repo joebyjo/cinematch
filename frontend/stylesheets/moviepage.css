@@ -49,3 +49,9 @@ body::before {
   background-position: center;
   background-image: url('../images/movie-poster.jpg');
 }
+
+.overlay-blur {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #1c1c1c 10%, transparent);
+}
