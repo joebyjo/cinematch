@@ -68,6 +68,13 @@ body::before {
     z-index: 2;
 }
 
+.title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+}
+
 .title {
     font-size: 5rem;
     font-weight: lighter;
@@ -80,9 +87,10 @@ body::before {
     width: fit-content;
     height: fit-content;
     padding: 0 1rem 0 1rem;
-    border: solid 0.25rem #4b4b4b;
+    border: solid 0.2rem #4b4b4b;
     border-radius: 6rem;
     background-color: #3a3a3a;
+    margin-top: 1.5rem;
 }
 
 .streaming {
