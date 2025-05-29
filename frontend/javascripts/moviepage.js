@@ -23,7 +23,9 @@ const app = Vue.createApp({
     },
     formatRuntime(m) {
         if (!m) return 'N/A';
-        return m + ' min';
+        const hrs = Math.floor(m/60);
+        const mins = m % 60;
+        return `${hrs} hr ${mins} min`;
     },
     formatGenres(genres) {
         if (!genres || genres.length === 0) return 'N/A';
