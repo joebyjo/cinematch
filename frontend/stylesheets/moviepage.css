@@ -1,5 +1,4 @@
 body {
-    font-family: 'Montserrat', sans-serif;
     background-color: #000;
     background-image: url('../images/movie-poster.jpg');
     background-size: cover;
@@ -24,12 +23,11 @@ body::before {
 }
 
 .container {
-    width: 100%;
-    max-width: 65rem;
+    max-width: 70rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    margin: 2rem auto 0 auto;
+    margin: 6rem auto 0 auto;
 }
 
 .poster-section {
@@ -58,8 +56,8 @@ body::before {
 
 .info {
     background-color: #1c1c1c;
-    padding: 1.25rem;
-    border-radius: 0.625rem 0.625rem 0 0;
+    padding: 1.25rem 2.5rem 1.25rem 2.5rem;
+    border-radius: 0 0 1.5rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -89,11 +87,11 @@ body::before {
     border: solid 0.2rem #4b4b4b;
     border-radius: 6rem;
     background-color: #3a3a3a;
+    padding: 0 0.5rem 0 0.5rem;
 }
 
 .stream-info {
     margin-top: 1.5rem;
-    padding: 0 1rem 0 1rem;
 }
 
 .streaming {
@@ -114,6 +112,7 @@ body::before {
     flex-direction: row;
     align-items: center;
     gap: 30rem;
+    margin-top: -1rem;
 }
 
 .numeric-row {
@@ -123,13 +122,38 @@ body::before {
     gap: 4rem;
 }
 
-.numeric-row>span {
-    padding: 0 0.5rem 0 0.5rem;
-}
-
 .user-options-row {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 3rem;
+}
+
+hr {
+    height: 0.15rem;
+    background-color: #4b4b4b;
+    margin: 0;
+    border: none;
+}
+
+.description {
+    margin-top: -0.1rem;
+    font-size: 1.25rem;
+}
+
+.cast-info {
+    width: 45%;
+    margin-top: -2rem;
+}
+
+strong {
+  color: #8d8d8d;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-right: 1rem;
+}
+
+.cast-info>p {
+    font-size: 1.1rem;
+    color: #c1c1c1;
 }
