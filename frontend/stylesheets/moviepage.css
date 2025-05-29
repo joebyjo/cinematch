@@ -83,14 +83,17 @@ body::before {
     font-family: "Caudex", sans-serif;
 }
 
-.stream-info {
+.pill-style {
     width: fit-content;
     height: fit-content;
-    padding: 0 1rem 0 1rem;
     border: solid 0.2rem #4b4b4b;
     border-radius: 6rem;
     background-color: #3a3a3a;
+}
+
+.stream-info {
     margin-top: 1.5rem;
+    padding: 0 1rem 0 1rem;
 }
 
 .streaming {
@@ -104,4 +107,16 @@ body::before {
     font-weight: bold;
     font-size: 0.9rem;
     margin-right: 1.2rem;
+}
+
+.numeric-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4rem;
+}
+
+.numeric-row>span {
+    padding: 0 0.5rem 0 0.5rem;
+    margin-top: -1rem;
 }
