@@ -34,6 +34,12 @@ const app = Vue.createApp({
     formatCast(cast) {
         return cast || 'N/A';
     },
+    formatProviders(providers) {
+        if (!providers) return [];
+        return providers.map(function (p) {
+            return p.provider_name;
+        });
+    },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
       if (current >= index+1) return 'images/full-star.svg';
