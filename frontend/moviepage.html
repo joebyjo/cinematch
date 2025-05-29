@@ -70,9 +70,9 @@
             <p class="description">{{ movie.overview }}</p>
             <div class="third-row">
                 <div class="cast-info">
-                    <p><strong>Genres :</strong> Adventure · Drama · Sci-Fi</p>
+                    <p><strong>Genres:</strong> {{ formatGenres(movie.genres) }}</p>
                     <p><strong>Director:</strong> {{ movie.director }}</p>
-                    <p><strong>Casting :</strong> Matthew McConaughey · Anne Hathaway · Jessica Chastain</p>
+                    <p><strong>Casting:</strong> {{ formatCast(movie.cast) }}</p>
                 </div>
 
                 <div class="ratings">
