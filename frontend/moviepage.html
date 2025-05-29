@@ -54,8 +54,10 @@
                 </div>
 
                 <div class="user-options-row">
-                    <img src="images/not-saved.svg" alt="Mark saved" width="32" height="32">
-                    <img src="images/not-watched.svg" alt="Mark watched" width="32" height="32">
+                    <img :src="isSaved ? 'images/saved.svg' : 'images/not-saved.svg'" alt="Mark saved" width="32" height="32"
+                        @click="toggleSaved" />
+                    <img :src="isWatched ? 'images/watched.svg' : 'images/not-watched.svg'" alt="Mark watched" width="32" height="32"
+                        @click="toggleWatched" />
                 </div>
             </div>
             <hr>
