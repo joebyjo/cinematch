@@ -13,7 +13,7 @@ async function helperGetMovieData(url) {
 
 function helperDrawStatus(s) {
     if (s === 0) {
-        return "/images/my-lists/eye-slash-solid 1.png";
+        return "/images/my-lists/eye-slash-solid.png";
     } if (s === 1) {
         return "/images/my-lists/eye.png";
     } if (s === 2) {
@@ -63,10 +63,13 @@ const movieTable = Vue.createApp({
     data() {
 
 
-
         return {
+
+            showSort: false,
             load: 10,
             page: 1,
+            totalPages:3,
+            totalMovies:26,
             sort: "",
             filter: {
                 genre: [],
@@ -78,6 +81,10 @@ const movieTable = Vue.createApp({
             showGenres: false,
             showAgeRating: false,
             showStatus: false,
+            showLoadLimit: false,
+            activeAccordion: null,
+
+
             genres: [],
             ageRatings: ["NR", "M", "PG"],
             statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
@@ -88,12 +95,114 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+
+        resetFiltersAndSort() {
+  this.filter.genre = [];
+  this.filter.status = [];
+  this.filter.ageRating = [];
+  this.sort = "";
+  this.page = 1;
+
+  // Optional: Close dropdowns if needed
+  this.showFilter = false;
+  this.showSort = false;
+
+  // Fetch unfiltered data
+  const url = this.createUrl();
+  this.getMovieData(url);
+},
+
+ getMouseX(event) {
+  const rect = event.currentTarget.getBoundingClientRect();
+  return (event.clientX - rect.left) / rect.width;
+},
+
+async setUserRating(movie, rating) {
+  movie.my_rating = rating;
+
+  console.log(movie);
+
+  try {
+    await axios.post('/api/mylist/add-rating', {
+      movie_id: movie.movie_id,
+      rating: rating
+    });
+    console.log("Rating updated to", rating);
+  } catch (error) {
+    console.error("Failed to update rating:", error);
+  }
+},
+
+async toggleStatus(movie) {
+  // Cycle to next status (0 → 1 → 2 → 0)
+  movie.watch_status = (movie.watch_status + 1) % 3;
+
+  try {
+    await axios.post('/api/mylist/', {
+      movie_id: movie.movie_id,
+      is_liked: 1, // fallback default (e.g., liked)
+      watch_status: movie.watch_status
+    });
+  } catch (error) {
+    console.error("Failed to update status:", error);
+    // Optionally revert the change if API call fails
+  }
+},
+
+    toggleFilter() {
+  this.showFilter = !this.showFilter;
+  this.showSort = false; // close other menu
+},
+
+toggleSort() {
+  this.showSort = !this.showSort;
+  this.showFilter = false; // close other menu
+},
+handleClickOutside(event) {
+  const filterBtn = this.$refs.filterBtn;
+  const filterMenu = this.$refs.filterMenu;
+
+  const sortBtn = this.$refs.sortBtn;
+  const sortMenu = this.$refs.sortMenu;
+
+  const loadLimitWrapper = this.$refs.loadLimitWrapper;
+
+  const clickedEl = event.target;
+
+  const clickedInsideFilter = filterBtn?.contains(clickedEl) || filterMenu?.contains(clickedEl);
+  const clickedInsideSort = sortBtn?.contains(clickedEl) || sortMenu?.contains(clickedEl);
+  const clickedInsideLoadLimit = loadLimitWrapper?.contains(clickedEl);
+
+  if (!clickedInsideFilter) this.showFilter = false;
+  if (!clickedInsideSort) this.showSort = false;
+  if (!clickedInsideLoadLimit) this.showLoadLimit = false;
+},
+
+
+
+
+
+         toggleAccordion(section) {
+  this.activeAccordion = this.activeAccordion === section ? null : section;
+},
+        selectAllGenres() {
+  this.filter.genre = this.genres.map(g => g.id);
+},
+clearAllGenres() {
+  this.filter.genre = [];
+},
+
         loadLimitArray() {
             return helperLoadLimitArray(100);
         },
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
-            this.movies = res.data || [];
+             this.movies = (res.data || []).map(movie => ({
+    ...movie,
+    hoverRating: 0 // add temporary field for hover effect
+  }));
+            this.totalMovies = res.data.total || 0;
+    this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
         createUrl() {
             // base url
@@ -149,7 +258,6 @@ const movieTable = Vue.createApp({
             return helperDraw(r);
         },
         helperMovieStatus(s) {
-            if (!s) return "/";
             return helperDrawStatus(s);
         },
         async getGenres(url) {
@@ -166,22 +274,35 @@ const movieTable = Vue.createApp({
                 'filter.status': this.filter.status,
                 'filter.ageRating': this.filter.ageRating
             };
-        }
+        },
+
     },
     watch: {
+        page() {
+    const url = this.createUrl();
+    this.getMovieData(url);
+  },
+
         SortorFilterMovies: {
             handler() {
+                this.page = 1;
                 const url = this.createUrl();
                 this.getMovieData(url);
             },
             deep: false,
             immediate: false
         }
+
     },
     mounted() {
+
         this.getMovieData('/api/mylist');
         this.getGenres('/api/movies/genres');
-    }
+         window.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+  window.removeEventListener("click", this.handleClickOutside);
+}
 });
 
 movieTable.mount('.main-mylists');
