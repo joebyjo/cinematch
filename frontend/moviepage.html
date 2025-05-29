@@ -46,8 +46,8 @@
 
             <div class="first-row">
                 <h1 class="title">{{ movie.title }}</h1>
-                <div class="stream-info pill-style">
-                    <p class="streaming"><span>STREAM ON</span> Netflix, Prime Video</p>
+                <div class="stream-info pill-style" v-if="movie.watch_providers?.length">
+                    <p class="streaming"><span>STREAM ON</span> {{ formatProviders(movie.watch_providers).join(', ') }}</p>
                 </div>
             </div>
 
