@@ -45,10 +45,9 @@ body::before {
 .poster-section>img {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url('../images/movie-poster.jpg');
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
 }
 
 .overlay-blur {
@@ -73,6 +72,7 @@ body::before {
     flex-direction: row;
     align-items: center;
     gap: 2rem;
+    margin-top: -4rem;
 }
 
 .title {
