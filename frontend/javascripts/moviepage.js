@@ -2,7 +2,9 @@ const app = Vue.createApp({
   data() {
     return {
       selectedRating: 0,
-      hoverRating: 0
+      hoverRating: 0,
+      isSaved: false,
+      isWatched: false
     };
   },
   methods: {
@@ -24,6 +26,12 @@ const app = Vue.createApp({
       const rect = event.target.getBoundingClientRect();
       const isHalf = event.clientX - rect.left < rect.width/2;
       this.selectedRating = index + (isHalf?0.5:1);
+    },
+    toggleSaved() {
+      this.isSaved = !this.isSaved;
+      },
+    toggleWatched() {
+      this.isWatched = !this.isWatched;
     }
   }
 });
