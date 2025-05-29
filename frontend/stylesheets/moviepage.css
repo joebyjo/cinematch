@@ -161,14 +161,14 @@ strong {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
     margin-top: 1rem;
 }
 
 .ratings {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 4rem;
   align-items: center;
 }
 
@@ -190,4 +190,24 @@ strong {
 
 .icon {
   height: 1.5rem;
+}
+
+.user-ratings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.user-ratings>p {
+    font-weight: bold;
+    font-size: 1.7rem;
+    color: #C485FF;
+    margin-top: -2rem;
+    text-align: center;
+}
+
+.stars {
+  font-size: 1.375rem;
+  color: #b383ff;
 }
