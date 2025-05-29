@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/login.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+    <script src="javascripts/login.js" defer></script>
+
+    <title>Login</title>
+</head>
+
+<body class="primary-bg-color" style="display: none">
+    <div class="logo-home">
+        <a href="/home">CINEMATCH</a>
+    </div>
+    <main class="primary-bg-color-login" id="login-page">
+        <div class="content">
+            <span>Welcome back!</span>
+
+            <div class="input">
+                <div>
+                    <span>Enter Username</span>
+                    <input type="text" v-model="username">
+                    <span></span>
+                </div>
+                <div class="input-password">
+                    <span>Enter Password</span>
+                    <div>
+                        <input :type="showPass ? 'text' : 'password'" type="text" v-model="password">
+                        <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
+                    </div>
+                </div>
+                <!-- <span>Forget Password</span> -->
+            </div>
+
+            <div class="login-button">
+                <span v-show="loginFailed" id="fail-login">Username or password incorrect</span>
+                <button type="button" @click="login()">Login</button>
+                <span>Don't have an account? <a href="/signup">Sign up here</a></span>
+            </div>
+        </div>
+
+        <div class="login-img"></div>
+    </main>
+
+</body>
+
+</html>
