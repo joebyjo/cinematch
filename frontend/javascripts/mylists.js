@@ -95,6 +95,23 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
+
+        resetFiltersAndSort() {
+  this.filter.genre = [];
+  this.filter.status = [];
+  this.filter.ageRating = [];
+  this.sort = "";
+  this.page = 1;
+
+  // Optional: Close dropdowns if needed
+  this.showFilter = false;
+  this.showSort = false;
+
+  // Fetch unfiltered data
+  const url = this.createUrl();
+  this.getMovieData(url);
+},
+
  getMouseX(event) {
   const rect = event.currentTarget.getBoundingClientRect();
   return (event.clientX - rect.left) / rect.width;

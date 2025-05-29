@@ -72,13 +72,13 @@ main {
 .filter-button {
     font-family: "Inter", sans-serif;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color:var(--secondary-color-mylists) ;
     padding: 0.6rem 2rem 0.6rem 2rem;
     background-color: var(--third-color-mylists);
     border-radius: 2rem;
     cursor: pointer;
-    margin-right: 4rem;
+    margin-right: 1.5rem;
 
 }
 
@@ -557,4 +557,49 @@ justify-content: center;
 .star.half {
   color: url(#half-grad); /* half gold, half dark */
   fill: url(#half-grad);
+}
+
+/* Reset-button */
+
+/* .refresh-button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.refresh-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+} */
+
+.button-reset{
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--secondary-color-mylists);
+    padding: 0.6rem 2rem 0.6rem 2rem;
+    background-color: var(--third-color-mylists);
+    border-radius: 2rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.icon {
+  /* font-size: 3rem; */
+  margin-right:0.4rem;
+  transform: rotate(0deg);
+  transition: transform 0.01s ease;
+}
+
+.button-reset:hover {
+  transform: scale(1.02);
+}
+
+.button-reset:hover .icon {
+  transform: rotate(180deg);
 }
