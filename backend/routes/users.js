@@ -104,4 +104,32 @@ router.delete('/me', async (req, res) => {
   }
 });
 
+
+// route to update theme
+router.post('/theme', async (req, res) => {
+  const { theme } = req.body;
+
+  // validate input
+  if (!theme) {
+    return res.status(400).json({ msg: 'Theme is required' });
+  }
+
+  try {
+    const [result] = await db.query(
+      `UPDATE USERSETTINGS SET theme = ? WHERE user_id = ?`,
+      [theme, req.user.id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ msg: 'Settings not found for this user' });
+    }
+
+    return res.status(200).json({ msg: 'Theme updated successfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: 'Failed to update theme' });
+  }
+});
+
+
 module.exports = router;
