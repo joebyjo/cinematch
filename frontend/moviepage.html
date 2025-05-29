@@ -78,14 +78,14 @@
                 <div class="ratings">
                     <div class="online-ratings">
                         <p>RATINGS</p>
-                        <div class="rating-block"><img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb"
-                                class="icon">
-                            <span>8.7 / 10</span>
-                        </div><br>
-                        <div class="rating-block"><img
-                                src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
-                                alt="rt" class="icon">
-                            <span>73%</span>
+                        <div v-if="movie.imdb_rating" class="rating-block">
+                            <img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb" class="icon" />
+                            <span>{{ movie.imdb_rating }} / 10</span>
+                        </div>
+                        <div v-if="movie.rotten_rating" class="rating-block">
+                            <img src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
+                                alt="rt" class="icon" />
+                            <span>{{ movie.rotten_rating }}%</span>
                         </div>
                     </div>
 
