@@ -37,10 +37,16 @@ const app = Vue.createApp({
         return cast || 'N/A';
     },
     formatProviders(providers) {
-        if (!providers) return [];
+        if (!providers || providers.length === 0) return ['No data available'];
         return providers.map(function (p) {
             return p.provider_name;
         });
+    },
+    formatImdbRating(rating) {
+        return rating ? `${rating} / 10` : 'N/A';
+    },
+    formatRottenRating(rating) {
+        return rating ? `${rating}%` : 'N/A';
     },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
