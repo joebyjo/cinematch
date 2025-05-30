@@ -46,7 +46,7 @@
 
             <div class="first-row">
                 <h1 class="title">{{ movie.title }}</h1>
-                <div class="stream-info pill-style" v-if="movie.watch_providers?.length">
+                <div class="stream-info pill-style">
                     <p class="streaming"><span>STREAM ON</span> {{ formatProviders(movie.watch_providers).join(', ') }}</p>
                 </div>
             </div>
@@ -78,14 +78,14 @@
                 <div class="ratings">
                     <div class="online-ratings">
                         <p>RATINGS</p>
-                        <div v-if="movie.imdb_rating" class="rating-block">
+                        <div class="rating-block">
                             <img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb" class="icon" />
-                            <span>{{ movie.imdb_rating }} / 10</span>
+                            <span>{{ formatImdbRating(movie.imdb_rating) }}</span>
                         </div>
-                        <div v-if="movie.rotten_rating" class="rating-block">
+                        <div class="rating-block">
                             <img src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
                                 alt="rt" class="icon" />
-                            <span>{{ movie.rotten_rating }}%</span>
+                            <span>{{ formatRottenRating(movie.rotten_rating) }}</span>
                         </div>
                     </div>
 
