@@ -45,7 +45,7 @@
         <div class="info">
 
             <div class="first-row">
-                <h1 class="title">{{ movie.title }}</h1>
+                <h1 class="title" :data-title="fullTitle">{{ formatTitle(movie.title) }}</h1>
                 <div class="stream-info pill-style">
                     <p class="streaming"><span>STREAM ON</span> {{ formatProviders(movie.watch_providers).join(', ') }}</p>
                 </div>

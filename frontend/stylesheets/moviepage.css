@@ -80,6 +80,24 @@ body {
     margin: 0;
     color: #c1c1c1;
     font-family: "Caudex", sans-serif;
+    max-width: 70%;
+    line-height: 1.1;
+    position: relative;
+}
+
+.title:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background-color: #3a3a3a;
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.05rem solid #ffffff6e;
+    font-family: "Cantarell", sans-serif;
+    font-size: 1.2rem;
+    z-index: 3;
 }
 
 .pill-style {
@@ -92,7 +110,7 @@ body {
 }
 
 .stream-info {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .streaming {
