@@ -103,6 +103,9 @@ const app = Vue.createApp({
       if (this.movie.trailer) {
         window.open(this.movie.trailer);
       }
+    },
+    goBack() {
+      window.history.back();
     }
   },
     mounted() {
