@@ -10,7 +10,8 @@ const app = Vue.createApp({
       hoverRating: 0,
       isSaved: false,
       isWatched: false,
-      fullTitle: ''
+      fullTitle: '',
+      isDescLong: false
     };
   },
   methods: {
@@ -57,6 +58,11 @@ const app = Vue.createApp({
     formatRottenRating(rating) {
         return rating ? `${rating}%` : 'N/A';
     },
+    formatDescription(description) {
+        if (!description) return 'N/A';
+        if (this.isDescLong) return description;
+        return description.length>215 ? description.substring(0, 212) + '...' : description;
+    },
     getStarImage(index) {
       const current = this.hoverRating || this.selectedRating;
       if (current >= index+1) return 'images/full-star.svg';
@@ -81,6 +87,9 @@ const app = Vue.createApp({
     },
     toggleWatched() {
       this.isWatched = !this.isWatched;
+    },
+    toggleDescription() {
+      this.isDescLong = !this.isDescLong;
     }
   },
     mounted() {

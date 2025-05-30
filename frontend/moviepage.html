@@ -66,8 +66,12 @@
                 </div>
             </div>
             <hr>
+            <div>
+                <p class="description">{{ formatDescription(movie.overview) }}</p>
+                <button type="button" v-if="movie.overview && movie.overview.length>215" class="desc-expand"
+                  @click="toggleDescription"> {{ isDescLong ? 'Show less':'Read more' }}</button>
+            </div>
 
-            <p class="description">{{ movie.overview }}</p>
             <div class="third-row">
                 <div class="cast-info">
                     <p><strong>Genres:</strong> {{ formatGenres(movie.genres) }}</p>
