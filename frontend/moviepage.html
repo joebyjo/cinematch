@@ -37,6 +37,9 @@
     </div>
 
     <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
+        <!--back button-->
+        <button type="button" class="back-button" @click="goBack"></button>
+        
         <!-- poster -->
         <div class="poster-section">
             <div class="dim-overlay"></div>
