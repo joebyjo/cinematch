@@ -166,6 +166,20 @@ hr {
     font-size: 1.25rem;
 }
 
+.desc-expand {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: "Cantarell", sans-serif;
+    color: #85D6FF;
+    padding-left: 0rem;
+}
+
+.desc-expand:hover {
+    color: #C485FF;
+}
+
 .cast-info {
     width: 45%;
     margin-top: -2rem;
@@ -188,7 +202,6 @@ strong {
     flex-direction: row;
     align-items: center;
     gap: 3rem;
-    margin-top: 1rem;
     flex-wrap: wrap;
     justify-content: space-between;
 }
