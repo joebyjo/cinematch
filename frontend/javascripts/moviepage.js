@@ -1,6 +1,7 @@
 // get movie id from url
 const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get('id');
+const contentType = urlParams.get('type') || 'movie';
 
 const app = Vue.createApp({
   data() {
@@ -12,14 +13,16 @@ const app = Vue.createApp({
       isWatched: false,
       fullTitle: '',
       isDescLong: false,
-      isLoading: true
+      isLoading: true,
+      contentType: contentType
     };
   },
   methods: {
     async fetchMovieData() {
         try {
             this.isLoading = true;
-            const response = await axios.get('/api/movies/movie/' + movieId);
+            const endpoint = this.contentType === 'tv' ? '/api/tv/show/' : '/api/movies/movie/';
+            const response = await axios.get(endpoint + movieId);
             this.movie = response.data;
 
             // for banner testing

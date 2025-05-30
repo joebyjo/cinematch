@@ -30,7 +30,7 @@ createApp({
     },
     methods: {
         redirect(path) {
-            window.location.href = `moviepage.html?id=${path}`;
+            window.location.href = `moviepage.html?id=${path}&type=${this.isTVShows ? 'tv' : 'movie'}`;
             // const searchLink = (this.isTVShows ? "/api/tv/show/" : "/api/movies/movie/");
             // window.location.href = searchLink + path;
         },
