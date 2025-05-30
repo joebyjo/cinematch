@@ -33,13 +33,13 @@
         <div class="spinner"></div>
     </div>
     <div v-show="!isLoading" class="background"
-        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : 'images/movie-poster.jpg'})` }">
+        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : 'images/dummy-banner.svg'})` }">
     </div>
 
     <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
         <!-- poster -->
         <div class="poster-section">
-            <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/movie-poster.jpg'"
+            <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/dummy-poster.svg'"
                 :alt="movie.title" />
 
             <div class="overlay-blur"></div>
