@@ -39,10 +39,10 @@
     <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
         <!--back button-->
         <button type="button" class="back-button" @click="goBack"></button>
-        
+
         <!-- poster -->
         <div class="poster-section">
-            <div class="dim-overlay"></div>
+            <div v-if="movie.trailer" class="dim-overlay"></div>
             <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/dummy-poster.svg'"
                 :alt="movie.title" />
 
