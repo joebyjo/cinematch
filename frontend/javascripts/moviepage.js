@@ -11,16 +11,20 @@ const app = Vue.createApp({
       isSaved: false,
       isWatched: false,
       fullTitle: '',
-      isDescLong: false
+      isDescLong: false,
+      isLoading: true
     };
   },
   methods: {
     async fetchMovieData() {
         try {
+            this.isLoading = true;
             const response = await axios.get('/api/movies/movie/' + movieId);
             this.movie = response.data;
         } catch (error) {
             console.log("Error fetching movie details:", error);
+        } finally {
+            this.isLoading = false;
         }
     },
     formatRuntime(m) {
