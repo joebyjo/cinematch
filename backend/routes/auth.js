@@ -40,11 +40,21 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 
 
 router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
+    try {
+        // updating last login time to database
+        db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
 
-    // updating last login time to database
-    db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
+        // set user_id and ip_address in session table
+        await db.query(
+            `UPDATE SESSIONS SET user_id = ?, ip_address = ? WHERE id = ?`,
+            [req.user.id, req.ip, req.sessionID]
+        );
 
-    res.status(200).json({ msg: 'Login successful' });
+        res.status(200).json({ msg: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Login session failed' });
+    }
 });
 
 router.post('/logout', (req, res) => {
