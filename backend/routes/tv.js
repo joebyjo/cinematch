@@ -108,7 +108,8 @@ router.get('/show/:id', validateId('id'), validate, async (req, res) => {
             backdrop_path: show.backdrop_path || null,
             genres: show.genres || [],
             certification: 'NR',
-            release_date: show.first_air_date || null
+            release_date: show.first_air_date || null,
+            director: show.created_by && show.created_by.length > 0 ? show.created_by.map(creator => creator.name).join(', ') : null
         };
 
         // get country specific certification
@@ -137,7 +138,9 @@ router.get('/show/:id', validateId('id'), validate, async (req, res) => {
         // getting critic ratings and cast details
         const { ratings, director, cast } = await getImdbData(trimmedResults.imdb_id);
 
-        trimmedResults.director = director || null;
+        if (!trimmedResults.director) {
+            trimmedResults.director = director || null;
+        }
         trimmedResults.cast = cast || null;
 
         // getting individual ratings

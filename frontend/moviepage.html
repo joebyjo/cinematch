@@ -67,7 +67,7 @@
                 <!--date, time, age rating-->
                 <div class="numeric-row">
                     <span class="pill-style">{{ movie.release_date?.split('-')[0] }}</span>
-                    <span class="pill-style">{{ formatRuntime(movie.runtime) }}</span>
+                    <span class="pill-style">{{ contentType === 'tv' ? (movie.number_of_seasons + ' season(s)') : formatRuntime(movie.runtime) }}</span>
                     <span class="pill-style">{{ movie.certification || 'NR' }}</span>
                 </div>
 
