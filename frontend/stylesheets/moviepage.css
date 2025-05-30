@@ -274,3 +274,35 @@ strong {
 @keyframes spin {
   to {transform: rotate(360deg);}
 }
+
+.play-button {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  border: none;
+  cursor: pointer;
+  background: url("../images/play-button.svg") no-repeat center/cover;
+  background-size: contain;
+  background-color: transparent;
+  opacity: 0;
+  z-index: 3;
+}
+
+.play-button:hover {
+    background-color: transparent;
+    background-image: url("../images/play-button-hover.svg");
+}
+
+.poster-section:hover .play-button {
+    opacity: 1;
+}
+
+.dim-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.poster-section:hover .dim-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}

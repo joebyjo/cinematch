@@ -39,28 +39,36 @@
     <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
         <!-- poster -->
         <div class="poster-section">
+            <div class="dim-overlay"></div>
             <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/dummy-poster.svg'"
                 :alt="movie.title" />
 
             <div class="overlay-blur"></div>
+            <!--play button-->
+            <button type="button" v-if="movie.trailer" class="play-button" @click="openTrailer"></button>
         </div>
         <!-- movie info -->
         <div class="info">
 
             <div class="first-row">
+                <!--title-->
                 <h1 class="title" :data-title="fullTitle">{{ formatTitle(movie.title) }}</h1>
+
+                <!--watch providers-->
                 <div class="stream-info pill-style">
                     <p class="streaming"><span>STREAM ON</span> {{ formatProviders(movie.watch_providers).join(', ') }}</p>
                 </div>
             </div>
 
             <div class="second-row">
+                <!--date, time, age rating-->
                 <div class="numeric-row">
                     <span class="pill-style">{{ movie.release_date?.split('-')[0] }}</span>
                     <span class="pill-style">{{ formatRuntime(movie.runtime) }}</span>
                     <span class="pill-style">{{ movie.certification || 'NR' }}</span>
                 </div>
 
+                <!--mark saved, mark watched options-->
                 <div class="user-options-row">
                     <img :src="isSaved ? 'images/saved.svg' : 'images/not-saved.svg'" alt="Mark saved" width="32"
                         height="32" @click="toggleSaved" />
@@ -69,6 +77,8 @@
                 </div>
             </div>
             <hr>
+
+            <!--summary-->
             <div>
                 <p class="description">{{ formatDescription(movie.overview) }}</p>
                 <button type="button" v-if="movie.overview && movie.overview.length>215" class="desc-expand"
@@ -76,6 +86,7 @@
             </div>
 
             <div class="third-row">
+                <!--director, genres, cast-->
                 <div class="cast-info">
                     <p><strong>Genres:</strong> {{ formatGenres(movie.genres) }}</p>
                     <p><strong>Director:</strong> {{ formatDirector(movie.director) }}</p>
@@ -85,10 +96,13 @@
                 <div class="ratings">
                     <div class="online-ratings">
                         <p>RATINGS</p>
+
+                        <!--rt, imdb ratings-->
                         <div class="rating-block">
                             <img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb" class="icon" />
                             <span>{{ formatImdbRating(movie.imdb_rating) }}</span>
                         </div>
+
                         <div class="rating-block">
                             <img src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
                                 alt="rt" class="icon" />
@@ -96,6 +110,7 @@
                         </div>
                     </div>
 
+                    <!--user rating-->
                     <div class="user-ratings">
                         <p>YOUR<br>RATING</p>
                         <div class="stars">

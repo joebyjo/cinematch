@@ -98,6 +98,11 @@ const app = Vue.createApp({
     },
     toggleDescription() {
       this.isDescLong = !this.isDescLong;
+    },
+    openTrailer() {
+      if (this.movie.trailer) {
+        window.open(this.movie.trailer);
+      }
     }
   },
     mounted() {
