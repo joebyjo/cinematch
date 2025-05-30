@@ -21,6 +21,10 @@ const app = Vue.createApp({
             this.isLoading = true;
             const response = await axios.get('/api/movies/movie/' + movieId);
             this.movie = response.data;
+
+            // for banner testing
+            // this.movie.backdrop_path = null;
+
         } catch (error) {
             console.log("Error fetching movie details:", error);
         } finally {
