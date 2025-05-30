@@ -9,7 +9,8 @@ const app = Vue.createApp({
       selectedRating: 0,
       hoverRating: 0,
       isSaved: false,
-      isWatched: false
+      isWatched: false,
+      fullTitle: ''
     };
   },
   methods: {
@@ -41,6 +42,11 @@ const app = Vue.createApp({
         return providers.map(function (p) {
             return p.provider_name;
         });
+    },
+    formatTitle(title) {
+        if (!title) return 'N/A';
+        this.fullTitle = title;
+        return title.length > 18 ? title.substring(0, 15) + '...' : title;
     },
     formatImdbRating(rating) {
         return rating ? `${rating} / 10` : 'N/A';
