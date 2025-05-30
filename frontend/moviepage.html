@@ -29,11 +29,14 @@
 </head>
 
 <body id="movie">
-    <div class="background"
+    <div v-if="isLoading" class="loading" :class="{ 'fade-out': !isLoading }">
+        <div class="spinner"></div>
+    </div>
+    <div v-show="!isLoading" class="background"
         :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : 'images/movie-poster.jpg'})` }">
     </div>
 
-    <div class="container">
+    <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
         <!-- poster -->
         <div class="poster-section">
             <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/movie-poster.jpg'"
