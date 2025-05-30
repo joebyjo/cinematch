@@ -37,6 +37,9 @@ const app = Vue.createApp({
     formatCast(cast) {
         return cast || 'N/A';
     },
+    formatDirector(director) {
+        return director || 'N/A';
+    },
     formatProviders(providers) {
         if (!providers || providers.length === 0) return ['No data available'];
         return providers.map(function (p) {
