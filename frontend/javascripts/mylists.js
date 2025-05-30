@@ -152,6 +152,10 @@ const movieTable = Vue.createApp({
             if (!s) return "/";
             return helperDrawStatus(s);
         },
+        goToMovie(movie_id) {
+            console.log(movie_id);
+            window.location.href = `/moviepage.html?id=${movie_id}`;
+        },
         async getGenres(url) {
             const res = await helperGetMovieData(url);
             this.genres = res.data || [];

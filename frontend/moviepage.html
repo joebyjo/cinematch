@@ -22,13 +22,13 @@
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="javascripts/index.js" defer></script>
     <script src="javascripts/moviepage.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
 
     <title>Home Page</title>
 </head>
 
-<body id="movie">
+<body id="movie" style="display: none">
     <div v-if="isLoading" class="loading" :class="{ 'fade-out': !isLoading }">
         <div class="spinner"></div>
     </div>
