@@ -5,30 +5,31 @@ body {
 }
 
 .page-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 4rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4rem;
 }
 
 .sidebar {
-  position: fixed;
-  left: 4rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #505050;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 0.7rem;
-  border-radius: 4rem;
-  box-shadow: 0.625rem 1.125rem 1.25rem rgba(0, 0, 0, 0.25);
+    position: fixed;
+    left: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #505050;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0.7rem;
+    border-radius: 4rem;
+    box-shadow: 0.625rem 1.125rem 1.25rem rgba(0, 0, 0, 0.25);
 }
 
 .sidebar-icon>img {
-  width: 3.125rem;
-  height: 3.125rem;
-  opacity: 0.5;
+    width: 3.125rem;
+    height: 3.125rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
 }
 
 .sidebar-icon>img:hover {
@@ -145,7 +146,8 @@ input::placeholder {
 
 .change-name {
     background: #3e4449;
-    border-color: #8eccffb9;;
+    border-color: #8eccffb9;
+    ;
 }
 
 .change-name .card-title {
