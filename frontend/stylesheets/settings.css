@@ -25,14 +25,9 @@ body {
   box-shadow: 0.625rem 1.125rem 1.25rem rgba(0, 0, 0, 0.25);
 }
 
-.sidebar-icon {
+.sidebar-icon>img {
   width: 3.125rem;
   height: 3.125rem;
-}
-
-.sidebar-icon>img {
-  width: 100%;
-  height: 100%;
   opacity: 0.5;
 }
 
