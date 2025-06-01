@@ -14,6 +14,8 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
@@ -28,6 +30,7 @@
 </head>
 
 <body id="settings" style="display: none">
+  <div class="page-layout">
     <div class="sidebar">
         <div class="sidebar-icon">
             <img src="images/account-settings.svg" alt="Account">
@@ -42,6 +45,22 @@
             <img src="images/logout-settings.svg" alt="Logout">
         </div>
     </div>
+
+    <div class="container">
+        <h1>Account Settings</h1>
+
+        <div class="card change-name">
+            <h2 class="card-title">Change name</h2>
+            <div class="disp-name">
+                Current name: <span>Josheen Kour</span>
+            </div>
+            <input type="text" placeholder="Enter new first name...">
+            <input type="text" placeholder="Enter new last name...">
+            <input type="password" placeholder="Enter your password...">
+            <button type="button" class="confirm">Done</button>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
