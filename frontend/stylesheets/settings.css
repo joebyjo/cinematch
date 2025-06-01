@@ -68,11 +68,10 @@ h1 {
 }
 
 .card {
-    background: #3e4449;
-    max-width: 40%;
+    width: 50%;
     border-radius: 2rem;
     padding: 0 2rem 2rem 2rem;
-    border: 0.1rem solid #8eccffb9;
+    border: 0.1rem solid;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
@@ -90,8 +89,20 @@ h1 {
     text-align: center;
 }
 
-.change-name .card-title {
-    color: #63b3ed;
+.row1 {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.card:nth-child(1) {
+    background: #3e4449;
+    border-color: #8eccffb9;;
+}
+
+.card:nth-child(2) {
+    background: #ffe49432;
+    border-color: #FFE59E90;
 }
 
 .disp-name {
@@ -110,10 +121,8 @@ h1 {
 }
 
 input {
-    margin-bottom: 1rem;
     width: 93%;
     padding: 1rem;
-    background: #3F535E;
     border: 0.1rem solid #a0a0a0;
     border-radius: 0.5rem;
     color: white;
@@ -123,9 +132,7 @@ input {
 
 input:focus {
     outline: none;
-    border-color: #8eccffb9;
-    box-shadow: 0 0 0 0.3rem rgba(99, 179, 237, 0.2);
-    background: rgba(142, 142, 142, 0.3);
+    box-shadow: 0 0 0 0.3rem #93939355;
 }
 
 input::placeholder {
@@ -134,16 +141,43 @@ input::placeholder {
 
 .confirm {
     background: transparent;
-    border: 0.1rem solid #a0a0a0;
+    border: 0.1rem solid #ffffff;
     color: white;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     border-radius: 2rem;
     font-size: 1.3em;
     transition: all 0.3s ease;
-    margin: 1rem auto;
+    margin: auto;
+    margin-top: 1rem;
 }
 
 .confirm:hover {
-    background: #6a6a6a;
+    background: linear-gradient(to right, #eb68ff89 13%, #8ff8ff89 92%);
     cursor: pointer;
+}
+
+.change-name .card-title {
+    color: #63b3ed;
+}
+
+.change-password .card-title {
+    color: #D1BE8B;
+}
+
+.change-name>input {
+    background: #3F535E;
+    margin-bottom: 1.2rem;
+}
+
+.change-name>input:focus {
+    border-color: #8eccffb9;
+}
+
+.change-password>input {
+    background-color: #6B6545;
+    margin: 1.3rem auto;
+}
+
+.change-password>input:focus {
+    border-color: #FFE59E90;
 }
