@@ -1,0 +1,239 @@
+.light {
+    --primary-color: white;
+    --secondary-color: rgb(184, 182, 182);
+    --tertiary-color:black;
+    --text-color: black;
+    --text-shadow:rgb(242, 241, 241);
+    --title-color: #353434;
+    --secondary-title-color:#212121;
+    --hover-color:#666565;
+    --outline-color:#dddddd;
+    --secondary-background-color:#000000;
+    --nextbutton-color:rgb(63, 63, 63);
+    --nextbutton-text-color:white;
+    --buttomform-section:#dddddd;
+    --buttongradient-left-color:#cd42e2;
+    --buttongradient-right-color:#3fcfda;
+}
+
+.dark {
+    --primary-color: #3A3A3A;
+    --secondary-color: #2B2B2B;
+    --tertiary-color:black;
+    --text-color: white;
+    --text-shadow:black;
+    --title-color: #cacaca;
+    --secondary-title-color:#E3E2E2;
+    --hover-color:#848484;
+    --outline-color:#767676;
+    --secondary-background-color:#aaa;
+    --nextbutton-color:rgb(43, 43, 43);
+    --nextbutton-text-color:white;
+    --nextbutton-outline-color:rgb(85, 85, 85);
+    --buttomform-section:#3A3A3A;
+    --buttongradient-left-color:#f272ff;
+    --buttongradient-right-color:#6dd5fa;
+}
+
+
+body {
+    transition: background-color 0.7s ease, color 0.7s ease;
+}
+
+
+.primary-bg-color {
+    background-color: var(--primary-color);
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.secondary-bg-color {
+    background-color: var(--secondary-color);
+}
+
+.secondary-color {
+    color: var(--secondary-color);
+}
+
+html {
+    font-size: var(--size);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+.main-title {
+    font-family: Montserrat;
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-top: 1rem;
+    outline: 5rem;
+    text-shadow: 0.2rem 0.2rem var(--text-shadow);
+
+}
+
+
+.main-subtitle {
+    font-style: italic;
+    font-size: 0.7rem;
+    /* color: #cacaca; */
+    color: var( --title-color)
+
+}
+.intro-section {
+    text-align: center;
+    margin-bottom: 3rem;
+
+}
+
+.personalise-main {
+    margin-bottom: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* styling for personalise swipe section bellow */
+.matchmaker-page {
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.matchmaker-title h1 {
+  font-size: 6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+}
+
+.matchmaker-title p {
+  font-size: 6rem;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+
+.matchmaker-grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 0rem;
+  justify-content: center;
+}
+
+.info-panel {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+  border: 2px solid;
+  box-shadow: 0 0 1rem rgba(0,0,0,0.4);
+  color: white;
+  text-align: left;
+  width: 100%;
+  max-width: 300px;
+}
+
+.left-panel {
+  border-color: #E273FF;
+  padding: 1.5rem 5.5rem 1.5rem 1.5rem;
+}
+
+.right-panel {
+  border-color: #90F0FF #90F0FF  #90F0FF  transparent;
+  border-radius: 0rem 1.5rem 1.5rem 0rem
+}
+
+.poster-container {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.movie-poster {
+  max-height: 37rem;
+  border-radius: 1rem;
+}
+
+.info-panel h2 {
+  font-size: 2rem;
+  border-bottom: 1px solid white;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-line {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  background-color: #444;
+  padding: 0.3rem 0.7rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+}
+
+.info-field {
+  margin: 0.4rem 0;
+  font-size: 1.1rem;
+}
+
+.ratings {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-icon {
+  height: 1.2rem;
+}
+
+.description {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.buttons .icon {
+  font-size: 1.4rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.stream-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #444;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1.2rem;
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+}
+
+.stream-icon {
+  height: 1.4rem;
+  border-radius: 0.3rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.circle-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.8rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: none;
+  color: white;
+  cursor: pointer;
+}
