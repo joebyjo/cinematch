@@ -194,10 +194,35 @@ input::placeholder {
 }
 
 .delete-account>input {
-    background-color: #6f4040;
+    background-color: #784343;
     margin: 1.2rem auto;
 }
 
 .delete-account>input:focus {
     border-color: #ED8080;
+}
+
+.password-check {
+    background: #d98efc29;
+    border-color: #a87ee0;
+}
+
+.password-check .card-title {
+    color: #a87ee0;
+}
+
+.req-tags>span {
+    background: #8b789760;
+    border: 0.15rem solid #8d8d8d7a;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.req-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
 }
