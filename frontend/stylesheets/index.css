@@ -137,11 +137,6 @@ input:checked + .slider:before {
     content: "TV Shows";
 }
 
-/* html for toggle
-<label class="switch">
-    <input type="checkbox">
-    <span class="slider"><span>Movies</span><span>TV Shows</span></span>
-</label> */
 
 .spinner-wrapper {
   display: flex;
