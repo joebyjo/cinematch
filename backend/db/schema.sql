@@ -5,6 +5,7 @@ USE cinematch;
 DROP TABLE IF EXISTS `SESSIONS`;
 DROP TABLE IF EXISTS `USERPREFERENCES`;
 DROP TABLE IF EXISTS `USERS`;
+DROP TABLE IF EXISTS `USERSETTINGS`;
 DROP TABLE IF EXISTS `USERRATINGS`;
 DROP TABLE IF EXISTS `PREFERENCES`;
 DROP TABLE IF EXISTS `MOVIEPROVIDERS`;
@@ -93,12 +94,22 @@ CREATE TABLE `USERS` (
     `first_name` varchar(20) NOT NULL,
     `last_name` varchar(20) NOT NULL,
     `last_login` datetime DEFAULT NULL,
-    `role` varchar(5) NOT NULL DEFAULT 'user',
+    `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user',
     `profile_picture_url` varchar(256) DEFAULT NULL,
     `registration_date` date NOT NULL DEFAULT (curdate()),
     PRIMARY KEY (`id`),
     UNIQUE KEY `user_name` (`user_name`)
 );
+
+
+-- create users table
+CREATE TABLE `USERSETTINGS` (
+    `user_id` int DEFAULT NULL,
+    `theme` ENUM('dark', 'light') NOT NULL DEFAULT 'dark',
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `USERSETTINGS_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE
+);
+
 
 -- create useserratings table
 CREATE TABLE `USERRATINGS` (

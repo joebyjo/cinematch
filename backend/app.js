@@ -16,11 +16,12 @@ const moviesRouter = require('./routes/movies');
 const tvRouter = require('./routes/tv');
 const authRouter = require('./routes/auth');
 const mylistRouter = require('./routes/mylist');
+const adminRouter = require('./routes/admin');
 const personaliseRouter = require('./routes/personalise');
 
 const app = express();
 
-// Session store using existing db config
+// session store using existing db config
 const sessionStore = new MySQLStore(
     {
         createDatabaseTable: false,
@@ -63,7 +64,7 @@ app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); 
 app.use(async (req, res, next) => {
 
     // checking if it is a page and not static assets
-    const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i)
+    const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i);
 
     // update last_seen if user is authenticate and is requesting a non static asset
     if (req.isAuthenticated() && req.sessionID && isPage) {
@@ -82,11 +83,12 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/mylist', mylistRouter);
+app.use('/api/admin', adminRouter);
 app.use('/api/personalise', personaliseRouter);
 
 // catch 404 and forward to error handler

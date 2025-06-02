@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
+     <link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,10 +33,10 @@
     <script src="javascripts/nav-bar.js" defer></script>
     <script src="javascripts/index.js" defer></script>
 
-    <title>MY LISTS</title>
+    <title>My List</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -55,7 +56,7 @@
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
                     <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
                 </div>
 
@@ -79,60 +80,96 @@
         </div>
     </nav>
 
-    <main class="main-mylists">
+    <main ref="mainContainer" class="main-mylists">
         <div class="hero-section">
-            <div class="heading-text">List of all the movies & tv <br>
-                shows you've interacted with
+            <div class="heading-text"> My Movie List
             </div>
             <div class="filter-sort-section">
+               <button type="button" class=" button-reset button-reset" @click="resetFiltersAndSort">
+   <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 2 24 20" width="1rem" height="1rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="1 4 1 10 7 10" />
+    <path d="M3.51 15a9 9 0 1 0 .49-8.36L1 10" />
+  </svg> Reset Filters
+</button>
+
+
                 <!-- Filter Option: Done-->
-                <button type="button" class="filter-button" @click="showFilter = !showFilter">Add Filters</button>
-                <div v-show="showFilter" class="filter-menu">
-
-                    <!-- Genres -->
-                    <label class="filter-option" id="genres">
-                        <button type="button" class="filter-button" @click="showGenres = !showGenres">Genres</button>
-                    </label>
-
-                    <div v-show="showGenres" class="filter-menu">
-                        <label v-for="genre in genres" class="filter-option" :id="genre.name">
-                            <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
-                        </label>
+                <button ref="filterBtn" type="button" class="filter-button" @click="showFilter = !showFilter">Add
+                    Filters</button>
+                <div v-show="showFilter" ref="filterMenu" class="filter-menu-accordion" @click.stop>
+                    <!-- Genres Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'genres'">
+                            <div class="genre-controls">
+                                <button class="genre-btn" @click="selectAllGenres">Select All</button>
+                                <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+                            </div>
+                            <div class="genre-grid">
+                                <label v-for="genre in genres" class="filter-option" :id="genre.name">
+                                    <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Age Rating -->
-                    <label class="filter-option" id="ageRating">
-                        <button type="button" class="filter-button" @click="showAgeRating = !showAgeRating">Age
-                            Rating</button>
-                    </label>
-
-                    <div v-show="showAgeRating" class="filter-menu">
-                        <label v-for="age in ageRatings" class="filter-option" :id="age">
-                            <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
-                        </label>
+                    <!-- Age Rating Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'age'">
+                            <label v-for="age in ageRatings" class="filter-option" :id="age">
+                                <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
+                            </label>
+                        </div>
                     </div>
 
-                    <!-- Status -->
-                    <label class="filter-option" id="status">
-                        <button type="button" class="filter-button" @click="showStatus = !showStatus">Status</button>
-                    </label>
-
-                    <div v-show="showStatus" class="filter-menu">
-                        <label v-for="status in statuses" class="filter-option" :id="status">
-                            <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
-                        </label>
+                    <!-- Status Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
+                        <div class="accordion-body" v-show="activeAccordion === 'status'">
+                            <label v-for="status in statuses" class="filter-option" :id="status">
+                                <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
+                            </label>
+                        </div>
                     </div>
                 </div>
+
                 <!-- Filter Option ends -->
 
                 <!-- Sorting Option: Done -->
-                <select name="sort-by" id="sort-by" class="secondary-color-mylists" v-model="sort">
+                <!-- <select name="sort-by" id="sort-by" class="sort-dropdown " v-model="sort">
                     <option value="" selected>Sort By</option>
                     <option value="my_rating.desc">User Rating: High to Low</option>
                     <option value="my_rating.asc">User Rating: Low to High</option>
                     <option value="imdb_rating.desc">IMDB Rating: High to Low</option>
                     <option value="imdb_rating.asc">IMDB Rating: Low to High</option>
-                </select>
+                </select> -->
+
+                <div class="custom-dropdown">
+                    <button ref="sortBtn" type="button" class="filter-button" @click="showSort = !showSort">
+                        Sort By
+                    </button>
+                    <div ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
+                        <div class="dropdown-option" :class="{ selected: sort === 'my_rating.desc' }"
+                            @click="sort = 'my_rating.desc'; showSort = false">
+                            User Rating: High to Low
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'my_rating.asc' }"
+                            @click="sort = 'my_rating.asc'; showSort = false">
+                            User Rating: Low to High
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'imdb_rating.desc' }"
+                            @click="sort = 'imdb_rating.desc'; showSort = false">
+                            IMDB Rating: High to Low
+                        </div>
+                        <div class="dropdown-option" :class="{ selected: sort === 'imdb_rating.asc' }"
+                            @click="sort = 'imdb_rating.asc'; showSort = false">
+                            IMDB Rating: Low to High
+                        </div>
+                    </div>
+
+
+                </div>
                 <!-- Sorting Option Ends -->
             </div>
         </div>
@@ -164,7 +201,7 @@
                     </tr>
 
                     <tr v-for="movie in movies">
-                        <td>{{ helperCheckEmpty(movie.title) }}</td>
+                        <td class="movie-title">{{ helperCheckEmpty(movie.title) }}</td>
                         <td>
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
@@ -173,11 +210,38 @@
                                 </span>
                             </div>
                         </td>
-                        <td>{{ helperMovieDate(movie.release_date) }}</td>
-                        <td><img :src="helperMovieStatus(movie.watch_status)" src="/" alt="movie.watch_status"></td>
-                        <td>{{ helperCheckEmpty(movie.certification) }}</td>
-                        <td>{{ helperImdbRating(movie.imdb_rating) }}</td>
-                        <td>{{ helperMyRating(movie.my_rating) }}</td>
+                        <td class="release-date">{{ helperMovieDate(movie.release_date) }}</td>
+                        <td><img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"
+                                class="status-icon" @click="toggleStatus(movie)"></td>
+                        <td class="age-rating">{{ helperCheckEmpty(movie.certification) }}</td>
+                        <td class="imdb-rating">{{ helperImdbRating(movie.imdb_rating) }}</td>
+                        <td class="rating-cell">
+                            <div class="star-rating" @mouseleave="movie.hoverRating = 0">
+                                <template v-for="i in 5">
+                                    <div class="star-container"
+                                        @mousemove="movie.hoverRating = (getMouseX($event) < 0.5 ? i - 0.5 : i)"
+                                        @click="setUserRating(movie, (getMouseX($event) < 0.5 ? i - 0.5 : i))">
+                                        <svg viewBox="0 0 24 24" class="star" :class="{ filled: (movie.hoverRating || movie.my_rating) >= i,
+                       half: (movie.hoverRating || movie.my_rating) === i - 0.5 }">
+                                            <defs>
+                                                <linearGradient id="half-grad" x1="0" x2="1" y1="0" y2="0">
+                                                    <stop offset="50%" stop-color="gold" />
+                                                    <stop offset="50%" stop-color="#444" />
+                                                </linearGradient>
+                                            </defs>
+                                            <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10"
+                                                :fill="(movie.hoverRating || movie.my_rating) >= i
+    ? 'gold'
+    : (movie.hoverRating || movie.my_rating) === i - 0.5
+      ? 'url(#half-grad)'
+      : '#444'" />
+                                        </svg>
+                                    </div>
+                                </template>
+                        </td>
+                        </td>
+
+
                     </tr>
                 </tbody>
             </table>
@@ -185,13 +249,37 @@
 
             <!-- Below Buttons star -->
             <div class="table-footer">
-                <select name="load-limit" id="load-limit" class="secondary-color-mylists" v-model.number="load">
-                    <option v-for="limit in loadLimitArray()" :value="limit">Load Limit = {{limit}}</option>
-                </select>
+                <div class="custom-dropdown" ref="loadLimitWrapper">
+                    <button type="button" class="load-button" @click="showLoadLimit = !showLoadLimit">
+                        Load Limit<span v-if="load"> = {{ load }}</span>
+                        <span class="arrow">&#9662;</span> <!-- ▼ -->
+                    </button>
+                    <div v-show="showLoadLimit" class="custom-dropdown-menu">
+                        <div class="dropdown-option" v-for="limit in loadLimitArray()" :key="limit"
+                            @click="load = limit; showLoadLimit = false">
+                            Load Limit = {{ limit }}
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Next Page Functions & Buttons -->
             <div></div>
+            <div class="pagination-controls">
+                <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
+
+                <button v-for="n in visiblePages" :key="n" :disabled="n === '...'"
+                    :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
+                    @click="typeof n === 'number' && (page = n)">
+                    {{ n }}
+                </button>
+
+
+                <button type="button" class="page-arrow" :disabled="page === totalPages" @click="page++">→</button>
+
+            </div>
+
         </div>
 
     </main>
