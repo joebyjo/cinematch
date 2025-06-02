@@ -8,6 +8,7 @@
     <!-- Linking External Files -->
 
     <!-- Google Fonts -->
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
@@ -27,7 +28,7 @@
     <title>Home Page</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -47,7 +48,7 @@
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
                     <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
                 </div>
 

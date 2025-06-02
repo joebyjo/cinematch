@@ -11,10 +11,10 @@ const validate = (req, res, next) => {
 
 // admin authorization middleware
 const isAdmin = (req, res, next) => {
-    const { user } = req.session;
+    const { user } = req;
 
     if (!user || user.role !== 'admin') {
-        return res.status(404);
+        return res.sendStatus(404);
     }
 
     return next();
