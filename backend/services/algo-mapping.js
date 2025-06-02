@@ -21,7 +21,7 @@ var IDX = {};
 var genresIndex = {};
 var langsIndex = {};
 var decadesIndex = {};
-var ImbdRatingIndex = {};
+var ImdbRatingIndex = {};
 var userRatingIndex = {};
 var watchProvidersIndex = {};
 
@@ -176,14 +176,14 @@ function getDecadesIndex(year) {
  * Maps IMDb ratings to indices.
  * @returns {Promise<number>} The total number of IMDb ratings mapped.
  */
-async function mapImbdRating() {
+async function mapImdbRating() {
     let index = 0;
     for (let rating = 0; rating <= 10; rating++) {
-        ImbdRatingIndex[rating] = index++;
+        ImdbRatingIndex[rating] = index++;
     }
 
-    ImbdRatingIndex.Others = index;
-    return Object.keys(ImbdRatingIndex).length;
+    ImdbRatingIndex.Others = index;
+    return Object.keys(ImdbRatingIndex).length;
 }
 
 /**
@@ -191,13 +191,13 @@ async function mapImbdRating() {
  * @param {number} rating - The IMDb rating.
  * @returns {number} The index of the rating.
  */
-function getImbdRatingIndex(rating) {
+function getImdbRatingIndex(rating) {
     let roundedRating = Math.round(rating);
-    if (roundedRating in ImbdRatingIndex) {
-        return ImbdRatingIndex[roundedRating] + IDX.ImbdRating;
+    if (roundedRating in ImdbRatingIndex) {
+        return ImdbRatingIndex[roundedRating] + IDX.ImdbRating;
     }
 
-    return ImbdRatingIndex.Others + IDX.ImbdRating;
+    return ImdbRatingIndex.Others + IDX.ImdbRating;
 }
 
 /**
@@ -279,7 +279,6 @@ async function mapWatchProviders() {
  * @returns {number} The index of the watch provider.
  */
 function getWatchProvidersIndex(provider) {
-    provider = provider?.trim();
     if (provider in watchProvidersIndex) {
         return watchProvidersIndex[provider] + IDX.watchProviders;
     }
@@ -295,27 +294,27 @@ async function initializeIDX() {
         genreLength,
         langLength,
         decadeLength,
-        ImbdRatingLength,
+        ImdbRatingLength,
         userRatingLength,
         watchProvidersLength
     ] = await Promise.all([
         mapGenres(),
         mapLang(),
         mapDecade(),
-        mapImbdRating(),
+        mapImdbRating(),
         mapUserRating(),
         mapWatchProviders()
     ]);
 
-    CONFIG.DIMENSIONS = genreLength + langLength + decadeLength + ImbdRatingLength + userRatingLength + watchProvidersLength;
+    CONFIG.DIMENSIONS = genreLength + langLength + decadeLength + ImdbRatingLength + userRatingLength + watchProvidersLength;
 
     IDX = {
         genres: 0,
         langs: genreLength,
         decades: genreLength + langLength,
-        ImbdRating: genreLength + langLength + decadeLength,
-        userRating: genreLength + langLength + decadeLength + ImbdRatingLength,
-        watchProviders: genreLength + langLength + decadeLength + ImbdRatingLength + userRatingLength
+        ImdbRating: genreLength + langLength + decadeLength,
+        userRating: genreLength + langLength + decadeLength + ImdbRatingLength,
+        watchProviders: genreLength + langLength + decadeLength + ImdbRatingLength + userRatingLength
     };
 
     return IDX;
@@ -345,9 +344,9 @@ async function initializeIDX() {
 //     console.table(decadesIndex);
 
 //     console.log("=== IMDb Rating Index ===");
-//     console.log("Rating 7.6:", getImbdRatingIndex(7.6));
-//     console.log("Unknown Rating:", getImbdRatingIndex(11));
-//     console.table(ImbdRatingIndex);
+//     console.log("Rating 7.6:", getImdbRatingIndex(7.6));
+//     console.log("Unknown Rating:", getImdbRatingIndex(11));
+//     console.table(ImdbRatingIndex);
 
 //     console.log("=== User Rating Index ===");
 //     console.log("Rating 4.7:", getUserRatingIndex(4.7));
@@ -373,7 +372,7 @@ module.exports = [
     getGenreIndex,
     getLanguagesIndex,
     getDecadesIndex,
-    getImbdRatingIndex,
+    getImdbRatingIndex,
     getUserRatingIndex,
     getWatchProvidersIndex
 ];
