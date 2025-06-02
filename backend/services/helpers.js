@@ -210,6 +210,26 @@ async function getWatchProvidersData() {
     }
 }
 
+async function getUserGenresLanguages(userId) {
+    // TODO:
+    return 0;
+}
+
+async function getUserRating(userId, movieId) {
+    // TODO: get User Raing from movie List
+    try {
+        const [rows] = await db.query('SELECT my_rating FROM MOVIELIST WHERE movie_id= ? AND user_id=?', [movieId, userId]);
+        const rating = rows[0].my_rating ? rows[0].my_rating : 0;
+        console.log(rating);
+        return rating;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+
+    return 0;
+}
+
 
 module.exports = {
     hashPassword,
@@ -219,5 +239,7 @@ module.exports = {
     formatMovies,
     getGenreData,
     getLangData,
-    getWatchProvidersData
+    getWatchProvidersData,
+    getUserGenresLanguages,
+    getUserRating
 };
