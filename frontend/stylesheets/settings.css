@@ -225,3 +225,89 @@ input::placeholder {
     justify-content: center;
     gap: 1rem;
 }
+
+.select-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+}
+
+.av-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 6rem;
+}
+
+.slot {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    border: 0.2rem solid #8d8d8d;
+    align-items: center;
+}
+
+.slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slot.large {
+    width: 11rem;
+    height: 11rem;
+}
+
+.slot.selected {
+    width: 17rem;
+    height: 17rem;
+    border: 0.2rem solid #ffffff;
+    box-shadow: 0 0 1.5rem #ffffff4b;
+}
+
+.slot.empty {
+    background: #4f4f4f;
+}
+
+.av-controls {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.av-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.next {
+    background: url(../images/next-arrow.svg) no-repeat center/cover;
+}
+
+.prev {
+    background: url(../images/prev-arrow.svg) no-repeat center/cover;
+}
+
+.av-button:hover {
+    transform: scale(1.05);
+}
+
+.select-button {
+    background: transparent;
+    border: 0.2rem solid #959595;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    color: #ffffff;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.select-button:hover {
+    background: #7f67aa;
+    color: white;
+    border-color: transparent;
+}

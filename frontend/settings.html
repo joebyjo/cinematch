@@ -30,67 +30,86 @@
 </head>
 
 <body id="settings" style="display: none">
-  <div class="page-layout">
-    <div class="sidebar">
-        <div class="sidebar-icon">
-            <img src="images/account-settings.svg" alt="Account">
-        </div>
-        <div class="sidebar-icon">
-            <img src="images/profile-settings.svg" alt="Profile">
-        </div>
-        <div class="sidebar-icon">
-            <img src="images/pref-settings.svg" alt="Preferences">
-        </div>
-        <div class="sidebar-icon logout">
-            <img src="images/logout-settings.svg" alt="Logout">
-        </div>
-    </div>
-
-    <div class="container">
-        <h1>Account Settings</h1>
-        <div class="row">
-            <div class="card change-name">
-                <h2 class="card-title">Change name</h2>
-                <p class="info-text">Current name: <span>Josheen Kour</span></p>
-                <input type="text" placeholder="Enter new first name...">
-                <input type="text" placeholder="Enter new last name...">
-                <input type="password" placeholder="Enter your password...">
-                <button type="button" class="confirm">Done</button>
+    <div class="page-layout">
+        <div class="sidebar">
+            <div class="sidebar-icon">
+                <img src="images/account-settings.svg" alt="Account">
             </div>
-
-            <div class="card change-password">
-                <h2 class="card-title">Change password</h2>
-                <input type="password" placeholder="Enter old password...">
-                <input type="password" placeholder="Enter new password...">
-                <input type="password" placeholder="Confirm new password...">
-                <button type="button" class="confirm">Done</button>
+            <div class="sidebar-icon">
+                <img src="images/profile-settings.svg" alt="Profile">
+            </div>
+            <div class="sidebar-icon">
+                <img src="images/pref-settings.svg" alt="Preferences">
+            </div>
+            <div class="sidebar-icon logout">
+                <img src="images/logout-settings.svg" alt="Logout">
             </div>
         </div>
 
-        <div class="row">
-            <div class="card delete-account">
-                <h2 class="card-title">Delete account</h2>
-                <p class="info-text">IMPORTANT!<br>
-                    This action cannot be undone</p>
-                <input type="password" placeholder="Enter your password...">
-                <button type="button" class="confirm">Done</button>
+        <div class="container">
+            <h1>Account Settings</h1>
+            <div class="row">
+                <div class="card change-name">
+                    <h2 class="card-title">Change name</h2>
+                    <p class="info-text">Current name: <span>Josheen Kour</span></p>
+                    <input type="text" placeholder="Enter new first name...">
+                    <input type="text" placeholder="Enter new last name...">
+                    <input type="password" placeholder="Enter your password...">
+                    <button type="button" class="confirm">Done</button>
+                </div>
+
+                <div class="card change-password">
+                    <h2 class="card-title">Change password</h2>
+                    <input type="password" placeholder="Enter old password...">
+                    <input type="password" placeholder="Enter new password...">
+                    <input type="password" placeholder="Confirm new password...">
+                    <button type="button" class="confirm">Done</button>
+                </div>
             </div>
 
-            <div class="card password-check">
-                <h2 class="card-title">Password check</h2>
-                <p class="info-text">Your new password must have :</p>
-                <div class="req-tags">
-                    <span>8 - 16 characters</span>
-                    <span>at least 1 UPPERCASE character</span>
-                    <span>at least 1 lowercase character</span>
-                    <span>at least 1 number</span>
-                    <span>no empty space or period</span>
-                    <span>at least 1 special character</span>
+            <div class="row">
+                <div class="card delete-account">
+                    <h2 class="card-title">Delete account</h2>
+                    <p class="info-text">IMPORTANT!<br>
+                        This action cannot be undone</p>
+                    <input type="password" placeholder="Enter your password...">
+                    <button type="button" class="confirm">Done</button>
+                </div>
+
+                <div class="card password-check">
+                    <h2 class="card-title">Password check</h2>
+                    <p class="info-text">Your new password must have :</p>
+                    <div class="req-tags">
+                        <span>8 - 16 characters</span>
+                        <span>at least 1 UPPERCASE character</span>
+                        <span>at least 1 lowercase character</span>
+                        <span>at least 1 number</span>
+                        <span>no empty space or period</span>
+                        <span>at least 1 special character</span>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Profile Settings</h1>
+            <div class="select-avatar">
+                <div class="av-row">
+                    <div class="slot empty"></div>
+                    <div class="slot empty large"></div>
+                    <div class="slot selected">
+                        <img src="images/avatar1.svg" alt="Avatar1">
+                    </div>
+                    <div class="slot empty large"></div>
+                    <div class="slot empty"></div>
+                </div>
+
+                <div class="av-controls">
+                    <button type="button" class="av-button prev"></button>
+                    <button type="button" class="select-button">Select this avatar</button>
+                    <button type="button" class="av-button next"></button>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>
