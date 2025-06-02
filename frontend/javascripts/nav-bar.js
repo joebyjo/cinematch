@@ -43,7 +43,7 @@ createApp({
             userName: "guest",
             firstName: "guest",
             lastName: "user",
-            profilePic:"" // add default profile pic path 
+            profilePic:"" // add default profile pic path
         };
     },
     methods: {
@@ -58,6 +58,8 @@ createApp({
                 this.firstName = data.first_name;
                 this.lastName = data.last_name;
                 this.profilePic = data.profile_picture_url;
+            } else {
+                helperChangeDark(this.isDark);
             }
 
             this.inProcess = false;
