@@ -361,6 +361,7 @@ input::placeholder {
     justify-content: center;
     gap: 3rem;
     margin-bottom: 3rem;
+    flex-wrap: wrap;
 }
 
 .dropdown {
