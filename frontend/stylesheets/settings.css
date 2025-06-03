@@ -231,6 +231,13 @@ input::placeholder {
     gap: 1rem;
 }
 
+.error-message {
+    color: #ff9a9a;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.5rem;
+}
+
 .select-avatar {
     display: flex;
     flex-direction: column;

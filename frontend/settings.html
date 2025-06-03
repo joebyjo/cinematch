@@ -67,7 +67,8 @@
                     <h2 class="card-title">Change password</h2>
                     <input type="password" placeholder="Enter old password...">
                     <input type="password" v-model="newPass" placeholder="Enter new password...">
-                    <input type="password" placeholder="Confirm new password...">
+                    <input type="password" v-model="confirmPass" placeholder="Confirm new password...">
+                    <p class="error-message" v-if="!passMatch">Passwords do not match</p>
                     <button type="button" class="confirm">Done</button>
                 </div>
             </div>
