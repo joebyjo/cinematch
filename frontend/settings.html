@@ -25,12 +25,15 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/index.js" defer></script>
+    <script src="javascripts/settings.js" defer></script>
 
     <title>Home Page</title>
 </head>
 
 <body id="settings" style="display: none">
     <div class="page-layout">
+
+        <!--sidebar-->
         <div class="sidebar">
             <div class="sidebar-icon">
                 <img src="images/account-settings.svg" alt="Account">
@@ -47,6 +50,8 @@
         </div>
 
         <div class="container">
+
+            <!--account-->
             <h1>Account Settings</h1>
             <div class="row">
                 <div class="card change-name">
@@ -90,6 +95,7 @@
                 </div>
             </div>
 
+            <!--profile-->
             <h1>Profile Settings</h1>
             <div class="select-avatar">
                 <div class="av-row">
@@ -110,14 +116,65 @@
             </div>
 
             <div class="upload-avatar">
-            <button type="button" class="upload-button">Upload my own</button>
-            <div class="preview">
-                <div class="preview-av">
-                    <img src="images/dummy-upload.svg" alt="Preview Avatar">
+                <button type="button" class="upload-button">Upload my own</button>
+                <div class="preview">
+                    <div class="preview-av">
+                        <img src="images/dummy-upload.svg" alt="Preview Avatar">
+                    </div>
+                    <p>Preview</p>
                 </div>
-                <p>Preview</p>
             </div>
-        </div>
+
+            <!--preferences-->
+            <h1>Preferences</h1>
+            <div class="preferences">
+
+                <!--theme-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('theme')">
+                        <span>Change theme</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.theme }">▼</span>
+                    </div>
+                    <div class="d-content" :class="{ show: dropdowns.theme }">
+                        <div class="d-option" @click="selectTheme('light')">
+                            <div class="checkbox circle" :class="{ checked: selectedTheme === 'light' }"></div>
+                            <span class="option-text">Light theme</span>
+                        </div>
+                        <div class="d-option" @click="selectTheme('dark')">
+                            <div class="checkbox circle" :class="{ checked: selectedTheme === 'dark' }"></div>
+                            <span class="option-text">Dark theme</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--lang-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('languages')">
+                        <span>Search movie languages</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.languages }">▼</span>
+                    </div>
+                    <div class="d-content" :class="{ show: dropdowns.languages }">
+                        <div class="d-option" v-for="language in languages" :key="language.id" @click="toggleLanguage(language.id)">
+                            <div class="checkbox" :class="{ checked: language.selected }"></div>
+                            <span class="option-text">{{ language.name }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--genre-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('genres')">
+                        <span>Search movie genres</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.genres }">▼</span>
+                    </div>
+                    <div class="d-content" :class="{ show: dropdowns.genres }">
+                        <div class="d-option" v-for="genre in genres" :key="genre.id" :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
+                            <div class="checkbox" :class="{ checked: genre.selected }"></div>
+                            <span class="option-text">{{ genre.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
