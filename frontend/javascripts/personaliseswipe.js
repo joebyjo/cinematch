@@ -75,4 +75,25 @@ const swipeApp = Vue.createApp({
   }
 });
 
-swipeApp.mount("main");
+
+function matchPanelDimensions() {
+  const left = document.querySelector('.left-panel');
+  const right = document.querySelector('.right-panel');
+
+  // Reset any previously set widths/heights so we can recalculate cleanly
+  left.style.height = right.style.height = 'auto';
+  left.style.width = right.style.width = 'auto';
+
+  // Get max dimensions
+  const maxHeight = Math.max(left.scrollHeight, right.scrollHeight);
+  const maxWidth = Math.max(left.scrollWidth, right.scrollWidth);
+
+  // Apply to both panels
+  left.style.height = right.style.height = `${maxHeight}px`;
+  left.style.width = right.style.width = `${maxWidth}px`;
+}
+
+// Run on load and when window resizes
+window.addEventListener('load', matchPanelDimensions);
+window.addEventListener('resize', matchPanelDimensions);
+

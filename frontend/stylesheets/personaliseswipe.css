@@ -24,7 +24,7 @@
     --text-shadow:black;
     --title-color: #cacaca;
     --secondary-title-color:#E3E2E2;
-    --hover-color:#848484;
+    --hover-color:#303030;
     --outline-color:#767676;
     --secondary-background-color:#aaa;
     --nextbutton-color:rgb(43, 43, 43);
@@ -126,19 +126,22 @@ body {
 
 .info-panel {
   background-color: rgba(255, 255, 255, 0.05);
-  padding: 1.5rem;
+  padding:1.5rem;
   border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
-  border: 2px solid;
+  border: 0.15rem solid;
   box-shadow: 0 0 1rem rgba(0,0,0,0.4);
   color: white;
   text-align: left;
   width: 100%;
-  max-width: 300px;
+  max-width: 25rem;
+  text-align: top;
+  display: flex;
+  flex-direction: column;
 }
 
 .left-panel {
-  border-color: #E273FF;
-  padding: 1.5rem 5.5rem 1.5rem 1.5rem;
+  border-color: #E273FF transparent #E273FF #E273FF;
+  border-radius: 1.5rem 0rem 0rem 1.5rem
 }
 
 .right-panel {
@@ -163,6 +166,7 @@ body {
   border-bottom: 1px solid white;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
+  font-family: canterell;
 }
 
 .info-line {
@@ -199,42 +203,46 @@ body {
   line-height: 1.4;
 }
 
-.buttons .icon {
-  font-size: 1.4rem;
-  margin: 0 0.5rem;
-  cursor: pointer;
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
 }
 
 .stream-button {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #444;
-  padding: 0.4rem 0.8rem;
-  border-radius: 1.2rem;
-  margin-top: 0.7rem;
-  font-size: 0.85rem;
+  flex-direction: column;
 }
 
 .stream-icon {
-  height: 1.4rem;
-  border-radius: 0.3rem;
+  height: 2.1rem;
+  width: 2.1rem;
+  border-radius: 0.5rem;
+  padding-left:0.3rem;
 }
 
 .action-buttons {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  margin-top: 2rem;
+  gap: 11rem;
+  margin-top: 0.5rem;
 }
 
-.circle-button {
-  width: 3.5rem;
-  height: 3.5rem;
-  font-size: 1.8rem;
-  border: 2px solid white;
-  border-radius: 50%;
-  background: none;
-  color: white;
-  cursor: pointer;
+.tickcross-button{
+    background-color: transparent;
+    border: none;
+    border-radius:20rem;
 }
+
+.tickcross-button:hover{
+  transform: scale(1.05);
+  background-color: var(--hover-color);
+
+}
+
+/* added */
+.watch-trailer{
+      display: flex;
+    flex-direction: column;
+}
+
