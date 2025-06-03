@@ -58,6 +58,7 @@ app.use(session({ // for sessions
 app.use(passport.initialize()); // for user authentication
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); // use /frontend directory as default directory for static files.
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // update sessions
 app.use(async (req, res, next) => {

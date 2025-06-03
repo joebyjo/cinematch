@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const path = require('path');
+const upload = require('../services/upload');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
 const { comparePassword } = require('../services/helpers');
@@ -106,7 +108,7 @@ router.delete('/me', async (req, res) => {
 
 
 // route to update theme
-router.post('/theme', async (req, res) => {
+router.post('/me/theme', async (req, res) => {
   const { theme } = req.body;
 
   // validate input
@@ -128,6 +130,25 @@ router.post('/theme', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ msg: 'Failed to update theme' });
+  }
+});
+
+
+// TODO need to be tested
+router.post('/me/profile-picture', upload.single('profile_picture'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ msg: 'No file uploaded or invalid file type' });
+  }
+
+  const profilePictureUrl = `/uploads/${req.file.filename}`;
+
+  try {
+    await db.query(`UPDATE USERS SET profile_picture_url = ? WHERE id = ?`, [profilePictureUrl, req.user.id]);
+
+    return res.status(200).json({ msg: 'Profile picture updated', profile_picture_url: profilePictureUrl });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: 'Failed to update profile picture' });
   }
 });
 
