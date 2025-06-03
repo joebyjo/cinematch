@@ -13,7 +13,7 @@ body {
 
 .sidebar {
     position: fixed;
-    left: 4rem;
+    left: 6rem;
     top: 50%;
     transform: translateY(-50%);
     background: #505050;
