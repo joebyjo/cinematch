@@ -123,10 +123,15 @@
             </div>
 
             <div class="upload-avatar">
-                <button type="button" class="upload-button">Upload my own</button>
+                <div class="upload-section">
+                    <input type="file" id="av-upload" accept=".jpg,.jpeg,.png" @change="fileUpload" style="display: none;">
+                    <label for="av-upload" class="upload-button">Upload my own</label>
+                    <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
+                </div>
                 <div class="preview">
                     <div class="preview-av">
-                        <img src="images/dummy-upload.svg" alt="Preview Avatar">
+                        <img v-if="uploadedImage" :src="uploadedImage" alt="Preview Avatar">
+                        <img v-else src="images/dummy-upload.svg" alt="Preview Avatar">
                     </div>
                     <p>Preview</p>
                 </div>
