@@ -366,16 +366,16 @@ input::placeholder {
 }
 
 .d-placeholder {
-    position: relative;
     background: #4a4a4a;
     border: 0.1rem solid #8d8d8d;
     border-radius: 2rem;
     padding: 1rem 2rem;
     color: #ffffff;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
 .d-arrow {
@@ -394,6 +394,8 @@ input::placeholder {
     border: 0.1rem solid #6d6d6d;
     border-radius: 1rem;
     padding: 1rem;
+    max-height: 25rem;
+    overflow-y: scroll;
 }
 
 .d-content.show {
@@ -405,14 +407,21 @@ input::placeholder {
     align-items: center;
     gap: 1rem;
     border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.d-option:hover {
+    background: #4a4a4a;
+    cursor: pointer;
 }
 
 .checkbox {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
     background: transparent;
     border: 0.15rem solid #8d8d8d;
     border-radius: 0.3rem;
+    margin-right: 1rem;
 }
 
 .checkbox.checked, .circle.checked{
