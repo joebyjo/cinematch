@@ -18,6 +18,8 @@ createApp({
                 noSpaces: false
             },
             newPass: '',
+            confirmPass: '',
+            passMatch: true,
 
             // dummy data
             languages: [
@@ -68,9 +70,12 @@ createApp({
                 uppercase: /[A-Z]/.test(password),
                 lowercase: /[a-z]/.test(password),
                 number: /[0-9]/.test(password),
-                special: /[!@#$%^&*(),?":{}|<>]/.test(password),
+                special: /[!_@#$%^&*(),?":{}|<>]/.test(password),
                 noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
+        },
+        checkMatch() {
+            this.passMatch = this.newPass === this.confirmPass;
         },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
@@ -79,6 +84,9 @@ createApp({
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
+        },
+        confirmPass() {
+            this.checkMatch();
         }
     }
 }).mount('#settings');
