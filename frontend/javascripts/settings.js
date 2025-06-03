@@ -20,6 +20,8 @@ createApp({
             newPass: '',
             confirmPass: '',
             passMatch: true,
+            uploadedImage: null,
+            uploadError: '',
 
             // dummy data
             languages: [
@@ -82,6 +84,23 @@ createApp({
         },
         goBack() {
             window.history.back();
+        },
+        fileUpload(event) {
+            const file = event.target.files[0];
+            this.uploadError = '';
+
+            if (!file) {
+                return;
+            }
+            if (!file.type.match('image/jpg') && !file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                this.uploadError = 'Please upload a JPG/JPEG/PNG file';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.uploadedImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
     },
     watch: {

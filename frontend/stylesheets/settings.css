@@ -367,6 +367,13 @@ input::placeholder {
     margin-top: 8rem;
 }
 
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
 .preview {
     display: flex;
     flex-direction: column;
