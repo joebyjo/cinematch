@@ -72,9 +72,9 @@ createApp({
 
             // updating users preference for theme
             if (this.isDark) {
-                const res = axios.post('api/users/theme',{theme:"dark"});
+                const res = axios.post('api/users/me/theme',{theme:"dark"});
             } else {
-                const res = axios.post('api/users/theme',{theme:"light"});
+                const res = axios.post('api/users/me/theme',{theme:"light"});
             }
 
             // adding transition between theme change
