@@ -11,8 +11,6 @@ var router = express.Router();
 
 router.use(isAuthenticated);
 
-console.log("hi");
-
 
 router.get('/', async (req, res) => {
     try {

@@ -15,7 +15,9 @@ const CONFIG = {
 };
 
 // Index offsets for different feature groups
-var IDX = {};
+var IDX = {
+genres:0,langs:28,decades:37,ImdbRating:48,userRating:60,watchProviders:72
+};
 
 // Index mappings for various attributes
 var genresIndex = {};
@@ -24,6 +26,9 @@ var decadesIndex = {};
 var ImdbRatingIndex = {};
 var userRatingIndex = {};
 var watchProvidersIndex = {};
+
+// Kick off initialization immediately on module load:
+const initializePromise = initializeIDX();
 
 /**
  * Returns a default mapping of genres to indices.
@@ -90,6 +95,7 @@ async function mapGenres() {
  */
 function getGenreIndex(genre) {
     if (genre in genresIndex) {
+        // console.log("jsdhfdhkfh: " + genresIndex[genre] + IDX.genres);
         return genresIndex[genre] + IDX.genres;
     }
     return genresIndex.Others + IDX.genres;
@@ -364,8 +370,6 @@ async function initializeIDX() {
 
 // Run the initialization
 // test();
-
-const initializePromise = initializeIDX();
 
 module.exports = [
     CONFIG,
