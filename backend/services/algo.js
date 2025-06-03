@@ -4,7 +4,7 @@
 /* eslint-disable key-spacing */
 /* eslint-disable no-multi-spaces */
 
-// Import required functions
+// Import required helper functions
 const {
     getUserGenresLanguages,
     getMovieData,
@@ -12,7 +12,9 @@ const {
 } = require('./helpers');
 
 const { tmdb } = require('../services/tmdb');
+const db = require('./db');
 
+// Algorithm configuration and mapping functions
 const [
     CONFIG,
     getGenreIndex,
@@ -24,20 +26,28 @@ const [
 ] = require('./algo-mapping');
 
 /**
- * Initializes the user vector based on user's favorite genres and languages
+ * Initializes a user vector based on favorite genres and languages
  * @param {string} userId
  * @returns {Promise<number[]>} user vector
  */
 async function createUserVector(userId) {
     try {
         const info = await getUserGenresLanguages(userId);
-        const vec = new Array(CONFIG.DIMENSIONS).fill(0);
+        var vec = new Array(CONFIG.DIMENSIONS).fill(0);
 
+        // console.log("Fuck" + " " + CONFIG.DIMENSIONS);
+        // console.log(info);
+
+        // Set 1 at genre indexes
         for (let i = 0; i < info.favorite_genres.length; i++) {
             const genre = info.favorite_genres[i];
-            vec[getGenreIndex(genre)] = 1;
+            // console.log(genre);
+            var index = getGenreIndex(genre);
+            // console.log(index);
+            vec[index] = 1;
         }
 
+        // Set 1 at language indexes
         for (let i = 0; i < info.preferred_languages.length; i++) {
             const lang = info.preferred_languages[i];
             vec[getLanguagesIndex(lang)] = 1;
@@ -51,8 +61,9 @@ async function createUserVector(userId) {
 }
 
 /**
- * Creates a movie vector based on movie features
- * @param {string} id
+ * Creates a movie vector based on movie attributes
+ * @param {string} userId
+ * @param {string} id - movie ID
  * @returns {Promise<number[]>} movie vector
  */
 async function createMovieVector(userId, id) {
@@ -60,26 +71,27 @@ async function createMovieVector(userId, id) {
         const data = await getMovieData(id);
         const vec = new Array(CONFIG.DIMENSIONS).fill(0);
 
-        // genres: array of strings
+        // Encode genres
         for (let i = 0; i < data.genres.length; i++) {
             const genre = data.genres[i];
             vec[getGenreIndex(genre.name)] = 1;
         }
 
-        // original_language: string
+        // Encode language
         vec[getLanguagesIndex(data.original_language)] = 1;
 
-        // release_date: ISO string
+        // Encode release decade
         const year = new Date(data.release_date).getFullYear();
         vec[getDecadesIndex(year)] = 1;
 
-        // imdb_rating: number
+        // Encode IMDb rating
         vec[getImbdRatingIndex(data.imdb_rating)] = 1;
 
-        // userRating: treat IMDb rating as user rating here (or use a separate field if needed)
-        vec[getUserRatingIndex(getUserRating(userId, id))] = 1;
+        // Encode user rating (from local function)
+        const rating = getUserRating(userId, id);
+        vec[getUserRatingIndex(rating)] = 1;
 
-        // watch_providers: array of strings
+        // Encode watch providers
         for (let i = 0; i < data.watch_providers.length; i++) {
             const provider = data.watch_providers[i];
             vec[getWatchProvidersIndex(provider.provider_name)] = 1;
@@ -92,12 +104,11 @@ async function createMovieVector(userId, id) {
     }
 }
 
-
 /**
- * Calculates cosine similarity between user and movie vector
+ * Calculates cosine similarity score
  * @param {number[]} movieVector
  * @param {number[]} userVector
- * @returns {number} score
+ * @returns {number} similarity score
  */
 function calculateScore(movieVector, userVector) {
     const normUser = normalize(userVector);
@@ -111,17 +122,19 @@ function calculateScore(movieVector, userVector) {
 }
 
 /**
- * Updates user vector on like/dislike swipe
+ * Updates the user vector based on swipe (like/dislike)
  * @param {number[]} userVector
  * @param {number[]} movieVector
  * @param {boolean} liked
  * @returns {number[]} updated user vector
  */
 function updateUserVector(userVector, movieVector, liked) {
+    // Apply decay
     for (let i = 0; i < userVector.length; i++) {
         userVector[i] *= (1 - CONFIG.DECAY_GAMMA);
     }
 
+    // Apply learning rate
     const rate = liked ? CONFIG.ALPHA_LIKE : CONFIG.ALPHA_DISLIKE;
     for (let i = 0; i < userVector.length; i++) {
         userVector[i] += rate * movieVector[i];
@@ -144,9 +157,9 @@ function l2Norm(vec) {
 }
 
 /**
- * Normalizes a vector using L2 norm
+ * Normalizes a vector
  * @param {number[]} vec
- * @returns {number[]}
+ * @returns {number[]} normalized vector
  */
 function normalize(vec) {
     const norm = l2Norm(vec) + 1e-8;
@@ -156,76 +169,146 @@ function normalize(vec) {
     return vec;
 }
 
-/* Stub Functions - To Be Implemented */
+/**
+ * Retrieves or creates a user vector
+ * @param {string} userId
+ * @returns {Promise<number[]>}
+ */
 async function getUserVector(userId) {
-    // TODO: Retrieve user vector from DB
+    try {
+        const [rows] = await db.query(
+            'SELECT user_vector FROM USERSETTINGS WHERE user_id = ?',
+            [userId]
+        );
+
+        let userVector;
+
+        if (rows.length === 0 || !rows[0].user_vector) {
+            userVector = await createUserVector(userId);
+            await addUserVector(userId, userVector);
+        } else {
+            userVector = JSON.parse(rows[0].user_vector);
+        }
+
+        return normalize(userVector);
+
+    } catch (err) {
+        console.error('Error in getUserVector:', err.message);
+        throw new Error('Failed to retrieve or create user vector');
+    }
 }
 
-async function updateMovieScore(userId, movieId, movieScore) {
-    // TODO: Update score in DB
+/**
+ * Saves/updates the user vector in the database
+ * @param {string} userId
+ * @param {number[]} userVector
+ */
+async function addUserVector(userId, userVector) {
+    try {
+        await db.execute(
+            'UPDATE USERSETTINGS SET user_vector = ? WHERE user_id = ?',
+            [JSON.stringify(userVector), userId]
+        );
+    } catch (err) {
+        console.error('Error in addUserVector:', err.message);
+        throw new Error('Failed to update user vector');
+    }
 }
 
-function addUserVector(userId, userVector) {
-    // TODO: Store vector in DB
-}
-
+/**
+ * Returns top movie ID for the user and resets its score
+ * @param {string} userId
+ * @returns {Promise<number>} movieId
+ */
 async function getTopMovie(userId) {
-    // TODO: Return top movie from DB and set its score to 0
+    try {
+        const [rows] = await db.query(
+            'SELECT movie_id FROM USERPREFERENCES WHERE user_id = ? ORDER BY score DESC LIMIT 1',
+            [userId]
+        );
+
+        if (rows.length === 0) {
+            return 218; // default fallback movie
+        }
+
+        const movieId = rows[0].movie_id;
+        await db.execute(
+            'UPDATE USERPREFERENCES SET score = 0 WHERE user_id = ? AND movie_id = ?',
+            [userId, movieId]
+        );
+
+        return movieId;
+    } catch (err) {
+        console.error('Error in getTopMovie:', err);
+        throw new Error('Failed to retrieve top movie');
+    }
 }
 
+/**
+ * Fetches top 10 recommended movie IDs from TMDB
+ * @param {string} movieId
+ * @returns {Promise<number[]>} movie IDs
+ */
 async function getMoviesTMDB(movieId) {
-    // Fetch 10 movie recommendations from TMDB API
     const response = await tmdb.get(`/movie/${movieId}/recommendations`);
     const movies = response.data;
 
-    const movieIDs = movies.results
-        .slice(0, 10)               // limit to first 10 movies
-        .map((movie) => movie.id);  // extract only the id
-
+    const movieIDs = [];
+    for (let i = 0; i < 10 && i < movies.results.length; i++) {
+        movieIDs.push(movies.results[i].id);
+    }
     return movieIDs;
 }
 
+// ---------------------------- TEST FUNCTIONS ----------------------------
 
-// --- TEST FUNCTIONS ---
 async function testUserVector() {
-    const testUserId = 123;
-    const userVector = await createUserVector(testUserId);
-    console.log("User vector created:", userVector);
+    const userId = 2;
+    const vec = await createUserVector(userId);
+    console.log("[Test] User Vector:", vec);
 }
 
 async function testMovieVector() {
-    const testMovieId = 238;
-    const data = await getMovieData(testMovieId);
-    // console.table(data);
-    const movieVector = await createMovieVector(2, testMovieId);
-    console.log("Movie vector created:", movieVector);
+    const movieId = 238;
+    const vec = await createMovieVector(2, movieId);
+    console.log("[Test] Movie Vector:", vec);
 }
 
 async function testScoreCalculation() {
-    const testUserId = 123;
-    const testMovieId = 456;
-
-    const userVector = await createUserVector(testUserId);
-    const movieVector = await createMovieVector(testMovieId);
-
-    const score = calculateScore(movieVector, userVector);
-    console.log(`Recommendation score for user ${testUserId} and movie ${testMovieId}:`, score);
+    const userVec = await createUserVector(2);
+    const movieVec = await createMovieVector(2, 238);
+    const score = calculateScore(movieVec, userVec);
+    console.log(`[Test] Score: ${score}`);
 }
 
-async function testgetMoviesTMDB(m) {
-    const res = await getMoviesTMDB(m);
-    console.log(res);
+async function testUpdateUserVector() {
+    const userVec = await createUserVector(2);
+    const movieVec = await createMovieVector(2, 238);
+    const updated = updateUserVector(userVec, movieVec, true);
+    console.log("[Test] Updated User Vector:", updated);
 }
 
-// Run desired test
-(async () => {
-    // Uncomment the ones you want to test
-    // await testUserVector();
-    await testMovieVector();
-    await testgetMoviesTMDB(238);
-    // await testScoreCalculation();
-})();
+async function testGetTopMovie() {
+    const movieId = await getTopMovie(2);
+    console.log("[Test] Top Movie ID:", movieId);
+}
 
+async function testGetMoviesTMDB() {
+    const recs = await getMoviesTMDB(238);
+    console.log("[Test] TMDB Recommendations:", recs);
+}
+
+// Run all tests
+// (async () => {
+//     await testUserVector();
+//     await testMovieVector();
+//     await testScoreCalculation();
+//     await testUpdateUserVector();
+//     await testGetTopMovie();
+//     await testGetMoviesTMDB();
+// })();
+
+// ---------------------------- EXPORTS ----------------------------
 
 module.exports = {
     createUserVector,
@@ -235,7 +318,6 @@ module.exports = {
     normalize,
     l2Norm,
     getUserVector,
-    updateMovieScore,
     addUserVector,
     getTopMovie,
     getMoviesTMDB

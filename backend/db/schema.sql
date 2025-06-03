@@ -105,7 +105,8 @@ CREATE TABLE `USERS` (
 -- create users table
 CREATE TABLE `USERSETTINGS` (
     `user_id` int DEFAULT NULL,
-    `theme` ENUM('dark', 'light') NOT NULL DEFAULT 'dark',
+    `theme` enum('dark','light') NOT NULL DEFAULT 'dark',
+    `user_vector` json DEFAULT NULL,
     KEY `user_id` (`user_id`),
     CONSTRAINT `USERSETTINGS_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE
 );
@@ -126,6 +127,7 @@ CREATE TABLE `USERPREFERENCES` (
     `preference_id` int NOT NULL,
     `movie_id` int NOT NULL,
     `user_rating_id` int DEFAULT NULL,
+    `score`  DOUBLE PRECISION DEFAULT 0,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     KEY `user_id` (`user_id`),
     KEY `preference_id` (`preference_id`),
