@@ -1,3 +1,7 @@
+* {
+    scroll-behavior: smooth;
+}
+
 body {
     background: #3a3a3a;
     font-family: 'Cantarell', sans-serif;
@@ -29,6 +33,7 @@ body {
     background: url(../images/esc-button.svg) no-repeat center/cover;
     border: none;
     transition: all 0.3s ease;
+    z-index: 2;
 }
 
 .esc>button:hover {
@@ -57,14 +62,14 @@ body {
     z-index: 1;
 }
 
-.sidebar-icon>img {
+.icon-img {
     width: 3.125rem;
     height: 3.125rem;
     opacity: 0.5;
     transition: all 0.3s ease;
 }
 
-.sidebar-icon>img:hover {
+.icon-img:hover {
     opacity: 1;
     transform: scale(1.1);
     cursor: pointer;
