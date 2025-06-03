@@ -79,6 +79,9 @@ createApp({
         },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
+        },
+        goBack() {
+            window.history.back();
         }
     },
     watch: {
