@@ -219,6 +219,11 @@ input::placeholder {
     color: #ffffff;
 }
 
+.req-tags>span.valid {
+    background: #4caf4f39;
+    border-color: #71c37487;
+}
+
 .req-tags {
     display: flex;
     flex-wrap: wrap;
