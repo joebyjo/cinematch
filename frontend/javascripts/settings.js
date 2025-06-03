@@ -69,7 +69,7 @@ createApp({
                 lowercase: /[a-z]/.test(password),
                 number: /[0-9]/.test(password),
                 special: /[!@#$%^&*(),?":{}|<>]/.test(password),
-                noSpaces: !/\s/.test(password) && !password.includes('.')
+                noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
         },
         isPassValid() {
