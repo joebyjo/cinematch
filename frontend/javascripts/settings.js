@@ -9,6 +9,15 @@ createApp({
                 genres: false
             },
             selectedTheme: 'dark', // default
+            passReq: {
+                length: false,
+                uppercase: false,
+                lowercase: false,
+                number: false,
+                special: false,
+                noSpaces: false
+            },
+            newPass: '',
 
             // dummy data
             languages: [
@@ -52,6 +61,24 @@ createApp({
             if (genre) {
                 genre.selected = !genre.selected;
             }
+        },
+        validatePass(password) {
+            this.passReq = {
+                length: password.length >= 8 && password.length <= 16,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                special: /[!@#$%^&*(),?":{}|<>]/.test(password),
+                noSpaces: !/\s/.test(password) && !password.includes('.')
+            };
+        },
+        isPassValid() {
+            return Object.values(this.passReq).every((req) => req);
+        }
+    },
+    watch: {
+        newPass(newVal) {
+            this.validatePass(newVal);
         }
     }
 }).mount('#settings');

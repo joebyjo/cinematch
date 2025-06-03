@@ -66,7 +66,7 @@
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
                     <input type="password" placeholder="Enter old password...">
-                    <input type="password" placeholder="Enter new password...">
+                    <input type="password" v-model="newPass" placeholder="Enter new password...">
                     <input type="password" placeholder="Confirm new password...">
                     <button type="button" class="confirm">Done</button>
                 </div>
@@ -85,12 +85,12 @@
                     <h2 class="card-title">Password check</h2>
                     <p class="info-text">Your new password must have :</p>
                     <div class="req-tags">
-                        <span>8 - 16 characters</span>
-                        <span>at least 1 UPPERCASE character</span>
-                        <span>at least 1 lowercase character</span>
-                        <span>at least 1 number</span>
-                        <span>no empty space or period</span>
-                        <span>at least 1 special character</span>
+                        <span :class="{ valid: passReq.length, invalid: !passReq.length }">8 - 16 characters</span>
+                        <span :class="{ valid: passReq.uppercase, invalid: !passReq.uppercase }">at least 1 UPPERCASE character</span>
+                        <span :class="{ valid: passReq.lowercase, invalid: !passReq.lowercase }">at least 1 lowercase character</span>
+                        <span :class="{ valid: passReq.number, invalid: !passReq.number }">at least 1 number</span>
+                        <span :class="{ valid: passReq.noSpaces, invalid: !passReq.noSpaces }">no empty space or period</span>
+                        <span :class="{ valid: passReq.special, invalid: !passReq.special }">at least 1 special character</span>
                     </div>
                 </div>
             </div>
