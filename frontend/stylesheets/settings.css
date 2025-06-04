@@ -356,7 +356,8 @@ input::placeholder {
     transition: all 0.3s ease;
 }
 
-.select-button:hover, .upload-button:hover {
+.select-button:hover, .upload-button:hover,
+.select-button.selected, .upload-button.selected {
     background: #7f67aa;
     color: white;
     border-color: transparent;
