@@ -24,6 +24,7 @@ createApp({
             uploadError: '',
             currAvIdx: 2,
             selectedAv: null,
+            showPass: false,
 
             // dummy data
             languages: [

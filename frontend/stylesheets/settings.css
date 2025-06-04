@@ -127,7 +127,6 @@ h1 {
     display: flex;
     flex-direction: row;
     gap: 3rem;
-    margin-bottom: 3rem;
 }
 
 .info-text {
@@ -184,7 +183,6 @@ input::placeholder {
 .change-name {
     background: #3e4449;
     border-color: #8eccffb9;
-    ;
 }
 
 .change-name .card-title {
@@ -234,6 +232,31 @@ input::placeholder {
 
 .delete-account>input:focus {
     border-color: #ED8080;
+}
+
+.show-hide-pass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.show-icon, .hide-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.show-icon {
+    background-image: url("../images/settings/show.png");
+}
+
+.hide-icon {
+    background-image: url("../images/settings/hide.png");
 }
 
 .password-check {
