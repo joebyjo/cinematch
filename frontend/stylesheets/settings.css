@@ -89,6 +89,7 @@ body {
     max-width: 70%;
     border: 0.15rem solid #8d8d8d7a;
     box-shadow: 0 0 0 0.4rem rgba(195, 195, 195, 0.05);
+    z-index: -1;
 }
 
 h1 {
