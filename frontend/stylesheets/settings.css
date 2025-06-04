@@ -30,7 +30,7 @@ body {
 .esc>button {
     width: 3.5rem;
     height: 3.5rem;
-    background: url(../images/esc-button.svg) no-repeat center/cover;
+    background: url(../images/settings/esc-button.svg) no-repeat center/cover;
     border: none;
     transition: all 0.3s ease;
 }
@@ -334,11 +334,11 @@ input::placeholder {
 }
 
 .next {
-    background: url(../images/next-arrow.svg) no-repeat center/cover;
+    background: url(../images/settings/next-arrow.svg) no-repeat center/cover;
 }
 
 .prev {
-    background: url(../images/prev-arrow.svg) no-repeat center/cover;
+    background: url(../images/settings/prev-arrow.svg) no-repeat center/cover;
 }
 
 .av-button:hover {

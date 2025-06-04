@@ -42,16 +42,16 @@
         <!--sidebar-->
         <div class="sidebar">
             <div class="sidebar-icon">
-                <a href="#acc"><img class="icon-img" src="images/account-settings.svg" alt="Account"></a>
+                <a href="#acc"><img class="icon-img" src="images/settings/account-settings.svg" alt="Account"></a>
             </div>
             <div class="sidebar-icon">
-                <a href="#profile"><img class="icon-img" src="images/profile-settings.svg" alt="Profile"></a>
+                <a href="#profile"><img class="icon-img" src="images/settings/profile-settings.svg" alt="Profile"></a>
             </div>
             <div class="sidebar-icon">
-                <a href="#pref"><img class="icon-img" src="images/pref-settings.svg" alt="Preferences"></a>
+                <a href="#pref"><img class="icon-img" src="images/settings/pref-settings.svg" alt="Preferences"></a>
             </div>
             <div class="sidebar-icon logout">
-                <img class="icon-img" src="images/logout-settings.svg" alt="Logout">
+                <img class="icon-img" src="images/logout-icon.png" alt="Logout">
             </div>
         </div>
 
@@ -130,7 +130,7 @@
                     <p>Preview</p>
                     <div class="preview-av">
                         <img v-if="uploadedImage" :src="uploadedImage" alt="Preview Avatar">
-                        <img v-else src="images/dummy-upload.svg" alt="Preview Avatar">
+                        <img v-else src="images/settings/dummy-upload.svg" alt="Preview Avatar">
                     </div>
                     <button v-if="uploadedImage" type="button" class="select-button" @click="selectUpload()"
                         :class="{selected: isUploadAvSelected()}">
