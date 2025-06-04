@@ -48,11 +48,11 @@ createApp({
                 { id: 10, name: 'Fantasy', selected: false }
             ],
             avatars: [
-                { id: 1, src: 'images/avatar1.svg' },
-                { id: 2, src: 'images/avatar2.svg' },
-                { id: 3, src: 'images/avatar3.svg' },
-                { id: 4, src: 'images/avatar4.svg' },
-                { id: 5, src: 'images/avatar5.svg' }
+                { id: 1, src: 'images/settings/avatar1.svg' },
+                { id: 2, src: 'images/settings/avatar2.svg' },
+                { id: 3, src: 'images/settings/avatar3.svg' },
+                { id: 4, src: 'images/settings/avatar4.svg' },
+                { id: 5, src: 'images/settings/avatar5.svg' }
             ]
         };
     },
