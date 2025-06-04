@@ -111,6 +111,11 @@ createApp({
             };
             reader.readAsDataURL(file);
         },
+        selectUpload() {
+            if (this.uploadedImage) {
+                this.selectedAv = { src: this.uploadedImage };
+            }
+        },
         nextAv() {
           this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
         },
