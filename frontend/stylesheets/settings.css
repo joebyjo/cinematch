@@ -386,6 +386,10 @@ input::placeholder {
     border-color: transparent;
 }
 
+.select-button.selected, .upload-button.selected {
+    cursor: not-allowed;
+}
+
 .upload-avatar {
     display: flex;
     flex-direction: row;
