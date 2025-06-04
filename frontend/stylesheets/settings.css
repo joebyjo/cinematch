@@ -392,6 +392,7 @@ input::placeholder {
     border-radius: 50%;
     border: 0.2rem solid #8d8d8d;
     overflow: hidden;
+    margin-bottom: 2rem;
 }
 
 .preview-av img {
