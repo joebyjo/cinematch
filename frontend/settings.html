@@ -131,6 +131,8 @@
                         <img v-else src="images/dummy-upload.svg" alt="Preview Avatar">
                     </div>
                     <p>Preview</p>
+                    <button v-if="uploadedImage" type="button" class="select-button" @click="selectUpload">
+                    Select this avatar </button>
                 </div>
             </div>
 
