@@ -132,6 +132,7 @@ createApp({
         },
         selectUpload() {
             if (this.uploadedImage) {
+                if (this.isUploadAvSelected()) return;
                 this.selectedAv = {
                     src: this.uploadedImage,
                     isUploaded: true
@@ -147,6 +148,7 @@ createApp({
           % this.avatars.length;
         },
         selectAv() {
+          if (this.isCurrAvSelected()) return;
           this.selectedAv = this.avatars[this.currAvIdx];
           this.showPopup('Avatar updated successfully');
         },
