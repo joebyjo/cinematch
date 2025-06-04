@@ -114,7 +114,8 @@
 
                 <div class="av-controls">
                     <button type="button" class="av-button prev" @click="prevAv"></button>
-                    <button type="button" class="select-button" @click="selectAv">Select this avatar</button>
+                    <button type="button" class="select-button" @click="selectAv()" :class="{selected: isCurrAvSelected()}">
+                        {{ isCurrAvSelected() ? 'Selected' : 'Select This Avatar' }}</button>
                     <button type="button" class="av-button next" @click="nextAv"></button>
                 </div>
             </div>
@@ -131,8 +132,9 @@
                         <img v-else src="images/dummy-upload.svg" alt="Preview Avatar">
                     </div>
                     <p>Preview</p>
-                    <button v-if="uploadedImage" type="button" class="select-button" @click="selectUpload">
-                    Select this avatar </button>
+                    <button v-if="uploadedImage" type="button" class="select-button" @click="selectUpload()"
+                        :class="{selected: isUploadAvSelected()}">
+                        {{ isUploadAvSelected() ? 'Selected' : 'Select This Avatar' }}</button>
                 </div>
             </div>
 

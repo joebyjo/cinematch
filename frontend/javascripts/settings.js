@@ -117,7 +117,10 @@ createApp({
         },
         selectUpload() {
             if (this.uploadedImage) {
-                this.selectedAv = { src: this.uploadedImage };
+                this.selectedAv = {
+                    src: this.uploadedImage,
+                    isUploaded: true
+                };
             }
         },
         nextAv() {
@@ -151,6 +154,15 @@ createApp({
             avatars.push(avatar);
         }
         return avatars;
+        },
+        isCurrAvSelected() {
+            if (!this.selectedAv) return false;
+            const currAv = this.avatars[this.currAvIdx];
+            return this.selectedAv.src === currAv.src && !this.selectedAv.isUploaded;
+        },
+        isUploadAvSelected() {
+            if (!this.selectedAv || !this.uploadedImage) return false;
+            return this.selectedAv.isUploaded && this.selectedAv.src === this.uploadedImage;
         }
     },
     watch: {
