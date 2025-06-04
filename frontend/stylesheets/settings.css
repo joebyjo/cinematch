@@ -516,3 +516,20 @@ input::placeholder {
     font-size: 1.25rem;
     color: #ffffff;
 }
+
+.popup {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    z-index: 3;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.popup.show {
+    opacity: 1;
+    background: rgb(102, 141, 102);
+}

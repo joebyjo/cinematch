@@ -32,6 +32,7 @@
 
 <body id="settings" style="display: none">
     <div class="page-layout">
+        <div class="popup" :class="{show: popup.show}">{{ popup.text }}</div>
 
         <!--close button-->
         <div class="esc">
