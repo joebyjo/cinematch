@@ -105,6 +105,10 @@ createApp({
                 this.uploadError = 'Please upload a JPG/JPEG/PNG file';
                 return;
             }
+            if (file.size> 2*1024*1024) {
+                this.uploadError = 'Max file size allowed is 2MB';
+                return;
+            }
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.uploadedImage = e.target.result;
