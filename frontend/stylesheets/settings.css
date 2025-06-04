@@ -27,13 +27,11 @@ body {
 }
 
 .esc>button {
-    left: 6.7rem;
     width: 3.5rem;
     height: 3.5rem;
     background: url(../images/esc-button.svg) no-repeat center/cover;
     border: none;
     transition: all 0.3s ease;
-    z-index: 2;
 }
 
 .esc>button:hover {
@@ -59,7 +57,6 @@ body {
     padding: 0.7rem;
     border-radius: 4rem;
     box-shadow: 0.625rem 1.125rem 1.25rem rgba(0, 0, 0, 0.25);
-    z-index: 1;
 }
 
 .icon-img {
