@@ -91,8 +91,8 @@ createApp({
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
         },
-        goBack() {
-            window.history.back();
+        goHome() {
+            window.location.href = '/';
         },
         fileUpload(event) {
             const file = event.target.files[0];
