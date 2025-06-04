@@ -22,6 +22,8 @@ createApp({
             passMatch: true,
             uploadedImage: null,
             uploadError: '',
+            currAvIdx: 2,
+            selectedAv: null,
 
             // dummy data
             languages: [
@@ -44,6 +46,13 @@ createApp({
                 { id: 8, name: 'Drama', selected: false },
                 { id: 9, name: 'Family', selected: false },
                 { id: 10, name: 'Fantasy', selected: false }
+            ],
+            avatars: [
+                { id: 1, src: 'images/avatar1.svg' },
+                { id: 2, src: 'images/avatar2.svg' },
+                { id: 3, src: 'images/avatar3.svg' },
+                { id: 4, src: 'images/avatar4.svg' },
+                { id: 5, src: 'images/avatar5.svg' }
             ]
         };
     },
@@ -101,6 +110,38 @@ createApp({
                 this.uploadedImage = e.target.result;
             };
             reader.readAsDataURL(file);
+        },
+        nextAv() {
+          this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
+        },
+        prevAv() {
+          this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
+          % this.avatars.length;
+        },
+        selectAv() {
+          this.selectedAv = this.avatars[this.currAvIdx];
+        },
+        getAvatars() {
+        const total = this.avatars.length;
+        const avatars = [];
+
+        for (let i = -2; i <= 2; i++) {
+            let id = this.currAvIdx + i;
+
+            if (id < 0) {
+            id += total;
+            } else if (id >= total) {
+            id -= total;
+            }
+
+            const avatar = {
+            ...this.avatars[id],
+            isSelected: i === 0,
+            isLarge: i === -1 || i === 1
+            };
+            avatars.push(avatar);
+        }
+        return avatars;
         }
     },
     watch: {
