@@ -17,6 +17,11 @@ createApp({
                 special: false,
                 noSpaces: false
             },
+            popup: {
+                show: false,
+                text: '',
+                timeout: null
+            },
             newPass: '',
             confirmPass: '',
             passMatch: true,
@@ -95,6 +100,15 @@ createApp({
         goHome() {
             window.location.href = '/';
         },
+        showPopup(message) {
+            this.popup = {
+                show: true,
+                text: message,
+                timeout: setTimeout(() => {
+                    this.popup.show = false;
+                }, 2500)
+            };
+        },
         fileUpload(event) {
             const file = event.target.files[0];
             this.uploadError = '';
@@ -122,6 +136,7 @@ createApp({
                     src: this.uploadedImage,
                     isUploaded: true
                 };
+                this.showPopup('Avatar updated successfully');
             }
         },
         nextAv() {
@@ -133,6 +148,7 @@ createApp({
         },
         selectAv() {
           this.selectedAv = this.avatars[this.currAvIdx];
+          this.showPopup('Avatar updated successfully');
         },
         getAvatars() {
         const total = this.avatars.length;
