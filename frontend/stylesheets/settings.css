@@ -24,6 +24,7 @@ body {
     flex-direction: column;
     justify-content: center;
     gap: 0.2rem;
+    z-index: 2;
 }
 
 .esc>button {
@@ -311,7 +312,7 @@ input::placeholder {
     width: 17rem;
     height: 17rem;
     border: 0.2rem solid #ffffff;
-    box-shadow: 0 0 1.5rem #ffffff4b;
+    box-shadow: 0 1rem 2rem #ffffff4b;
 }
 
 .slot.empty {

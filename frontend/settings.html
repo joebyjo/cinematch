@@ -106,19 +106,16 @@
             <h1 id="profile">Profile Settings</h1>
             <div class="select-avatar">
                 <div class="av-row">
-                    <div class="slot empty"></div>
-                    <div class="slot empty large"></div>
-                    <div class="slot selected">
-                        <img src="images/avatar1.svg" alt="Avatar1">
+                    <div v-for="avatar in getAvatars()" :key="avatar.id" class="slot"
+                    :class="{'empty': !avatar.src,'large': avatar.isLarge,'selected': avatar.isSelected}">
+                        <img v-if="avatar.src" :src="avatar.src" :alt="'Avatar' + avatar.id">
                     </div>
-                    <div class="slot empty large"></div>
-                    <div class="slot empty"></div>
                 </div>
 
                 <div class="av-controls">
-                    <button type="button" class="av-button prev"></button>
-                    <button type="button" class="select-button">Select this avatar</button>
-                    <button type="button" class="av-button next"></button>
+                    <button type="button" class="av-button prev" @click="prevAv"></button>
+                    <button type="button" class="select-button" @click="selectAv">Select this avatar</button>
+                    <button type="button" class="av-button next" @click="nextAv"></button>
                 </div>
             </div>
 
