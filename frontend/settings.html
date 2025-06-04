@@ -63,34 +63,42 @@
                 <div class="card change-name">
                     <h2 class="card-title">Change name</h2>
                     <p class="info-text">Current name: <span>Josheen Kour</span></p>
+
                     <input type="text" placeholder="Enter new first name...">
                     <input type="text" placeholder="Enter new last name...">
-                    <input type="password" placeholder="Enter your password...">
+                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
+
                     <button type="button" class="confirm">Done</button>
                 </div>
 
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
-                    <input type="password" placeholder="Enter old password...">
-                    <input type="password" v-model="newPass" placeholder="Enter new password...">
-                    <input type="password" v-model="confirmPass" placeholder="Confirm new password...">
+
+                    <input :type="showPass?'text':'password'" placeholder="Enter current password...">
+                    <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password...">
+                    <input :type="showPass?'text':'password'" v-model="confirmPass" placeholder="Confirm new password...">
+
                     <p class="error-message" v-if="!passMatch">Passwords do not match</p>
                     <button type="button" class="confirm">Done</button>
                 </div>
             </div>
-
+            <div class="show-hide-pass">
+                <button type="button" @click="showPass = !showPass" :class="showPass?'hide-icon':'show-icon'"></button>
+            </div>
             <div class="row">
                 <div class="card delete-account">
                     <h2 class="card-title">Delete account</h2>
                     <p class="info-text">IMPORTANT!<br>
                         This action cannot be undone</p>
-                    <input type="password" placeholder="Enter your password...">
+
+                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
                     <button type="button" class="confirm">Done</button>
                 </div>
 
                 <div class="card password-check">
                     <h2 class="card-title">Password check</h2>
                     <p class="info-text">Your new password must have :</p>
+
                     <div class="req-tags">
                         <span :class="{ valid: passReq.length, invalid: !passReq.length }">8 - 16 characters</span>
                         <span :class="{ valid: passReq.uppercase, invalid: !passReq.uppercase }">at least 1 UPPERCASE character</span>
