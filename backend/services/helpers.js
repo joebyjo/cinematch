@@ -188,6 +188,7 @@ async function getGenreData() {
     }
 }
 
+// TODO
 async function getLangData() {
     // to be changed
     try {
