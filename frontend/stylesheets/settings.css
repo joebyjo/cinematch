@@ -480,6 +480,7 @@ input::placeholder {
     padding: 1rem;
     max-height: 25rem;
     overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .d-content.show {
