@@ -225,6 +225,7 @@ async function addUserVector(userId, userVector) {
  * @returns {Promise<number>} movieId
  */
 async function getTopMovie(userId) {
+    // TODO: check for -1, give out random movie
     try {
         const [rows] = await db.query(
             'SELECT movie_id FROM USERPREFERENCES WHERE user_id = ? ORDER BY score DESC LIMIT 1',
