@@ -307,7 +307,7 @@ input::placeholder {
 .av-row {
     display: flex;
     align-items: flex-end;
-    gap: 6rem;
+    gap: clamp(2rem, 3vw, 4rem);
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -437,7 +437,7 @@ input::placeholder {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 3rem;
+    gap: clamp(1rem, 1vw, 3rem);
     margin-bottom: 3rem;
     flex-wrap: wrap;
 }
