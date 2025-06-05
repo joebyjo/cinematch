@@ -58,8 +58,10 @@ createApp({
                 this.firstName = data.first_name;
                 this.lastName = data.last_name;
                 this.profilePic = data.profile_picture_url;
+                document.cookie = `theme=${this.isDark ? 'dark' : 'light'}; path=/; max-age=31536000`;
             } else {
                 helperChangeDark(this.isDark);
+                document.cookie = `theme=${this.isDark ? 'dark' : 'light'}; path=/; max-age=31536000`;
             }
 
             this.inProcess = false;
@@ -69,6 +71,7 @@ createApp({
         },
         changeDark() {
             this.isDark = !this.isDark;
+            document.cookie = `theme=${this.isDark ? 'dark' : 'light'}; path=/; max-age=31536000`;
 
             // updating users preference for theme
             if (this.isDark) {
