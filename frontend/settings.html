@@ -178,9 +178,11 @@
                     <div class="d-content" :class="{ show: dropdowns.languages }">
                         <input type="text" v-model="search.languages" class="d-search" placeholder="Search language..." @click.stop>
                         <div v-if="filterLang.length === 0" class="no-result">No language found</div>
-                        <div class="d-option" v-for="language in filterLang" :key="language.id" @click="toggleLanguage(language.id)">
+                        <div class="lang-results">
+                            <div class="d-option" v-for="language in filterLang" :key="language.id" @click="toggleLanguage(language.id)">
                             <div class="checkbox" :class="{ checked: language.selected }"></div>
                             <span class="option-text">{{ language.name }}</span>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -191,7 +193,7 @@
                         <span>Search movie genres</span>
                         <span class="d-arrow" :class="{ open: dropdowns.genres }">▼</span>
                     </div>
-                    <div class="d-content" :class="{ show: dropdowns.genres }">
+                    <div class="d-content genre" :class="{ show: dropdowns.genres }">
                         <div class="d-option" v-for="genre in genres" :key="genre.id" :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
                             <div class="checkbox" :class="{ checked: genre.selected }"></div>
                             <span class="option-text">{{ genre.name }}</span>

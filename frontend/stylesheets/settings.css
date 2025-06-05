@@ -479,6 +479,9 @@ input::placeholder {
     border-radius: 1rem;
     padding: 1rem;
     max-height: 25rem;
+}
+
+.d-content.genre, .lang-results {
     overflow-y: scroll;
     scrollbar-width: none;
 }

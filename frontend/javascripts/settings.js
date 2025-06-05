@@ -44,7 +44,10 @@ createApp({
                 { id: 4, name: 'Português', selected: false },
                 { id: 5, name: 'French', selected: false },
                 { id: 6, name: 'German', selected: false },
-                { id: 7, name: 'Hindi', selected: false }
+                { id: 7, name: 'Hindi', selected: false },
+                { id: 8, name: 'Arabic', selected: false },
+                { id: 9, name: 'Korean', selected: false },
+                { id: 10, name: 'Chinese', selected: false }
             ],
             genres: [
                 { id: 1, name: 'Action', selected: false },
