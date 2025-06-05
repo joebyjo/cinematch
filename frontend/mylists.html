@@ -201,7 +201,7 @@
                     </tr>
 
                     <tr v-for="movie in movies">
-                        <td class="movie-title">{{ helperCheckEmpty(movie.title) }}</td>
+                        <td class="movie-title" @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }}</td>
                         <td>
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
