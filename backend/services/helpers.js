@@ -178,8 +178,6 @@ function formatMovies(rows) {
     return Object.values(movieMap);
 }
 
-
-
 async function getGenreData() {
     try {
         const [rows] = await db.query('SELECT id, name FROM GENRES');
@@ -191,6 +189,7 @@ async function getGenreData() {
 }
 
 async function getLangData() {
+    // to be changed
     try {
         const [rows] = await db.query('SELECT DISTINCT original_language from MOVIES;');
         return rows;
@@ -210,12 +209,55 @@ async function getWatchProvidersData() {
     }
 }
 
+async function getUserGenres(userId) {
+    try {
+        // retrieving Favorite Genres
+        const [rows] = await db.query('select name from USERGENRES join GENRES ON id = genre_id where user_id = ?', [userId]);
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getUserLanguages(userId) {
+    try {
+        // retrieving Favorite Languages
+        const [rows] = await db.query('select code from USERLANGUAGES join LANGUAGES ON id = language_id where user_id = ?', [userId]);
+        // console.log(rows);
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
 async function getUserGenresLanguages(userId) {
-    // Mocked default user preferences for testing
-    return {
-        favorite_genres: ["Action", "Drama"],
-        preferred_languages: ["en", "hi"]
-    };
+    try {
+        // retrieving Favorite Genres
+        const rowsG = await getUserGenres(userId);
+        // console.log(rowsG);
+
+        // retrieving Favorite Languages
+        const rowsL = await getUserLanguages(userId);
+        // console.log(rowsL);
+
+        const result = {
+            favorite_genres: rowsG.map((g) => g.name),
+            preferred_languages: rowsL.map((l) => l.code)
+        };
+
+        // console.log(result);
+
+        return result;
+
+    } catch (err) {
+        console.error(err);
+        return {
+            favorite_genres: ["Action", "Drama"],
+            preferred_languages: ["en"]
+        };
+    }
 }
 
 async function getUserRating(userId, movieId) {
@@ -227,9 +269,11 @@ async function getUserRating(userId, movieId) {
         return rating;
     } catch (err) {
         console.error(err);
-        throw new Error('Failed to retrieve Data');
+        return 0;
     }
 }
+
+getUserGenresLanguages(2);
 
 
 module.exports = {

@@ -191,6 +191,8 @@ async function getUserVector(userId) {
             userVector = rows[0].user_vector;
         }
 
+        console.log(userVector);
+
         return userVector;
 
     } catch (err) {
