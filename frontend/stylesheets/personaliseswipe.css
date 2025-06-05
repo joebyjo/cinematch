@@ -98,23 +98,6 @@ body {
     align-items: center;
 }
 /* styling for personalise swipe section bellow */
-.matchmaker-page {
-  padding: 2rem;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.matchmaker-title h1 {
-  font-size: 6rem;
-  margin-bottom: 0.5rem;
-  font-weight: 800;
-}
-
-.matchmaker-title p {
-  font-size: 6rem;
-  opacity: 0.8;
-  margin-bottom: 2rem;
-}
 
 .matchmaker-grid {
   display: grid;
@@ -122,14 +105,13 @@ body {
   align-items: center;
   gap: 0rem;
   justify-content: center;
+
 }
 
 .info-panel {
-  background-color: rgba(255, 255, 255, 0.05);
   padding:1.5rem;
   border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
   border: 0.15rem solid;
-  box-shadow: 0 0 1rem rgba(0,0,0,0.4);
   color: white;
   text-align: left;
   width: 100%;
@@ -137,16 +119,18 @@ body {
   text-align: top;
   display: flex;
   flex-direction: column;
+font-family: Cantarell;
+background-color: #2B2B2B;
 }
 
 .left-panel {
   border-color: #E273FF transparent #E273FF #E273FF;
-  border-radius: 1.5rem 0rem 0rem 1.5rem
+  border-radius: 1.5rem 0rem 0rem 1.5rem;
 }
 
 .right-panel {
   border-color: #90F0FF #90F0FF  #90F0FF  transparent;
-  border-radius: 0rem 1.5rem 1.5rem 0rem
+  border-radius: 0rem 1.5rem 1.5rem 0rem;
 }
 
 .poster-container {
@@ -163,10 +147,10 @@ body {
 
 .info-panel h2 {
   font-size: 2rem;
-  border-bottom: 1px solid white;
+  border-bottom: 0.2rem solid #8D8D8D;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
-  font-family: canterell;
+  font-family: Cantarell;
 }
 
 .info-line {
