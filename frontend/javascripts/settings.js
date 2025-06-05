@@ -3,12 +3,21 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
+            selectedTheme: 'dark', // default
+            newPass: '',
+            confirmPass: '',
+            passMatch: true,
+            uploadedImage: null,
+            uploadError: '',
+            currAvIdx: 2,
+            selectedAv: null,
+            showPass: false,
+
             dropdowns: {
                 theme: false,
                 languages: false,
                 genres: false
             },
-            selectedTheme: 'dark', // default
             passReq: {
                 length: false,
                 uppercase: false,
@@ -22,14 +31,10 @@ createApp({
                 text: '',
                 timeout: null
             },
-            newPass: '',
-            confirmPass: '',
-            passMatch: true,
-            uploadedImage: null,
-            uploadError: '',
-            currAvIdx: 2,
-            selectedAv: null,
-            showPass: false,
+            search: {
+                languages: '',
+                genres: ''
+            },
 
             // dummy data
             languages: [
@@ -61,6 +66,22 @@ createApp({
                 { id: 5, src: 'images/settings/avatar5.svg' }
             ]
         };
+    },
+    computed: {
+        filterLang() {
+            if (!this.search.languages) {
+                return this.languages;
+            }
+            return this.languages.filter((lang) =>
+            lang.name.includes(this.search.languages));
+        },
+        filterGenre() {
+            if (!this.searchQueries.genres) {
+                return this.genres;
+            }
+            return this.genres.filter((genre) =>
+            genre.name.includes(this.search.genres));
+        }
     },
     methods: {
         toggleDropdown(type) {
