@@ -73,14 +73,7 @@ createApp({
                 return this.languages;
             }
             return this.languages.filter((lang) =>
-            lang.name.includes(this.search.languages));
-        },
-        filterGenre() {
-            if (!this.searchQueries.genres) {
-                return this.genres;
-            }
-            return this.genres.filter((genre) =>
-            genre.name.includes(this.search.genres));
+            lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
         }
     },
     methods: {
