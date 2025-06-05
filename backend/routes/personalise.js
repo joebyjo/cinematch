@@ -42,7 +42,7 @@ router.get('/movies', async (req, res) => {
     }
 });
 
-router.post('/genres', async (req, res) => {
+router.post('/genres-name', async (req, res) => {
     const userId = req.user.id;
     const genreNames = req.body;
 
@@ -85,7 +85,7 @@ router.post('/genres', async (req, res) => {
 });
 
 
-router.post('/languages', async (req, res) => {
+router.post('/languages-name', async (req, res) => {
     const userId = req.user.id;
     const languageCodes = req.body;
 
@@ -95,20 +95,13 @@ router.post('/languages', async (req, res) => {
 
     try {
         for (const langCode of languageCodes) {
-            const [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ?', [langCode]);
+            var [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ?', [langCode]);
 
             if (langRes.length === 0) {
                 console.warn(`[WARN] Language code '${langCode}' not found in LANGUAGES table. Skipping.`);
 
                 // adding to others
-                const [otherRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ot');
-
-                const otherId = otherRes[0];
-                await db.query(
-                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
-                    [userId, otherId]
-                );
-                continue;
+                [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = "ot"');
             }
 
             const languageId = langRes[0].id;
@@ -136,6 +129,69 @@ router.post('/languages', async (req, res) => {
     }
 });
 
+router.post('/genres-id', async (req, res) => {
+    const userId = req.user.id;
+    const genreIds = req.body;
+
+    if (!Array.isArray(genreIds)) {
+        return res.status(400).json({ msg: "Invalid input. Expected an array of genre IDs." });
+    }
+
+    try {
+        for (const genreId of genreIds) {
+            // Check if entry already exists
+            const [existing] = await db.query(
+                'SELECT * FROM USERGENRES WHERE user_id = ? AND genre_id = ?',
+                [userId, genreId]
+            );
+
+            if (existing.length === 0) {
+                await db.query(
+                    'INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)',
+                    [userId, genreId]
+                );
+            }
+        }
+
+        return res.status(200).json({ msg: "Genres updated successfully." });
+    } catch (err) {
+        console.error('[ERROR] Failed to update genres:', err);
+        return res.status(500).json({ msg: 'Internal server error while updating genres.' });
+    }
+});
+
+router.post('/languages-id', async (req, res) => {
+    const userId = req.user.id;
+    const languageIds = req.body;
+
+    if (!Array.isArray(languageIds)) {
+        return res.status(400).json({ msg: "Invalid input. Expected an array of language IDs." });
+    }
+
+    try {
+        for (const languageId of languageIds) {
+            // Check if entry already exists
+            const [existing] = await db.query(
+                'SELECT * FROM USERLANGUAGES WHERE user_id = ? AND language_id = ?',
+                [userId, languageId]
+            );
+
+            if (existing.length === 0) {
+                await db.query(
+                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
+                    [userId, languageId]
+                );
+            }
+        }
+
+        return res.status(200).json({ msg: "Languages updated successfully." });
+    } catch (err) {
+        console.error('[ERROR] Failed to update languages:', err);
+        return res.status(500).json({ msg: 'Internal server error while updating languages.' });
+    }
+});
+
+
 
 router.post('/movie', async (req, res) => {
     try {
@@ -153,6 +209,8 @@ router.post('/movie', async (req, res) => {
             createMovieVector(userId, movie_id),
             getUserVector(userId)
         ]);
+
+        console.log(userVector);
 
         if (is_liked) {
             const score = calculateScore(movieVector, userVector);
