@@ -41,10 +41,7 @@ async function createUserVector(userId) {
         // Set 1 at genre indexes
         for (let i = 0; i < info.favorite_genres.length; i++) {
             const genre = info.favorite_genres[i];
-            // console.log(genre);
-            var index = getGenreIndex(genre);
-            // console.log(index);
-            vec[index] = 1;
+            vec[getGenreIndex(genre)] = 1;
         }
 
         // Set 1 at language indexes
@@ -97,7 +94,7 @@ async function createMovieVector(userId, id) {
             vec[getWatchProvidersIndex(provider.provider_name)] = 1;
         }
 
-        return normalize(vec);
+        return vec;
     } catch (error) {
         console.error('Error in createMovieVector:', error);
         return [];
@@ -112,10 +109,11 @@ async function createMovieVector(userId, id) {
  */
 function calculateScore(movieVector, userVector) {
     const normUser = normalize(userVector);
+    const movieVec = normalize(movieVector);
     let sum = 0;
 
-    for (let i = 0; i < movieVector.length; i++) {
-        sum += movieVector[i] * normUser[i];
+    for (let i = 0; i < movieVec.length; i++) {
+        sum += movieVec[i] * normUser[i];
     }
 
     return sum;
@@ -128,7 +126,7 @@ function calculateScore(movieVector, userVector) {
  * @param {boolean} liked
  * @returns {number[]} updated user vector
  */
-function updateUserVector(userVector, movieVector, liked) {
+async function updateUserVector(userId, userVector, movieVector, liked) {
     // Apply decay
     for (let i = 0; i < userVector.length; i++) {
         userVector[i] *= (1 - CONFIG.DECAY_GAMMA);
@@ -140,7 +138,7 @@ function updateUserVector(userVector, movieVector, liked) {
         userVector[i] += rate * movieVector[i];
     }
 
-    return userVector;
+    await addUserVector(userId, userVector);
 }
 
 /**
@@ -161,7 +159,8 @@ function l2Norm(vec) {
  * @param {number[]} vec
  * @returns {number[]} normalized vector
  */
-function normalize(vec) {
+function normalize(v) {
+    var vec = v;
     const norm = l2Norm(vec) + 1e-8;
     for (let i = 0; i < vec.length; i++) {
         vec[i] = vec[i] / norm;
@@ -183,20 +182,23 @@ async function getUserVector(userId) {
 
         let userVector;
 
-        if (rows.length === 0 || !rows[0].user_vector) {
+        if (!rows.length || !rows[0].user_vector) {
+            // console.log(`User vector not found for user ${userId}, creating new one...`);
+
             userVector = await createUserVector(userId);
             await addUserVector(userId, userVector);
         } else {
-            userVector = JSON.parse(rows[0].user_vector);
+            userVector = rows[0].user_vector;
         }
 
-        return normalize(userVector);
+        return userVector;
 
     } catch (err) {
         console.error('Error in getUserVector:', err.message);
         throw new Error('Failed to retrieve or create user vector');
     }
 }
+
 
 /**
  * Saves/updates the user vector in the database
@@ -233,7 +235,7 @@ async function getTopMovie(userId) {
 
         const movieId = rows[0].movie_id;
         await db.execute(
-            'UPDATE USERPREFERENCES SET score = 0 WHERE user_id = ? AND movie_id = ?',
+            'UPDATE USERPREFERENCES SET score = -1 WHERE user_id = ? AND movie_id = ?',
             [userId, movieId]
         );
 
@@ -258,6 +260,18 @@ async function getMoviesTMDB(movieId) {
         movieIDs.push(movies.results[i].id);
     }
     return movieIDs;
+}
+
+async function updateScore(score, movieId, userId) {
+    try {
+        await db.execute(
+            'UPDATE USERPREFERENCES SET score = ? WHERE user_id = ? AND movie_id = ?',
+            [score, userId, movieId]
+        );
+    } catch (err) {
+        console.error('Error in getTopMovie:', err);
+        throw new Error('Failed to retrieve top movie');
+    }
 }
 
 // ---------------------------- TEST FUNCTIONS ----------------------------
@@ -320,5 +334,6 @@ module.exports = {
     getUserVector,
     addUserVector,
     getTopMovie,
-    getMoviesTMDB
+    getMoviesTMDB,
+    updateScore
 };
