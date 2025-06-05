@@ -86,6 +86,9 @@ createApp({
     methods: {
         toggleDropdown(type) {
             this.dropdowns[type] = !this.dropdowns[type];
+            if (!this.dropdowns[type]) {
+                this.search[type] = '';
+            }
         },
         selectTheme(theme) {
             this.selectedTheme = theme;
