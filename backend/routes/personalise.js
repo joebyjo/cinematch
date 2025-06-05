@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-console */
 const express = require('express');
@@ -40,28 +42,100 @@ router.get('/movies', async (req, res) => {
     }
 });
 
-
 router.post('/genres', async (req, res) => {
-    try {
-        const [] = req.body;
+    const userId = req.user.id;
+    const genreNames = req.body;
 
-        return res.status(200).json({ msg: "Preference updated successfully" });
+    if (!Array.isArray(genreNames)) {
+        return res.status(400).json({ msg: "Invalid input format. Expected an array of genre names." });
+    }
+
+    try {
+        for (const genreName of genreNames) {
+            const [genreRes] = await db.query('SELECT id FROM GENRES WHERE name = ?', [genreName]);
+
+            if (genreRes.length === 0) {
+                console.warn(`[WARN] Genre '${genreName}' not found in GENRES table. Skipping.`);
+                continue;
+            }
+
+            const genreId = genreRes[0].id;
+
+            const [existing] = await db.query(
+                'SELECT * FROM USERGENRES WHERE user_id = ? AND genre_id = ?',
+                [userId, genreId]
+            );
+
+            if (existing.length === 0) {
+                await db.query(
+                    'INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)',
+                    [userId, genreId]
+                );
+                // console.log(`[INFO] Added genre '${genreName}' for user ${userId}`);
+            } else {
+                // console.log(`[INFO] Genre '${genreName}' already exists for user ${userId}, skipping insert.`);
+            }
+        }
+
+        return res.status(200).json({ msg: "Genres updated successfully" });
     } catch (err) {
-        console.error('[ERROR] Failed to update user preference:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating preferences' });
+        console.error('[ERROR] Failed to update genres:', err);
+        return res.status(500).json({ msg: 'Internal server error while updating genres' });
     }
 });
+
 
 router.post('/languages', async (req, res) => {
-    try {
-        const [] = req.body;
+    const userId = req.user.id;
+    const languageCodes = req.body;
 
-        return res.status(200).json({ msg: "Preference updated successfully" });
+    if (!Array.isArray(languageCodes)) {
+        return res.status(400).json({ msg: "Invalid input format. Expected an array of language codes." });
+    }
+
+    try {
+        for (const langCode of languageCodes) {
+            const [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ?', [langCode]);
+
+            if (langRes.length === 0) {
+                console.warn(`[WARN] Language code '${langCode}' not found in LANGUAGES table. Skipping.`);
+
+                // adding to others
+                const [otherRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ot');
+
+                const otherId = otherRes[0];
+                await db.query(
+                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
+                    [userId, otherId]
+                );
+                continue;
+            }
+
+            const languageId = langRes[0].id;
+
+            const [existing] = await db.query(
+                'SELECT * FROM USERLANGUAGES WHERE user_id = ? AND language_id = ?',
+                [userId, languageId]
+            );
+
+            if (existing.length === 0) {
+                await db.query(
+                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
+                    [userId, languageId]
+                );
+                // console.log(`[INFO] Added language '${langCode}' for user ${userId}`);
+            } else {
+                // console.log(`[INFO] Language '${langCode}' already exists for user ${userId}, skipping insert.`);
+            }
+        }
+
+        return res.status(200).json({ msg: "Languages updated successfully" });
     } catch (err) {
-        console.error('[ERROR] Failed to update user preference:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating preferences' });
+        console.error('[ERROR] Failed to update languages:', err);
+        return res.status(500).json({ msg: 'Internal server error while updating languages' });
     }
 });
+
 
 router.post('/movie', async (req, res) => {
     try {
@@ -103,7 +177,7 @@ async function addMovie(movie_id, is_liked, watch_status, userId) {
             [userId, movie_id]
         );
 
-        console.log('[INFO] Checked existing preferences');
+        // console.log('[INFO] Checked existing preferences');
 
         const [prefRes] = await db.query(
             'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
@@ -121,13 +195,13 @@ async function addMovie(movie_id, is_liked, watch_status, userId) {
                 'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
                 [preferenceId, userId, movie_id]
             );
-            console.log('[INFO] Existing preference updated');
+            // console.log('[INFO] Existing preference updated');
         } else {
             await db.query(
                 'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
                 [userId, preferenceId, movie_id]
             );
-            console.log('[INFO] New preference inserted');
+            // console.log('[INFO] New preference inserted');
         }
     } catch (err) {
         console.error('[ERROR] Failed to add/update movie preference:', err);
