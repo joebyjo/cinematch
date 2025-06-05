@@ -127,7 +127,7 @@ CREATE TABLE `USERPREFERENCES` (
     `preference_id` int NOT NULL,
     `movie_id` int NOT NULL,
     `user_rating_id` int DEFAULT NULL,
-    `score`  DOUBLE PRECISION DEFAULT 0,
+    `score`  DOUBLE PRECISION DEFAULT -1,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     KEY `user_id` (`user_id`),
     KEY `preference_id` (`preference_id`),
@@ -153,6 +153,35 @@ CREATE TABLE `SESSIONS` (
   CONSTRAINT `SESSIONS_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE
 );
 
+CREATE TABLE `LANGUAGES` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `code` char(2) NOT NULL,  -- ISO 639-1 codes like 'en', 'hi', etc.
+    `name` varchar(50) NOT NULL,
+    PRIMARY KEY (`id`)
+);
 
+INSERT INTO `LANGUAGES` (`code`, `name`) VALUES
+('en', 'English'),
+('hi', 'Hindi'),
+('tl', 'Tagalog'),
+('te', 'Telugu'),
+('ja', 'Japanese'),
+('ml', 'Malayalam'),
+('es', 'Spanish'),
+('ot', 'Others');
 
+CREATE TABLE `USERLANGUAGES` (
+    `user_id` int NOT NULL,
+    `language_id` int NOT NULL,
+    PRIMARY KEY (`user_id`, `language_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`language_id`) REFERENCES `LANGUAGES` (`id`) ON DELETE CASCADE
+);
 
+CREATE TABLE `USERGENRES` (
+    `user_id` int NOT NULL,
+    `genre_id` int NOT NULL,
+    PRIMARY KEY (`user_id`, `genre_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`genre_id`) REFERENCES `GENRES` (`id`) ON DELETE CASCADE
+);
