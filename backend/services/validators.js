@@ -64,7 +64,7 @@ const validateSignup = [
         .notEmpty()
         .withMessage('Username is required')
         .isLength({ min: 3 })
-        .withMessage('Username must be minimum 2 letters long'),
+        .withMessage('Username must be minimum 3 letters long'),
 
     body('password')
         .trim()
@@ -79,9 +79,7 @@ const validateSignup = [
         .matches(/[0-9]/)
         .withMessage('Password must contain a digit')
         .matches(/[\W_]/)
-        .withMessage('Password must contain a special character')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid or dangerous characters'),
+        .withMessage('Password must contain a special character'),
 
     body('firstName')
         .trim()
@@ -117,8 +115,6 @@ const validateLogin = [
         .withMessage('Password is required')
         .isLength({ min: 3 })
         .withMessage('Password must be at least 3 characters long')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid characters')
 ];
 
 
