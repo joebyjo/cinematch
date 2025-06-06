@@ -118,6 +118,46 @@ async function getMovieData(movieId) {
     }
 }
 
+async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
+    try {
+
+        // check if user already has preferences for this this movie
+        const [existing] = await db.query(
+            'SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
+            [userId, movie_id]
+        );
+
+        // get preference id that matches
+        const [prefRes] = await db.query(
+            'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
+            [is_liked, watch_status]
+        );
+
+        if (!prefRes.length) {
+            throw new Error('Preference ID not found for provided values');
+        }
+
+        const preferenceId = prefRes[0].id;
+
+        if (existing.length > 0) {
+            await db.query(
+                // update existing preference
+                'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
+                [preferenceId, userId, movie_id]
+            );
+        } else {
+            await db.query(
+                // insert new preference for movie
+                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
+                [userId, preferenceId, movie_id]
+            );
+        }
+    } catch (err) {
+        console.error('[ERROR] Failed to add/update movie preference:', err);
+        throw new Error('Database error while saving movie preference');
+    }
+}
+
 
 function formatMovies(rows) {
     const movieMap = {};
@@ -273,15 +313,13 @@ async function getUserRating(userId, movieId) {
     }
 }
 
-// TODO: should this be here?
-getUserGenresLanguages(2);
-
 
 module.exports = {
     hashPassword,
     comparePassword,
     insertMovie,
     getMovieData,
+    addMoviePreference,
     formatMovies,
     getGenreData,
     getLangData,
