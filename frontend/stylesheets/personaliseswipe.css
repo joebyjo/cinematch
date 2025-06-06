@@ -127,12 +127,14 @@ body {
 .left-panel {
     border-color: #E273FF transparent #E273FF #E273FF;
     border-radius: 1.5rem 0rem 0rem 1.5rem;
+    box-shadow: 0 0 0.4rem #E273FF;
 
 }
 
 .right-panel {
     border-color: #90F0FF #90F0FF #90F0FF transparent;
     border-radius: 0rem 1.5rem 1.5rem 0rem;
+    box-shadow: 0 0 0.4rem #90F0FF;
 }
 
 .poster-container {
@@ -231,9 +233,11 @@ body {
 
 
 .description {
+    margin-top: 1rem;
     margin-bottom: 1rem;
     font-size: 1.1rem;
-    line-height: 1.4;
+    line-height: 1.7;
+    font-weight: lighter;
 }
 
 .buttons {
@@ -293,4 +297,12 @@ body {
     /* Hides original text color */
     background-clip: text;
     color: transparent;
+}
+
+u {
+  text-underline-offset: 0.4rem; /* adds space between text and underline */
+}
+
+.watch-trailer-text{
+    color:#8D8D8D;
 }
