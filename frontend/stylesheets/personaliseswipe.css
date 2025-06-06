@@ -306,3 +306,12 @@ u {
 .watch-trailer-text{
     color:#8D8D8D;
 }
+
+.hidden {
+  display: none;
+}
+/* .bookmark-icon, .eye-icon {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+} */
