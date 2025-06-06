@@ -35,7 +35,6 @@ async function createUserVector(userId) {
         const info = await getUserGenresLanguages(userId);
         var vec = new Array(CONFIG.DIMENSIONS).fill(0);
 
-        // console.log("Fuck" + " " + CONFIG.DIMENSIONS);
         // console.log(info);
 
         // Set 1 at genre indexes

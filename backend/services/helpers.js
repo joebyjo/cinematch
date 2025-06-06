@@ -180,7 +180,7 @@ function formatMovies(rows) {
 
 async function getGenreData() {
     try {
-        const [rows] = await db.query('SELECT id, name FROM GENRES');
+        const [rows] = await db.query('SELECT * FROM GENRES');
         return rows;
     } catch (err) {
         console.error(err);
@@ -188,11 +188,10 @@ async function getGenreData() {
     }
 }
 
-// TODO
 async function getLangData() {
     // to be changed
     try {
-        const [rows] = await db.query('SELECT DISTINCT original_language from MOVIES;');
+        const [rows] = await db.query('SELECT * FROM LANGUAGES');
         return rows;
     } catch (err) {
         console.error(err);
@@ -202,7 +201,7 @@ async function getLangData() {
 
 async function getWatchProvidersData() {
     try {
-        const [rows] = await db.query('select provider_name FROM WATCHPROVIDERS;');
+        const [rows] = await db.query('SELECT * FROM WATCHPROVIDERS;');
         return rows;
     } catch (err) {
         console.error(err);
@@ -274,6 +273,7 @@ async function getUserRating(userId, movieId) {
     }
 }
 
+// TODO: should this be here?
 getUserGenresLanguages(2);
 
 

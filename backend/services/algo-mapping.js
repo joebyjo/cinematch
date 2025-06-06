@@ -16,7 +16,7 @@ const CONFIG = {
 
 // Index offsets for different feature groups
 var IDX = {
-genres:0,langs:28,decades:37,ImdbRating:48,userRating:60,watchProviders:72
+    genres: 0, langs: 28, decades: 201, ImdbRating: 212, userRating: 224, watchProviders: 236
 };
 
 // Index mappings for various attributes
@@ -113,7 +113,7 @@ function getDefaultLang() {
         ja: 4,
         ml: 5,
         es: 6,
-        Others: 7
+        ot: 7
     };
 }
 
@@ -127,10 +127,10 @@ async function mapLang() {
         const languages = await getLangData();
 
         for (let i = 0; i < languages.length; i++) {
-            langsIndex[languages[i].original_language] = i;
+            langsIndex[languages[i].code] = i;
         }
 
-        langsIndex["Others"] = languages.length;
+        // langsIndex["Others"] = languages.length;
         return Object.keys(langsIndex).length;
     } catch (error) {
         console.error("Error: Unable to fetch languages data from the database.", error);
