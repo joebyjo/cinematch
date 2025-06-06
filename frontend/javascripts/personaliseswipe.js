@@ -97,3 +97,28 @@ function matchPanelDimensions() {
 window.addEventListener('load', matchPanelDimensions);
 window.addEventListener('resize', matchPanelDimensions);
 
+
+//BookMark and Eye toggle:
+document.addEventListener("DOMContentLoaded", () => {
+  const bookmarkDefault = document.getElementById("bookmark-default");
+  const bookmarkFilled = document.getElementById("bookmark-filled");
+  const eyeSlash = document.getElementById("eye-slash");
+  const eye = document.getElementById("eye");
+
+  // Bookmark toggle
+  [bookmarkDefault, bookmarkFilled].forEach(el =>
+    el.addEventListener("click", () => {
+      bookmarkDefault.classList.toggle("hidden");
+      bookmarkFilled.classList.toggle("hidden");
+    })
+  );
+
+  // Eye toggle
+  [eyeSlash, eye].forEach(el =>
+    el.addEventListener("click", () => {
+      eyeSlash.classList.toggle("hidden");
+      eye.classList.toggle("hidden");
+    })
+  );
+});
+
