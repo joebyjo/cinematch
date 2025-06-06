@@ -5,6 +5,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
+const { addMoviePreference } = require('../services/helpers');
 const {
     createMovieVector,
     calculateScore,
@@ -202,15 +203,14 @@ router.post('/movie', async (req, res) => {
 
         // console.log(`[INFO] Received request to update preferences for user: ${userId}, movie: ${movie_id}`);
 
-        await addMovie(movie_id, is_liked, watch_status, userId);
+        await addMoviePreference(movie_id, is_liked, watch_status, userId);
         // console.log('[INFO] Preference saved to database');
 
         const [movieVector, userVector] = await Promise.all([
             createMovieVector(userId, movie_id),
             getUserVector(userId)
         ]);
-
-        console.log(userVector);
+        
 
         if (is_liked) {
             const score = calculateScore(movieVector, userVector);
@@ -227,44 +227,5 @@ router.post('/movie', async (req, res) => {
         return res.status(500).json({ msg: 'Internal server error while updating preferences' });
     }
 });
-
-async function addMovie(movie_id, is_liked, watch_status, userId) {
-    try {
-        const [existing] = await db.query(
-            'SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
-            [userId, movie_id]
-        );
-
-        // console.log('[INFO] Checked existing preferences');
-
-        const [prefRes] = await db.query(
-            'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
-            [is_liked, watch_status]
-        );
-
-        if (!prefRes.length) {
-            throw new Error('Preference ID not found for provided values');
-        }
-
-        const preferenceId = prefRes[0].id;
-
-        if (existing.length > 0) {
-            await db.query(
-                'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
-                [preferenceId, userId, movie_id]
-            );
-            // console.log('[INFO] Existing preference updated');
-        } else {
-            await db.query(
-                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
-                [userId, preferenceId, movie_id]
-            );
-            // console.log('[INFO] New preference inserted');
-        }
-    } catch (err) {
-        console.error('[ERROR] Failed to add/update movie preference:', err);
-        throw new Error('Database error while saving movie preference');
-    }
-}
 
 module.exports = router;
