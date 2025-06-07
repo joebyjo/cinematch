@@ -86,7 +86,7 @@ router.post('/genres-name', async (req, res) => {
 });
 
 
-router.post('/languages-name', async (req, res) => {
+router.post('/languages-code', async (req, res) => {
     const userId = req.user.id;
     const languageCodes = req.body;
 
@@ -210,7 +210,6 @@ router.post('/movie', async (req, res) => {
             createMovieVector(userId, movie_id),
             getUserVector(userId)
         ]);
-        
 
         if (is_liked) {
             const score = calculateScore(movieVector, userVector);

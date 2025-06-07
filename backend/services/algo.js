@@ -8,7 +8,8 @@
 const {
     getUserGenresLanguages,
     getMovieData,
-    getUserRating
+    getUserRating,
+    getRandomMovie
 } = require('./helpers');
 
 const { tmdb } = require('../services/tmdb');
@@ -224,15 +225,14 @@ async function addUserVector(userId, userVector) {
  * @returns {Promise<number>} movieId
  */
 async function getTopMovie(userId) {
-    // TODO: check for -1, give out random movie
     try {
         const [rows] = await db.query(
-            'SELECT movie_id FROM USERPREFERENCES WHERE user_id = ? ORDER BY score DESC LIMIT 1',
+            'SELECT movie_id, score FROM USERPREFERENCES WHERE user_id = ? ORDER BY score DESC LIMIT 1',
             [userId]
         );
 
-        if (rows.length === 0) {
-            return 218; // default fallback movie
+        if (rows.length === 0 || rows[0].score === -1) {
+            return getRandomMovie(); // default fallback movie
         }
 
         const movieId = rows[0].movie_id;
@@ -254,14 +254,19 @@ async function getTopMovie(userId) {
  * @returns {Promise<number[]>} movie IDs
  */
 async function getMoviesTMDB(movieId) {
-    const response = await tmdb.get(`/movie/${movieId}/recommendations`);
-    const movies = response.data;
+    try {
+        const response = await tmdb.get(`/movie/${movieId}/recommendations`);
+        const movies = response.data;
 
-    const movieIDs = [];
-    for (let i = 0; i < 10 && i < movies.results.length; i++) {
-        movieIDs.push(movies.results[i].id);
+        const movieIDs = [];
+        for (let i = 0; i < 10 && i < movies.results.length; i++) {
+            movieIDs.push(movies.results[i].id);
+        }
+        return movieIDs;
+    } catch (err) {
+        console.error(`[Error] Failed to fetch Recommendation TMBD request: ${movieId}`);
+        return [238, 9532, 10625, 21059, 45890];
     }
-    return movieIDs;
 }
 
 async function updateScore(score, movieId, userId) {
@@ -276,42 +281,96 @@ async function updateScore(score, movieId, userId) {
     }
 }
 
+// Constants for testing
+const TEST_USER_ID = 2;
+const TEST_MOVIE_ID = 447273;
+
 // ---------------------------- TEST FUNCTIONS ----------------------------
 
 async function testUserVector() {
-    const userId = 2;
-    const vec = await createUserVector(userId);
-    console.log("[Test] User Vector:", vec);
+    try {
+        const vec = await createUserVector(TEST_USER_ID);
+        console.log("[Test] User Vector:", vec);
+    } catch (error) {
+        console.error("[Error] testUserVector:", error);
+    }
 }
 
 async function testMovieVector() {
-    const movieId = 238;
-    const vec = await createMovieVector(2, movieId);
-    console.log("[Test] Movie Vector:", vec);
+    try {
+        const vec = await createMovieVector(TEST_USER_ID, TEST_MOVIE_ID);
+        console.log("[Test] Movie Vector:", vec);
+    } catch (error) {
+        console.error("[Error] testMovieVector:", error);
+    }
 }
 
 async function testScoreCalculation() {
-    const userVec = await createUserVector(2);
-    const movieVec = await createMovieVector(2, 238);
-    const score = calculateScore(movieVec, userVec);
-    console.log(`[Test] Score: ${score}`);
+    try {
+        const userVec = await createUserVector(TEST_USER_ID);
+        const movieVec = await createMovieVector(TEST_USER_ID, TEST_MOVIE_ID);
+        const score = calculateScore(movieVec, userVec);
+        console.log(`[Test] Score: ${score}`);
+    } catch (error) {
+        console.error("[Error] testScoreCalculation:", error);
+    }
 }
 
 async function testUpdateUserVector() {
-    const userVec = await createUserVector(2);
-    const movieVec = await createMovieVector(2, 238);
-    const updated = updateUserVector(userVec, movieVec, true);
-    console.log("[Test] Updated User Vector:", updated);
+    try {
+        const userVec = await createUserVector(TEST_USER_ID);
+        const movieVec = await createMovieVector(TEST_USER_ID, TEST_MOVIE_ID);
+        await updateUserVector(TEST_USER_ID, userVec, movieVec, true);
+        console.log("[Test] Updated User Vector successfully");
+    } catch (error) {
+        console.error("[Error] testUpdateUserVector:", error);
+    }
 }
 
 async function testGetTopMovie() {
-    const movieId = await getTopMovie(2);
-    console.log("[Test] Top Movie ID:", movieId);
+    try {
+        const movieId = await getTopMovie(TEST_USER_ID);
+        console.log("[Test] Top Movie ID:", movieId);
+    } catch (error) {
+        console.error("[Error] testGetTopMovie:", error);
+    }
 }
 
 async function testGetMoviesTMDB() {
-    const recs = await getMoviesTMDB(238);
-    console.log("[Test] TMDB Recommendations:", recs);
+    try {
+        const recs = await getMoviesTMDB(TEST_MOVIE_ID);
+        console.log("[Test] TMDB Recommendations:", recs);
+    } catch (error) {
+        console.error("[Error] testGetMoviesTMDB:", error);
+    }
+}
+
+async function testAddUserVector() {
+    try {
+        const vec = await createUserVector(TEST_USER_ID);
+        await addUserVector(TEST_USER_ID, vec);
+        console.log("[Test] User vector added to DB successfully");
+    } catch (error) {
+        console.error("[Error] testAddUserVector:", error);
+    }
+}
+
+async function testGetUserVector() {
+    try {
+        const vec = await getUserVector(TEST_USER_ID);
+        console.log("[Test] Fetched User Vector:", vec);
+    } catch (error) {
+        console.error("[Error] testGetUserVector:", error);
+    }
+}
+
+async function testUpdateScore() {
+    try {
+        await updateScore(0.85, TEST_MOVIE_ID, TEST_USER_ID);
+        console.log("[Test] Score updated successfully");
+    } catch (error) {
+        console.error("[Error] testUpdateScore:", error);
+    }
 }
 
 // Run all tests
@@ -320,6 +379,9 @@ async function testGetMoviesTMDB() {
 //     await testMovieVector();
 //     await testScoreCalculation();
 //     await testUpdateUserVector();
+//     await testAddUserVector();
+//     await testGetUserVector();
+//     await testUpdateScore();
 //     await testGetTopMovie();
 //     await testGetMoviesTMDB();
 // })();

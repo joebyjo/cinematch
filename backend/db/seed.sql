@@ -60,7 +60,7 @@ INSERT INTO `MOVIES` VALUES
 (1276073,'Bullet Train Explosion',NULL,NULL,'tt33452974','ja','When panic erupts on a Tokyo-bound bullet train that will explode if it slows below 100 kph, authorities race against time to save everyone on board.','2025-04-23',NULL,NULL,NULL,'/qkTKtOHK9JEEOHgPQZ0dFtzs5ML.jpg','/Zes06xI18u47pblwRGTtqRm0R8.jpg','https://www.youtube.com/watch?v=bYopWaT8Sr0',137,'NR'),
 (1276121,'Black Cat, White Cat Its a Good Cat if it Catches the Mouse',NULL,NULL,NULL,'en','It explores the tension between age-old China and energy of the student demonstration in the spring of 1989.','1990-01-01',NULL,NULL,NULL,NULL,NULL,NULL,35,'NR'),
 (1290954,'Rekhachithram','Jofin T. Chacko','Asif Ali, Anaswara Rajan, Manoj K. Jayan','tt32284154','ml','Having recently served a suspension for gambling online while on duty, Circle Inspector Vivek Gopinath rejoins the police force and is looking to reclaim his lost honour. Awaiting him is a 40-year-old, unresolved murder mystery with a faceless victim.','2025-01-09',8,NULL,NULL,'/ulIAyiSVQZL1Ov6K2Tjf6wPlzFi.jpg','/97U7d3GwOnDKAKVVbLEq65XyKP3.jpg',NULL,139,'NR'),
-(1308913,'Diet of Sex',NULL,NULL,NULL,'es','Ãgata suffers from a psychological disorder which prevents her from experiencing pleasure in all aspects of her life. Marc, through the use food, endeavours to help her overcome her problem.','2014-02-14',NULL,NULL,NULL,'/z5OvPdhvybMKWbsLtRQLH4nBsEk.jpg',NULL,NULL,72,'NR');
+(324230,'Diet of Sex',NULL,NULL,NULL,'es','Ãgata suffers from a psychological disorder which prevents her from experiencing pleasure in all aspects of her life. Marc, through the use food, endeavours to help her overcome her problem.','2014-02-14',NULL,NULL,NULL,'/z5OvPdhvybMKWbsLtRQLH4nBsEk.jpg',NULL,NULL,72,'NR');
 
 
 INSERT INTO `MOVIEPROVIDERS` VALUES
@@ -120,7 +120,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (1184889,18),
 (1239511,18),
 (1276073,18),
-(1308913,18),
+(324230,18),
 (9532,27),
 (250546,27),
 (513147,27),
@@ -150,7 +150,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (950387,35),
 (996821,35),
 (1195506,35),
-(1308913,35),
+(324230,35),
 (86004,53),
 (822119,53),
 (835113,53),
@@ -188,7 +188,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (274870,10749),
 (276928,10749),
 (1108828,10749),
-(1308913,10749),
+(324230,10749),
 (60307,10751),
 (447273,10751),
 (950387,10751),

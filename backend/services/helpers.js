@@ -308,10 +308,24 @@ async function getUserRating(userId, movieId) {
         // console.log(rating);
         return rating;
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return 0;
     }
 }
+
+async function getRandomMovie() {
+    try {
+        const [rows] = await db.query('SELECT id FROM MOVIES ORDER BY RAND() LIMIT 1');
+        if (rows.length === 0) {
+            return 238; // fallback if no movies found - GODFATHER :)
+        }
+        return rows[0].id;
+    } catch (err) {
+        console.error('Error in getRandomMovie:', err);
+        return 238;
+    }
+}
+
 
 
 module.exports = {
@@ -325,5 +339,6 @@ module.exports = {
     getLangData,
     getWatchProvidersData,
     getUserGenresLanguages,
-    getUserRating
+    getUserRating,
+    getRandomMovie
 };
