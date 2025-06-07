@@ -118,6 +118,46 @@ async function getMovieData(movieId) {
     }
 }
 
+async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
+    try {
+
+        // check if user already has preferences for this this movie
+        const [existing] = await db.query(
+            'SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
+            [userId, movie_id]
+        );
+
+        // get preference id that matches
+        const [prefRes] = await db.query(
+            'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
+            [is_liked, watch_status]
+        );
+
+        if (!prefRes.length) {
+            throw new Error('Preference ID not found for provided values');
+        }
+
+        const preferenceId = prefRes[0].id;
+
+        if (existing.length > 0) {
+            await db.query(
+                // update existing preference
+                'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
+                [preferenceId, userId, movie_id]
+            );
+        } else {
+            await db.query(
+                // insert new preference for movie
+                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
+                [userId, preferenceId, movie_id]
+            );
+        }
+    } catch (err) {
+        console.error('[ERROR] Failed to add/update movie preference:', err);
+        throw new Error('Database error while saving movie preference');
+    }
+}
+
 
 function formatMovies(rows) {
     const movieMap = {};
@@ -178,16 +218,114 @@ function formatMovies(rows) {
     return Object.values(movieMap);
 }
 
-
-
 async function getGenreData() {
     try {
-        const [rows] = await db.query('SELECT id, name FROM GENRES');
+        const [rows] = await db.query('SELECT * FROM GENRES');
         return rows;
     } catch (err) {
         console.error(err);
+        throw new Error('Failed to retrieve Data');
     }
 }
+
+async function getLangData() {
+    // to be changed
+    try {
+        const [rows] = await db.query('SELECT * FROM LANGUAGES');
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getWatchProvidersData() {
+    try {
+        const [rows] = await db.query('SELECT * FROM WATCHPROVIDERS;');
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getUserGenres(userId) {
+    try {
+        // retrieving Favorite Genres
+        const [rows] = await db.query('select name from USERGENRES join GENRES ON id = genre_id where user_id = ?', [userId]);
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getUserLanguages(userId) {
+    try {
+        // retrieving Favorite Languages
+        const [rows] = await db.query('select code from USERLANGUAGES join LANGUAGES ON id = language_id where user_id = ?', [userId]);
+        // console.log(rows);
+        return rows;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to retrieve Data');
+    }
+}
+
+async function getUserGenresLanguages(userId) {
+    try {
+        // retrieving Favorite Genres
+        const rowsG = await getUserGenres(userId);
+        // console.log(rowsG);
+
+        // retrieving Favorite Languages
+        const rowsL = await getUserLanguages(userId);
+        // console.log(rowsL);
+
+        const result = {
+            favorite_genres: rowsG.map((g) => g.name),
+            preferred_languages: rowsL.map((l) => l.code)
+        };
+
+        // console.log(result);
+
+        return result;
+
+    } catch (err) {
+        console.error(err);
+        return {
+            favorite_genres: ["Action", "Drama"],
+            preferred_languages: ["en"]
+        };
+    }
+}
+
+async function getUserRating(userId, movieId) {
+    // get User Raing from movie List
+    try {
+        const [rows] = await db.query('SELECT my_rating FROM MOVIELIST WHERE movie_id= ? AND user_id=?', [movieId, userId]);
+        const rating = rows[0].my_rating ? rows[0].my_rating : 0;
+        // console.log(rating);
+        return rating;
+    } catch (err) {
+        // console.error(err);
+        return 0;
+    }
+}
+
+async function getRandomMovie() {
+    try {
+        const [rows] = await db.query('SELECT id FROM MOVIES ORDER BY RAND() LIMIT 1');
+        if (rows.length === 0) {
+            return 238; // fallback if no movies found - GODFATHER :)
+        }
+        return rows[0].id;
+    } catch (err) {
+        console.error('Error in getRandomMovie:', err);
+        return 238;
+    }
+}
+
 
 
 module.exports = {
@@ -195,6 +333,12 @@ module.exports = {
     comparePassword,
     insertMovie,
     getMovieData,
+    addMoviePreference,
     formatMovies,
-    getGenreData
+    getGenreData,
+    getLangData,
+    getWatchProvidersData,
+    getUserGenresLanguages,
+    getUserRating,
+    getRandomMovie
 };
