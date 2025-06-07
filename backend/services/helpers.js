@@ -128,6 +128,7 @@ async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
         );
 
         // get preference id that matches
+        console.log(movie_id);
         const [prefRes] = await db.query(
             'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
             [is_liked, watch_status]
@@ -313,6 +314,18 @@ async function getUserRating(userId, movieId) {
     }
 }
 
+async function getWatchStatus(userId, movieId) {
+    // get User Raing from movie List
+    try {
+        const [rows] = await db.query('SELECT watch_status FROM MOVIELIST WHERE movie_id= ? AND user_id=?', [movieId, userId]);
+        const status = rows[0].watch_status ? rows[0].watch_status : 0;
+        return status;
+    } catch (err) {
+        // console.error(err);
+        return 0;
+    }
+}
+
 async function getRandomMovie() {
     try {
         const [rows] = await db.query('SELECT id FROM MOVIES ORDER BY RAND() LIMIT 1');
@@ -340,5 +353,6 @@ module.exports = {
     getWatchProvidersData,
     getUserGenresLanguages,
     getUserRating,
-    getRandomMovie
+    getRandomMovie,
+    getWatchStatus
 };

@@ -61,8 +61,6 @@ function helperLoadLimitArray(len) {
 // eslint-disable-next-line no-undef
 const movieTable = Vue.createApp({
     data() {
-
-
         return {
 
             showSort: false,
