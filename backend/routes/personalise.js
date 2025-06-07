@@ -52,39 +52,31 @@ router.post('/genres-name', async (req, res) => {
     }
 
     try {
-        for (const genreName of genreNames) {
-            const [genreRes] = await db.query('SELECT id FROM GENRES WHERE name = ?', [genreName]);
-
-            if (genreRes.length === 0) {
-                console.warn(`[WARN] Genre '${genreName}' not found in GENRES table. Skipping.`);
-                continue;
-            }
-
-            const genreId = genreRes[0].id;
-
-            const [existing] = await db.query(
-                'SELECT * FROM USERGENRES WHERE user_id = ? AND genre_id = ?',
-                [userId, genreId]
-            );
-
-            if (existing.length === 0) {
-                await db.query(
-                    'INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)',
-                    [userId, genreId]
-                );
-                // console.log(`[INFO] Added genre '${genreName}' for user ${userId}`);
+        // Fetch genre IDs from names
+        const genreIds = [];
+        for (const name of genreNames) {
+            const [rows] = await db.query('SELECT id FROM GENRES WHERE name = ?', [name]);
+            if (rows.length > 0) {
+                genreIds.push(rows[0].id);
             } else {
-                // console.log(`[INFO] Genre '${genreName}' already exists for user ${userId}, skipping insert.`);
+                console.warn(`[WARN] Genre '${name}' not found.`);
             }
         }
 
-        return res.status(200).json({ msg: "Genres updated successfully" });
+        // Delete all existing user genres
+        await db.query('DELETE FROM USERGENRES WHERE user_id = ?', [userId]);
+
+        // Insert new ones
+        for (const id of genreIds) {
+            await db.query('INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)', [userId, id]);
+        }
+
+        res.status(200).json({ msg: "Genres updated successfully." });
     } catch (err) {
         console.error('[ERROR] Failed to update genres:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating genres' });
+        res.status(500).json({ msg: 'Internal server error while updating genres' });
     }
 });
-
 
 router.post('/languages-code', async (req, res) => {
     const userId = req.user.id;
@@ -95,38 +87,30 @@ router.post('/languages-code', async (req, res) => {
     }
 
     try {
-        for (const langCode of languageCodes) {
-            var [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = ?', [langCode]);
+        const languageIds = [];
+        for (let code of languageCodes) {
+            let [rows] = await db.query('SELECT id FROM LANGUAGES WHERE code = ?', [code]);
 
-            if (langRes.length === 0) {
-                console.warn(`[WARN] Language code '${langCode}' not found in LANGUAGES table. Skipping.`);
-
-                // adding to others
-                [langRes] = await db.query('SELECT id FROM LANGUAGES WHERE code = "ot"');
+            if (rows.length === 0) {
+                console.warn(`[WARN] Language code '${code}' not found. Assigning to 'ot'`);
+                [rows] = await db.query('SELECT id FROM LANGUAGES WHERE code = "ot"');
             }
 
-            const languageId = langRes[0].id;
-
-            const [existing] = await db.query(
-                'SELECT * FROM USERLANGUAGES WHERE user_id = ? AND language_id = ?',
-                [userId, languageId]
-            );
-
-            if (existing.length === 0) {
-                await db.query(
-                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
-                    [userId, languageId]
-                );
-                // console.log(`[INFO] Added language '${langCode}' for user ${userId}`);
-            } else {
-                // console.log(`[INFO] Language '${langCode}' already exists for user ${userId}, skipping insert.`);
-            }
+            if (rows.length > 0) languageIds.push(rows[0].id);
         }
 
-        return res.status(200).json({ msg: "Languages updated successfully" });
+        // Delete all existing user languages
+        await db.query('DELETE FROM USERLANGUAGES WHERE user_id = ?', [userId]);
+
+        // Insert new ones
+        for (const id of languageIds) {
+            await db.query('INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)', [userId, id]);
+        }
+
+        res.status(200).json({ msg: "Languages updated successfully." });
     } catch (err) {
         console.error('[ERROR] Failed to update languages:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating languages' });
+        res.status(500).json({ msg: 'Internal server error while updating languages' });
     }
 });
 
@@ -139,25 +123,16 @@ router.post('/genres-id', async (req, res) => {
     }
 
     try {
-        for (const genreId of genreIds) {
-            // Check if entry already exists
-            const [existing] = await db.query(
-                'SELECT * FROM USERGENRES WHERE user_id = ? AND genre_id = ?',
-                [userId, genreId]
-            );
+        await db.query('DELETE FROM USERGENRES WHERE user_id = ?', [userId]);
 
-            if (existing.length === 0) {
-                await db.query(
-                    'INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)',
-                    [userId, genreId]
-                );
-            }
+        for (const genreId of genreIds) {
+            await db.query('INSERT INTO USERGENRES (user_id, genre_id) VALUES (?, ?)', [userId, genreId]);
         }
 
-        return res.status(200).json({ msg: "Genres updated successfully." });
+        res.status(200).json({ msg: "Genres updated successfully." });
     } catch (err) {
         console.error('[ERROR] Failed to update genres:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating genres.' });
+        res.status(500).json({ msg: 'Internal server error while updating genres.' });
     }
 });
 
@@ -170,25 +145,16 @@ router.post('/languages-id', async (req, res) => {
     }
 
     try {
-        for (const languageId of languageIds) {
-            // Check if entry already exists
-            const [existing] = await db.query(
-                'SELECT * FROM USERLANGUAGES WHERE user_id = ? AND language_id = ?',
-                [userId, languageId]
-            );
+        await db.query('DELETE FROM USERLANGUAGES WHERE user_id = ?', [userId]);
 
-            if (existing.length === 0) {
-                await db.query(
-                    'INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)',
-                    [userId, languageId]
-                );
-            }
+        for (const languageId of languageIds) {
+            await db.query('INSERT INTO USERLANGUAGES (user_id, language_id) VALUES (?, ?)', [userId, languageId]);
         }
 
-        return res.status(200).json({ msg: "Languages updated successfully." });
+        res.status(200).json({ msg: "Languages updated successfully." });
     } catch (err) {
         console.error('[ERROR] Failed to update languages:', err);
-        return res.status(500).json({ msg: 'Internal server error while updating languages.' });
+        res.status(500).json({ msg: 'Internal server error while updating languages.' });
     }
 });
 

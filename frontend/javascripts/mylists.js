@@ -177,9 +177,6 @@ const movieTable = Vue.createApp({
         },
 
 
-
-
-
         toggleAccordion(section) {
             this.activeAccordion = this.activeAccordion === section ? null : section;
         },
