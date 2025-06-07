@@ -18,8 +18,8 @@
         rel="stylesheet">
 
     <!-- Linking CSS Files -->
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/settings.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/settings.css">
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
@@ -51,7 +51,7 @@
             <div class="sidebar-icon">
                 <a href="#pref"><img class="icon-img" src="images/settings/pref-settings.svg" alt="Preferences"></a>
             </div>
-            <div class="sidebar-icon logout">
+            <div class="sidebar-icon logout" @click="redirect('/logout')">
                 <img class="icon-img" src="images/logout-icon.png" alt="Logout">
             </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="card change-name">
                     <h2 class="card-title">Change name</h2>
-                    <p class="info-text">Current name: <span>Josheen Kour</span></p>
+                    <p class="info-text">Current name: <span>{{ user.firstName + " " + user.lastName }}</span></p>
 
                     <input type="text" placeholder="Enter new first name...">
                     <input type="text" placeholder="Enter new last name...">
