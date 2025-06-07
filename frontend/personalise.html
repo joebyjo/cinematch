@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
-<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="stylesheets/personalise.css">
     <link rel="stylesheet" href="stylesheets/personaliselang.css">
 
+    <!-- adding theme preference to body tag  -->
+    <script src="javascripts/theme-load.js"></script>
+
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -33,7 +36,7 @@
     <title>Personalise</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -53,8 +56,8 @@
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
-                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
+                    <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">

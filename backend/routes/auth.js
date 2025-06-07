@@ -29,39 +29,46 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
             [username, hashedPassword, firstName, lastName]
         );
 
-        res.status(201).json({ msg: 'User created' });
+        return res.status(201).json({ msg: 'User created' });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
 
 
-router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
-    try {
-        // updating last login time to database
-        db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
+router.post('/login', validateLogin, validate, (req, res, next) => {
+    passport.authenticate('local', async (err, user, info) => {
+        if (err) return res.status(500).json({ msg: 'Internal server error' });
+        if (!user) return res.status(401).json({ msg: info?.message || 'Invalid credentials' });
 
-        // set user_id and ip_address in session table
-        await db.query(
-            `UPDATE SESSIONS SET user_id = ?, ip_address = ? WHERE id = ?`,
-            [req.user.id, req.ip, req.sessionID]
-        );
+        req.logIn(user, async (err) => {
+            if (err) return res.status(500).json({ msg: 'Login failed' });
 
-        res.status(200).json({ msg: 'Login successful' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Login session failed' });
-    }
+            try {
+                await db.query('UPDATE USERS SET last_login = NOW() WHERE id = ?', [user.id]);
+
+                await db.query(
+                    `UPDATE SESSIONS SET user_id = ?, ip_address = ? WHERE id = ?`,
+                    [user.id, req.ip, req.sessionID]
+                );
+
+                return res.status(200).json({ msg: 'Login successful' });
+            } catch (dbErr) {
+                console.error(dbErr);
+                return res.status(500).json({ msg: 'Login session failed' });
+            }
+        });
+    })(req, res, next);
 });
 
 router.post('/logout', (req, res) => {
     req.session.destroy(() => {
         // clearing cookies to logout user
         res.clearCookie('sessionId');
-        res.json({ msg: 'Logged out' });
+        return res.json({ msg: 'Logged out' });
     });
 });
 
