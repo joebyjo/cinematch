@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 async function helperGetMovies(url) {
     try {
         // eslint-disable-next-line no-undef
@@ -30,9 +31,9 @@ createApp({
     },
     methods: {
         redirect(path) {
-            window.location.href = `moviepage.html?id=${path}&type=${this.isTVShows ? 'tv' : 'movie'}`;
-            // const searchLink = (this.isTVShows ? "/api/tv/show/" : "/api/movies/movie/");
-            // window.location.href = searchLink + path;
+            // window.location.href = `moviepage.html?id=${path}&type=${this.isTVShows ? 'tv' : 'movie'}`;
+            const searchLink = (this.isTVShows ? "/tv/" : "/movie/");
+            window.location.href = searchLink + path;
         },
         async searchMovies(searchQuery) {
             if (searchQuery.length <= 3) {

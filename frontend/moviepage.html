@@ -16,14 +16,14 @@
         rel="stylesheet">
 
     <!-- Linking CSS Files -->
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/moviepage.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/moviepage.css">
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="javascripts/moviepage.js" defer></script>
-    <script src="javascripts/index.js" defer></script>
+    <script src="/javascripts/moviepage.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
 
     <title>Home Page</title>
 </head>
@@ -33,7 +33,7 @@
         <div class="spinner"></div>
     </div>
     <div v-show="!isLoading" class="background"
-        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : 'images/dummy-banner.svg'})` }">
+        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : '/images/dummy-banner.svg'})` }">
     </div>
 
     <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
@@ -43,7 +43,7 @@
         <!-- poster -->
         <div class="poster-section">
             <div v-if="movie.trailer" class="dim-overlay"></div>
-            <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : 'images/dummy-poster.svg'"
+            <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : '/images/dummy-poster.svg'"
                 :alt="movie.title" />
 
             <div class="overlay-blur"></div>
@@ -73,9 +73,9 @@
 
                 <!--mark saved, mark watched options-->
                 <div class="user-options-row">
-                    <img :src="isSaved ? 'images/saved.svg' : 'images/not-saved.svg'" alt="Mark saved" width="32"
+                    <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'" alt="Mark saved" width="32"
                         height="32" @click="toggleSaved" />
-                    <img :src="isWatched ? 'images/watched.svg' : 'images/not-watched.svg'" alt="Mark watched"
+                    <img :src="isWatched ? '/images/watched.svg' : '/images/not-watched.svg'" alt="Mark watched"
                         width="32" height="32" @click="toggleWatched" />
                 </div>
             </div>
@@ -85,7 +85,7 @@
             <div>
                 <p class="description">{{ formatDescription(movie.overview) }}</p>
                 <button type="button" v-if="movie.overview && movie.overview.length>215" class="desc-expand"
-                  @click="toggleDescription"> {{ isDescLong ? 'Show less':'Read more' }}</button>
+                  @click="toggleDescription"> {{ isDescExpanded ? 'Show less':'Read more' }}</button>
             </div>
 
             <div class="third-row">
