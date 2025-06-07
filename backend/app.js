@@ -17,6 +17,7 @@ const tvRouter = require('./routes/tv');
 const authRouter = require('./routes/auth');
 const mylistRouter = require('./routes/mylist');
 const adminRouter = require('./routes/admin');
+const personaliseRouter = require('./routes/personalise');
 
 const app = express();
 
@@ -89,7 +90,9 @@ app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/mylist', mylistRouter);
 app.use('/api/admin', adminRouter);
-
+// console.log("before");
+app.use('/api/personalise', personaliseRouter);
+// console.log("after");
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

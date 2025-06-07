@@ -34,5 +34,4 @@ async function getImdbData(movieId) {
     }
 }
 
-
 module.exports = { tmdb, getImdbData };
