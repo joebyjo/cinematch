@@ -2,7 +2,7 @@
 const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
 const { validate, validateSearchQuery, validateId } = require('../services/validators');
-const { insertMovie, getMovieData, getGenreData, getUserRating, getWatchStatus } = require('../services/helpers');
+const { insertMovie, getMovieData, getGenreData, getUserRating, getWatchStatus, getLangData } = require('../services/helpers');
 const [preferredProviders, preferredCountries] = require('../services/constants');
 
 const router = express.Router();
@@ -119,6 +119,19 @@ router.get('/genres', async (req, res) => {
         const genres = await getGenreData();
 
         res.status(200).json(genres);
+
+    } catch (error) {
+        console.error('TMDB error:', error.message);
+        res.status(500).json({ msg: 'Failed to fetch genres' });
+
+    }
+});
+
+router.get('/languages', async (req, res) => {
+    try {
+        // get genres
+        const lang = await getLangData();
+        res.status(200).json(lang);
 
     } catch (error) {
         console.error('TMDB error:', error.message);

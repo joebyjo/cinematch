@@ -288,15 +288,15 @@ async function getUserGenresLanguages(userId) {
             preferred_languages: rowsL.map((l) => l.code)
         };
 
-        // console.log(result);
+        console.log(result);
 
         return result;
 
     } catch (err) {
         console.error(err);
         return {
-            favorite_genres: ["Action", "Drama"],
-            preferred_languages: ["en"]
+            favorite_genres: [],
+            preferred_languages: []
         };
     }
 }

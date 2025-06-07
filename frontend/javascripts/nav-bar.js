@@ -90,6 +90,8 @@ createApp({
             if (path === "/logout") {
                 helperLogout('api/auth/logout');
                 window.location.href = '/home';
+            } else {
+                window.location.href = path;
             }
         },
         clickOutside(e) {
