@@ -58,7 +58,7 @@ router.put('/me', async (req, res) => {
     // verify current password
     const isMatch = comparePassword(password, findUser.password);
 
-    if (!isMatch) return res.status(401).json({ msg: "Password incorrect" })
+    if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
     try {
         const updates = [];
