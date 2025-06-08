@@ -257,7 +257,7 @@ const movieTable = Vue.createApp({
         },
         goToMovie(movie_id) {
             console.log(movie_id);
-            window.location.href = `/moviepage.html?id=${movie_id}`;
+            window.location.href = `/movie/${movie_id}`;
         },
         async getGenres(url) {
             const res = await helperGetMovieData(url);
