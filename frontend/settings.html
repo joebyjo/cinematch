@@ -76,12 +76,13 @@
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
 
-                    <input :type="showPass?'text':'password'" placeholder="Enter current password...">
+                    <input :type="showPass?'text':'password'" placeholder="Enter current password..." v-model="curPass">
                     <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password...">
                     <input :type="showPass?'text':'password'" v-model="confirmPass" placeholder="Confirm new password...">
 
-                    <p class="error-message" v-if="!passMatch">Passwords do not match</p>
-                    <button type="button" class="confirm">Done</button>
+                    <p class="error-message" v-if="!checkMatch">Passwords do not match</p>
+                    <p class="error-message" v-if="!passMatch">{{ passwordError }}</p>
+                    <button type="button" class="confirm" @click="changePassword()">Done</button>
                 </div>
             </div>
             <div class="show-hide-pass">

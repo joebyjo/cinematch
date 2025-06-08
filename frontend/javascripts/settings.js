@@ -78,13 +78,15 @@ createApp({
 
             newPass: '',
             confirmPass: '',
+            curPass: '',
+            passMatch: true,
+            passwordError: '',
 
             deleteRequest: {
                 password: '',
                 isPass: true
             },
 
-            passMatch: true,
             uploadedImage: null,
             uploadError: '',
             currAvIdx: 2,
@@ -141,6 +143,9 @@ createApp({
         },
         fullName() {
             return this.user.firstName + " " + this.user.lastName;
+        },
+        checkMatch() {
+            return this.newPass === this.confirmPass;
         }
     },
     methods: {
@@ -179,9 +184,6 @@ createApp({
                 special: /[!_@#$%^&*(),?":{}|<>]/.test(password),
                 noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
-        },
-        checkMatch() {
-            this.passMatch = this.newPass === this.confirmPass;
         },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
@@ -294,6 +296,8 @@ createApp({
                 this.nameChangeRequest.firstName = '';
                 this.nameChangeRequest.lastName = '';
                 this.nameChangeRequest.password = '';
+
+                this.nameChangeRequest.passMatch = false;
             } catch (error) {
                 this.nameChangeRequest.password = '';
                 this.nameChangeRequest.passMatch = true;
@@ -308,8 +312,30 @@ createApp({
                         password: this.deleteRequest.password
                     }
                 });
+                this.redirect("/home");
             } catch (error) {
                 this.deleteRequest.isPass = false;
+            }
+        },
+
+        async changePassword() {
+            if (!this.checkMatch || !this.newPass || !this.curPass) return;
+            try {
+                const res = await axios.post("api/auth/change-password", {
+                    current_password: this.curPass,
+                    new_password: this.newPass
+                });
+
+                this.showPopup("Password changed successfully");
+                this.passMatch = true;
+
+                this.curPass = '';
+                this.newPass = '';
+                this.confirmPass = '';
+            } catch (error) {
+                console.log(error);
+                this.passwordError = error.response.data.msg;
+                this.passMatch = false;
             }
         },
 
@@ -407,9 +433,6 @@ createApp({
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
-        },
-        confirmPass() {
-            this.checkMatch();
         }
     },
     mounted() {
