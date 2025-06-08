@@ -51,10 +51,11 @@ router.put('/me', async (req, res) => {
     const { id } = req.user;
     const { first_name, last_name, password } = req.body;
 
-    // checking if password matches
+    // get current password
     const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
     const findUser = queryResult[0];
 
+    // verify current password
     const isMatch = comparePassword(password, findUser.password);
 
     if (!isMatch) return res.status(401).json({ msg: "Password incorrect" })

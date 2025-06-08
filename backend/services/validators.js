@@ -99,6 +99,30 @@ const validateSignup = [
 ];
 
 
+// change password validation
+const validateChangePassword = [
+    body('current_password')
+        .trim()
+        .notEmpty()
+        .withMessage('Current password is required'),
+
+    body('new_password')
+        .trim()
+        .notEmpty()
+        .withMessage('New password is required')
+        .isLength({ min: 8 })
+        .withMessage('New password must be at least 8 characters long')
+        .matches(/[a-z]/)
+        .withMessage('New password must contain a lowercase letter')
+        .matches(/[A-Z]/)
+        .withMessage('New password must contain an uppercase letter')
+        .matches(/[0-9]/)
+        .withMessage('New password must contain a digit')
+        .matches(/[\W_]/)
+        .withMessage('New password must contain a special character')
+];
+
+
 // login validation
 const validateLogin = [
     body('username')
@@ -125,5 +149,6 @@ module.exports = {
     validateSearchQuery,
     validateId,
     validateSignup,
-    validateLogin
+    validateLogin,
+    validateChangePassword
 };
