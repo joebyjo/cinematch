@@ -167,5 +167,19 @@ router.post('/me/profile-picture', upload.single('profile_picture'), async (req,
     }
 });
 
+router.post('/me/profile-avatar', async (req, res) => {
+    const { id } = req.body;
+    const profilePictureUrl = `/uploads/avatar${id}.svg`;
+
+    try {
+        await db.query(`UPDATE USERS SET profile_picture_url = ? WHERE id = ?`, [profilePictureUrl, req.user.id]);
+
+        return res.status(200).json({ msg: 'Profile picture updated', profile_picture_url: profilePictureUrl });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to update profile picture' });
+    }
+});
+
 
 module.exports = router;
