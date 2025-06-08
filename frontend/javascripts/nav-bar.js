@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 async function helperLogout(path) {
     try {
         // eslint-disable-next-line no-undef
@@ -43,7 +45,7 @@ createApp({
             userName: "guest",
             firstName: "guest",
             lastName: "user",
-            profilePic:"" // add default profile pic path
+            profilePic: "" // add default profile pic path
         };
     },
     methods: {
@@ -52,7 +54,7 @@ createApp({
 
             if (this.isLogin) {
                 const { data } = await axios.get('api/users/me');
-                this.isDark = data.theme==='dark' ? true : false;
+                this.isDark = data.theme==='dark';
                 helperChangeDark(this.isDark);
                 this.userName = data.user_name;
                 this.firstName = data.first_name;
@@ -75,15 +77,15 @@ createApp({
 
             // updating users preference for theme
             if (this.isDark) {
-                const res = axios.post('api/users/me/theme',{theme:"dark"});
+                const res = axios.post('api/users/me/theme',{ theme: "dark" });
             } else {
-                const res = axios.post('api/users/me/theme',{theme:"light"});
+                const res = axios.post('api/users/me/theme',{ theme: "light" });
             }
 
             // adding transition between theme change
             document.body.classList.add('theme-transition');
             helperChangeDark(this.isDark);
-            setTimeout(() => {document.body.classList.remove('theme-transition');}, 700);
+            setTimeout(() => { document.body.classList.remove('theme-transition'); }, 700);
 
         },
         redirect(path) {
