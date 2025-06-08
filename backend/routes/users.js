@@ -94,13 +94,15 @@ router.delete('/me', async (req, res) => {
 
         const { password } = req.body;
 
+        if (!password) return res.status(401).json({ msg: 'Password is required' });
+
         // checking if password matches
         const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
         const findUser = queryResult[0];
 
         const isMatch = comparePassword(password, findUser.password);
 
-        if (!isMatch) return res.status(401).json({ msg: "Password incorrect" })
+        if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
         // deleting user
         await db.query(`DELETE FROM USERS WHERE id = ?`, [req.user.id]);

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 const { createApp } = Vue;
 
@@ -67,8 +68,22 @@ createApp({
             isError: false,
 
             selectedTheme: 'dark',
+
+            nameChangeRequest: {
+                firstName: '',
+                lastName: '',
+                password: '',
+                passMatch: false
+            },
+
             newPass: '',
             confirmPass: '',
+
+            deleteRequest: {
+                password: '',
+                isPass: true
+            },
+
             passMatch: true,
             uploadedImage: null,
             uploadError: '',
@@ -123,6 +138,9 @@ createApp({
                 return this.languages;
             }
             return this.languages.filter((lang) => lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
+        },
+        fullName() {
+            return this.user.firstName + " " + this.user.lastName;
         }
     },
     methods: {
@@ -260,6 +278,38 @@ createApp({
                 window.location.href = '/home';
             } else {
                 window.location.href = path;
+            }
+        },
+
+        async changeName() {
+            try {
+                await axios.put("api/users/me", {
+                    first_name: this.nameChangeRequest.firstName,
+                    last_name: this.nameChangeRequest.lastName,
+                    password: this.nameChangeRequest.password
+                });
+                this.showPopup("Name updated successfully");
+                this.getUserDetails();
+
+                this.nameChangeRequest.firstName = '';
+                this.nameChangeRequest.lastName = '';
+                this.nameChangeRequest.password = '';
+            } catch (error) {
+                this.nameChangeRequest.password = '';
+                this.nameChangeRequest.passMatch = true;
+            }
+        },
+
+        async deleteAccount() {
+            try {
+                console.log(this.deleteRequest.password);
+                await axios.delete("api/users/me", {
+                    data: {
+                        password: this.deleteRequest.password
+                    }
+                });
+            } catch (error) {
+                this.deleteRequest.isPass = false;
             }
         },
 
