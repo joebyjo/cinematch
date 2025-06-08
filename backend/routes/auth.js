@@ -1,8 +1,8 @@
 var express = require('express');
 const passport = require('passport');
-const { validateSignup, validateLogin, validate } = require('../services/validators');
+const { validateSignup, validateLogin, validateChangePassword, isAuthenticated, validate } = require('../services/validators');
 const localStrategy = require('../services/local-strategy');
-const { hashPassword } = require('../services/helpers');
+const { hashPassword, comparePassword } = require('../services/helpers');
 const db = require('../services/db');
 
 var router = express.Router();
@@ -63,6 +63,40 @@ router.post('/login', validateLogin, validate, (req, res, next) => {
         });
     })(req, res, next);
 });
+
+// route to change password
+router.post('/change-password', isAuthenticated, validateChangePassword, validate, async (req, res) => {
+    const { current_password, new_password } = req.body;
+
+    try {
+        // get current password
+        const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
+        const user = queryResult[0];
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        // verify current password
+        const isMatch = comparePassword(current_password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ msg: 'Current password is incorrect' });
+        }
+
+        // hash new password
+        const hashedNewPassword = hashPassword(new_password);
+
+        // update new password
+        await db.query('UPDATE USERS SET password = ? WHERE id = ?', [hashedNewPassword, req.user.id]);
+
+        return res.status(200).json({ msg: 'Password updated successfully' });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to update password' });
+    }
+});
+
 
 router.post('/logout', (req, res) => {
     req.session.destroy(() => {
