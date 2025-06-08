@@ -163,6 +163,9 @@ router.post('/add-rating', async (req, res) => {
 
         } else {
 
+            // adding movie preference if doesnt exist
+            addMoviePreference(movie_id, true, 0, req.user.id)
+
             // inserting user ratings
             const [ratingsRes] = await db.query(
                 'INSERT INTO USERRATINGS (rating, review, modified_at) VALUES (?, ?, CURRENT_DATE())',
