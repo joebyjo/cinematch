@@ -66,9 +66,15 @@ const app = Vue.createApp({
         async fetchMovieData() {
             try {
                 this.isLoading = true;
-                const endpoint = this.contentType === 'tv' ? '/api/tv/show/' : '/api/movies/movie/';
-                const response = await axios.get(endpoint + movieId);
-                this.movie = response.data;
+                const detailsEndpoint = this.contentType === 'tv' ? '/api/tv/show/' : '/api/movies/movie/';
+                const prefEndpoint = this.contentType === 'tv' ? '/api/tv/user-preferences/' : '/api/movies/user-preferences/';
+                const detailsResponse = await axios.get(detailsEndpoint + movieId);
+                const prefResponse = await axios.get(prefEndpoint + movieId);
+
+                this.movie = {
+                    ...detailsResponse.data,
+                    ...prefResponse.data
+                };
 
                 this.selectedRating = this.movie.user_rating || 0;
                 this.isWatched = [1, 3].includes(this.movie.watch_status);

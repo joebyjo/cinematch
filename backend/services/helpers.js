@@ -128,7 +128,6 @@ async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
         );
 
         // get preference id that matches
-        console.log(movie_id);
         const [prefRes] = await db.query(
             'SELECT id FROM PREFERENCES WHERE is_liked = ? AND watch_status = ?',
             [is_liked, watch_status]
