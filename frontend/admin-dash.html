@@ -21,15 +21,16 @@
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="stylesheets/index.css">
     <link rel="stylesheet" href="stylesheets/nav-bar.css">
-    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/admin-dash.css">
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/admin-dash.js" defer></script>
     <script src="javascripts/index.js" defer></script>
 
-    <title>Home Page</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body class="dark primary-bg-color" style="display: none">
@@ -39,7 +40,7 @@
         </div>
 
         <div class="nav secondary-bg-color-nav-bar">
-            <a class="primary-color-nav-bar underline-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/home">HOME</a>
             <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
             <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
             <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
@@ -76,57 +77,9 @@
         </div>
     </nav>
 
-    <main id="admin">
-
+    <main id="admin-dash">
+        <h1 class="dash-title">Josheen's Dashboard</h1>
     </main>
-
-     <footer class="footer">
-        <!-- Floating Content on top of background -->
-        <div class="footer-floating-content">
-            <div>
-                <p>Scrolled too far?</p>
-                <p>Jump back to the top</p>
-            </div>
-
-            <div id="backToTop" class="footer-button-padding">
-                <a class="footer-back-to-top" aria-label="Back to top">
-                    <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 8 12 16" />
-                        <polyline points="8 12 12 8 16 12" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-        <!-- Footer base content -->
-        <div class="footer-content">
-            © Cinematch 2025
-        </div>
-
-        <img class="wave" src="./images/footer-curve.svg" alt="" />
-    </footer>
-
-    <svg style="display: none;">
-        <symbol id="arrow-left" viewBox="0 0 53 52">
-            <path
-                d="M26.5 2.5C39.7999 2.5 50.5 13.066 50.5 26C50.5 38.934 39.7999 49.5 26.5 49.5C13.2001 49.5 2.5 38.934 2.5 26C2.5 13.066 13.2001 2.5 26.5 2.5Z"
-                stroke="currentColor" stroke-width="5"/>
-            <path d="M21 26.61L32.7778 37.115" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-            <path d="M21.0679 26.5555L31.7749 15" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-
-        </symbol>
-
-        <symbol id="arrow-right" viewBox="0 0 53 52">
-            <path
-                d="M26.5 49.5C13.2001 49.5 2.5 38.934 2.5 26C2.5 13.066 13.2001 2.5 26.5 2.5C39.7999 2.5 50.5 13.066 50.5 26C50.5 38.934 39.7999 49.5 26.5 49.5Z"
-                stroke="currentColor" stroke-width="5"/>
-            <path d="M35.6094 25.2119L23.8316 14.7069" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-            <path d="M35.5415 25.2666L24.8344 36.8222" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-        </symbol>
-    </svg>
-
 </body>
 
 </html>
