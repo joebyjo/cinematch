@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 // adding theme preference to body tag
 
 // get theme cookie

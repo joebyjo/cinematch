@@ -63,24 +63,26 @@
             <div class="row">
                 <div class="card change-name">
                     <h2 class="card-title">Change name</h2>
-                    <p class="info-text">Current name: <span>{{ user.firstName + " " + user.lastName }}</span></p>
+                    <p class="info-text">Current name: <span>{{ fullName }}</span></p>
 
-                    <input type="text" placeholder="Enter new first name...">
-                    <input type="text" placeholder="Enter new last name...">
-                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
+                    <input type="text" v-model="nameChangeRequest.firstName" placeholder="Enter new first name...">
+                    <input type="text" v-model="nameChangeRequest.lastName" placeholder="Enter new last name...">
+                    <input :type="showPass?'text':'password'" v-model="nameChangeRequest.password" placeholder="Enter your password...">
 
-                    <button type="button" class="confirm">Done</button>
+                    <p class="error-message" v-if="nameChangeRequest.passMatch">Incorrect Password</p>
+                    <button type="button" class="confirm" @click="changeName">Done</button>
                 </div>
 
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
 
-                    <input :type="showPass?'text':'password'" placeholder="Enter current password...">
+                    <input :type="showPass?'text':'password'" placeholder="Enter current password..." v-model="curPass">
                     <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password...">
                     <input :type="showPass?'text':'password'" v-model="confirmPass" placeholder="Confirm new password...">
 
-                    <p class="error-message" v-if="!passMatch">Passwords do not match</p>
-                    <button type="button" class="confirm">Done</button>
+                    <p class="error-message" v-if="!checkMatch">Passwords do not match</p>
+                    <p class="error-message" v-if="!passMatch">{{ passwordError }}</p>
+                    <button type="button" class="confirm" @click="changePassword()">Done</button>
                 </div>
             </div>
             <div class="show-hide-pass">
@@ -92,8 +94,9 @@
                     <p class="info-text">IMPORTANT!<br>
                         This action cannot be undone</p>
 
-                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
-                    <button type="button" class="confirm">Done</button>
+                    <input :type="showPass?'text':'password'" v-model="deleteRequest.password" placeholder="Enter your password...">
+                    <p class="error-message" v-if="!deleteRequest.isPass">Incorrect Password</p>
+                    <button type="button" class="confirm" @click="deleteAccount()">Done</button>
                 </div>
 
                 <div class="card password-check">
