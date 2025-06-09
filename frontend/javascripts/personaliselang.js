@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Toggle pill selection and update button
-  pills.forEach(pill => {
+  pills.forEach((pill) => {
     pill.addEventListener("click", () => {
       pill.classList.toggle("selected");
       updateNextButton();
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Handle checkbox change
-  checkboxes.forEach(checkbox => {
+  checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
       updateChips();
     });
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateChips() {
     chipList.innerHTML = "";
-    checkboxes.forEach(checkbox => {
+    checkboxes.forEach((checkbox) => {
       if (checkbox.checked) {
         const chip = document.createElement("div");
         chip.className = "chip";
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-//directing to langgrid
+// directing to langgrid
 createApp({
   data() {
       return {

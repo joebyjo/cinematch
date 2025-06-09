@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable max-len */
 async function helperGetMovies(url) {
     try {
-        // eslint-disable-next-line no-undef
         const res = await axios.get(url);
         return res.data;
     } catch (e) {
@@ -30,7 +31,8 @@ createApp({
     },
     methods: {
         redirect(path) {
-            const searchLink = (this.isTVShows ? "/api/TV-shows/TV-show/" : "/api/movies/movie/");
+            // window.location.href = `moviepage.html?id=${path}&type=${this.isTVShows ? 'tv' : 'movie'}`;
+            const searchLink = (this.isTVShows ? "/tv/" : "/movie/");
             window.location.href = searchLink + path;
         },
         async searchMovies(searchQuery) {
@@ -39,21 +41,21 @@ createApp({
                 return;
             }
 
-            const searchLink = (this.isTVShows ? "/api/TV-shows/search?q=" : "/api/movies/search?q=");
+            const searchLink = (this.isTVShows ? "/api/tv/search?q=" : "/api/movies/search?q=");
             // eslint-disable-next-line max-len
             this.searchResults = await helperGetMovies(searchLink + encodeURIComponent(searchQuery));
             this.showSearchResult = this.searchResults.length > 0;
         },
         async getTrending() {
-            const url = (this.isTVShows ? "/api/TV-shows/trending" : "/api/movies/trending");
+            const url = (this.isTVShows ? "/api/tv/trending" : "/api/movies/trending");
             this.trending = await helperGetMovies(url);
         },
         async getNowPlaying() {
-            const url = this.isTVShows ? "/api/TV-shows/now-playing" : "/api/movies/now-playing";
+            const url = this.isTVShows ? "/api/tv/now-airing" : "/api/movies/now-playing";
             this.nowPlaying = await helperGetMovies(url);
         },
         async getTopRated() {
-            const url = this.isTVShows ? "/api/TV-shows/top-rated" : "/api/movies/top-rated";
+            const url = this.isTVShows ? "/api/tv/top-rated" : "/api/movies/top-rated";
             this.topRated = await helperGetMovies(url);
         },
         mod(n, m) {

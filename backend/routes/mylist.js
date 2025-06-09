@@ -2,7 +2,7 @@
 var express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { formatMovies } = require('../services/helpers');
+const { formatMovies, addMoviePreference } = require('../services/helpers');
 
 var router = express.Router();
 
@@ -128,35 +128,7 @@ router.post('/', async (req, res) => {
     try {
         const { movie_id, is_liked, watch_status } = req.body;
 
-        // check if user already has preferences for this this movie
-        const [existing] = await db.query(
-            `SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
-            [req.user.id, movie_id]
-        );
-
-
-        // get preference id that matches
-        const [prefRes] = await db.query(
-            'SELECT id FROM PREFERENCES WHERE is_liked=? AND watch_status=?',
-            [is_liked, watch_status]
-        );
-
-        if (existing.length > 0 && existing[0].preference_id) {
-
-            // update existing preference
-            await db.query(
-                `UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?`,
-                [prefRes[0].id, req.user.id, movie_id]
-            );
-
-        } else {
-            // insert new preference for movie
-            await db.query(
-                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
-                [req.user.id, prefRes[0].id, movie_id]
-            );
-
-        }
+        addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
 
         res.status(200).json({
             msg: "Successfully added"
@@ -190,6 +162,9 @@ router.post('/add-rating', async (req, res) => {
             );
 
         } else {
+
+            // adding movie preference if doesnt exist
+            addMoviePreference(movie_id, true, 0, req.user.id);
 
             // inserting user ratings
             const [ratingsRes] = await db.query(

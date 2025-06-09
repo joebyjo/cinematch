@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/moviepage.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/moviepage.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body id="movie" style="display: none">
+    <div v-if="isLoading" class="loading" :class="{ 'fade-out': !isLoading }">
+        <div class="spinner"></div>
+    </div>
+    <div v-show="!isLoading" class="background"
+        :style="{ backgroundImage: `url(${movie.backdrop_path ? 'https://image.tmdb.org/t/p/original' + movie.backdrop_path : '/images/dummy-banner.svg'})` }">
+    </div>
+
+    <div v-show="!isLoading" class="container" :class="{ 'fade-in': !isLoading }">
+        <!--back button-->
+        <button type="button" class="back-button" @click="goBack"></button>
+
+        <!-- poster -->
+        <div class="poster-section">
+            <div v-if="movie.trailer" class="dim-overlay"></div>
+            <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : '/images/dummy-poster.svg'"
+                :alt="movie.title" />
+
+            <div class="overlay-blur"></div>
+            <!--play button-->
+            <button type="button" v-if="movie.trailer" class="play-button" @click="openTrailer"></button>
+        </div>
+        <!-- movie info -->
+        <div class="info">
+
+            <div class="first-row">
+                <!--title-->
+                <h1 class="title" :data-title="fullTitle">{{ formatTitle(movie.title) }}</h1>
+
+                <!--watch providers-->
+                <div class="stream-info pill-style">
+                    <p class="streaming"><span>STREAM ON</span> {{ formatProviders(movie.watch_providers).join(', ') }}</p>
+                </div>
+            </div>
+
+            <div class="second-row">
+                <!--date, time, age rating-->
+                <div class="numeric-row">
+                    <span class="pill-style">{{ movie.release_date?.split('-')[0] }}</span>
+                    <span class="pill-style">{{ contentType === 'tv' ? (movie.number_of_seasons + ' season(s)') : formatRuntime(movie.runtime) }}</span>
+                    <span class="pill-style">{{ movie.certification || 'NR' }}</span>
+                </div>
+
+                <!--mark saved, mark watched options-->
+                <div class="user-options-row">
+                    <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'" alt="Mark saved" width="32"
+                        height="32" @click="toggleSaved" />
+                    <img :src="isWatched ? '/images/watched.svg' : '/images/not-watched.svg'" alt="Mark watched"
+                        width="32" height="32" @click="toggleWatched" />
+                </div>
+            </div>
+            <hr>
+
+            <!--summary-->
+            <div>
+                <p class="description">{{ formatDescription(movie.overview) }}</p>
+                <button type="button" v-if="movie.overview && movie.overview.length>215" class="desc-expand"
+                  @click="toggleDescription"> {{ isDescExpanded ? 'Show less':'Read more' }}</button>
+            </div>
+
+            <div class="third-row">
+                <!--director, genres, cast-->
+                <div class="cast-info">
+                    <p><strong>Genres:</strong> {{ formatGenres(movie.genres) }}</p>
+                    <p><strong>Director:</strong> {{ formatDirector(movie.director) }}</p>
+                    <p><strong>Casting:</strong> {{ formatCast(movie.cast) }}</p>
+                </div>
+
+                <div class="ratings">
+                    <div class="online-ratings">
+                        <p>RATINGS</p>
+
+                        <!--rt, imdb ratings-->
+                        <div class="rating-block">
+                            <img src="https://www.cdnlogo.com/logos/i/79/imdb.svg" alt="imdb" class="icon" />
+                            <span>{{ formatImdbRating(movie.imdb_rating) }}</span>
+                        </div>
+
+                        <div class="rating-block">
+                            <img src="https://www.rottentomatoes.com/assets/pizza-pie/images/rottentomatoes_logo_40.336d6fe66ff.png"
+                                alt="rt" class="icon" />
+                            <span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                        </div>
+                    </div>
+
+                    <!--user rating-->
+                    <div class="user-ratings">
+                        <p>YOUR<br>RATING</p>
+                        <div class="stars">
+                            <img v-for="(star, index) in 5" :key="index" :src="getStarImage(index)" class="star"
+                                alt="star" @mousemove="onHover(index, $event)" @mouseleave="clearHover"
+                                @click="selectRating(index, $event)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
