@@ -82,29 +82,6 @@ body {
     color: var(--text-color);
 }
 
-.main-title {
-    font-family: Montserrat;
-    font-size: 1.6rem;
-    font-weight: 900;
-    margin-top: 1rem;
-    outline: 5rem;
-    text-shadow: 0.2rem 0.2rem var(--text-shadow);
-
-}
-
-
-.main-subtitle {
-    font-style: italic;
-    font-size: 0.7rem;
-    color: var(--title-color)
-}
-
-.intro-section {
-    text-align: center;
-    margin-bottom: 3rem;
-
-}
-
 .personalise-main {
     margin-bottom: 3rem 2rem;
     display: flex;
@@ -113,6 +90,9 @@ body {
 }
 
 /* styling for personalise swipe section bellow */
+.swipe-container {
+    margin-top: 5rem;
+}
 
 .matchmaker-grid {
     display: grid;
@@ -157,7 +137,7 @@ body {
 }
 
 .movie-poster {
-    max-height: 37rem;
+    max-height: 47rem;
     border-radius: 1rem;
 }
 
@@ -281,7 +261,9 @@ body {
 .tickcross-button {
     background-color: var(--tickcrossbutton-color);
     border: none;
-    border-radius: 20rem;
+    border-radius: 10rem;
+    width: 7rem;
+    height: 7rem;
 }
 
 .tickcross-button:hover {
@@ -289,6 +271,14 @@ body {
     background-color: var(--hover-color);
 
 }
+
+.tickcross-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 
 /* added */
 .watch-trailer {
