@@ -79,7 +79,7 @@
 
     <main id="admin-dash">
         <!--display admin name-->
-        <h1>Josheen's Dashboard</h1>
+        <h1>{{ currAdmin.firstname }}'s Dashboard</h1>
 
         <!--show site stats-->
         <div class="stats">
@@ -219,7 +219,7 @@
                     <button type="button" class="control" v-for="page in visiblePages" :key="page"
                         :class="{ active: page === currentPage }" @click="currentPage = page"
                         :disabled="typeof page === 'string'">{{ page }}</button>
-                        
+
                     <button type="button" class="control" :disabled="currentPage === totalPages" @click="currentPage++">→</button>
                 </div>
             </div>

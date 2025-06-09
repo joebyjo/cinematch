@@ -7,6 +7,14 @@ createApp({
             showLoadLimit: false,
             loadLimit: 10,
             currentPage: 1,
+            currAdmin: {
+                username: 'josheen_1',
+                firstname: 'Josheen',
+                lastname: 'Kour',
+                role: 'Administrator',
+                dateJoined: '01/01/2025',
+                pfp: 'avatar 1'
+            },
             users: [
                 {
                     username: 'josheen_1',
