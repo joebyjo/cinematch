@@ -290,11 +290,24 @@ h1 {
   background-color: #767474;
 }
 
-.page-controls .control.active {
-    border: 0.08rem solid #ffffff;
+.control.active {
+    box-shadow: inset 0 0 0 0.1rem #ffffff;
 }
 
 .page-controls .control:disabled {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.checkbox-col {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-col input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 1rem 0 0;
+    cursor: pointer;
 }
