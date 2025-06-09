@@ -164,6 +164,15 @@ h1 {
     cursor: pointer;
 }
 
+.dd-arrow {
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.dd-arrow.open {
+    transform: rotate(180deg);
+}
+
 .user-table{
     width: 100%;
     border-spacing: 0;
