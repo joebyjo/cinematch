@@ -2,6 +2,7 @@ createApp({
     data() {
         // dummy data
         return {
+            showSort: false,
             users: [
                 {
                     username: 'josheen_1',
