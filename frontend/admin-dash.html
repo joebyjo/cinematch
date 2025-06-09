@@ -114,7 +114,13 @@
                 <h2>User list</h2>
                 <div class="controls-row">
                     <button type="button" class="control">Select users</button>
-                    <button type="button" class="control">Add filter</button>
+                    <div class="dropdown">
+                        <button type="button" class="control" @click="showFilters=!showFilters">Add filter</button>
+                        <div v-show="showFilters" class="dd-menu" @click.stop>
+                            <div class="dd-option">Users only</div>
+                            <div class="dd-option">Admins only</div>
+                        </div>
+                    </div>
                     <div class="dropdown">
                         <button type="button" class="control" @click="showSort = !showSort">
                             Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>

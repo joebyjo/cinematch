@@ -3,6 +3,7 @@ createApp({
         // dummy data
         return {
             showSort: false,
+            showFilters: false,
             users: [
                 {
                     username: 'josheen_1',

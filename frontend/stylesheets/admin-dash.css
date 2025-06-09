@@ -117,6 +117,7 @@ h1 {
 
 .control.search {
     border: 0.1rem solid #767474;
+    width: 12rem;
 }
 
 .control.search:hover {
