@@ -117,7 +117,7 @@
                     <button type="button" class="control">Add filter</button>
                     <div class="dropdown">
                         <button type="button" class="control" @click="showSort = !showSort">
-                            Sort by ▼
+                            Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>
                         </button>
                         <div v-show="showSort" class="dd-menu" @click.stop>
                             <div class="dd-option">Username</div>
