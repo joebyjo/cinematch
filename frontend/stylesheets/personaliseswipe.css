@@ -110,7 +110,7 @@ body {
     text-align: left;
     align-items: flex start;
     width: 100%;
-    max-width: 25rem;
+    max-width: 35rem;
     text-align: top;
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@ body {
 }
 
 .info-panel h2 {
-    font-size: 2rem;
+    font-size: 3rem;
     margin-bottom: 0.2rem;
     font-family: Cantarell;
     text-align: center;
@@ -166,14 +166,14 @@ body {
     border: 0.13rem solid var(--tagpill-border-color);
     padding: 0.05rem 0.7rem;
     border-radius: 1rem;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     box-shadow: 0.1rem 0.1rem 0.4rem var(--tagpill-border-color);
 }
 
 .info-field {
     margin-top: 0.6rem;
     margin-bottom: 0.6rem;
-    font-size: 1.1rem;
+    font-size: 1.8rem;
 }
 
 .ratings {
@@ -197,7 +197,7 @@ body {
     border-radius: 1rem;
     padding: 0.2rem 0.6rem;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     border: 0.2rem solid #4b4b4b;
 }
 
@@ -208,18 +208,18 @@ body {
     border-radius: 1rem;
     padding: 0rem 0.6rem;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     border: 0.2rem solid #4b4b4b;
 }
 
 .rating-icon-tomato {
-    height: 1.5rem;
+    height: 2rem;
     width: auto;
     display: inline-block;
 }
 
 .rating-icon-IMDB {
-    height: 2rem;
+    height: 3rem;
     width: auto;
     display: inline-block;
 }
@@ -228,7 +228,7 @@ body {
 .description {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     line-height: 1.7;
     font-weight: lighter;
 }
