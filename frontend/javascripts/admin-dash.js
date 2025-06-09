@@ -7,6 +7,8 @@ createApp({
             showLoadLimit: false,
             loadLimit: 10,
             currentPage: 1,
+            isSelectOn: false,
+            selectedUsers: [],
             currAdmin: {
                 username: 'josheen_1',
                 firstname: 'Josheen',
@@ -178,6 +180,22 @@ createApp({
                 }
             ]
         };
+    },
+    methods: {
+        toggleSelect() {
+            this.isSelectOn = !this.isSelectOn;
+            if (!this.isSelectOn) {
+                this.selectedUsers = [];
+            }
+        },
+        SelectUser(username) {
+            const index = this.selectedUsers.indexOf(username);
+            if (index === -1) {
+                this.selectedUsers.push(username);
+            } else {
+                this.selectedUsers.splice(index, 1);
+            }
+        }
     },
     computed: {
         totalPages() {

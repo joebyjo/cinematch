@@ -126,7 +126,8 @@
                 <!--table controls-->
                 <div class="controls-row">
                     <!--select button-->
-                    <button type="button" class="control">Select users</button>
+                    <button type="button" class="control" @click="toggleSelect" :class="{ active: isSelectOn }">
+                        {{ isSelectOn ? 'Cancel' : 'Select users' }}</button>
 
                     <!--filters button-->
                     <div class="dropdown">
@@ -185,7 +186,13 @@
 
                     <!--user info-->
                     <tr v-for="user in CurrPageUsers" :key="user.username">
-                        <td>{{ user.username }}</td>
+                        <td>
+                            <div class="checkbox-col">
+                                <input v-if="isSelectOn" type="checkbox"
+                                  :checked="selectedUsers.includes(user.username)" @change="SelectUser(user.username)">
+                                <span>{{ user.username }}</span>
+                            </div>
+                        </td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
                         <td>{{ user.role }}</td>
