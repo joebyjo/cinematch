@@ -102,18 +102,22 @@ app.use('/api/admin', adminRouter);
 app.use('/api/personalise', personaliseRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err); // passes the error to your error handler
 });
 
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.stack = process.env.NODE_ENV === 'dev' ? err.stack : null;
+    res.locals.status = err.status || 500;
 
     // render the error page
-    res.status(err.status || 500);
+    res.status(res.locals.status);
+
     res.render('error');
 });
 
