@@ -65,3 +65,87 @@ h1 {
     opacity: 70%;
     margin: 0;
 }
+
+.user-section {
+    width: 90%;
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #2B2B2B;
+    margin: 4rem 0;
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+.user-table{
+    width: 100%;
+    border-spacing: 0;
+}
+
+.user-table th {
+    font-family: "Inter", sans-serif;
+    font-size: 1.8rem;
+    background-color: #3A3A3A;
+    border-radius: 3rem;
+    padding: 1rem;
+    border: 0.3rem solid #2B2B2B;
+}
+
+.user-table td {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    background-color: #3a3a3a;
+    border: 0.01rem solid #8a8a8a;
+    padding: 1rem 0.5rem;
+
+}
+
+.user-table tr {
+  height: 3rem;
+}
+
+.user-table tr:first-child {
+    height: 0.5rem;
+}
+
+.user-table tbody {
+    text-align: center;
+    color: #c7c7c7;
+    background-color: #3a3a3a;
+}
+
+.user-table tr:first-child td {
+    border-width: 0;
+    border-color: #2b2b2b;
+    background-color: #2b2b2b;
+}
+
+.user-table tr:nth-child(2) td:first-child {
+    border-radius: 1rem 0 0 0;
+}
+
+.user-table tr:nth-child(2) td:last-child {
+    border-radius: 0 1rem 0 0;
+}
+
+.user-table tr:last-child td:first-child {
+    border-radius: 0 0 0 1rem;
+}
+
+.user-table tr:last-child td:last-child {
+    border-radius: 0 0 1rem 0;
+}
+
+.user-table td:first-child:hover {
+  font-style: italic;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.user-table td:nth-child(5) {
+    width: 12rem;
+}
+
+.user-table td:nth-child(6) {
+    width: 18rem;
+}
