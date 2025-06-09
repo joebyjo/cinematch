@@ -14,7 +14,10 @@ const isAdmin = (req, res, next) => {
     const { user } = req;
 
     if (!user || user.role !== 'admin') {
-        return res.sendStatus(404);
+        // sending error to be handled by error handler
+        const err = new Error('You do not have permission to access this resource.');
+        err.status = 401;
+        return next(err);
     }
 
     return next();
@@ -26,7 +29,10 @@ function isAuthenticated(req, res, next) {
         return next();
     }
 
-    return res.status(401).json({ msg: 'You must be logged in to access this resource.' });
+    // sending error to be handled by error handler
+    const err = new Error('You must be logged in to access this resource.');
+    err.status = 401;
+    return next(err);
 }
 
 
