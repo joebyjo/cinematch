@@ -131,6 +131,10 @@ h1 {
     font-style: italic;
 }
 
+.control.search:focus {
+    outline: none;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
