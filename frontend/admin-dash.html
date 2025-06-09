@@ -110,6 +110,25 @@
             </div>
         </div>
         <div class="user-section">
+            <div class="header-row">
+                <h2>User list</h2>
+                <div class="controls-row">
+                    <button type="button" class="control">Select users</button>
+
+                    <div class="dropdown">
+                        <button type="button" class="control">
+                            Sort by ▼
+                        </button>
+                        <div v-show="showSortDropdown" class="dd-menu" @click.stop>
+                            <div class="dd-option">Username</div>
+                            <div class="dd-option">Date joined</div>
+                            <div class="dd-option">Role</div>
+                        </div>
+                    </div>
+                    <input class="control search" type="text" placeholder="Search user...">
+                    <button type="button" class="control">Add new</button>
+                </div>
+            </div>
             <table class="user-table">
                 <thead>
                     <tr>
