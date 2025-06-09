@@ -78,7 +78,10 @@
     </nav>
 
     <main id="admin-dash">
+        <!--display admin name-->
         <h1>Josheen's Dashboard</h1>
+
+        <!--show site stats-->
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-icon">
@@ -87,6 +90,7 @@
                 </div>
                 <p>total users<br>registered</p>
             </div>
+
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/timeline.svg" alt="Timeline icon">
@@ -94,6 +98,7 @@
                 </div>
                 <p>active users in<br>last 24 hours</p>
             </div>
+
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/movies-saved.svg" alt="Movie icon">
@@ -101,6 +106,7 @@
                 </div>
                 <p>total movies<br>stored</p>
             </div>
+
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/site-views.svg" alt="Movie icon">
@@ -109,11 +115,20 @@
                 <p>total visits to<br>the site</p>
             </div>
         </div>
+
+        <!--user table section-->
         <div class="user-section">
+
             <div class="header-row">
+                <!--table title-->
                 <h2>User list</h2>
+
+                <!--table controls-->
                 <div class="controls-row">
+                    <!--select button-->
                     <button type="button" class="control">Select users</button>
+
+                    <!--filters button-->
                     <div class="dropdown">
                         <button type="button" class="control" @click="showFilters=!showFilters">Add filter</button>
                         <div v-show="showFilters" class="dd-menu" @click.stop>
@@ -121,6 +136,8 @@
                             <div class="dd-option">Admins only</div>
                         </div>
                     </div>
+
+                    <!--sort button-->
                     <div class="dropdown">
                         <button type="button" class="control" @click="showSort = !showSort">
                             Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>
@@ -133,12 +150,19 @@
                             <div class="dd-option">Last Active</div>
                         </div>
                     </div>
+
+                    <!--search button-->
                     <input class="control search" type="text" placeholder="Search user...">
+
+                    <!--add new user button-->
                     <button type="button" class="control">Add new</button>
                 </div>
             </div>
+
+            <!--table contents-->
             <table class="user-table">
                 <thead>
+                    <!--header row-->
                     <tr>
                         <th>Username</th>
                         <th>First name</th>
@@ -149,6 +173,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--empty row for spacing-->
                     <tr>
                         <td></td>
                         <td></td>
@@ -156,9 +181,10 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
-                    <tr v-for="user in users">
+
+                    <!--user info-->
+                    <tr v-for="user in CurrPageUsers" :key="user.username">
                         <td>{{ user.username }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
@@ -168,6 +194,35 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!--footer actions-->
+            <div class="table-footer">
+
+                <!--page load limit button-->
+                <div class="load-limit-dd">
+                    <div class="dropdown">
+                        <button type="button" class="control" @click="showLoadLimit = !showLoadLimit">
+                            Load limit = {{ loadLimit }} <span class="dd-arrow" :class="{open: showLoadLimit}">▼</span>
+                        </button>
+                        <div v-show="showLoadLimit" class="dd-menu" @click.stop>
+                            <div class="dd-option" v-for="limit in [10, 25, 50, 100]" :key="limit"
+                              @click="loadLimit=limit; showLoadLimit=false">Load limit = {{limit}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--switch page buttons-->
+                <div class="page-controls">
+                    <button type="button" class="control" :disabled="currentPage === 1" @click="currentPage--">←</button>
+
+                    <button type="button" class="control" v-for="page in visiblePages" :key="page"
+                        :class="{ active: page === currentPage }" @click="currentPage = page"
+                        :disabled="typeof page === 'string'">{{ page }}</button>
+                        
+                    <button type="button" class="control" :disabled="currentPage === totalPages" @click="currentPage++">→</button>
+                </div>
+            </div>
         </div>
     </main>
 </body>
