@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 // Get movie ID and content type from URL
 const pathParts = window.location.pathname.split('/');

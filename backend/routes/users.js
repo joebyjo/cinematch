@@ -58,7 +58,7 @@ router.put('/me', async (req, res) => {
     // verify current password
     const isMatch = comparePassword(password, findUser.password);
 
-    if (!isMatch) return res.status(401).json({ msg: "Password incorrect" })
+    if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
     try {
         const updates = [];
@@ -95,13 +95,15 @@ router.delete('/me', async (req, res) => {
 
         const { password } = req.body;
 
+        if (!password) return res.status(401).json({ msg: 'Password is required' });
+
         // checking if password matches
         const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
         const findUser = queryResult[0];
 
         const isMatch = comparePassword(password, findUser.password);
 
-        if (!isMatch) return res.status(401).json({ msg: "Password incorrect" })
+        if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
         // deleting user
         await db.query(`DELETE FROM USERS WHERE id = ?`, [req.user.id]);
@@ -154,6 +156,20 @@ router.post('/me/profile-picture', upload.single('profile_picture'), async (req,
     }
 
     const profilePictureUrl = `/uploads/${req.file.filename}`;
+
+    try {
+        await db.query(`UPDATE USERS SET profile_picture_url = ? WHERE id = ?`, [profilePictureUrl, req.user.id]);
+
+        return res.status(200).json({ msg: 'Profile picture updated', profile_picture_url: profilePictureUrl });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to update profile picture' });
+    }
+});
+
+router.post('/me/profile-avatar', async (req, res) => {
+    const { id } = req.body;
+    const profilePictureUrl = `/uploads/avatar${id}.svg`;
 
     try {
         await db.query(`UPDATE USERS SET profile_picture_url = ? WHERE id = ?`, [profilePictureUrl, req.user.id]);

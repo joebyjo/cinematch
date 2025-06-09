@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 const { createApp } = Vue;
 
@@ -67,9 +68,25 @@ createApp({
             isError: false,
 
             selectedTheme: 'dark',
+
+            nameChangeRequest: {
+                firstName: '',
+                lastName: '',
+                password: '',
+                passMatch: false
+            },
+
             newPass: '',
             confirmPass: '',
+            curPass: '',
             passMatch: true,
+            passwordError: '',
+
+            deleteRequest: {
+                password: '',
+                isPass: true
+            },
+
             uploadedImage: null,
             uploadError: '',
             currAvIdx: 2,
@@ -109,11 +126,11 @@ createApp({
             languages: [],
             genres: [],
             avatars: [
-                { id: 1, src: 'images/settings/avatar1.svg' },
-                { id: 2, src: 'images/settings/avatar2.svg' },
-                { id: 3, src: 'images/settings/avatar3.svg' },
-                { id: 4, src: 'images/settings/avatar4.svg' },
-                { id: 5, src: 'images/settings/avatar5.svg' }
+                { id: 1, src: '/uploads/avatar1.svg' },
+                { id: 2, src: '/uploads/avatar2.svg' },
+                { id: 3, src: '/uploads/avatar3.svg' },
+                { id: 4, src: '/uploads/avatar4.svg' },
+                { id: 5, src: '/uploads/avatar5.svg' }
             ]
         };
     },
@@ -123,6 +140,12 @@ createApp({
                 return this.languages;
             }
             return this.languages.filter((lang) => lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
+        },
+        fullName() {
+            return this.user.firstName + " " + this.user.lastName;
+        },
+        checkMatch() {
+            return this.newPass === this.confirmPass;
         }
     },
     methods: {
@@ -162,9 +185,6 @@ createApp({
                 noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
         },
-        checkMatch() {
-            this.passMatch = this.newPass === this.confirmPass;
-        },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
         },
@@ -201,14 +221,39 @@ createApp({
             };
             reader.readAsDataURL(file);
         },
-        selectUpload() {
+        async selectUpload() {
             if (this.uploadedImage) {
                 if (this.isUploadAvSelected()) return;
+
+                const serverImageUrl = await this.uploadProfilePictureToServer(this.uploadedImage);
+                if (!serverImageUrl) return;
+
                 this.selectedAv = {
-                    src: this.uploadedImage,
+                    src: serverImageUrl,
                     isUploaded: true
                 };
+
                 this.showPopup('Avatar updated successfully');
+            }
+        },
+        // Add this method to your Vue component
+        async uploadProfilePictureToServer(base64Image) {
+            try {
+                const blob = await (await fetch(base64Image)).blob();
+                const formData = new FormData();
+                formData.append('profile_picture', blob, 'avatar.png');
+
+                const response = await axios.post('api/users/me/profile-picture', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                return response.data.profile_picture_url;
+            } catch (err) {
+                console.error(err);
+                this.uploadError = err.response?.data?.msg || 'An error occurred during upload';
+                return null;
             }
         },
         nextAv() {
@@ -221,6 +266,7 @@ createApp({
         selectAv() {
             if (this.isCurrAvSelected()) return;
             this.selectedAv = this.avatars[this.currAvIdx];
+            this.uploadAvatar(this.avatars[this.currAvIdx].id);
             this.showPopup('Avatar updated successfully');
         },
         getAvatars() {
@@ -263,6 +309,73 @@ createApp({
             }
         },
 
+        async uploadAvatar(i) {
+            try {
+                await axios.post("api/users/me/profile-avatar", {
+                    id: i
+                });
+            } catch (error) {
+                console.error('Upload Failed!');
+            }
+        },
+
+        async changeName() {
+            if (!this.nameChangeRequest.firstName || !this.nameChangeRequest.lastName || !this.nameChangeRequest.password) return;
+            try {
+                await axios.put("api/users/me", {
+                    first_name: this.nameChangeRequest.firstName,
+                    last_name: this.nameChangeRequest.lastName,
+                    password: this.nameChangeRequest.password
+                });
+                this.showPopup("Name updated successfully");
+                this.getUserDetails();
+
+                this.nameChangeRequest.firstName = '';
+                this.nameChangeRequest.lastName = '';
+                this.nameChangeRequest.password = '';
+
+                this.nameChangeRequest.passMatch = false;
+            } catch (error) {
+                this.nameChangeRequest.password = '';
+                this.nameChangeRequest.passMatch = true;
+            }
+        },
+
+        async deleteAccount() {
+            if (!this.deleteRequest.password) return;
+            try {
+                await axios.delete("api/users/me", {
+                    data: {
+                        password: this.deleteRequest.password
+                    }
+                });
+                this.redirect("/home");
+            } catch (error) {
+                this.deleteRequest.isPass = false;
+            }
+        },
+
+        async changePassword() {
+            if (!this.checkMatch || !this.newPass || !this.curPass) return;
+            try {
+                const res = await axios.post("api/auth/change-password", {
+                    current_password: this.curPass,
+                    new_password: this.newPass
+                });
+
+                this.showPopup("Password changed successfully");
+                this.passMatch = true;
+
+                this.curPass = '';
+                this.newPass = '';
+                this.confirmPass = '';
+            } catch (error) {
+                console.log(error);
+                this.passwordError = error.response.data.msg;
+                this.passMatch = false;
+            }
+        },
+
         // Initialization function to fetch user preferences, genres, languages, and user details
         async init() {
             this.isError = false;
@@ -284,6 +397,8 @@ createApp({
                     this.fetchLanguages(preferredLanguages),
                     this.getUserDetails()
                 ]);
+
+                this.setProfilePic();
 
                 // console.log("[INFO] Initialization successful");
             } catch (e) {
@@ -352,14 +467,28 @@ createApp({
                 console.error("[ERROR] Failed to fetch user details:", error.message || error);
                 throw error; // Propagate to init()
             }
+        },
+        // Function to store image
+        setProfilePic() {
+            const url = this.user.profilePic;
+
+            // check if it is a avatar or uploaded pic
+            const index = this.avatars.findIndex(avatar => avatar.src === url);
+            if (index != -1) {
+                this.selectedAv = this.avatars[index];
+                this.currAvIdx = index;
+            } else {
+                this.uploadedImage = url;
+                this.selectedAv = {
+                    src: serverImageUrl,
+                    isUploaded: true
+                };
+            }
         }
     },
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
-        },
-        confirmPass() {
-            this.checkMatch();
         }
     },
     mounted() {

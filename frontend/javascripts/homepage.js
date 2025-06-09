@@ -1,7 +1,7 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 async function helperGetMovies(url) {
     try {
-        // eslint-disable-next-line no-undef
         const res = await axios.get(url);
         return res.data;
     } catch (e) {

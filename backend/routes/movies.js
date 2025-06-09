@@ -141,10 +141,9 @@ router.get('/languages', async (req, res) => {
 });
 
 
-// // get movie details for a movie
+// get movie details route
 router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
     try {
-
         const movieId = req.params.id;
 
         // check if movie already exists in db and return
@@ -153,27 +152,23 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
             return res.status(200).json(dataFromDb);
         }
 
-        const movieResp = await tmdb.get(`/movie/${movieId}?append_to_response=release_dates%2Cvideos%2Cwatch%2Fproviders`);
+        const movieResp = await tmdb.get(`/movie/${movieId}?append_to_response=release_dates,videos,watch/providers`);
+        const movie = movieResp?.data;
+        const videos = movie?.videos?.results ?? [];
+        const providers = movie?.['watch/providers']?.results ?? {};
 
-        const movie = movieResp.data;
-        const videos = movie.videos?.results || [];
-        const providers = movie['watch/providers']?.results || {};
+        const result = getBasicInfo(movie);
+        if (!result) throw new Error('Invalid movie data received from TMDB');
 
-        // remove unnecessary data
-        result = getBasicInfo(movie);
-
-        // get country specific release dates and certification
-        var releaseResp = { data: movie.release_dates };
-        var releaseData = getReleaseInfo(movie, releaseResp);
+        const releaseResp = { data: movie?.release_dates ?? {} };
+        const releaseData = getReleaseInfo(movie, releaseResp);
         result.certification = releaseData.certification;
         result.release_date = releaseData.release_date;
 
-        // get trailer from youtube
         result.trailer = getTrailer(videos);
 
-        // getting critic ratings and cast details
-        var { ratings, director, cast } = await getImdbData(movie.imdb_id);
-        var ratingData = parseRatings(ratings);
+        const { ratings, director, cast } = await getImdbData(movie.imdb_id);
+        const ratingData = parseRatings(ratings);
         result.imdb_rating = ratingData.imdb_rating;
         result.rotten_rating = ratingData.rotten_rating;
         result.metacritic_rating = ratingData.metacritic_rating;
@@ -181,19 +176,17 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
         result.director = director;
         result.cast = cast;
 
-        // get top 2 watch providers according to countries if it is a popular platform sorted by custom priority list
         result.watch_providers = getTopWatchProviders(providers);
 
         // send results back to client
-        res.status(200).json(results);
+        res.status(200).json(result);
 
-        // insert movie details into db
-        insertMovie(results);
+        // insert movie details into db (after sending response to avoid delay)
+        insertMovie(result);
 
     } catch (error) {
-        console.error('TMDB error:', error.message);
+        console.error('TMDB error:', error?.message || error);
         res.status(500).json({ msg: 'Failed to fetch movie' });
-
     }
 });
 
@@ -236,56 +229,52 @@ router.get('/user-preferences/:id', validateId('id'), validate, async (req, res)
 // Helper Functions
 // helper to trim unnecessary data
 function getBasicInfo(movie) {
+    if (!movie || typeof movie !== 'object') return null;
     return {
-        id: movie.id || null,
-        imdb_id: movie.imdb_id || null,
-        original_language: movie.original_language || null,
-        overview: movie.overview || null,
-        title: movie.title || null,
-        runtime: movie.runtime || null,
-        poster_path: movie.poster_path || null,
-        backdrop_path: movie.backdrop_path || null,
-        genres: movie.genres || null,
+        id: movie.id ?? null,
+        imdb_id: movie.imdb_id ?? null,
+        original_language: movie.original_language ?? null,
+        overview: movie.overview ?? null,
+        title: movie.title ?? null,
+        runtime: movie.runtime ?? null,
+        poster_path: movie.poster_path ?? null,
+        backdrop_path: movie.backdrop_path ?? null,
+        genres: Array.isArray(movie.genres) ? movie.genres : null,
     };
 }
 
 // helper to get country-specific release info
 function getReleaseInfo(movie, releaseResp) {
-    var result = {};
+    const result = {};
     try {
-        var countryList = releaseResp.data.results;
+        const countryList = releaseResp?.data?.results || [];
 
-        // iterating through all countries
-        for (var i = 0; i < countryList.length; i++) {
-            if (countryList[i].iso_3166_1 === preferredCountries[0]) {
-
-                // based on preferred country
-                var releaseDate = countryList[i].release_dates[0];
-                result.certification = releaseDate.certification;
-                result.release_date = new Date(releaseDate.release_date).toISOString().split('T')[0];
-                return result;
+        for (const country of countryList) {
+            if (country?.iso_3166_1 === preferredCountries[0]) {
+                const releaseDate = country?.release_dates?.[0];
+                if (releaseDate) {
+                    result.certification = releaseDate.certification || 'NR';
+                    result.release_date = new Date(releaseDate.release_date).toISOString().split('T')[0];
+                    return result;
+                }
             }
         }
     } catch (err) {
-        console.error('Error getting release info:', err.message);
+        console.error('Error getting release info:', err?.message || err);
     }
 
-    // set default as NR
     result.certification = 'NR';
-
-    // clean release date
-    result.release_date = movie.release_date ? new Date(movie.release_date).toISOString().split('T')[0] : null;
-
+    result.release_date = movie?.release_date ? new Date(movie.release_date).toISOString().split('T')[0] : null;
     return result;
 }
 
 // helper to get trailer
 function getTrailer(videos) {
-    for (var i = 0; i < videos.length; i++) {
+    if (!Array.isArray(videos)) return null;
 
-        // getting official trailers on youtube
-        if (videos[i].site === 'YouTube' && (videos[i].type === 'Trailer' || videos[i].type === 'Official Trailer')) {
-            return `https://www.youtube.com/watch?v=${videos[i].key}`;
+    for (const video of videos) {
+        if (video?.site === 'YouTube' && ['Trailer', 'Official Trailer'].includes(video?.type)) {
+            return `https://www.youtube.com/watch?v=${encodeURIComponent(video.key)}`;
         }
     }
     return null;
@@ -293,21 +282,26 @@ function getTrailer(videos) {
 
 // helper to parse critic ratings
 function parseRatings(ratings) {
-    var parsed = {
+    const parsed = {
         imdb_rating: null,
         rotten_rating: null,
         metacritic_rating: null
     };
 
-    // parsing ratings
-    for (var i = 0; i < ratings.length; i++) {
-        var r = ratings[i];
+    if (!Array.isArray(ratings)) return parsed;
+
+    for (const r of ratings) {
+        if (!r?.Source || !r?.Value) continue;
+
         if (r.Source === 'Internet Movie Database') {
-            parsed.imdb_rating = parseFloat(r.Value.split('/')[0]) || null;
+            const val = parseFloat(r.Value.split('/')[0]);
+            parsed.imdb_rating = isNaN(val) ? null : val;
         } else if (r.Source === 'Rotten Tomatoes') {
-            parsed.rotten_rating = parseInt(r.Value.replace('%', ''), 10) || null;
+            const val = parseInt(r.Value.replace('%', ''), 10);
+            parsed.rotten_rating = isNaN(val) ? null : val;
         } else if (r.Source === 'Metacritic') {
-            parsed.metacritic_rating = parseInt(r.Value.split('/')[0], 10) || null;
+            const val = parseInt(r.Value.split('/')[0], 10);
+            parsed.metacritic_rating = isNaN(val) ? null : val;
         }
     }
 
@@ -316,25 +310,26 @@ function parseRatings(ratings) {
 
 // helper to get top 2 watch providers
 function getTopWatchProviders(providers) {
-    var all = [];
-    for (var c = 0; c < preferredCountries.length; c++) {
-        var countryCode = preferredCountries[c];
-        var flatrate = providers[countryCode] && providers[countryCode].flatrate;
-        if (flatrate) {
-            for (var j = 0; j < flatrate.length; j++) {
-                var p = flatrate[j];
-                if (preferredProviders.includes(p.provider_id) && !all.some(item => item.provider_id === p.provider_id)) {
+    const all = [];
+
+    if (typeof providers !== 'object' || !providers) return all;
+
+    for (const countryCode of preferredCountries) {
+        const flatrate = providers?.[countryCode]?.flatrate;
+        if (Array.isArray(flatrate)) {
+            for (const p of flatrate) {
+                if (
+                    p?.provider_id &&
+                    preferredProviders.includes(p.provider_id) &&
+                    !all.some(item => item.provider_id === p.provider_id)
+                ) {
                     all.push(p);
                 }
             }
         }
     }
 
-    // sort and return top 2
-    all.sort(function (a, b) {
-        return preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id);
-    });
-
+    all.sort((a, b) => preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id));
     return all.slice(0, 2);
 }
 
