@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
         const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
         // initating variables to store filters and values
-        const filters = [];
+        const filters = [`watch_status IN (2, 3)`];
         const values = [req.user.id];
 
         // add genres to filters
