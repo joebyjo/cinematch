@@ -116,13 +116,15 @@
                     <button type="button" class="control">Select users</button>
 
                     <div class="dropdown">
-                        <button type="button" class="control">
+                        <button type="button" class="control" @click="showSort = !showSort">
                             Sort by ▼
                         </button>
-                        <div v-show="showSortDropdown" class="dd-menu" @click.stop>
+                        <div v-show="showSort" class="dd-menu" @click.stop>
                             <div class="dd-option">Username</div>
-                            <div class="dd-option">Date joined</div>
-                            <div class="dd-option">Role</div>
+                            <div class="dd-option">First Name</div>
+                            <div class="dd-option">Last Name</div>
+                            <div class="dd-option">Date Joined</div>
+                            <div class="dd-option">Last Active</div>
                         </div>
                     </div>
                     <input class="control search" type="text" placeholder="Search user...">

@@ -130,6 +130,40 @@ h1 {
     font-style: italic;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dd-menu {
+    position: absolute;
+    margin-top: 1rem;
+    right: 3;
+    background-color: #2b2b2b;
+    border: 0.1rem solid #767474;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    z-index: 2;
+    width: 9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.dd-option {
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+    background-color: #3a3a3a;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.dd-option:hover {
+    background-color: #767474;
+    cursor: pointer;
+}
+
 .user-table{
     width: 100%;
     border-spacing: 0;
