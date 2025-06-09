@@ -61,4 +61,18 @@ router.get('/aboutus', function (req, res, next) {
     // console.log(req.session.id);
 });
 
+router.get('/setting', function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/settings.html'));
+
+    req.session.visited = true;
+    // res.send('works');
+
+    // console.log(req.session.id);
+});
+
+router.get(['/movie/:id', '/tv/:id'], (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/moviepage.html'));
+    req.session.visited = true;
+});
+
 module.exports = router;

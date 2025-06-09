@@ -11,10 +11,10 @@ const validate = (req, res, next) => {
 
 // admin authorization middleware
 const isAdmin = (req, res, next) => {
-    const { user } = req.session;
+    const { user } = req;
 
     if (!user || user.role !== 'admin') {
-        return res.status(404);
+        return res.sendStatus(404);
     }
 
     return next();
@@ -64,7 +64,7 @@ const validateSignup = [
         .notEmpty()
         .withMessage('Username is required')
         .isLength({ min: 3 })
-        .withMessage('Username must be minimum 2 letters long'),
+        .withMessage('Username must be minimum 3 letters long'),
 
     body('password')
         .trim()
@@ -79,9 +79,7 @@ const validateSignup = [
         .matches(/[0-9]/)
         .withMessage('Password must contain a digit')
         .matches(/[\W_]/)
-        .withMessage('Password must contain a special character')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid or dangerous characters'),
+        .withMessage('Password must contain a special character'),
 
     body('firstName')
         .trim()
@@ -101,6 +99,30 @@ const validateSignup = [
 ];
 
 
+// change password validation
+const validateChangePassword = [
+    body('current_password')
+        .trim()
+        .notEmpty()
+        .withMessage('Current password is required'),
+
+    body('new_password')
+        .trim()
+        .notEmpty()
+        .withMessage('New password is required')
+        .isLength({ min: 8 })
+        .withMessage('New password must be at least 8 characters long')
+        .matches(/[a-z]/)
+        .withMessage('New password must contain a lowercase letter')
+        .matches(/[A-Z]/)
+        .withMessage('New password must contain an uppercase letter')
+        .matches(/[0-9]/)
+        .withMessage('New password must contain a digit')
+        .matches(/[\W_]/)
+        .withMessage('New password must contain a special character')
+];
+
+
 // login validation
 const validateLogin = [
     body('username')
@@ -117,8 +139,6 @@ const validateLogin = [
         .withMessage('Password is required')
         .isLength({ min: 3 })
         .withMessage('Password must be at least 3 characters long')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid characters')
 ];
 
 
@@ -129,5 +149,6 @@ module.exports = {
     validateSearchQuery,
     validateId,
     validateSignup,
-    validateLogin
+    validateLogin,
+    validateChangePassword
 };

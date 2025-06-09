@@ -9,6 +9,13 @@ INSERT INTO `USERS` VALUES
 (5,'test2','$2b$10$z4nylN4a1.FI5o5TjdCTIusLFI3Q1WYsv0JbZBi9sXLSorgEt85RC','josheen','kour','2025-05-10 06:40:52','user',NULL,'2025-04-26');
 
 
+INSERT INTO `USERSETTINGS` VALUES
+(1,'dark',NULL),
+(2,'dark',NULL),
+(3,'dark',NULL),
+(4,'dark',NULL),
+(5,'dark',NULL);
+
 
 INSERT INTO `MOVIES` VALUES
 (238,'The Godfather','Francis Ford Coppola','Marlon Brando, Al Pacino, James Caan','tt0068646','en','Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.','1972-11-02',9.2,97,100,'/3bhkrj58Vtu7enYsRolD1fZdja1.jpg','/tmU7GeKVybMWFButWEGl2M4GeiP.jpg','https://www.youtube.com/watch?v=Ew9ngL1GZvs',175,'MA 15+'),
@@ -53,7 +60,7 @@ INSERT INTO `MOVIES` VALUES
 (1276073,'Bullet Train Explosion',NULL,NULL,'tt33452974','ja','When panic erupts on a Tokyo-bound bullet train that will explode if it slows below 100 kph, authorities race against time to save everyone on board.','2025-04-23',NULL,NULL,NULL,'/qkTKtOHK9JEEOHgPQZ0dFtzs5ML.jpg','/Zes06xI18u47pblwRGTtqRm0R8.jpg','https://www.youtube.com/watch?v=bYopWaT8Sr0',137,'NR'),
 (1276121,'Black Cat, White Cat Its a Good Cat if it Catches the Mouse',NULL,NULL,NULL,'en','It explores the tension between age-old China and energy of the student demonstration in the spring of 1989.','1990-01-01',NULL,NULL,NULL,NULL,NULL,NULL,35,'NR'),
 (1290954,'Rekhachithram','Jofin T. Chacko','Asif Ali, Anaswara Rajan, Manoj K. Jayan','tt32284154','ml','Having recently served a suspension for gambling online while on duty, Circle Inspector Vivek Gopinath rejoins the police force and is looking to reclaim his lost honour. Awaiting him is a 40-year-old, unresolved murder mystery with a faceless victim.','2025-01-09',8,NULL,NULL,'/ulIAyiSVQZL1Ov6K2Tjf6wPlzFi.jpg','/97U7d3GwOnDKAKVVbLEq65XyKP3.jpg',NULL,139,'NR'),
-(1308913,'Diet of Sex',NULL,NULL,NULL,'es','Ãgata suffers from a psychological disorder which prevents her from experiencing pleasure in all aspects of her life. Marc, through the use food, endeavours to help her overcome her problem.','2014-02-14',NULL,NULL,NULL,'/z5OvPdhvybMKWbsLtRQLH4nBsEk.jpg',NULL,NULL,72,'NR');
+(324230,'Diet of Sex',NULL,NULL,NULL,'es','Ãgata suffers from a psychological disorder which prevents her from experiencing pleasure in all aspects of her life. Marc, through the use food, endeavours to help her overcome her problem.','2014-02-14',NULL,NULL,NULL,'/z5OvPdhvybMKWbsLtRQLH4nBsEk.jpg',NULL,NULL,72,'NR');
 
 
 INSERT INTO `MOVIEPROVIDERS` VALUES
@@ -113,7 +120,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (1184889,18),
 (1239511,18),
 (1276073,18),
-(1308913,18),
+(324230,18),
 (9532,27),
 (250546,27),
 (513147,27),
@@ -143,7 +150,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (950387,35),
 (996821,35),
 (1195506,35),
-(1308913,35),
+(324230,35),
 (86004,53),
 (822119,53),
 (835113,53),
@@ -181,7 +188,7 @@ INSERT INTO `MOVIEGENRES` VALUES
 (274870,10749),
 (276928,10749),
 (1108828,10749),
-(1308913,10749),
+(324230,10749),
 (60307,10751),
 (447273,10751),
 (950387,10751),
@@ -220,34 +227,33 @@ INSERT INTO `USERRATINGS` VALUES
 (38,0,NULL,'2025-05-28');
 
 INSERT INTO `USERPREFERENCES` VALUES
-(5,3,50546,9,'2025-05-05 05:15:02'),
-(5,2,238,10,'2025-05-10 06:50:55'),
-(5,1,676595,NULL,'2025-05-10 06:55:58'),
-(5,5,822119,11,'2025-05-10 06:56:55'),
-(2,5,822119,12,'2025-05-10 07:37:12'),
-(2,5,832711,13,'2025-05-10 08:05:44'),
-(2,3,238,NULL,'2025-05-10 08:23:02'),
-(2,2,1290954,NULL,'2025-05-17 13:04:31'),
-(2,2,996821,17,'2025-05-17 13:07:03'),
-(2,2,1108828,18,'2025-05-17 13:08:26'),
-(2,2,86004,19,'2025-05-17 13:10:16'),
-(2,2,942411,20,'2025-05-17 13:11:32'),
-(2,2,274870,21,'2025-05-17 13:21:33'),
-(2,2,835113,22,'2025-05-17 13:22:33'),
-(2,2,634492,23,'2025-05-17 13:23:54'),
-(2,2,845781,24,'2025-05-17 13:24:32'),
-(2,2,1239511,25,'2025-05-17 15:30:56'),
-(2,2,45890,NULL,'2025-05-28 06:51:07'),
-(2,2,9532,28,'2025-05-28 06:58:41'),
-(2,2,10625,29,'2025-05-28 06:59:57'),
-(2,3,250546,30,'2025-05-28 07:03:20'),
-(2,3,276928,31,'2025-05-28 07:04:47'),
-(2,5,1184889,32,'2025-05-28 07:07:15'),
-(2,4,138122,33,'2025-05-28 07:09:05'),
-(2,4,513147,34,'2025-05-28 07:24:49'),
-(2,4,60307,NULL,'2025-05-28 07:26:18'),
-(2,4,1148172,35,'2025-05-28 07:27:01'),
-(2,4,590404,36,'2025-05-28 07:28:08'),
-(2,4,1249213,37,'2025-05-28 07:28:47'),
-(2,4,447273,38,'2025-05-28 07:29:15');
-
+(5,3,50546,9,0,'2025-05-05 05:15:02'),
+(5,2,238,10,0,'2025-05-10 06:50:55'),
+(5,1,676595,NULL,0,'2025-05-10 06:55:58'),
+(5,5,822119,11,0,'2025-05-10 06:56:55'),
+(2,5,822119,12,0,'2025-05-10 07:37:12'),
+(2,5,832711,13,0,'2025-05-10 08:05:44'),
+(2,3,238,NULL,0,'2025-05-10 08:23:02'),
+(2,2,1290954,NULL,0,'2025-05-17 13:04:31'),
+(2,2,996821,17,0,'2025-05-17 13:07:03'),
+(2,2,1108828,18,0,'2025-05-17 13:08:26'),
+(2,2,86004,19,0,'2025-05-17 13:10:16'),
+(2,2,942411,20,0,'2025-05-17 13:11:32'),
+(2,2,274870,21,0,'2025-05-17 13:21:33'),
+(2,2,835113,22,0,'2025-05-17 13:22:33'),
+(2,2,634492,23,0,'2025-05-17 13:23:54'),
+(2,2,845781,24,0,'2025-05-17 13:24:32'),
+(2,2,1239511,25,0,'2025-05-17 15:30:56'),
+(2,2,45890,NULL,0,'2025-05-28 06:51:07'),
+(2,2,9532,28,0,'2025-05-28 06:58:41'),
+(2,2,10625,29,0,'2025-05-28 06:59:57'),
+(2,3,250546,30,0,'2025-05-28 07:03:20'),
+(2,3,276928,31,0,'2025-05-28 07:04:47'),
+(2,5,1184889,32,0,'2025-05-28 07:07:15'),
+(2,4,138122,33,0,'2025-05-28 07:09:05'),
+(2,4,513147,34,0,'2025-05-28 07:24:49'),
+(2,4,60307,NULL,0,'2025-05-28 07:26:18'),
+(2,4,1148172,35,0,'2025-05-28 07:27:01'),
+(2,4,590404,36,0,'2025-05-28 07:28:08'),
+(2,4,1249213,37,0,'2025-05-28 07:28:47'),
+(2,4,447273,38,0,'2025-05-28 07:29:15');
