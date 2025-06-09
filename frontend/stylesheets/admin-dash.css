@@ -251,3 +251,50 @@ h1 {
 .user-table td:nth-child(6) {
     width: 18rem;
 }
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 0 1rem;
+}
+
+.load-limit-dd {
+    display: flex;
+    align-items: center;
+}
+
+.load-limit-dd .dd-menu {
+    width: 14rem;
+}
+
+.page-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.page-number, .page-arrow {
+  background-color: transparent;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.page-number:hover, .page-arrow:hover {
+  background-color: #767474;
+}
+
+.page-controls .control.active {
+    border: 0.08rem solid #ffffff;
+}
+
+.page-controls .control:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
