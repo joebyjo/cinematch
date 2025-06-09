@@ -14,10 +14,12 @@ async function helperGetMovieData(url) {
 function helperDrawStatus(s) {
     if (s === 0) {
         return "/images/my-lists/eye-slash-solid.png";
-    } if (s === 1) {
+    } else if (s === 1) {
         return "/images/my-lists/eye.png";
-    } if (s === 2) {
-        return "/images/my-lists/bookmarked.png";
+    } else if (s === 2) {
+        return "/images/my-lists/eye-slash-solid.png";
+    } else if (s === 3) {
+        return "/images/my-lists/eye.png";
     }
 
     return "";
@@ -93,7 +95,6 @@ const movieTable = Vue.createApp({
 
     },
     methods: {
-
         resetFiltersAndSort() {
             this.filter.genre = [];
             this.filter.status = [];
@@ -132,8 +133,24 @@ const movieTable = Vue.createApp({
         },
 
         async toggleStatus(movie) {
-            // Cycle to next status (0 → 1 → 2 → 0)
-            movie.watch_status = (movie.watch_status + 1) % 3;
+
+            movie.watch_status = movie.watch_status === 2 ? 3 : 2;
+
+            try {
+                await axios.post('/api/mylist/', {
+                    movie_id: movie.movie_id,
+                    is_liked: 1, // fallback default (e.g., liked)
+                    watch_status: movie.watch_status
+                });
+            } catch (error) {
+                console.error("Failed to update status:", error);
+                // Optionally revert the change if API call fails
+            }
+        },
+
+        async toggleBookmark(movie) {
+            movie.bookmarked = !movie.bookmarked;
+            movie.watch_status = movie.watch_status === 2 ? 0 : 1;
 
             try {
                 await axios.post('/api/mylist/', {
@@ -192,6 +209,8 @@ const movieTable = Vue.createApp({
         },
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
+
+
             this.movies = (res.data || []).map(movie => ({
                 ...movie,
                 hoverRating: 0 // add temporary field for hover effect
