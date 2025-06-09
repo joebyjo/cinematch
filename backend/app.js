@@ -58,6 +58,15 @@ app.use(session({ // for sessions
 }));
 app.use(passport.initialize()); // for user authentication
 app.use(passport.session());
+
+// block request to any .html page
+app.use(async (req, res, next) => {
+    if (req.path.endsWith('.html')) {
+        return res.status(403).send({ msg:'Direct access to HTML files is forbidden.' });
+    }
+    next();
+});
+
 app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); // use /frontend directory as default directory for static files.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -90,9 +99,8 @@ app.use('/api/tv', tvRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/mylist', mylistRouter);
 app.use('/api/admin', adminRouter);
-// console.log("before");
 app.use('/api/personalise', personaliseRouter);
-// console.log("after");
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
