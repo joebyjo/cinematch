@@ -1,17 +1,104 @@
+/* eslint-disable no-undef */
+/* eslint-disable max-len */
 const { createApp } = Vue;
+
+async function getMethod(url) {
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.get(url);
+        return res.data;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Error retrieving data from server", e);
+        return [];
+    }
+}
+async function postLanguages(languages) {
+    // Collect selected language IDs
+    const languageIds = languages
+        .filter((lang) => lang.selected)
+        .map((lang) => lang.id);
+
+    if (!languageIds.length) {
+        console.warn("[INFO] No selected languages to post.");
+        return;
+    }
+
+    try {
+        const res = await axios.post("/api/personalise/languages-id", languageIds);
+        // console.log("[INFO] Languages updated successfully.", res.data);
+    } catch (e) {
+        console.error("[ERROR] Failed to update languages:", e.message || e);
+    }
+}
+
+async function postGenres(genres) {
+    // Collect selected genre IDs
+    const genreIds = genres
+        .filter((genre) => genre.selected)
+        .map((genre) => genre.id);
+
+    if (!genreIds.length) {
+        console.warn("[INFO] No selected genres to post.");
+        return;
+    }
+
+    try {
+        const res = await axios.post("/api/personalise/genres-id", genreIds);
+        // console.log("[INFO] Genres updated successfully.", res.data);
+    } catch (e) {
+        console.error("[ERROR] Failed to update genres:", e.message || e);
+    }
+}
+
+async function helperLogout(path) {
+    try {
+        // eslint-disable-next-line no-undef
+        const res = await axios.post(path);
+        return 0;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        return 1;
+    }
+}
 
 createApp({
     data() {
         return {
-            selectedTheme: 'dark', // default
+            isError: false,
+
+            selectedTheme: 'dark',
+
+            nameChangeRequest: {
+                firstName: '',
+                lastName: '',
+                password: '',
+                passMatch: false
+            },
+
             newPass: '',
             confirmPass: '',
+            curPass: '',
             passMatch: true,
+            passwordError: '',
+
+            deleteRequest: {
+                password: '',
+                isPass: true
+            },
+
             uploadedImage: null,
             uploadError: '',
             currAvIdx: 2,
             selectedAv: null,
             showPass: false,
+
+            user: {
+                firstName: "",
+                lastName: "",
+                userName: "",
+                profilePic: ""
+            },
 
             dropdowns: {
                 theme: false,
@@ -36,37 +123,14 @@ createApp({
                 genres: ''
             },
 
-            // dummy data
-            languages: [
-                { id: 1, name: 'English', selected: false },
-                { id: 2, name: 'Español', selected: false },
-                { id: 3, name: 'Italiano', selected: false },
-                { id: 4, name: 'Português', selected: false },
-                { id: 5, name: 'French', selected: false },
-                { id: 6, name: 'German', selected: false },
-                { id: 7, name: 'Hindi', selected: false },
-                { id: 8, name: 'Arabic', selected: false },
-                { id: 9, name: 'Korean', selected: false },
-                { id: 10, name: 'Chinese', selected: false }
-            ],
-            genres: [
-                { id: 1, name: 'Action', selected: false },
-                { id: 2, name: 'Adventure', selected: false },
-                { id: 3, name: 'Animation', selected: false },
-                { id: 4, name: 'Biography', selected: false },
-                { id: 5, name: 'Comedy', selected: false },
-                { id: 6, name: 'Crime', selected: false },
-                { id: 7, name: 'Documentary', selected: false },
-                { id: 8, name: 'Drama', selected: false },
-                { id: 9, name: 'Family', selected: false },
-                { id: 10, name: 'Fantasy', selected: false }
-            ],
+            languages: [],
+            genres: [],
             avatars: [
-                { id: 1, src: 'images/settings/avatar1.svg' },
-                { id: 2, src: 'images/settings/avatar2.svg' },
-                { id: 3, src: 'images/settings/avatar3.svg' },
-                { id: 4, src: 'images/settings/avatar4.svg' },
-                { id: 5, src: 'images/settings/avatar5.svg' }
+                { id: 1, src: '/uploads/avatar1.svg' },
+                { id: 2, src: '/uploads/avatar2.svg' },
+                { id: 3, src: '/uploads/avatar3.svg' },
+                { id: 4, src: '/uploads/avatar4.svg' },
+                { id: 5, src: '/uploads/avatar5.svg' }
             ]
         };
     },
@@ -75,8 +139,13 @@ createApp({
             if (!this.search.languages) {
                 return this.languages;
             }
-            return this.languages.filter((lang) =>
-            lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
+            return this.languages.filter((lang) => lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
+        },
+        fullName() {
+            return this.user.firstName + " " + this.user.lastName;
+        },
+        checkMatch() {
+            return this.newPass === this.confirmPass;
         }
     },
     methods: {
@@ -88,18 +157,23 @@ createApp({
         },
         selectTheme(theme) {
             this.selectedTheme = theme;
+            axios.post("/api/users/me/theme", { theme: this.selectedTheme });
         },
         toggleLanguage(languageId) {
             const language = this.languages.find((lang) => lang.id === languageId);
             if (language) {
                 language.selected = !language.selected;
             }
+
+            postLanguages(this.languages);
         },
         toggleGenre(genreId) {
             const genre = this.genres.find((gen) => gen.id === genreId);
             if (genre) {
                 genre.selected = !genre.selected;
             }
+
+            postGenres(this.genres);
         },
         validatePass(password) {
             this.passReq = {
@@ -110,9 +184,6 @@ createApp({
                 special: /[!_@#$%^&*(),?":{}|<>]/.test(password),
                 noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
-        },
-        checkMatch() {
-            this.passMatch = this.newPass === this.confirmPass;
         },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
@@ -140,7 +211,7 @@ createApp({
                 this.uploadError = 'Please upload a JPG/JPEG/PNG file';
                 return;
             }
-            if (file.size> 1024*1024) {
+            if (file.size > 1024 * 1024) {
                 this.uploadError = 'Max file size allowed is 1MB';
                 return;
             }
@@ -150,49 +221,75 @@ createApp({
             };
             reader.readAsDataURL(file);
         },
-        selectUpload() {
+        async selectUpload() {
             if (this.uploadedImage) {
                 if (this.isUploadAvSelected()) return;
+
+                const serverImageUrl = await this.uploadProfilePictureToServer(this.uploadedImage);
+                if (!serverImageUrl) return;
+
                 this.selectedAv = {
-                    src: this.uploadedImage,
+                    src: serverImageUrl,
                     isUploaded: true
                 };
+
                 this.showPopup('Avatar updated successfully');
             }
         },
+        // Add this method to your Vue component
+        async uploadProfilePictureToServer(base64Image) {
+            try {
+                const blob = await (await fetch(base64Image)).blob();
+                const formData = new FormData();
+                formData.append('profile_picture', blob, 'avatar.png');
+
+                const response = await axios.post('api/users/me/profile-picture', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                return response.data.profile_picture_url;
+            } catch (err) {
+                console.error(err);
+                this.uploadError = err.response?.data?.msg || 'An error occurred during upload';
+                return null;
+            }
+        },
         nextAv() {
-          this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
+            this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
         },
         prevAv() {
-          this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
-          % this.avatars.length;
+            this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
+                % this.avatars.length;
         },
         selectAv() {
-          if (this.isCurrAvSelected()) return;
-          this.selectedAv = this.avatars[this.currAvIdx];
-          this.showPopup('Avatar updated successfully');
+            if (this.isCurrAvSelected()) return;
+            this.selectedAv = this.avatars[this.currAvIdx];
+            this.uploadAvatar(this.avatars[this.currAvIdx].id);
+            this.showPopup('Avatar updated successfully');
         },
         getAvatars() {
-        const total = this.avatars.length;
-        const avatars = [];
+            const total = this.avatars.length;
+            const avatars = [];
 
-        for (let i = -2; i <= 2; i++) {
-            let id = this.currAvIdx + i;
+            for (let i = -2; i <= 2; i++) {
+                let id = this.currAvIdx + i;
 
-            if (id < 0) {
-            id += total;
-            } else if (id >= total) {
-            id -= total;
+                if (id < 0) {
+                    id += total;
+                } else if (id >= total) {
+                    id -= total;
+                }
+
+                const avatar = {
+                    ...this.avatars[id],
+                    isSelected: i === 0,
+                    isLarge: i === -1 || i === 1
+                };
+                avatars.push(avatar);
             }
-
-            const avatar = {
-            ...this.avatars[id],
-            isSelected: i === 0,
-            isLarge: i === -1 || i === 1
-            };
-            avatars.push(avatar);
-        }
-        return avatars;
+            return avatars;
         },
         isCurrAvSelected() {
             if (!this.selectedAv) return false;
@@ -202,14 +299,199 @@ createApp({
         isUploadAvSelected() {
             if (!this.selectedAv || !this.uploadedImage) return false;
             return this.selectedAv.isUploaded && this.selectedAv.src === this.uploadedImage;
+        },
+        redirect(path) {
+            if (path === "/logout") {
+                helperLogout('api/auth/logout');
+                window.location.href = '/home';
+            } else {
+                window.location.href = path;
+            }
+        },
+
+        async uploadAvatar(i) {
+            try {
+                await axios.post("api/users/me/profile-avatar", {
+                    id: i
+                });
+            } catch (error) {
+                console.error('Upload Failed!');
+            }
+        },
+
+        async changeName() {
+            if (!this.nameChangeRequest.firstName || !this.nameChangeRequest.lastName || !this.nameChangeRequest.password) return;
+            try {
+                await axios.put("api/users/me", {
+                    first_name: this.nameChangeRequest.firstName,
+                    last_name: this.nameChangeRequest.lastName,
+                    password: this.nameChangeRequest.password
+                });
+                this.showPopup("Name updated successfully");
+                this.getUserDetails();
+
+                this.nameChangeRequest.firstName = '';
+                this.nameChangeRequest.lastName = '';
+                this.nameChangeRequest.password = '';
+
+                this.nameChangeRequest.passMatch = false;
+            } catch (error) {
+                this.nameChangeRequest.password = '';
+                this.nameChangeRequest.passMatch = true;
+            }
+        },
+
+        async deleteAccount() {
+            if (!this.deleteRequest.password) return;
+            try {
+                await axios.delete("api/users/me", {
+                    data: {
+                        password: this.deleteRequest.password
+                    }
+                });
+                this.redirect("/home");
+            } catch (error) {
+                this.deleteRequest.isPass = false;
+            }
+        },
+
+        async changePassword() {
+            if (!this.checkMatch || !this.newPass || !this.curPass) return;
+            try {
+                const res = await axios.post("api/auth/change-password", {
+                    current_password: this.curPass,
+                    new_password: this.newPass
+                });
+
+                this.showPopup("Password changed successfully");
+                this.passMatch = true;
+
+                this.curPass = '';
+                this.newPass = '';
+                this.confirmPass = '';
+            } catch (error) {
+                console.log(error);
+                this.passwordError = error.response.data.msg;
+                this.passMatch = false;
+            }
+        },
+
+        // Initialization function to fetch user preferences, genres, languages, and user details
+        async init() {
+            this.isError = false;
+
+            try {
+                // Fetch user preferences (favorite genres and preferred languages)
+                const preferences = await getMethod("api/users/languages-genres");
+
+                const favoriteGenres = Array.isArray(preferences.favorite_genres)
+                    ? preferences.favorite_genres
+                    : [];
+                const preferredLanguages = Array.isArray(preferences.preferred_languages)
+                    ? preferences.preferred_languages
+                    : [];
+
+                // Fetch genres, languages, and user details concurrently
+                await Promise.all([
+                    this.fetchGenres(favoriteGenres),
+                    this.fetchLanguages(preferredLanguages),
+                    this.getUserDetails()
+                ]);
+
+                this.setProfilePic();
+
+                // console.log("[INFO] Initialization successful");
+            } catch (e) {
+                this.isError = true;
+                console.error("[ERROR] Initialization failed:", e.message || e);
+            }
+        },
+        // Fetch genres and mark user's favorites as selected
+        async fetchGenres(favoriteGenres) {
+            try {
+                const res = await getMethod("/api/movies/genres");
+
+                if (!Array.isArray(res)) {
+                    throw new Error("Genres response is not an array");
+                }
+
+                this.genres = res.map((genre) => ({
+                    ...genre,
+                    selected: favoriteGenres.includes(genre.name)
+                }));
+
+                // console.log("[INFO] Genres loaded successfully");
+            } catch (error) {
+                console.error("[ERROR] Failed to fetch genres:", error.message || error);
+                throw error; // Propagate to init()
+            }
+        },
+        // Fetch languages and mark user's preferences as selected
+        async fetchLanguages(preferredLanguages) {
+            try {
+                const res = await getMethod("/api/movies/languages");
+
+                if (!Array.isArray(res)) {
+                    throw new Error("Languages response is not an array");
+                }
+
+                this.languages = res.map((lang) => ({
+                    ...lang,
+                    selected: preferredLanguages.includes(lang.code)
+                }));
+
+                // console.log("[INFO] Languages loaded successfully");
+            } catch (error) {
+                console.error("[ERROR] Failed to fetch languages:", error.message || error);
+                throw error; // Propagate to init()
+            }
+        },
+        // Fetch and populate user details
+        async getUserDetails() {
+            try {
+                const data = await getMethod("api/users/me");
+
+                if (!data) {
+                    throw new Error("User details not received");
+                }
+
+                // Populate user details
+                this.user.userName = data.user_name || "";
+                this.user.firstName = (data.first_name || "").toUpperCase();
+                this.user.lastName = (data.last_name || "").toUpperCase();
+                this.user.profilePic = data.profile_picture_url || "";
+                this.selectedTheme = (data.theme || "dark").toLowerCase();
+
+                // console.log("[INFO] User details loaded successfully");
+            } catch (error) {
+                console.error("[ERROR] Failed to fetch user details:", error.message || error);
+                throw error; // Propagate to init()
+            }
+        },
+        // Function to store image
+        setProfilePic() {
+            const url = this.user.profilePic;
+
+            // check if it is a avatar or uploaded pic
+            const index = this.avatars.findIndex(avatar => avatar.src === url);
+            if (index != -1) {
+                this.selectedAv = this.avatars[index];
+                this.currAvIdx = index;
+            } else {
+                this.uploadedImage = url;
+                this.selectedAv = {
+                    src: serverImageUrl,
+                    isUploaded: true
+                };
+            }
         }
     },
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
-        },
-        confirmPass() {
-            this.checkMatch();
         }
+    },
+    mounted() {
+        this.init();
     }
 }).mount('#settings');
