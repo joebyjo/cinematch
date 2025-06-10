@@ -134,7 +134,20 @@ const movieTable = Vue.createApp({
 
         async toggleStatus(movie) {
 
-            movie.watch_status = movie.watch_status === 2 ? 3 : 2;
+            switch (movie.watch_status) {
+                case 3:
+                    movie.watch_status = 2;
+                    break;
+                case 2:
+                    movie.watch_status = 3;
+                    break;
+                case 1:
+                    movie.watch_status = 0;
+                    break;
+                case 0:
+                    movie.watch_status = 1;
+                    break;
+            }
 
             try {
                 await axios.post('/api/mylist/', {
@@ -150,7 +163,7 @@ const movieTable = Vue.createApp({
 
         async toggleBookmark(movie) {
             movie.bookmarked = !movie.bookmarked;
-            movie.watch_status = movie.watch_status === 2 ? 0 : 1;
+            movie.watch_status = movie.watch_status === 2 || movie.watch_status === 3 ? movie.watch_status-2 : movie.watch_status+2;
 
             try {
                 await axios.post('/api/mylist/', {
