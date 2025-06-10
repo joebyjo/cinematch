@@ -45,7 +45,7 @@ createApp({
             userName: "guest",
             firstName: "guest",
             lastName: "user",
-            profilePic: "" // add default profile pic path
+            profilePic: '/uploads/avatar3.svg' // add default profile pic path
         };
     },
     methods: {
@@ -59,7 +59,7 @@ createApp({
                 this.userName = data.user_name;
                 this.firstName = data.first_name;
                 this.lastName = data.last_name;
-                this.profilePic = data.profile_picture_url;
+                this.profilePic = data.profile_picture_url || '/uploads/avatar3.svg';
                 document.cookie = `theme=${this.isDark ? 'dark' : 'light'}; path=/; max-age=31536000`;
             } else {
                 helperChangeDark(this.isDark);
