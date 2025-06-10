@@ -195,7 +195,7 @@ h1 {
 
 .user-table td {
     font-family: "Inter", sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     background-color: #3a3a3a;
     border: 0.01rem solid #8a8a8a;
     padding: 1rem 0.5rem;
@@ -322,6 +322,7 @@ h1 {
 
 .admin {
   background-color: #557A95;
+  border: 0.1rem solid #B1D1EB;
 }
 .admin .circle {
   background-color: #B1D1EB;
@@ -329,6 +330,7 @@ h1 {
 
 .user {
   background-color: #8C6A9E;
+  border: 0.1rem solid #D3B9DF;
 }
 
 .user .circle {
