@@ -88,6 +88,7 @@ createApp({
         },
         selectTheme(theme) {
             this.selectedTheme = theme;
+            localStorage.setItem('theme', theme);
         },
         toggleLanguage(languageId) {
             const language = this.languages.find((lang) => lang.id === languageId);
@@ -204,12 +205,24 @@ createApp({
             return this.selectedAv.isUploaded && this.selectedAv.src === this.uploadedImage;
         }
     },
+        mounted() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+        this.selectedTheme = savedTheme;
+    }
+},
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
         },
         confirmPass() {
             this.checkMatch();
-        }
+        },
+        selectedTheme(newTheme) {
+    localStorage.setItem('theme', newTheme);
+       document.body.classList.remove('dark', 'light');
+    document.body.classList.add(newTheme);
+  }
     }
+
 }).mount('#settings');
