@@ -15,7 +15,8 @@ createApp({
                 lastname: 'Kour',
                 role: 'Administrator',
                 dateJoined: '01/01/2025',
-                pfp: 'avatar 1'
+                pfp: 'avatar 1',
+                lastActive: '15/03/2024 14:30'
             },
             users: [
                 {
@@ -24,7 +25,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'Administrator',
                     dateJoined: '01/01/2025',
-                    pfp: 'avatar 1'
+                    pfp: 'avatar 1',
+                    lastActive: '15/03/2024 14:30'
                 },
                 {
                     username: 'liri_1',
@@ -32,7 +34,8 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '02/02/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/03/2024 15:45'
                 },
                 {
                     username: 'joe_1',
@@ -40,7 +43,8 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'Administrator',
                     dateJoined: '03/03/2025',
-                    pfp: 'avatar 2'
+                    pfp: 'avatar 2',
+                    lastActive: '14/03/2024 09:15'
                 },
                 {
                     username: 'hiten_1',
@@ -48,7 +52,8 @@ createApp({
                     lastname: 'Gupta',
                     role: 'User',
                     dateJoined: '04/04/2025',
-                    pfp: 'avatar 5'
+                    pfp: 'avatar 5',
+                    lastActive: '15/03/2024 11:20'
                 },
                 {
                     username: 'josheen_2',
@@ -56,7 +61,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '05/01/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/03/2024 16:00'
                 },
                 {
                     username: 'liri_2',
@@ -64,7 +70,8 @@ createApp({
                     lastname: 'Das',
                     role: 'Administrator',
                     dateJoined: '06/02/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/03/2024 15:30'
                 },
                 {
                     username: 'joe_2',
@@ -72,7 +79,8 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'User',
                     dateJoined: '07/03/2025',
-                    pfp: 'avatar 3'
+                    pfp: 'avatar 3',
+                    lastActive: '13/03/2024 18:45'
                 },
                 {
                     username: 'hiten_2',
@@ -80,7 +88,8 @@ createApp({
                     lastname: 'Gupta',
                     role: 'Administrator',
                     dateJoined: '08/04/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/03/2024 14:15'
                 },
                 {
                     username: 'josheen_3',
@@ -88,7 +97,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '09/01/2025',
-                    pfp: 'avatar 4'
+                    pfp: 'avatar 4',
+                    lastActive: '15/03/2024 12:30'
                 },
                 {
                     username: 'liri_3',
@@ -96,7 +106,8 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '10/02/2025',
-                    pfp: 'avatar 2'
+                    pfp: 'avatar 2',
+                    lastActive: '15/03/2024 15:45'
                 },
                 {
                     username: 'josheen_4',
@@ -104,7 +115,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'Administrator',
                     dateJoined: '01/01/2025',
-                    pfp: 'avatar 1'
+                    pfp: 'avatar 1',
+                    lastActive: '08/03/2024 10:20'
                 },
                 {
                     username: 'liri_4',
@@ -112,7 +124,8 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '02/02/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '13/03/2024 16:30'
                 },
                 {
                     username: 'joe_3',
@@ -120,7 +133,8 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'Administrator',
                     dateJoined: '03/03/2025',
-                    pfp: 'avatar 2'
+                    pfp: 'avatar 2',
+                    lastActive: '15/03/2024 13:15'
                 },
                 {
                     username: 'hiten_3',
@@ -128,7 +142,8 @@ createApp({
                     lastname: 'Gupta',
                     role: 'User',
                     dateJoined: '04/04/2025',
-                    pfp: 'avatar 5'
+                    pfp: 'avatar 5',
+                    lastActive: '15/03/2024 16:00'
                 },
                 {
                     username: 'josheen_5',
@@ -136,7 +151,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '05/01/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '14/03/2024 20:45'
                 },
                 {
                     username: 'liri_5',
@@ -144,7 +160,8 @@ createApp({
                     lastname: 'Das',
                     role: 'Administrator',
                     dateJoined: '06/02/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/03/2024 11:30'
                 },
                 {
                     username: 'joe_4',
@@ -152,7 +169,8 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'User',
                     dateJoined: '07/03/2025',
-                    pfp: 'avatar 3'
+                    pfp: 'avatar 3',
+                    lastActive: '15/03/2024 14:30'
                 },
                 {
                     username: 'hiten_4',
@@ -160,7 +178,8 @@ createApp({
                     lastname: 'Gupta',
                     role: 'Administrator',
                     dateJoined: '08/04/2025',
-                    pfp: 'uploaded image : link'
+                    pfp: 'uploaded image : link',
+                    lastActive: '15/02/2024 09:15'
                 },
                 {
                     username: 'josheen_6',
@@ -168,7 +187,8 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '09/01/2025',
-                    pfp: 'avatar 4'
+                    pfp: 'avatar 4',
+                    lastActive: '12/03/2024 17:30'
                 },
                 {
                     username: 'liri_6',
@@ -176,7 +196,8 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '10/02/2025',
-                    pfp: 'avatar 2'
+                    pfp: 'avatar 2',
+                    lastActive: '15/03/2024 15:00'
                 }
             ]
         };

@@ -168,8 +168,9 @@
                         <th>Username</th>
                         <th>First name</th>
                         <th>Last name</th>
-                        <th>Role</th>
                         <th>Date joined</th>
+                        <th>Role</th>
+                        <th>Last Active</th>
                         <th>Profile picture</th>
                     </tr>
                 </thead>
@@ -195,8 +196,10 @@
                         </td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
-                        <td>{{ user.role }}</td>
                         <td>{{ user.dateJoined }}</td>
+                        <td><span :class="['role-pill', user.role === 'Administrator' ? 'admin' : 'user']">
+                            <span class="circle"></span> {{ user.role }}</span></td>
+                        <td>{{ user.lastActive }}</td>
                         <td>{{ user.pfp }}</td>
                     </tr>
                 </tbody>
