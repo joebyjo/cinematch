@@ -20,6 +20,23 @@ router.get('/users', async (req, res) => {
     }
 });
 
+// get all stats
+router.get('/stats', async (req, res) => {
+    try {
+        const [total_movies, total_active, total_users, total_visits] = await Promise.all([
+            getMovieCount(),
+            getActiveUsersCount(),
+            getUserCount(),
+            getTotalVisits()
+        ]);
+        res.json({ total_movies, total_active, total_users, total_visits });
+    } catch (err) {
+        console.error('Error in /stats route:', err);
+        res.status(500).json({ msg: 'Error fetching statistics' });
+    }
+});
+
+
 // get number of users
 router.get('/stats/users-count', async (req, res) => {
     try {
@@ -143,6 +160,65 @@ router.put('/users/:id', async (req, res) => {
         res.status(500).json({ msg: `Failed to update user: ${err}` });
     }
 });
+
+
+// Helpers
+
+// get total user count
+async function getUserCount() {
+
+    try {
+        const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM USERS');
+        return count;
+    } catch (err) {
+        console.error('Error in getUserCount:', err);
+        throw new Error('Failed to fetch user count');
+    }
+}
+
+
+// get total movie count
+async function getMovieCount() {
+    try {
+        const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM MOVIES');
+        return count;
+    } catch (err) {
+        console.error('Error in getMovieCount:', err);
+        throw new Error('Failed to fetch movie count');
+    }
+}
+
+
+// get active users
+async function getActiveUsersCount() {
+    try {
+        const [[{ count }]] = await db.query(`
+            SELECT COUNT(DISTINCT user_id) AS count
+            FROM SESSIONS
+            WHERE last_seen >= NOW() - INTERVAL 1 DAY
+            AND user_id IS NOT NULL
+        `);
+        return count;
+    } catch (err) {
+        console.error('Error in getActiveUsersCount:', err);
+        throw new Error('Failed to fetch active users count');
+    }
+}
+
+
+// get total visits
+async function getTotalVisits() {
+    try {
+        const [[{ count }]] = await db.query(`SELECT COUNT(*) AS count FROM SESSIONS`);
+        return count;
+    } catch (err) {
+        console.error('Error in getTotalVisits:', err);
+        throw new Error('Failed to fetch total visits');
+    }
+}
+
+
+
 
 
 
