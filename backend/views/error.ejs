@@ -1,3 +1,86 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Error <%= status || 500 %></title>
+
+    <!-- Linking External Files -->
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="/stylesheets/error.css">
+
+    <!-- adding theme preference to body tag  -->
+    <script src="/javascripts/theme-load.js"></script>
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/nav-bar.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
+</head>
+
+<body class="primary-bg-color">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin && !inProcess" href="/login" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
+                    <img :src="profilePic" alt="User avatar" @click="onMenu">
+                </div>
+
+                <div v-show="showMenu" class="user-menu">
+                    <div @click="redirect('/settings')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
+                            src="./images/dark-mode-sett-icon.png" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
+                            src="./images/dark-on-icon.png" alt="theme off icon">
+                        <span class="theme">Dark Theme</span>
+                    </div>
+                    <div @click="redirect('/logout')">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        <span class="logout-nav-bar">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="error-container">
+        <h1>Oops! Something went wrong.</h1>
+        <h2>Error <%= status || 500 %>: <%= message %></h2>
+        <% if (stack) { %>
+            <div class="error-stack"><%= stack %></div>
+        <% } %>
+    </div>
+</body>
+</html>
