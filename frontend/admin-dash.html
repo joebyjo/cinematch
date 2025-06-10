@@ -156,7 +156,18 @@
                     <input class="control search" type="text" placeholder="Search user...">
 
                     <!--add new user button-->
-                    <button type="button" class="control">Add new</button>
+                    <button type="button" class="control" @click="showAddUser=true">Add new</button>
+                </div>
+            </div>
+
+            <!-- new user card -->
+            <div v-show="showAddUser" class="card-overlay">
+                <div class="card">
+                    <h3>Add New User</h3>
+
+                    <div class="preview">
+                        <img src="images/settings/dummy-upload.svg" alt="Avatar">
+                    </div>
                 </div>
             </div>
 
@@ -186,7 +197,7 @@
                     </tr>
 
                     <!--user info-->
-                    <tr v-for="user in CurrPageUsers" :key="user.username">
+                    <tr v-for="user in currPageUsers" :key="user.username">
                         <td>
                             <div class="checkbox-col">
                                 <input v-if="isSelectOn" type="checkbox"
