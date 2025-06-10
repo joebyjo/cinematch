@@ -293,11 +293,11 @@ createApp({
         selectAv(avatar, isEditing) {
             if (!avatar) {
                 if (isEditing) {
-                    this.editingUser.pfp = '';
-                    this.editingUser.pfpPreview = null;
+                    this.editingUser.pfp = 'avatar3';
+                    this.editingUser.pfpPreview = `./images/settings/avatar3.svg`;
                 } else {
-                    this.newUser.pfp = '';
-                    this.newUser.pfpPreview = null;
+                    this.newUser.pfp = 'avatar3';
+                    this.newUser.pfpPreview = `./images/settings/avatar3.svg`;
                 }
                 return;
             }
