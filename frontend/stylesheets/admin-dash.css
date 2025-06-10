@@ -430,3 +430,63 @@ h1 {
     text-align: center;
     margin: 0.5rem;
 }
+
+.pass-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pass-info>input {
+    width: 32rem;
+}
+
+.show-icon, .hide-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.show-icon {
+    background-image: url("../images/settings/show.png");
+}
+
+.hide-icon {
+    background-image: url("../images/settings/hide.png");
+}
+
+.info-icon {
+    background-image: url('../images/info-icon.png');
+    height: 2rem;
+    width: 2rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    margin-top: 8rem;
+    background-color: #1e1e1e;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #767474;
+    font-size: 1rem;
+    font-family: "Cantarell", sans-serif;
+    max-width: 33rem;
+    display: none;
+    z-index: 4;
+}
+
+.info-icon:hover + .tooltip {
+    display: block;
+}

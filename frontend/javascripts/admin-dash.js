@@ -11,6 +11,8 @@ createApp({
             showAddUser: false,
             showEditUser: false,
             uploadError: '',
+            showPass: false,
+            passError: '',
             newUser: {
                 username: '',
                 firstname: '',
@@ -36,6 +38,14 @@ createApp({
                 dateJoined: '01/01/2025',
                 pfp: 'avatar1',
                 lastActive: '15/03/2024 14:30'
+            },
+            passReq: {
+                length: false,
+                uppercase: false,
+                lowercase: false,
+                number: false,
+                special: false,
+                noSpaces: false
             },
 
             // dummy data
@@ -243,6 +253,11 @@ createApp({
                 alert('Please fill all fields.');
                 return;
             }
+            this.validatePass(this.newUser.password);
+            if (!this.isPassValid()) {
+                this.passError = 'Password did not meet requirements';
+                return;
+            }
             this.users.push({
                 username: this.newUser.username,
                 firstname: this.newUser.firstname,
@@ -332,6 +347,19 @@ createApp({
                 };
             }
             this.showEditUser = false;
+        },
+        validatePass(password) {
+            this.passReq = {
+                length: password.length >= 8 && password.length <= 16,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                special: /[!_@#$%^&*(),?":{}|<>]/.test(password),
+                noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
+            };
+        },
+        isPassValid() {
+            return Object.values(this.passReq).every((req) => req);
         }
     },
     computed: {

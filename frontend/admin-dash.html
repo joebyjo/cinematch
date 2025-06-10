@@ -187,7 +187,13 @@
 
                     <div class="form">
                         <label for="new-pass">Password:</label>
-                        <input type="password" id="new-pass" v-model="newUser.password">
+                        <div class="pass-info">
+                            <input :type="showPass ? 'text' : 'password'" id="new-pass" v-model="newUser.password">
+                            <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
+                            <button type="button" class="info-icon"></button>
+                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase letter, and a special character.</div>
+                        </div>
+                        <p class="error-message" v-if="passError">{{ passError }}</p>
                     </div>
 
                     <div class="form">
