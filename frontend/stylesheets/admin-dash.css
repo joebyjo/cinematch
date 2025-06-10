@@ -313,7 +313,7 @@ h1 {
 }
 
 .role-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 1.3rem;
