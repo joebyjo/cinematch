@@ -12,11 +12,77 @@ router.use(isAdmin);
 // get users
 router.get('/users', async (req, res) => {
     try {
-        const [users] = await db.query('SELECT id, user_name, role, first_name, last_name, registration_date, last_login FROM USERS');
-        res.json(users);
+        const {
+            role,
+            username,
+            sort,
+            page = 1,
+            limit = 10
+        } = req.query;
+
+        const validSortFields = ['user_name', 'first_name', 'last_name', 'registration_date', 'last_login'];
+        const validSortDirections = ['asc', 'desc'];
+
+        // Validate pagination
+        const pageNum = parseInt(page, 10);
+        const limitNum = parseInt(limit, 10);
+        if (isNaN(pageNum) || pageNum < 1 || isNaN(limitNum) || limitNum < 1) {
+            return res.status(400).json({ msg: 'Invalid page or limit parameter' });
+        }
+
+        const offset = (pageNum - 1) * limitNum;
+
+        // Build filters and values
+        const filters = [];
+        const values = [];
+
+        // Filter by role
+        if (role) {
+            if (!['admin', 'user'].includes(role.toLowerCase())) {
+                return res.status(400).json({ msg: 'Invalid role filter' });
+            }
+            filters.push('role = ?');
+            values.push(role.toLowerCase());
+        }
+
+        // Filter by username
+        if (username) {
+            filters.push('user_name LIKE ?');
+            values.push(`%${username}%`);
+        }
+
+        // Construct WHERE clause
+        let whereClause = '';
+        if (filters.length > 0) {
+            whereClause = 'WHERE ' + filters.join(' AND ');
+        }
+
+        // Build sorting
+        let orderClause = 'ORDER BY registration_date DESC'; // default sort
+        if (sort) {
+            const [field, direction] = sort.split('.');
+            if (!validSortFields.includes(field) || !validSortDirections.includes(direction.toLowerCase())) {
+                return res.status(400).json({ msg: 'Invalid sort parameter' });
+            }
+            orderClause = `ORDER BY ${field} ${direction.toUpperCase()}`;
+        }
+
+        // Final query
+        const query = `
+            SELECT user_id, user_name, role, first_name, last_name, registration_date, last_login, profile_picture_url
+            FROM USERLIST
+            ${whereClause}
+            ${orderClause}
+            LIMIT ? OFFSET ?
+        `;
+
+        const finalValues = [...values, limitNum, offset];
+        const [users] = await db.query(query, finalValues);
+        res.status(200).json(users);
+
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: `Internal server error: ${err}` });
+        console.error('Error fetching users:', err);
+        res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
