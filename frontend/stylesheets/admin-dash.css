@@ -366,14 +366,14 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
-.preview {
+.av-preview {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 0.5rem;
 }
 
-.preview>img {
+.av-preview>img {
     width: 10rem;
     height: 10rem;
     object-fit: cover;
@@ -422,4 +422,11 @@ h1 {
 .card-controls .control {
     padding: 0.5rem 1.5rem;
     font-size: 1.3rem;
+}
+
+.error-message {
+    color: #ff9a9a;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.5rem;
 }

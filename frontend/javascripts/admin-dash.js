@@ -9,6 +9,16 @@ createApp({
             isSelectOn: false,
             selectedUsers: [],
             showAddUser: false,
+            uploadError: '',
+            newUser: {
+                firstname: '',
+                lastname: '',
+                username: '',
+                password: '',
+                role: '',
+                pfp: '',
+                pfpPreview: null
+            },
             currAdmin: {
                 username: 'josheen_1',
                 firstname: 'Josheen',
@@ -218,6 +228,62 @@ createApp({
             } else {
                 this.selectedUsers.splice(index, 1);
             }
+        },
+        addUser() {
+            if (Object.values(this.newUser).some((val) => !val)) {
+                alert('Please fill all fields.');
+                return;
+            }
+            this.users.push({
+                username: this.newUser.username,
+                firstname: this.newUser.firstname,
+                lastname: this.newUser.lastname,
+                role: this.newUser.role,
+                dateJoined: new Date().toLocaleDateString(),
+                pfp: this.newUser.pfp,
+                lastActive: 'Not active'
+            });
+            this.newUser = {
+                firstname: '',
+                lastname: '',
+                username: '',
+                password: '',
+                role: '',
+                pfp: '',
+                pfpPreview: null
+            };
+            this.showAddUser = false;
+        },
+        imageUpload(event) {
+            const file = event.target.files[0];
+            this.uploadError = '';
+
+            if (!file) {
+                return;
+            }
+            if (!file.type.match('image/jpg') && !file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                this.uploadError = 'Please upload a JPG/JPEG/PNG file';
+                return;
+            }
+            if (file.size > 1024*1024) {
+                this.uploadError = 'Max file size allowed is 1MB';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.newUser.pfpPreview = e.target.result;
+                this.newUser.pfp = `Uploaded image`;
+            };
+            reader.readAsDataURL(file);
+        },
+        selectAv(avatar) {
+            if (!avatar) {
+                this.newUser.pfp = '';
+                this.newUser.pfpPreview = null;
+                return;
+            }
+            this.newUser.pfp = avatar;
+            this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
         }
     },
     computed: {
