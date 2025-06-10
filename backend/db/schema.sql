@@ -116,7 +116,7 @@ CREATE TABLE `USERS` (
     `last_name` varchar(20) NOT NULL,
     `last_login` datetime DEFAULT NULL,
     `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user',
-    `profile_picture_url` varchar(256) DEFAULT NULL,
+    `profile_picture_url` varchar(256) DEFAULT '/uploads/avatar3.svg',
     `registration_date` date NOT NULL DEFAULT (curdate()),
     PRIMARY KEY (`id`),
     UNIQUE KEY `user_name` (`user_name`)
@@ -125,7 +125,7 @@ CREATE TABLE `USERS` (
 
 -- create users table
 CREATE TABLE `USERSETTINGS` (
-    `user_id` int DEFAULT NULL,
+    `user_id` int NOT NULL,
     `theme` enum('dark','light') NOT NULL DEFAULT 'dark',
     `user_vector` json DEFAULT NULL,
     KEY `user_id` (`user_id`),
