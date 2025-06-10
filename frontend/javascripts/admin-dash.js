@@ -9,12 +9,21 @@ createApp({
             isSelectOn: false,
             selectedUsers: [],
             showAddUser: false,
+            showEditUser: false,
             uploadError: '',
             newUser: {
+                username: '',
                 firstname: '',
                 lastname: '',
-                username: '',
                 password: '',
+                role: '',
+                pfp: '',
+                pfpPreview: null
+            },
+            editingUser: {
+                username: '',
+                firstname: '',
+                lastname: '',
                 role: '',
                 pfp: '',
                 pfpPreview: null
@@ -25,7 +34,7 @@ createApp({
                 lastname: 'Kour',
                 role: 'Administrator',
                 dateJoined: '01/01/2025',
-                pfp: 'avatar 1',
+                pfp: 'avatar1',
                 lastActive: '15/03/2024 14:30'
             },
 
@@ -37,7 +46,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'Administrator',
                     dateJoined: '01/01/2025',
-                    pfp: 'avatar 1',
+                    pfp: 'avatar1',
                     lastActive: '15/03/2024 14:30'
                 },
                 {
@@ -55,7 +64,7 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'Administrator',
                     dateJoined: '03/03/2025',
-                    pfp: 'avatar 2',
+                    pfp: 'avatar2',
                     lastActive: '14/03/2024 09:15'
                 },
                 {
@@ -64,7 +73,7 @@ createApp({
                     lastname: 'Gupta',
                     role: 'User',
                     dateJoined: '04/04/2025',
-                    pfp: 'avatar 5',
+                    pfp: 'avatar5',
                     lastActive: '15/03/2024 11:20'
                 },
                 {
@@ -91,7 +100,7 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'User',
                     dateJoined: '07/03/2025',
-                    pfp: 'avatar 3',
+                    pfp: 'avatar3',
                     lastActive: '13/03/2024 18:45'
                 },
                 {
@@ -109,7 +118,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '09/01/2025',
-                    pfp: 'avatar 4',
+                    pfp: 'avatar4',
                     lastActive: '15/03/2024 12:30'
                 },
                 {
@@ -118,7 +127,7 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '10/02/2025',
-                    pfp: 'avatar 2',
+                    pfp: 'avatar2',
                     lastActive: '15/03/2024 15:45'
                 },
                 {
@@ -127,7 +136,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'Administrator',
                     dateJoined: '01/01/2025',
-                    pfp: 'avatar 1',
+                    pfp: 'avatar1',
                     lastActive: '08/03/2024 10:20'
                 },
                 {
@@ -145,7 +154,7 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'Administrator',
                     dateJoined: '03/03/2025',
-                    pfp: 'avatar 2',
+                    pfp: 'avatar2',
                     lastActive: '15/03/2024 13:15'
                 },
                 {
@@ -154,7 +163,7 @@ createApp({
                     lastname: 'Gupta',
                     role: 'User',
                     dateJoined: '04/04/2025',
-                    pfp: 'avatar 5',
+                    pfp: 'avatar5',
                     lastActive: '15/03/2024 16:00'
                 },
                 {
@@ -181,7 +190,7 @@ createApp({
                     lastname: 'Puthussery',
                     role: 'User',
                     dateJoined: '07/03/2025',
-                    pfp: 'avatar 3',
+                    pfp: 'avatar3',
                     lastActive: '15/03/2024 14:30'
                 },
                 {
@@ -199,7 +208,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '09/01/2025',
-                    pfp: 'avatar 4',
+                    pfp: 'avatar4',
                     lastActive: '12/03/2024 17:30'
                 },
                 {
@@ -208,7 +217,7 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '10/02/2025',
-                    pfp: 'avatar 2',
+                    pfp: 'avatar2',
                     lastActive: '15/03/2024 15:00'
                 }
             ]
@@ -244,9 +253,9 @@ createApp({
                 lastActive: 'Not active'
             });
             this.newUser = {
+                username: '',
                 firstname: '',
                 lastname: '',
-                username: '',
                 password: '',
                 role: '',
                 pfp: '',
@@ -254,7 +263,7 @@ createApp({
             };
             this.showAddUser = false;
         },
-        imageUpload(event) {
+        imageUpload(event, isEditing) {
             const file = event.target.files[0];
             this.uploadError = '';
 
@@ -271,19 +280,58 @@ createApp({
             }
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.newUser.pfpPreview = e.target.result;
-                this.newUser.pfp = `uploaded image`;
+                if (isEditing) {
+                    this.editingUser.pfpPreview = e.target.result;
+                    this.editingUser.pfp = 'uploaded image';
+                } else {
+                    this.newUser.pfpPreview = e.target.result;
+                    this.newUser.pfp = 'uploaded image';
+                }
             };
             reader.readAsDataURL(file);
         },
-        selectAv(avatar) {
+        selectAv(avatar, isEditing) {
             if (!avatar) {
-                this.newUser.pfp = '';
-                this.newUser.pfpPreview = null;
+                if (isEditing) {
+                    this.editingUser.pfp = 'avatar3';
+                    this.editingUser.pfpPreview = `./images/settings/avatar3.svg`;
+                } else {
+                    this.newUser.pfp = 'avatar3';
+                    this.newUser.pfpPreview = `./images/settings/avatar3.svg`;
+                }
                 return;
             }
-            this.newUser.pfp = avatar;
-            this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            if (isEditing) {
+                this.editingUser.pfp = avatar;
+                this.editingUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            } else {
+                this.newUser.pfp = avatar;
+                this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            }
+        },
+        editUser(user) {
+            this.editingUser = {
+                username: user.username,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                role: user.role,
+                pfp: user.pfp,
+                pfpPreview: user.pfp.includes('avatar')?`./images/settings/${user.pfp}.svg` : null // need to get uploaded here
+            };
+            this.showEditUser = true;
+        },
+        saveEdits() {
+            const userIdx = this.users.findIndex((u) => u.username === this.editingUser.username);
+            if (userIdx!== -1) {
+                this.users[userIdx] = {
+                    ...this.users[userIdx],
+                    firstname: this.editingUser.firstname,
+                    lastname: this.editingUser.lastname,
+                    role: this.editingUser.role,
+                    pfp: this.editingUser.pfp
+                };
+            }
+            this.showEditUser = false;
         }
     },
     computed: {
