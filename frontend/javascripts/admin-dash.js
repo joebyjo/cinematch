@@ -1,3 +1,14 @@
+
+async function getMethod(url) {
+    try {
+        const res = await axios.get(url);
+        return res.data;
+    } catch (e) {
+        console.error("Error retrieving data from server", e);
+        return [];
+    }
+}
+
 createApp({
     data() {
         return {
@@ -336,6 +347,14 @@ createApp({
                 };
             }
             this.showEditUser = false;
+        },
+        async getStats() {
+            const stats =  await getMethod('api/admin/stats');
+
+            this.totalUsers = stats.total_users;
+            this.totalActive = stats.total_active;
+            this.totalContent = stats.total_movies;
+            this.totalVisits = stats.total_visits;
         }
     },
     computed: {
@@ -365,5 +384,8 @@ createApp({
         loadLimit() {
             this.currentPage = 1;
         }
+    },
+    mounted() {
+        this.getStats();
     }
 }).mount('#admin-dash');
