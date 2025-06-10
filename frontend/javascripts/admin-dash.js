@@ -46,7 +46,7 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '02/02/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/03/2024 15:45'
                 },
                 {
@@ -73,7 +73,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '05/01/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/03/2024 16:00'
                 },
                 {
@@ -82,7 +82,7 @@ createApp({
                     lastname: 'Das',
                     role: 'Administrator',
                     dateJoined: '06/02/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/03/2024 15:30'
                 },
                 {
@@ -100,7 +100,7 @@ createApp({
                     lastname: 'Gupta',
                     role: 'Administrator',
                     dateJoined: '08/04/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/03/2024 14:15'
                 },
                 {
@@ -136,7 +136,7 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '02/02/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '13/03/2024 16:30'
                 },
                 {
@@ -163,7 +163,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '05/01/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '14/03/2024 20:45'
                 },
                 {
@@ -172,7 +172,7 @@ createApp({
                     lastname: 'Das',
                     role: 'Administrator',
                     dateJoined: '06/02/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/03/2024 11:30'
                 },
                 {
@@ -190,7 +190,7 @@ createApp({
                     lastname: 'Gupta',
                     role: 'Administrator',
                     dateJoined: '08/04/2025',
-                    pfp: 'uploaded image : link',
+                    pfp: 'uploaded image',
                     lastActive: '15/02/2024 09:15'
                 },
                 {
@@ -272,7 +272,7 @@ createApp({
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.newUser.pfpPreview = e.target.result;
-                this.newUser.pfp = `Uploaded image`;
+                this.newUser.pfp = `uploaded image`;
             };
             reader.readAsDataURL(file);
         },
