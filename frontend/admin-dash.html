@@ -258,9 +258,9 @@
                     <div class="form">
                         <label>Avatar:</label>
                         <div class="av-options">
-                            <input type="file" @change="imageUpload">
+                            <input type="file" @change="imageUpload($event, true)">
                             <span>or</span>
-                            <select @change="selectAv($event.target.value)">
+                            <select @change="selectAv($event.target.value, true)">
                                 <option value="">Select avatar</option>
                                 <option value="avatar1">Avatar 1</option>
                                 <option value="avatar2">Avatar 2</option>
