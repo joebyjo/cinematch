@@ -64,10 +64,7 @@ router.get('/users', async (req, res) => {
         }
 
         // construct WHERE clause
-        let whereClause = '';
-        if (filters.length > 0) {
-            whereClause = 'WHERE ' + filters.join(' AND ');
-        }
+        let whereClause = filters.length > 0 ? 'WHERE ' + filters.join(' AND ') : '';
 
         // build sorting
         let orderClause = 'ORDER BY registration_date DESC'; // default sort
@@ -79,18 +76,30 @@ router.get('/users', async (req, res) => {
             orderClause = `ORDER BY ${field} ${direction.toUpperCase()}`;
         }
 
-        // final query
-        const query = `
+        // query to count total users
+        const countQuery = `SELECT COUNT(*) AS total FROM USERLIST ${whereClause}`;
+        const [countRows] = await db.query(countQuery, values);
+        const totalUsers = countRows[0].total;
+        const totalPages = Math.ceil(totalUsers / limitNum);
+
+        // query to get paginated users
+        const dataQuery = `
             SELECT user_id, user_name, role, first_name, last_name, registration_date, last_login, profile_picture_url
             FROM USERLIST
             ${whereClause}
             ${orderClause}
             LIMIT ? OFFSET ?
         `;
+        const dataValues = [...values, limitNum, offset];
+        const [users] = await db.query(dataQuery, dataValues);
 
-        const finalValues = [...values, limitNum, offset];
-        const [users] = await db.query(query, finalValues);
-        res.status(200).json(users);
+        res.status(200).json({
+            total_users: totalUsers,
+            total_pages: totalPages,
+            page: pageNum,
+            limit: limitNum,
+            users
+        });
 
     } catch (err) {
         console.error('Error fetching users:', err);
