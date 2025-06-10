@@ -14,13 +14,14 @@
     --buttomform-section: #dddddd;
     --gradient-left-color: #FF7161;
     --gradient-right-color: #407AFF;
-    --info-panel-bg-color:#efefef;
+    --info-panel-bg-color: #efefef;
     --poster-shadow-color: #454444;
     --tagpill-background-color: #f8f8f8;
     --tagpill-border-color: #8d8d8d;
-    --styling-tomatoicon-bg:#ff7474;
-    --styling-imdbicon-bg:#ffffc6;
-    --tickcrossbutton-color: #9a9a9a;
+    --styling-tomatoicon-bg: #ff7474;
+    --styling-imdbicon-bg: #ffffc6;
+    --tickcrossbutton-color: white;
+    --shadow-color: black;
 }
 
 .dark {
@@ -40,13 +41,14 @@
     --buttomform-section: #3A3A3A;
     --gradient-left-color: #f272ff;
     --gradient-right-color: #6dd5fa;
-    --info-panel-bg-color:#2b2b2b;
-    --poster-shadow-color:  rgba(255, 255, 255, 0.3);
+    --info-panel-bg-color: #2b2b2b;
+    --poster-shadow-color: rgba(255, 255, 255, 0.3);
     --tagpill-background-color: #3A3A3A;
     --tagpill-border-color: #4b4b4b;
-    --styling-tomatoicon-bg:#3A3A3A;
-    --styling-imdbicon-bg:#3A3A3A;
+    --styling-tomatoicon-bg: #3A3A3A;
+    --styling-imdbicon-bg: #3A3A3A;
     --tickcrossbutton-color: #3a3a3a;
+    --shadow-color: white;
 
 }
 
@@ -82,113 +84,220 @@ body {
     color: var(--text-color);
 }
 
-.personalise-main {
-    margin-bottom: 3rem 2rem;
+/* Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    justify-self: center;
+    margin-top: 1.5rem;
+    width: 25%;
+}
+
+.tickcross-button {
+    background-color: var(--tickcrossbutton-color);
+    border: none;
+    border-radius: 10rem;
+    width: 5rem;
+    height: 5rem;
+}
+
+.tickcross-button:hover {
+    transform: scale(1.05);
+    background-color: var(--hover-color);
+
+}
+
+.tickcross-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Button End */
+
+/* Main Div */
+main {
+    margin: 0rem 0rem 0rem 0rem;
+    padding: 4rem 9rem 0rem 9rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.box {
+    margin: 0;
+    height: 70vh;
+
+    /* Testing */
+    /* border: 1px solid black; */
+}
+
+.side-box {
+    width: 35%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-/* styling for personalise swipe section bellow */
-.swipe-container {
-    margin-top: 5rem;
-}
-
-.matchmaker-grid {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    align-items: center;
-    gap: 0rem;
     justify-content: center;
-
 }
 
-.info-panel {
-    padding: 1.5rem;
-    border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
-    border: 0.15rem solid;
-    text-align: left;
-    align-items: flex start;
+.middle-box {
+    width: 30%;
+    border-radius: 1.5rem;
+    box-shadow: 0rem 0rem 2rem var(--poster-shadow-color);
+
+    /* position: relative; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.side-box>section {
     width: 100%;
-    max-width: 35rem;
-    text-align: top;
+    height: 70%;
+
     display: flex;
     flex-direction: column;
     font-family: Cantarell;
     background-color: var(--info-panel-bg-color);
+
+    box-sizing: border-box;
+    padding: 1rem 1rem 1rem 1rem;
+
+    justify-content: space-around;
 }
 
-.left-panel {
-    border-color: var(--gradient-left-color) transparent var(--gradient-left-color) var(--gradient-left-color);
-    border-radius: 1.5rem 0rem 0rem 1.5rem;
-    box-shadow: 0 0 0.4rem var(--gradient-left-color);
-
+.left-box {
+    border-width: 0.3rem 0rem 0.3rem 0.3rem;
+    border-style: solid;
+    border-color: var(--gradient-left-color);
+    border-radius: 2rem 0rem 0rem 2rem;
+    /* Two shadows: one on left slightly diagonal, one on bottom slightly diagonal */
+    box-shadow:
+        -0.4rem 0.2rem 0.6rem -0.1rem var(--shadow-color),
+        /* Left side shadow, shifted left & down */
+        -0.1rem 0.4rem 0.6rem -0.1rem var(--shadow-color);
 }
 
-.right-panel {
-    border-color: var(--gradient-right-color) var(--gradient-right-color) var(--gradient-right-color) transparent;
-    border-radius: 0rem 1.5rem 1.5rem 0rem;
-    box-shadow: 0 0 0.4rem var(--gradient-right-color);
+.right-box {
+    border-width: 0.3rem 0.3rem 0.3rem 0rem;
+    border-style: solid;
+    border-color: var(--gradient-right-color);
+    border-radius: 0rem 2rem 2rem 0rem;
+    box-shadow:
+        0.4rem 0.4rem 0.6rem -0.1rem var(--shadow-color);
+
+    gap: 1.5rem;
 }
 
-.poster-container {
-    border-radius: 1rem;
-    box-shadow: 0rem 0rem 1rem var(--poster-shadow-color);
+/* Image inside the Mddle Div */
+.middle-box>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
 }
 
-.movie-poster {
-    max-height: 47rem;
-    border-radius: 1rem;
+
+/* LEFT BOX STARTS*/
+/* Heading */
+.heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
-.info-panel h2 {
-    font-size: 3rem;
-    margin-bottom: 0.2rem;
+.heading>span {
+    font-size: 2rem;
     font-family: Cantarell;
     text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.2rem;
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+
+    overflow-x: scroll;
+    scrollbar-width: none;
 }
 
+.heading>div {
+    width: 85%;
+    height: 0.15rem;
+    background-color: #8D8D8D;
+}
+
+/* Pins 2014, date and rating */
 .info-line {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     /* center all items as a group */
     align-items: center;
     text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    gap: 2rem;
-    /* spacing between items */
+    margin-top: 1.5rem;
+
+    width: 100%;
 }
+
 
 .tag {
     background-color: var(--tagpill-background-color);
-    border: 0.13rem solid var(--tagpill-border-color);
-    padding: 0.05rem 0.7rem;
-    border-radius: 1rem;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     box-shadow: 0.1rem 0.1rem 0.4rem var(--tagpill-border-color);
+
+    width: fit-content;
+    height: fit-content;
+    border: solid 0.2rem var(--tagpill-border-color);
+    border-radius: 6rem;
+    padding: 0 0.5rem 0 0.5rem;
 }
 
-.info-field {
-    margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
-    font-size: 1.8rem;
+
+/* Genres */
+.cast-info {
+    width: 100%;
+    box-sizing: border-box;
 }
+
+.cast-info>p {
+    font-size: 1.1rem;
+    margin-left: 2rem;
+    text-wrap-mode: nowrap;
+    overflow-x: scroll;
+    scrollbar-width: none;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--gradient-left-color), var(--gradient-right-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Hides original text color */
+    background-clip: text;
+    color: transparent;
+
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-right: 1rem;
+}
+
+/* Ratings */
 
 .ratings {
-    display: flex;
-    align-items: center;
-    gap: 5rem;
-    padding-top: 0.4rem;
+    width: 100%;
+    /* margin-top: 1.5rem; */
+
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     text-align: center;
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
-    gap: 2rem;
+    align-items: center;
 }
+
 
 .rating-styling-tomato {
     display: flex;
@@ -224,97 +333,84 @@ body {
     display: inline-block;
 }
 
+/* LEFT BOX ENDS */
 
 .description {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
     font-size: 1.4rem;
     line-height: 1.7;
     font-weight: lighter;
+    width: 100%;
+    text-align: justify;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    box-sizing: border-box;
 }
 
-.buttons {
+/* Bottom Div */
+.stream-info {
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0rem 2rem 0rem 2rem;
+    box-sizing: border-box;
+}
+
+/* Status Div */
+.watch-trailer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.watch-trailer>a {
+    color: #8D8D8D;
+    font-size: 1rem;
+}
+
+.icon-bar {
+    display: flex;
+    justify-content: space-between;
     gap: 2rem;
 }
+
+/* Straming Platforms */
 
 .stream-button {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 0.2rem solid var(--outline-color);
+    border-radius: 1rem;
 }
 
 .stream-icon {
-    height: 2.1rem;
-    width: 2.1rem;
-    border-radius: 0.5rem;
-    padding-left: 0.3rem;
+    border-radius: 0.7rem;
+    /* padding-left: 0.3rem; */
 }
 
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 11rem;
-    margin-top: 0.5rem;
+.stream-button>div {
+    box-sizing: border-box;
+    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    gap: 1.5rem;
 }
 
-.tickcross-button {
-    background-color: var(--tickcrossbutton-color);
-    border: none;
-    border-radius: 10rem;
-    width: 7rem;
-    height: 7rem;
+.stream-button>span {
+    width: 100%;
+    border: 0.1rem solid var(--outline-color);
+    border-radius: 1rem;
+    text-align: center;
+
+    background-color: gray;
 }
 
-.tickcross-button:hover {
-    transform: scale(1.05);
-    background-color: var(--hover-color);
-
+.icon {
+    height: 3rem;
+    width: 3rem;
 }
-
-.tickcross-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-
-/* added */
-.watch-trailer {
-    display: flex;
-    flex-direction: column;
-}
-
-.heading-underline {
-    width: 95%;
-    /* margin-left: -3%; */
-    height: 0.15rem;
-    background-color: #8D8D8D;
-}
-
-.gradient-text {
-    background: linear-gradient(to right, var(--gradient-left-color), var(--gradient-right-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* Hides original text color */
-    background-clip: text;
-    color: transparent;
-}
-
-u {
-  text-underline-offset: 0.4rem; /* adds space between text and underline */
-}
-
-.watch-trailer-text{
-    color:#8D8D8D;
-}
-
-.hidden {
-  display: none;
-}
-/* .bookmark-icon, .eye-icon {
-  width: 3rem;
-  height: 3rem;
-  cursor: pointer;
-} */
