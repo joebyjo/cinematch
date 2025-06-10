@@ -62,7 +62,9 @@ app.use(passport.session());
 // block request to any .html page
 app.use(async (req, res, next) => {
     if (req.path.endsWith('.html')) {
-        return res.status(403).send({ msg:'Direct access to HTML files is forbidden.' });
+        const err = new Error('Direct access to HTML files is forbidden.');
+        err.status = 403;
+        return next(err);
     }
     next();
 });
