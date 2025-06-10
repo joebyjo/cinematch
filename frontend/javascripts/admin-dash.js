@@ -1,6 +1,5 @@
 createApp({
     data() {
-        // dummy data
         return {
             showSort: false,
             showFilters: false,
@@ -9,6 +8,7 @@ createApp({
             currentPage: 1,
             isSelectOn: false,
             selectedUsers: [],
+            showAddUser: false,
             currAdmin: {
                 username: 'josheen_1',
                 firstname: 'Josheen',
@@ -18,6 +18,8 @@ createApp({
                 pfp: 'avatar 1',
                 lastActive: '15/03/2024 14:30'
             },
+
+            // dummy data
             users: [
                 {
                     username: 'josheen_1',
@@ -222,7 +224,7 @@ createApp({
         totalPages() {
             return Math.ceil(this.users.length/this.loadLimit);
         },
-        CurrPageUsers() {
+        currPageUsers() {
             const start = (this.currentPage-1) * this.loadLimit;
             const end = start + this.loadLimit;
             return this.users.slice(start, end);
