@@ -20,6 +20,24 @@ const router = express.Router();
 
 router.use(isAuthenticated);
 
+router.post('/createUserVector', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        // console.log(`[INFO] Fetching movie for user ID: ${userId}`);
+
+        const vec = await getUserVector(userId);
+
+        // console.table(vec);
+
+        return res.status(200).json({
+            msg: "Vector Created Succeffully"
+        });
+    } catch (err) {
+        console.error('[ERROR] Failed to get movies:', err);
+        return res.status(500).json({ msg: 'Internal server error while fetching movies' });
+    }
+});
+
 router.get('/movies', async (req, res) => {
     try {
         const userId = req.user.id;
@@ -118,6 +136,8 @@ router.post('/genres-id', async (req, res) => {
     const userId = req.user.id;
     const genreIds = req.body;
 
+    // console.log(genreIds);
+
     if (!Array.isArray(genreIds)) {
         return res.status(400).json({ msg: "Invalid input. Expected an array of genre IDs." });
     }
@@ -139,6 +159,8 @@ router.post('/genres-id', async (req, res) => {
 router.post('/languages-id', async (req, res) => {
     const userId = req.user.id;
     const languageIds = req.body;
+
+    // console.log(languageIds);
 
     if (!Array.isArray(languageIds)) {
         return res.status(400).json({ msg: "Invalid input. Expected an array of language IDs." });
