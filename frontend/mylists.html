@@ -204,7 +204,10 @@
                     </tr>
 
                     <tr v-for="movie in movies">
-                        <td class="movie-title" @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }}</td>
+                        <td class="movie-title movie-name"><div class="title-with-icon"> <img class="bookmark-icon" :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'" alt="Bookmark" @click.stop="toggleBookmark(movie)" />
+                            <span @click="goToMovie(movie.movie_id)" >{{ helperCheckEmpty(movie.title) }} </span>
+
+  </div> </td>
                         <td>
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
