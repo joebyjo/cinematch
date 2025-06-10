@@ -131,7 +131,7 @@
 
                     <!--filters button-->
                     <div class="dropdown">
-                        <button type="button" class="control" @click="showFilters=!showFilters">Add filter</button>
+                        <button type="button" class="control filter" @click="showFilters=!showFilters">Add filter</button>
                         <div v-show="showFilters" class="dd-menu" @click.stop>
                             <div class="dd-option">Users only</div>
                             <div class="dd-option">Admins only</div>
@@ -140,7 +140,7 @@
 
                     <!--sort button-->
                     <div class="dropdown">
-                        <button type="button" class="control" @click="showSort = !showSort">
+                        <button type="button" class="control sort" @click="showSort = !showSort">
                             Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>
                         </button>
                         <div v-show="showSort" class="dd-menu" @click.stop>
@@ -330,7 +330,7 @@
                 <!--page load limit button-->
                 <div class="load-limit-dd">
                     <div class="dropdown">
-                        <button type="button" class="control" @click="showLoadLimit = !showLoadLimit">
+                        <button type="button" class="control load" @click="showLoadLimit = !showLoadLimit">
                             Load limit = {{ loadLimit }} <span class="dd-arrow" :class="{open: showLoadLimit}">▼</span>
                         </button>
                         <div v-show="showLoadLimit" class="dd-menu" @click.stop>
