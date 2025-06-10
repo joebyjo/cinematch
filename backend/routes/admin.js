@@ -22,8 +22,9 @@ router.get('/users', async (req, res) => {
 
         const validSortFields = ['user_name', 'first_name', 'last_name', 'registration_date', 'last_login'];
         const validSortDirections = ['asc', 'desc'];
+        const validRoles = ['admin', 'user'];
 
-        // Validate pagination
+        // validate pagination
         const pageNum = parseInt(page, 10);
         const limitNum = parseInt(limit, 10);
         if (isNaN(pageNum) || pageNum < 1 || isNaN(limitNum) || limitNum < 1) {
@@ -32,32 +33,43 @@ router.get('/users', async (req, res) => {
 
         const offset = (pageNum - 1) * limitNum;
 
-        // Build filters and values
+        // build filters and values
         const filters = [];
         const values = [];
 
-        // Filter by role
+        // handle multiple roles: role=user&role=admin
+        let roleArray = [];
         if (role) {
-            if (!['admin', 'user'].includes(role.toLowerCase())) {
+            if (Array.isArray(role)) {
+                roleArray = role.filter(r => validRoles.includes(r.toLowerCase()));
+            } else if (typeof role === 'string') {
+                if (validRoles.includes(role.toLowerCase())) {
+                    roleArray = [role.toLowerCase()];
+                }
+            }
+
+            if (roleArray.length > 0) {
+                const placeholders = roleArray.map(() => '?').join(',');
+                filters.push(`role IN (${placeholders})`);
+                values.push(...roleArray);
+            } else {
                 return res.status(400).json({ msg: 'Invalid role filter' });
             }
-            filters.push('role = ?');
-            values.push(role.toLowerCase());
         }
 
-        // Filter by username
+        // filter by username
         if (username) {
             filters.push('user_name LIKE ?');
             values.push(`%${username}%`);
         }
 
-        // Construct WHERE clause
+        // construct WHERE clause
         let whereClause = '';
         if (filters.length > 0) {
             whereClause = 'WHERE ' + filters.join(' AND ');
         }
 
-        // Build sorting
+        // build sorting
         let orderClause = 'ORDER BY registration_date DESC'; // default sort
         if (sort) {
             const [field, direction] = sort.split('.');
@@ -67,7 +79,7 @@ router.get('/users', async (req, res) => {
             orderClause = `ORDER BY ${field} ${direction.toUpperCase()}`;
         }
 
-        // Final query
+        // final query
         const query = `
             SELECT user_id, user_name, role, first_name, last_name, registration_date, last_login, profile_picture_url
             FROM USERLIST
