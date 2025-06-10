@@ -244,14 +244,6 @@ h1 {
   cursor: pointer;
 }
 
-.user-table td:nth-child(5) {
-    width: 12rem;
-}
-
-.user-table td:nth-child(6) {
-    width: 18rem;
-}
-
 .table-footer {
     display: flex;
     justify-content: space-between;
