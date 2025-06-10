@@ -53,12 +53,12 @@
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
-                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
+                    <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @click="redirect('/setting')">
+                    <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
@@ -79,7 +79,7 @@
 
     <main id="admin-dash">
         <!--display admin name-->
-        <h1>{{ currAdmin.firstname }}'s Dashboard</h1>
+        <h1>Admin Dashboard</h1>
 
         <!--show site stats-->
         <div class="stats">
