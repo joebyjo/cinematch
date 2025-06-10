@@ -108,8 +108,9 @@ main {
 .custom-dropdown-menu {
   position: absolute;
   top: 2.8rem;
+  right: 0;
   background-color: var(--third-color-mylists);
-  border: 1px solid #aaa;
+  border: 0.1rem solid #aaa;
   border-radius: 1rem;
   padding: 0.5rem;
   z-index: 1000;
