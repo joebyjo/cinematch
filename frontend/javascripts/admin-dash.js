@@ -387,5 +387,22 @@ createApp({
     },
     mounted() {
         this.getStats();
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.dropdown')) {
+                this.showSort = false;
+                this.showFilters = false;
+                this.showLoadLimit = false;
+            }
+            if (event.target.closest('.sort')) {
+                this.showFilters = false;
+                this.showLoadLimit = false;
+            } else if (event.target.closest('.filter')) {
+                this.showSort = false;
+                this.showLoadLimit = false;
+            } else if (event.target.closest('.load')) {
+                this.showSort = false;
+                this.showFilters = false;
+            }
+        });
     }
 }).mount('#admin-dash');
