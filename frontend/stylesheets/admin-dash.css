@@ -311,6 +311,7 @@ h1 {
   font-size: 1.3rem;
   padding: 0.5rem 1rem;
   border-radius: 2rem;
+  color: #ffffff;
 }
 
 .circle {
@@ -329,6 +330,7 @@ h1 {
 .user {
   background-color: #8C6A9E;
 }
+
 .user .circle {
   background-color: #D3B9DF;
 }
