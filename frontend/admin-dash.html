@@ -222,8 +222,12 @@
                     </div>
                 </div>
 
-                <!--switch page buttons-->
                 <div class="page-controls">
+                    <!--delete selected button-->
+                    <button type="button" class="control" v-show="isSelectOn"
+                      :disabled="selectedUsers.length === 0">Delete Selected</button>
+
+                    <!--switch page buttons-->
                     <button type="button" class="control" :disabled="currentPage === 1" @click="currentPage--">←</button>
 
                     <button type="button" class="control" v-for="page in visiblePages" :key="page"
