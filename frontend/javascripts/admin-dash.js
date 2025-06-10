@@ -263,7 +263,7 @@ createApp({
             };
             this.showAddUser = false;
         },
-        imageUpload(event) {
+        imageUpload(event, isEditing) {
             const file = event.target.files[0];
             this.uploadError = '';
 
@@ -280,19 +280,34 @@ createApp({
             }
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.newUser.pfpPreview = e.target.result;
-                this.newUser.pfp = `uploaded image`;
+                if (isEditing) {
+                    this.editingUser.pfpPreview = e.target.result;
+                    this.editingUser.pfp = 'uploaded image';
+                } else {
+                    this.newUser.pfpPreview = e.target.result;
+                    this.newUser.pfp = 'uploaded image';
+                }
             };
             reader.readAsDataURL(file);
         },
-        selectAv(avatar) {
+        selectAv(avatar, isEditing) {
             if (!avatar) {
-                this.newUser.pfp = '';
-                this.newUser.pfpPreview = null;
+                if (isEditing) {
+                    this.editingUser.pfp = '';
+                    this.editingUser.pfpPreview = null;
+                } else {
+                    this.newUser.pfp = '';
+                    this.newUser.pfpPreview = null;
+                }
                 return;
             }
-            this.newUser.pfp = avatar;
-            this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            if (isEditing) {
+                this.editingUser.pfp = avatar;
+                this.editingUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            } else {
+                this.newUser.pfp = avatar;
+                this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+            }
         },
         editUser(user) {
             this.editingUser = {
