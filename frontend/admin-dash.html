@@ -325,7 +325,7 @@
                         <td><span :class="['role-pill', user.role === 'Administrator' ? 'admin' : 'user']">
                             <span class="circle"></span> {{ user.role }}</span></td>
                         <td>{{ user.lastActive }}</td>
-                        <td>{{ user.pfp }}</td>
+                        <td>{{ user.pfp.startsWith('avatar') ? user.pfp:'uploaded image' }}</td>
                     </tr>
                 </tbody>
             </table>
