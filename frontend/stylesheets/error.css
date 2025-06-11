@@ -1,0 +1,45 @@
+.light {
+    --primary-color-error-stack: rgba(198, 198, 198, 0.805);
+}
+
+.dark {
+    --primary-color-error-stack: rgb(80, 77, 77);
+}
+
+.error-container {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding-bottom: 0rem;
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    text-align: center;
+}
+
+.error-container h1 {
+    font-size: 3rem;
+    margin-bottom: 0rem;
+    color: #dc3545; /* Red for error */
+}
+
+.error-container h2 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.error-stack {
+    background-color: var(--primary-color-error-stack);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 1000px;
+    overflow-x: auto;
+    font-family: monospace;
+    text-align: left;
+    white-space: pre-wrap;
+    color: var(--text-color);
+}

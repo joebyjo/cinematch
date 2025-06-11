@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell&display=swap" rel="stylesheet">
+
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
+    <link rel="stylesheet" href="stylesheets/personaliseswipe.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="javascripts/nav-bar.js" defer></script>
+    <script src="javascripts/personaliseswipe.js" defer></script>
+    <script src="javascripts/index.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body class="light primary-bg-color" style="display: none">
+    <nav class="primary-bg-color-nav-bar" id="nav-bar">
+        <div class="logo-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
+        </div>
+
+        <div class="nav secondary-bg-color-nav-bar">
+            <a class="primary-color-nav-bar" href="/home">HOME</a>
+            <a class="primary-color-nav-bar underline-nav-bar" href="/personalise">PERSONALISE</a>
+            <a class="primary-color-nav-bar" href="/mylists">MY LISTS</a>
+            <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
+        </div>
+
+        <div class="login-nav-bar secondary-bg-color-nav-bar">
+            <div class="primary-bg-color-nav-bar" id="profile">
+                <!-- if not login -->
+                <a v-if="!isLogin && !inProcess" href="/login"
+                    class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+
+                <!-- else -->
+                <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
+                    <div>Welcome, <strong>J.K</strong>!</div>
+                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                </div>
+
+                <div v-show="showMenu" class="user-menu">
+                    <div @click="redirect('/setting')">
+                        <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
+                            src="./images/dark-mode-sett-icon.png" alt="settings icon">
+                        Account Settings
+                    </div>
+                    <div @click="changeDark()">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
+                            src="./images/dark-on-icon.png" alt="theme off icon">
+                        <span class="theme">Dark Theme</span>
+                    </div>
+                    <div @click="redirect('/logout')">
+                        <img src="images/logout-icon.png" alt="logout icon">
+                        <span class="logout-nav-bar">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="side-box box">
+            <section class="left-box">
+                <div>
+                    <div class="heading">
+                        <span>MORE INFO</span>
+                        <div class="heading-underline"></div>
+                    </div>
+
+                    <div class="info-line">
+                        <span class="tag">2014</span>
+                        <span class="tag">2 hr 49 min</span>
+                        <span class="tag">PG-13</span>
+                    </div>
+                </div>
+
+                <div class="cast-info">
+                    <p><strong class="gradient-text">Genres:</strong> {{ formatGenres(movie.genres) }}</p>
+                    <p><strong class="gradient-text">Director:</strong> {{ formatDirector(movie.director) }}</p>
+                    <p><strong class="gradient-text">Casting:</strong> {{ formatCast(movie.cast) }}</p>
+                </div>
+
+                <div class="ratings">
+                    <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
+                            class="rating-icon-IMDB"><span>8.7 / 10</span></div>
+                    <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
+                            class="rating-icon-tomato"><span>73%</span></div>
+                </div>
+            </section>
+        </div>
+        <div class="middle-box box">
+            <img src="./images/intersteller-poster.jpg" alt="Movie Poster" />
+        </div>
+        <div class="side-box box">
+            <section class="right-box">
+                <div class="heading">
+                    <span>INTERSTELLAffffffffffffffffffffffffffffffffffffffR</span>
+                    <div class="heading-underline"></div>
+                </div>
+
+                <div class="description">
+                    When Earth becomes uninhabitable in the future, a farmer and ex–NASA pilot, Joseph Cooper, is tasked
+                    to pilot a
+                    spacecraft, along with a team of researchers, to find a new planet for humans.
+                    assssssssssssssssss
+                </div>
+
+                <div class="stream-info">
+                    <div class="watch-trailer">
+                        <a href="">Watch trailer</a>
+
+                        <div class="icon-bar">
+                            <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'" src="/images/not-saved.svg" alt="Mark saved"
+                             @click="toggleSaved" class="icon"/>
+                            <img :src="isWatched ? '/images/watched.svg' : '/images/not-watched.svg'" src="/images/not-watched.svg" alt="Mark watched"
+                             @click="toggleWatched" class="icon" />
+                        </div>
+                    </div>
+
+                    <div class="stream-button">
+                        <span>Stream here</span>
+                        <div class="icon-bar">
+                            <img src="./images/primeVideo.png" alt="Prime" class="stream-icon icon">
+                            <img src="./images/Netflix.png" alt="Netflix" class="stream-icon icon">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Accept / Reject -->
+    <div class="action-buttons">
+        <button class="tickcross-button"><img src="./images/cross-button.svg" alt="cross"></button>
+        <button class="tickcross-button"><img src="./images/tick-button.svg" alt="check"></button>
+    </div>
+
+</body>
+
+</html>
