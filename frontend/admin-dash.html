@@ -187,7 +187,13 @@
 
                     <div class="form">
                         <label for="new-pass">Password:</label>
-                        <input type="password" id="new-pass" v-model="newUser.password">
+                        <div class="pass-info">
+                            <input :type="showPass ? 'text' : 'password'" id="new-pass" v-model="newUser.password">
+                            <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
+                            <button type="button" class="info-icon"></button>
+                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase letter, and a special character.</div>
+                        </div>
+                        <p class="error-message" v-if="passError">{{ passError }}</p>
                     </div>
 
                     <div class="form">
@@ -216,7 +222,7 @@
                     </div>
 
                     <div class="card-controls">
-                        <button type="button" class="control" @click="showAddUser = false">Cancel</button>
+                        <button type="button" class="control" @click="resetForm()">Cancel</button>
                         <button type="button" class="control" @click="addUser">Confirm</button>
                     </div>
                 </div>
@@ -319,7 +325,7 @@
                         <td><span :class="['role-pill', user.role === 'Administrator' ? 'admin' : 'user']">
                             <span class="circle"></span> {{ user.role }}</span></td>
                         <td>{{ user.lastActive }}</td>
-                        <td>{{ user.pfp }}</td>
+                        <td>{{ user.pfp.startsWith('avatar') ? user.pfp:'uploaded image' }}</td>
                     </tr>
                 </tbody>
             </table>
