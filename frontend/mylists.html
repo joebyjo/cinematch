@@ -21,20 +21,20 @@
         rel="stylesheet">
 
     <!-- Linking CSS Files -->
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/nav-bar.css">
-    <link rel="stylesheet" href="stylesheets/footer.css">
-    <link rel="stylesheet" href="stylesheets/mylists.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="/stylesheets/footer.css">
+    <link rel="stylesheet" href="/stylesheets/mylists.css">
 
     <!-- adding theme preference to body tag  -->
-    <script src="javascripts/theme-load.js"></script>
+    <script src="/javascripts/theme-load.js"></script>
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="javascripts/mylists.js" defer></script>
-    <script src="javascripts/nav-bar.js" defer></script>
-    <script src="javascripts/index.js" defer></script>
+    <script src="/javascripts/mylists.js" defer></script>
+    <script src="/javascripts/nav-bar.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
 
     <title>My List</title>
 </head>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @click="redirect('/setting')">
+                    <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
@@ -207,8 +207,10 @@
                     </tr>
 
                     <tr v-for="movie in movies">
-                        <td class="movie-title" @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }}
-                        </td>
+                        <td class="movie-title movie-name"><div class="title-with-icon"> <img class="bookmark-icon" :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'" alt="Bookmark" @click.stop="toggleBookmark(movie)" />
+                            <span @click="goToMovie(movie.movie_id)" >{{ helperCheckEmpty(movie.title) }} </span>
+
+  </div> </td>
                         <td>
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
