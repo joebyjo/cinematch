@@ -148,56 +148,77 @@ createApp({
             }
         },
         // upload image
-        imageUpload(event, isEditing) {
+        async imageUpload(event, isEditing) {
             const file = event.target.files[0];
             this.uploadError = '';
 
             if (!file) {
                 return;
             }
-            // check if file type is valid
+
+            // Validate file type
             if (!file.type.match('image/jpg') && !file.type.match('image/jpeg') && !file.type.match('image/png')) {
                 this.uploadError = 'Please upload a JPG/JPEG/PNG file';
                 return;
             }
-            // check if file size is valid
-            if (file.size > 1024*1024) {
+
+            // Validate file size
+            if (file.size > 1024 * 1024) {
                 this.uploadError = 'Max file size allowed is 1MB';
                 return;
             }
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                // check if upload is for editing user or adding new
+
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+
+            // Get target user ID
+            const userId = isEditing ? this.editingUser.user_id : null;
+            if (!userId) {
+                this.uploadError = 'User ID not found for upload';
+                return;
+            }
+
+            try {
+                const response = await axios.post(`/api/admin/users/${userId}/profile-picture`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                const uploadedUrl = response.data.profile_picture_url;
+
                 if (isEditing) {
-                    this.editingUser.pfpPreview = e.target.result;
-                    this.editingUser.profile_picture_url = 'uploaded image';
+                    this.editingUser.pfpPreview = uploadedUrl;
+                    this.editingUser.profile_picture_url = uploadedUrl;
                 } else {
-                    this.newUser.pfpPreview = e.target.result;
-                    this.newUser.profile_picture_url = 'uploaded image';
+                    this.newUser.pfpPreview = uploadedUrl;
+                    this.newUser.profile_picture_url = uploadedUrl;
                 }
-            };
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Upload failed:', error);
+                this.uploadError = 'Failed to upload profile picture';
+            }
         },
         // select pre made avatars
         selectAv(avatar, isEditing) {
             // set avatar 3 as default if no av input entered
             if (!avatar) {
                 if (isEditing) {
-                    this.editingUser.profile_picture_url = 'avatar3';
-                    this.editingUser.pfpPreview = `./images/settings/avatar3.svg`;
+                    this.editingUser.profile_picture_url = `/uploads/avatar3.svg`;
+                    this.editingUser.pfpPreview = `/uploads/avatar3.svg`;
                 } else {
-                    this.newUser.profile_picture_url = 'avatar3';
-                    this.newUser.pfpPreview = `./images/settings/avatar3.svg`;
+                    this.newUser.profile_picture_url = `/uploads/avatar3.svg`;
+                    this.newUser.pfpPreview = `/uploads/avatar3.svg`;
                 }
                 return;
             }
             // check if selection is for editing or adding new user
             if (isEditing) {
-                this.editingUser.profile_picture_url = avatar;
-                this.editingUser.pfpPreview = `./images/settings/${avatar}.svg`;
+                this.editingUser.profile_picture_url = `/uploads/${avatar}.svg`;
+                this.editingUser.pfpPreview = `/uploads/${avatar}.svg`;
             } else {
-                this.newUser.profile_picture_url = avatar;
-                this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+                this.newUser.profile_picture_url = `/uploads/${avatar}.svg`;
+                this.newUser.pfpPreview = `/uploads/${avatar}.svg`;
             }
         },
         // edit an existing user
@@ -235,6 +256,9 @@ createApp({
                 if (this.editingUser.role !== originalUserData.role) {
                     updates.role = this.editingUser.role;
                 }
+                if (this.editingUser.profile_picture_url !== originalUserData.profile_picture_url) {
+                    updates.profile_picture_url = this.editingUser.profile_picture_url;
+                }
 
                 const response = await editUser(originalUserData.user_id,updates);
                 if (response.msg === "User updated") {
@@ -271,8 +295,8 @@ createApp({
 
         // logout user for being inactive over 3 mins
         logoutUser() {
-            helperLogout('api/auth/logout');
-            window.location.href = '/home';
+            // helperLogout('api/auth/logout');
+            // window.location.href = '/home';
             alert('You were logged out due to inactivity.');
         },
 
