@@ -211,23 +211,23 @@ router.delete('/users/:id', async (req, res) => {
 // edit user details
 router.put('/users/:id', async (req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, password, role } = req.body;
+    const { firstName: first_name, lastName: last_name, userName: user_name, role } = req.body;
 
     try {
         const updates = [];
         const values = [];
 
-        if (firstName) {
+        if (first_name) {
             updates.push('first_name = ?');
-            values.push(firstName);
+            values.push(first_name);
         }
-        if (lastName) {
+        if (last_name) {
             updates.push('last_name = ?');
-            values.push(lastName);
+            values.push(last_name);
         }
-        if (password) {
-            updates.push('password = ?');
-            values.push(hashPassword(password));
+        if (user_name) {
+            updates.push('user_name = ?');
+            values.push(user_name);
         }
         if (role) {
             updates.push('role = ?');
