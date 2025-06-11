@@ -5,7 +5,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { addMoviePreference, getRandomMovie } = require('../services/helpers');
+const { addMoviePreference, getRandomMovie, filterMovieIds } = require('../services/helpers');
 const {
     createMovieVector,
     calculateScore,
@@ -38,24 +38,26 @@ router.post('/createUserVector', async (req, res) => {
     }
 });
 
+// GET /movies - Fetches a list of movies personalized for the user
 router.get('/movies', async (req, res) => {
     try {
         const userId = req.user.id;
-        // console.log(`[INFO] Fetching movie for user ID: ${userId}`);
-
         let movieIds = [];
         let len = 0;
+
         while (len === 0) {
             const movieId = await getTopMovie(userId);
 
             if (movieId === -1) {
-                for (let i = 0; i < 10; i++) {
-                    const id = await getRandomMovie()
-                    movieIds.push(id);
-                }
-
+                // Fallback to random movies if no top movie
+                const randomIds = await Promise.all(
+                    Array.from({ length: 10 }, () => getRandomMovie())
+                );
+                movieIds = await filterMovieIds(userId, randomIds);
             } else {
-                movieIds = await getMoviesTMDB(movieId);
+                // Get recommended movies based on top movie
+                const recommendedIds = await getMoviesTMDB(movieId);
+                movieIds = await filterMovieIds(userId, recommendedIds);
             }
 
             len = movieIds.length;
