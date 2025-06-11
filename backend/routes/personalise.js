@@ -5,7 +5,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { addMoviePreference } = require('../services/helpers');
+const { addMoviePreference, getRandomMovie } = require('../services/helpers');
 const {
     createMovieVector,
     calculateScore,
@@ -47,7 +47,17 @@ router.get('/movies', async (req, res) => {
         let len = 0;
         while (len === 0) {
             const movieId = await getTopMovie(userId);
-            movieIds = await getMoviesTMDB(movieId);
+
+            if (movieId === -1) {
+                for (let i = 0; i < 10; i++) {
+                    const id = await getRandomMovie()
+                    movieIds.push(id);
+                }
+
+            } else {
+                movieIds = await getMoviesTMDB(movieId);
+            }
+
             len = movieIds.length;
         }
 
