@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../services/db');
 const { hashPassword } = require('../services/helpers');
 const { isAdmin } = require('../services/validators');
+const upload = require('../services/upload');
 
 const router = express.Router();
 
@@ -211,7 +212,7 @@ router.delete('/users/:id', async (req, res) => {
 // edit user details
 router.put('/users/:id', async (req, res) => {
     const { id } = req.params;
-    const { firstName: first_name, lastName: last_name, userName: user_name, role } = req.body;
+    const { firstName: first_name, lastName: last_name, userName: user_name, role, profile_picture_url } = req.body;
 
     try {
         const updates = [];
@@ -233,6 +234,10 @@ router.put('/users/:id', async (req, res) => {
             updates.push('role = ?');
             values.push(role);
         }
+        if (profile_picture_url) {
+            updates.push('profile_picture_url = ?');
+            values.push(profile_picture_url);
+        }
 
         if (updates.length === 0) {
             return res.status(400).json({ msg: 'No fields to update' });
@@ -247,6 +252,39 @@ router.put('/users/:id', async (req, res) => {
         res.status(500).json({ msg: `Failed to update user: ${err}` });
     }
 });
+
+
+router.post('/users/:id/profile-picture', upload.single('profile_picture'), async (req, res) => {
+    const userId = req.params.id;
+
+    if (!req.file) {
+        return res.status(400).json({ msg: 'No file uploaded or invalid file type' });
+    }
+
+    const profilePictureUrl = `/uploads/${req.file.filename}`;
+
+    try {
+        // check if the user exists first
+        const [user] = await db.query(`SELECT * FROM USERS WHERE id = ?`, [userId]);
+        if (!user.length) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        await db.query(
+            `UPDATE USERS SET profile_picture_url = ? WHERE id = ?`,
+            [profilePictureUrl, userId]
+        );
+
+        return res.status(200).json({
+            msg: 'Profile picture updated by admin',
+            profile_picture_url: profilePictureUrl
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to update profile picture' });
+    }
+});
+
 
 
 // Helpers
