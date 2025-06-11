@@ -9,6 +9,17 @@ async function getMethod(url) {
     }
 }
 
+async function editUser(user_id,updates) {
+    try {
+        const res = await axios.put(`api/admin/users/${user_id}`, updates);
+        return res.data;
+    } catch (e) {
+        console.error("Error updating user", e);
+        return { msg: "Failed to update user" };
+    }
+}
+
+
 createApp({
     data() {
         return {
@@ -44,7 +55,7 @@ createApp({
                 pfpPreview: null
             },
             editingUser: {
-                id: 0,
+                user_id: 0,
                 username: '',
                 firstname: '',
                 lastname: '',
@@ -213,17 +224,43 @@ createApp({
             this.showEditUser = true;
         },
         // save edits made to existing user
-        saveEdits() {
-            const userIdx = this.users.findIndex((u) => u.username === this.editingUser.username);
-            if (userIdx!== -1) {
-                this.users[userIdx] = {
-                    ...this.users[userIdx],
-                    firstname: this.editingUser.firstname,
-                    lastname: this.editingUser.lastname,
-                    role: this.editingUser.role,
-                    pfp: this.editingUser.pfp
-                };
+        async saveEdits() {
+            const userIdx = this.users.findIndex((u) => u.user_id === this.editingUser.user_id);
+
+            if (userIdx !== -1) {
+                const originalUserData = { ...this.users[userIdx] };
+
+                const updates = {};
+
+                if (this.editingUser.firstname !== originalUserData.first_name) {
+                    updates.firstName = this.editingUser.firstname;
+                }
+                if (this.editingUser.lastname !== originalUserData.last_name) {
+                    updates.lastName = this.editingUser.lastname;
+                }
+                if (this.editingUser.username !== originalUserData.user_name) {
+                    updates.userName = this.editingUser.username;
+                }
+                if (this.editingUser.role !== originalUserData.role) {
+                    updates.role = this.editingUser.role;
+                }
+
+                const response = await editUser(originalUserData.user_id,updates);
+                if (response.msg === "User updated") {
+                    // Update only modified fields in local state
+                    this.users[userIdx] = {
+                        ...this.users[userIdx],
+                        first_name: updates.firstName || originalUserData.first_name,
+                        last_name: updates.lastName || originalUserData.last_name,
+                        user_name: updates.userName || originalUserData.user_name,
+                        role: updates.role || originalUserData.role,
+                        pfp: this.editingUser.pfp
+                    };
+                } else {
+                    alert("Failed to update user.");
+                }
             }
+
             this.showEditUser = false;
         },
         // check if password meets req while adding new user
@@ -239,6 +276,21 @@ createApp({
         },
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
+        },
+
+        // logout user for being inactive over 3 mins
+        logoutUser() {
+            helperLogout('api/auth/logout');
+            window.location.href = '/home';
+            alert('You were logged out due to inactivity.');
+        },
+
+        // reset the timer
+        resetLogoutTime() {
+            clearTimeout(this.logoutTime);
+            this.logoutTime = setTimeout(() => {
+                this.logoutUser();
+            }, this.inactiveTime);
         },
         helperProfilePicture(profile_picture_url) {
 
@@ -290,18 +342,6 @@ createApp({
             this.users = data.users || [];
             this.loadLimit = data.limit || 0;
             this.totalPages = data.total_pages || 0;
-        // logout user for being inactive over 3 mins
-        logoutUser() {
-            helperLogout('api/auth/logout');
-            window.location.href = '/home';
-            alert('You were logged out due to inactivity.');
-        },
-        // reset the timer
-        resetLogoutTime() {
-            clearTimeout(this.logoutTime);
-            this.logoutTime = setTimeout(() => {
-                this.logoutUser();
-            }, this.inactiveTime);
         }
     },
     computed: {
