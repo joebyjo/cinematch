@@ -18,7 +18,7 @@ router.get('/home', function (req, res, next) {
     // console.log(req.session.id);
 });
 
-router.get('/personalise', async function (req, res, next) {
+router.get('/personalise', isAuthenticated, async function (req, res, next) {
 
     // checking if user Vector exists
     const userId = req.user.id;
