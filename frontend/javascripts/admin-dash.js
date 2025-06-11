@@ -20,7 +20,13 @@ createApp({
             totalContent:0,
             totalVisits:0,
             loadLimit: 10,
+            sort: "",
+            search: "",
+            filter: {
+                roles: []
+            },
             currentPage: 1,
+            totalPages: 1,
             isSelectOn: false,
             selectedUsers: [],
             showAddUser: false,
@@ -38,6 +44,7 @@ createApp({
                 pfpPreview: null
             },
             editingUser: {
+                id: 0,
                 username: '',
                 firstname: '',
                 lastname: '',
@@ -64,188 +71,7 @@ createApp({
             },
 
             // dummy data
-            users: [
-                {
-                    username: 'josheen_1',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'Administrator',
-                    dateJoined: '01/01/2025',
-                    pfp: 'avatar1',
-                    lastActive: '15/03/2024 14:30'
-                },
-                {
-                    username: 'liri_1',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '02/02/2025',
-                    pfp: 'https://camo.githubusercontent.com/238055d74a4a963ecc573726f31395a1d523e264c3f17ed5316ca13e21c8a3dc/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f32302e706e67',
-                    lastActive: '15/03/2024 15:45'
-                },
-                {
-                    username: 'joe_1',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'Administrator',
-                    dateJoined: '03/03/2025',
-                    pfp: 'avatar2',
-                    lastActive: '14/03/2024 09:15'
-                },
-                {
-                    username: 'hiten_1',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'User',
-                    dateJoined: '04/04/2025',
-                    pfp: 'avatar5',
-                    lastActive: '15/03/2024 11:20'
-                },
-                {
-                    username: 'josheen_2',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '05/01/2025',
-                    pfp: 'https://camo.githubusercontent.com/d8c6127ca1b58383265a1e073b925f75e9f81096c683ff43fb46a8fc4f2cd4e3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f382e706e67',
-                    lastActive: '15/03/2024 16:00'
-                },
-                {
-                    username: 'liri_2',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'Administrator',
-                    dateJoined: '06/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 15:30'
-                },
-                {
-                    username: 'joe_2',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'User',
-                    dateJoined: '07/03/2025',
-                    pfp: 'avatar3',
-                    lastActive: '13/03/2024 18:45'
-                },
-                {
-                    username: 'hiten_2',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'Administrator',
-                    dateJoined: '08/04/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 14:15'
-                },
-                {
-                    username: 'josheen_3',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '09/01/2025',
-                    pfp: 'avatar4',
-                    lastActive: '15/03/2024 12:30'
-                },
-                {
-                    username: 'liri_3',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '10/02/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 15:45'
-                },
-                {
-                    username: 'josheen_4',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'Administrator',
-                    dateJoined: '01/01/2025',
-                    pfp: 'avatar1',
-                    lastActive: '08/03/2024 10:20'
-                },
-                {
-                    username: 'liri_4',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '02/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '13/03/2024 16:30'
-                },
-                {
-                    username: 'joe_3',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'Administrator',
-                    dateJoined: '03/03/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 13:15'
-                },
-                {
-                    username: 'hiten_3',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'User',
-                    dateJoined: '04/04/2025',
-                    pfp: 'avatar5',
-                    lastActive: '15/03/2024 16:00'
-                },
-                {
-                    username: 'josheen_5',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '05/01/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '14/03/2024 20:45'
-                },
-                {
-                    username: 'liri_5',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'Administrator',
-                    dateJoined: '06/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 11:30'
-                },
-                {
-                    username: 'joe_4',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'User',
-                    dateJoined: '07/03/2025',
-                    pfp: 'avatar3',
-                    lastActive: '15/03/2024 14:30'
-                },
-                {
-                    username: 'hiten_4',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'Administrator',
-                    dateJoined: '08/04/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/02/2024 09:15'
-                },
-                {
-                    username: 'josheen_6',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '09/01/2025',
-                    pfp: 'avatar4',
-                    lastActive: '12/03/2024 17:30'
-                },
-                {
-                    username: 'liri_6',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '10/02/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 15:00'
-                }
-            ]
+            users: []
         };
     },
     methods: {
@@ -255,10 +81,10 @@ createApp({
                 this.selectedUsers = [];
             }
         },
-        SelectUser(username) {
-            const index = this.selectedUsers.indexOf(username);
+        SelectUser(id) {
+            const index = this.selectedUsers.indexOf(id);
             if (index === -1) {
-                this.selectedUsers.push(username);
+                this.selectedUsers.push(id);
             } else {
                 this.selectedUsers.splice(index, 1);
             }
@@ -359,13 +185,15 @@ createApp({
         },
         editUser(user) {
             this.editingUser = {
-                username: user.username,
-                firstname: user.firstname,
-                lastname: user.lastname,
+                user_id: user.user_id,
+                username: user.user_name,
+                firstname: user.first_name,
+                lastname: user.last_name,
                 role: user.role,
-                pfp: user.pfp,
-                pfpPreview: user.pfp.includes('avatar') ? `./images/settings/${user.pfp}.svg` : user.pfp
+                pfp: user.profile_picture_url,
+                pfpPreview: user.profile_picture_url.includes('avatar') ? `${user.profile_picture_url}` : user.profile_picture_url
             };
+            console.log('Editing user role:', this.editingUser.role);
             this.showEditUser = true;
         },
         saveEdits() {
@@ -394,6 +222,14 @@ createApp({
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
         },
+        helperProfilePicture(profile_picture_url) {
+
+            if (profile_picture_url.startsWith('/uploads/avatar')) {
+                return profile_picture_url.replaceAll("/uploads/","");
+            } else {
+                return 'Uploaded image'
+            }
+        },
         async getStats() {
             const stats =  await getMethod('api/admin/stats');
 
@@ -401,17 +237,52 @@ createApp({
             this.totalActive = stats.total_active;
             this.totalContent = stats.total_movies;
             this.totalVisits = stats.total_visits;
+        },
+        createUrl() {
+            // base url
+            const url = new URL("/api/admin/users", window.location.origin);
+
+            // Set query parameters
+            url.searchParams.set("page", this.currentPage);
+            url.searchParams.set("limit", this.loadLimit);
+
+            if (this.sort) {
+                url.searchParams.set("sort", this.sort);
+            }
+
+            this.filter.roles.forEach((role) => {
+                url.searchParams.append("role", role);
+            });
+
+            url.searchParams.set("username", this.search);
+
+
+            return url;
+        },
+        async getUsers(url) {
+            const res = await getMethod(url);
+
+            if (!res) {
+                console.error("getMethod returned nothing.");
+                return;
+            }
+
+            const data = res;
+
+            this.users = data.users || [];
+            this.loadLimit = data.limit || 0;
+            this.totalPages = data.total_pages || 0;
         }
     },
     computed: {
-        totalPages() {
-            return Math.ceil(this.users.length/this.loadLimit);
-        },
-        currPageUsers() {
-            const start = (this.currentPage-1) * this.loadLimit;
-            const end = start + this.loadLimit;
-            return this.users.slice(start, end);
-        },
+        // totalPages() {
+        //     return Math.ceil(this.users.length/this.loadLimit);
+        // },
+        // currPageUsers() {
+        //     const start = (this.currentPage-1) * this.loadLimit;
+        //     const end = start + this.loadLimit;
+        //     return this.users.slice(start, end);
+        // },
         visiblePages() {
             const pages = [];
             const maxVisible = 3;
@@ -433,6 +304,7 @@ createApp({
     },
     mounted() {
         this.getStats();
+        this.getUsers('/api/admin/users');
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.dropdown')) {
                 this.showSort = false;
