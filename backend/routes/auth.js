@@ -24,10 +24,14 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
         const hashedPassword = hashPassword(password);
 
         // inserting into db
-        await db.query(
+        const [result] = await db.query(
             'INSERT INTO USERS (user_name, password, first_name, last_name, registration_date) VALUES (?, ?, ?, ?, CURDATE())',
             [username, hashedPassword, firstName, lastName]
         );
+
+        const userId = result.insertId;
+
+        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId] );
 
         return res.status(201).json({ msg: 'User created' });
 

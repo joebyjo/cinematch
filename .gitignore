@@ -115,4 +115,6 @@ dist
 backend/db/dump.sql
 
 # Profile picture uploads
-backend/uploads/*
+backend/uploads/*.png
+backend/uploads/*.jpg
+backend/uploads/*.jpeg
