@@ -11,7 +11,7 @@ async function getMethod(url) {
 
 async function editUser(user_id,updates) {
     try {
-        const res = await axios.put(`api/admin/users/${user_id}`, updates);
+        const res = await axios.put(`/api/admin/users/${user_id}`, updates);
         return res.data;
     } catch (e) {
         console.error("Error updating user", e);
@@ -46,31 +46,22 @@ createApp({
             showPass: false,
             passError: '',
             newUser: {
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 password: '',
                 role: '',
-                pfp: '',
+                profile_picture_url: '',
                 pfpPreview: null
             },
             editingUser: {
                 user_id: 0,
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 role: '',
-                pfp: '',
+                profile_picture_url: '',
                 pfpPreview: null
-            },
-            currAdmin: {
-                username: 'josheen_1',
-                firstname: 'Josheen',
-                lastname: 'Kour',
-                role: 'Administrator',
-                dateJoined: '01/01/2025',
-                pfp: 'avatar1',
-                lastActive: '15/03/2024 14:30'
             },
             passReq: {
                 length: false,
@@ -118,12 +109,12 @@ createApp({
             }
             // push added data
             this.users.push({
-                username: this.newUser.username,
-                firstname: this.newUser.firstname,
-                lastname: this.newUser.lastname,
+                username: this.newUser.user_name,
+                firstname: this.newUser.first_name,
+                lastname: this.newUser.last_name,
                 role: this.newUser.role,
                 dateJoined: new Date().toLocaleDateString(),
-                pfp: this.newUser.pfp,
+                pfp: this.newUser.profile_picture_url,
                 lastActive: 'Not active'
             });
             // reset add form once done
@@ -132,12 +123,12 @@ createApp({
         resetForm() {
             // discard last new user data
             this.newUser = {
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 password: '',
                 role: '',
-                pfp: '',
+                profile_picture_url: '',
                 pfpPreview: null
             };
             // hide add user card
@@ -179,10 +170,10 @@ createApp({
                 // check if upload is for editing user or adding new
                 if (isEditing) {
                     this.editingUser.pfpPreview = e.target.result;
-                    this.editingUser.pfp = 'uploaded image';
+                    this.editingUser.profile_picture_url = 'uploaded image';
                 } else {
                     this.newUser.pfpPreview = e.target.result;
-                    this.newUser.pfp = 'uploaded image';
+                    this.newUser.profile_picture_url = 'uploaded image';
                 }
             };
             reader.readAsDataURL(file);
@@ -192,20 +183,20 @@ createApp({
             // set avatar 3 as default if no av input entered
             if (!avatar) {
                 if (isEditing) {
-                    this.editingUser.pfp = 'avatar3';
+                    this.editingUser.profile_picture_url = 'avatar3';
                     this.editingUser.pfpPreview = `./images/settings/avatar3.svg`;
                 } else {
-                    this.newUser.pfp = 'avatar3';
+                    this.newUser.profile_picture_url = 'avatar3';
                     this.newUser.pfpPreview = `./images/settings/avatar3.svg`;
                 }
                 return;
             }
             // check if selection is for editing or adding new user
             if (isEditing) {
-                this.editingUser.pfp = avatar;
+                this.editingUser.profile_picture_url = avatar;
                 this.editingUser.pfpPreview = `./images/settings/${avatar}.svg`;
             } else {
-                this.newUser.pfp = avatar;
+                this.newUser.profile_picture_url = avatar;
                 this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
             }
         },
@@ -213,11 +204,11 @@ createApp({
         editUser(user) {
             this.editingUser = {
                 user_id: user.user_id,
-                username: user.user_name,
-                firstname: user.first_name,
-                lastname: user.last_name,
+                user_name: user.user_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 role: user.role,
-                pfp: user.profile_picture_url,
+                profile_picture_url: user.profile_picture_url,
                 pfpPreview: user.profile_picture_url.includes('avatar') ? `${user.profile_picture_url}` : user.profile_picture_url
             };
             console.log('Editing user role:', this.editingUser.role);
@@ -232,14 +223,14 @@ createApp({
 
                 const updates = {};
 
-                if (this.editingUser.firstname !== originalUserData.first_name) {
-                    updates.firstName = this.editingUser.firstname;
+                if (this.editingUser.first_name !== originalUserData.first_name) {
+                    updates.firstName = this.editingUser.first_name;
                 }
-                if (this.editingUser.lastname !== originalUserData.last_name) {
-                    updates.lastName = this.editingUser.lastname;
+                if (this.editingUser.last_name !== originalUserData.last_name) {
+                    updates.lastName = this.editingUser.last_name;
                 }
-                if (this.editingUser.username !== originalUserData.user_name) {
-                    updates.userName = this.editingUser.username;
+                if (this.editingUser.user_name !== originalUserData.user_name) {
+                    updates.userName = this.editingUser.user_name;
                 }
                 if (this.editingUser.role !== originalUserData.role) {
                     updates.role = this.editingUser.role;
@@ -254,7 +245,7 @@ createApp({
                         last_name: updates.lastName || originalUserData.last_name,
                         user_name: updates.userName || originalUserData.user_name,
                         role: updates.role || originalUserData.role,
-                        pfp: this.editingUser.pfp
+                        profile_picture_url: this.editingUser.profile_picture_url
                     };
                 } else {
                     alert("Failed to update user.");
@@ -294,8 +285,8 @@ createApp({
         },
         helperProfilePicture(profile_picture_url) {
 
-            if (profile_picture_url.startsWith('/uploads/avatar')) {
-                return profile_picture_url.replaceAll("/uploads/","");
+            if (profile_picture_url.includes('avatar')) {
+                return profile_picture_url.replace("/uploads/", "");
             } else {
                 return 'Uploaded image'
             }
