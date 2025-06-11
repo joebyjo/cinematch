@@ -208,10 +208,15 @@ const app = Vue.createApp({
 
         // Alert if not logged in
         checkLoginStatus() {
+            if (this.contentType === 'tv') {
+                alert('Currently unavailable for TV shows.');
+                return false;
+            }
             if (!this.isLoggedIn) {
                 alert('Please log in to perform this action.');
+                return false;
             }
-            return this.isLoggedIn;
+            return true;
         }
     },
     mounted() {
