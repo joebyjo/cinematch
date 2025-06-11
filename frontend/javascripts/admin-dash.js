@@ -26,6 +26,8 @@ createApp({
             showAddUser: false,
             showEditUser: false,
             uploadError: '',
+            showPass: false,
+            passError: '',
             newUser: {
                 username: '',
                 firstname: '',
@@ -52,6 +54,14 @@ createApp({
                 pfp: 'avatar1',
                 lastActive: '15/03/2024 14:30'
             },
+            passReq: {
+                length: false,
+                uppercase: false,
+                lowercase: false,
+                number: false,
+                special: false,
+                noSpaces: false
+            },
 
             // dummy data
             users: [
@@ -70,7 +80,7 @@ createApp({
                     lastname: 'Das',
                     role: 'User',
                     dateJoined: '02/02/2025',
-                    pfp: 'uploaded image',
+                    pfp: 'https://camo.githubusercontent.com/238055d74a4a963ecc573726f31395a1d523e264c3f17ed5316ca13e21c8a3dc/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f32302e706e67',
                     lastActive: '15/03/2024 15:45'
                 },
                 {
@@ -97,7 +107,7 @@ createApp({
                     lastname: 'Kour',
                     role: 'User',
                     dateJoined: '05/01/2025',
-                    pfp: 'uploaded image',
+                    pfp: 'https://camo.githubusercontent.com/d8c6127ca1b58383265a1e073b925f75e9f81096c683ff43fb46a8fc4f2cd4e3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f382e706e67',
                     lastActive: '15/03/2024 16:00'
                 },
                 {
@@ -258,6 +268,11 @@ createApp({
                 alert('Please fill all fields.');
                 return;
             }
+            this.validatePass(this.newUser.password);
+            if (!this.isPassValid()) {
+                this.passError = 'Password did not meet requirements';
+                return;
+            }
             this.users.push({
                 username: this.newUser.username,
                 firstname: this.newUser.firstname,
@@ -267,6 +282,10 @@ createApp({
                 pfp: this.newUser.pfp,
                 lastActive: 'Not active'
             });
+            this.resetForm();
+        },
+        resetForm() {
+            // discard last new user data
             this.newUser = {
                 username: '',
                 firstname: '',
@@ -276,7 +295,21 @@ createApp({
                 pfp: '',
                 pfpPreview: null
             };
+            // hide add user card
             this.showAddUser = false;
+            // reset errors shown
+            this.passError = '';
+            this.uploadError = '';
+            this.showPass = false;
+            // reset av select and upload input
+            const avSelect = document.querySelector('.av-options select');
+            if (avSelect) {
+                avSelect.value = '';
+            }
+            const fileInput = document.querySelector('.av-options input[type="file"]');
+            if (fileInput) {
+                fileInput.value = '';
+            }
         },
         imageUpload(event, isEditing) {
             const file = event.target.files[0];
@@ -331,7 +364,7 @@ createApp({
                 lastname: user.lastname,
                 role: user.role,
                 pfp: user.pfp,
-                pfpPreview: user.pfp.includes('avatar')?`./images/settings/${user.pfp}.svg` : null // need to get uploaded here
+                pfpPreview: user.pfp.includes('avatar') ? `./images/settings/${user.pfp}.svg` : user.pfp
             };
             this.showEditUser = true;
         },
@@ -347,6 +380,19 @@ createApp({
                 };
             }
             this.showEditUser = false;
+        },
+        validatePass(password) {
+            this.passReq = {
+                length: password.length >= 8 && password.length <= 16,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                special: /[!_@#$%^&*(),?":{}|<>]/.test(password),
+                noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
+            };
+        },
+        isPassValid() {
+            return Object.values(this.passReq).every((req) => req);
         },
         async getStats() {
             const stats =  await getMethod('api/admin/stats');
