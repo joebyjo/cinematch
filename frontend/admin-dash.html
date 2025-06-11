@@ -165,10 +165,10 @@
                 <div class="card">
                     <h3>Add New User</h3>
 
-                    <div class="av-preview">
-                        <img v-if="newUser.pfpPreview" :src="newUser.pfpPreview" alt="Avatar">
+                    <!-- <div class="av-preview">
+                        <img v-if="newUser.profile_picture_url" :src="newUser.profile_picture_url" alt="Avatar">
                         <img v-else src="./images/settings/dummy-upload.svg" alt="Empty Avatar">
-                    </div>
+                    </div> -->
 
                     <div class="form">
                         <label for="new-username">Username:</label>
@@ -205,7 +205,7 @@
                         </select>
                     </div>
 
-                    <div class="form">
+                    <!-- <div class="form">
                         <label>Avatar:</label>
                         <div class="av-options">
                             <input type="file" @change="imageUpload"><span>or</span>
@@ -219,7 +219,7 @@
                             </select>
                         </div>
                         <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
-                    </div>
+                    </div> -->
 
                     <div class="card-controls">
                         <button type="button" class="control" @click="resetForm()">Cancel</button>
