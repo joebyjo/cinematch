@@ -20,6 +20,22 @@ async function editUser(user_id,updates) {
 }
 
 
+async function addNewUser(userPayload) {
+    try {
+        const response = await axios.post('/api/admin/users', userPayload);
+
+
+    } catch (error) {
+        if (error.response?.status === 409) {
+            alert('Username already exists.');
+        } else {
+            console.error(error);
+            alert('Failed to add user.');
+        }
+    }
+}
+
+
 createApp({
     data() {
         return {
@@ -51,8 +67,7 @@ createApp({
                 last_name: '',
                 password: '',
                 role: '',
-                profile_picture_url: '',
-                pfpPreview: null
+                profile_picture_url: '/uploads/avatar3.svg'
             },
             editingUser: {
                 user_id: 0,
@@ -95,30 +110,44 @@ createApp({
             }
         },
         // add a new user to the table
-        addUser() {
-            // check if all fields are filled
-            if (Object.values(this.newUser).some((val) => !val)) {
+        async addUser() {
+            // Check if all fields are filled
+            if (Object.values(this.newUser).some(val => !val)) {
                 alert('Please fill all fields.');
                 return;
             }
+
             // validate password
             this.validatePass(this.newUser.password);
             if (!this.isPassValid()) {
                 this.passError = 'Password did not meet requirements';
                 return;
             }
-            // push added data
-            this.users.push({
+
+            const userPayload = {
                 username: this.newUser.user_name,
-                firstname: this.newUser.first_name,
-                lastname: this.newUser.last_name,
+                password: this.newUser.password,
+                firstName: this.newUser.first_name,
+                lastName: this.newUser.last_name,
+                role: this.newUser.role
+            };
+
+            await addNewUser(userPayload);
+
+
+            // add new user to UI list
+            this.users.push({
+                user_name: this.newUser.user_name,
+                first_name: this.newUser.first_name,
+                last_name: this.newUser.last_name,
                 role: this.newUser.role,
-                dateJoined: new Date().toLocaleDateString(),
-                pfp: this.newUser.profile_picture_url,
-                lastActive: 'Not active'
+                registration_date: new Date().toLocaleDateString(),
+                profile_picture_url: this.newUser.profile_picture_url,
+                last_login: 'Not active'
             });
-            // reset add form once done
+
             this.resetForm();
+
         },
         resetForm() {
             // discard last new user data
@@ -128,8 +157,7 @@ createApp({
                 last_name: '',
                 password: '',
                 role: '',
-                profile_picture_url: '',
-                pfpPreview: null
+                profile_picture_url: ''
             };
             // hide add user card
             this.showAddUser = false;

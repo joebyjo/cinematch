@@ -178,9 +178,9 @@ router.get('/active', async (req, res) => {
 
 // add new users into db
 router.post('/users', async (req, res) => {
-    const { username, password, firstName, lastName, role } = req.body;
+    const { username: user_name, password, firstName: first_name, lastName: last_name, role } = req.body;
     try {
-        const [existing] = await db.query('SELECT id FROM USERS WHERE user_name = ?', [username]);
+        const [existing] = await db.query('SELECT id FROM USERS WHERE user_name = ?', [user_name]);
         if (existing.length > 0) {
             return res.status(409).json({ msg: 'Username already exists' });
         }
@@ -189,7 +189,7 @@ router.post('/users', async (req, res) => {
 
         await db.query(
             'INSERT INTO USERS (user_name, password, first_name, last_name, role) VALUES (?, ?, ?, ?, ?)',
-            [username, hashed, firstName, lastName, role]
+            [user_name, hashed, first_name, last_name, role]
         );
 
         res.status(201).json({ msg: 'User created successfully' });
