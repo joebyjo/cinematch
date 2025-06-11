@@ -256,8 +256,8 @@
                     <div class="form">
                         <label for="edit-role">Role:</label>
                         <select id="edit-role" v-model="editingUser.role">
-                            <option value="User">User</option>
-                            <option value="Administrator">Administrator</option>
+                            <option value="user" >User</option>
+                            <option value="admin" >Administrator</option>
                         </select>
                     </div>
 
@@ -311,21 +311,21 @@
                     </tr>
 
                     <!--user info-->
-                    <tr v-for="user in currPageUsers" :key="user.username">
+                    <tr v-for="user in users" :key="user.user_name">
                         <td>
                             <div class="checkbox-col">
                                 <input v-if="isSelectOn" type="checkbox"
-                                  :checked="selectedUsers.includes(user.username)" @change="SelectUser(user.username)">
-                                <span class="username" @click="editUser(user)">{{ user.username }}</span>
+                                  :checked="selectedUsers.includes(user.user_id)" @change="SelectUser(user.user_id)">
+                                <span class="username" @click="editUser(user)">{{ user.user_name }}</span>
                             </div>
                         </td>
-                        <td>{{ user.firstname }}</td>
-                        <td>{{ user.lastname }}</td>
-                        <td>{{ user.dateJoined }}</td>
-                        <td><span :class="['role-pill', user.role === 'Administrator' ? 'admin' : 'user']">
-                            <span class="circle"></span> {{ user.role }}</span></td>
-                        <td>{{ user.lastActive }}</td>
-                        <td>{{ user.pfp.startsWith('avatar') ? user.pfp:'uploaded image' }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ new Date(user.registration_date).toLocaleDateString('en-GB') }}</td>
+                        <td><span :class="['role-pill', user.role === 'admin' ? 'admin' : 'user']">
+                            <span class="circle"></span> {{ user.role === 'admin' ? 'Administrator' : 'User' }}</span></td>
+                        <td>{{ new Date(user.last_login).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) }}</td>
+                        <td><a style="" :href="user.profile_picture_url">{{ helperProfilePicture(user.profile_picture_url) }}</a></td>
                     </tr>
                 </tbody>
             </table>
