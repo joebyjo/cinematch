@@ -13,6 +13,7 @@ async function getMethod(url) {
         return [];
     }
 }
+
 async function postLanguages(languages) {
     // Collect selected language IDs
     const languageIds = languages

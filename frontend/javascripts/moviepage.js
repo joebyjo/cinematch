@@ -27,8 +27,7 @@ async function submitUserRating(rating) {
     try {
         const response = await axios.post('/api/mylist/add-rating', {
             movie_id: movieId,
-            rating: rating,
-            review: null
+            rating: rating
         });
         return response;
     } catch (error) {

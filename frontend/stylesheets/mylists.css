@@ -108,8 +108,9 @@ main {
 .custom-dropdown-menu {
   position: absolute;
   top: 2.8rem;
+  right: 0;
   background-color: var(--third-color-mylists);
-  border: 1px solid #aaa;
+  border: 0.1rem solid #aaa;
   border-radius: 1rem;
   padding: 0.5rem;
   z-index: 1000;
@@ -214,13 +215,14 @@ td.movie-title {
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: all 0.3s ease;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+   padding-right: 1rem;
 }
 td.release-date,
 td.age-rating,
 td.imdb-rating {
-  font-size: 1.2rem;
-  padding: 0.5rem;
+  font-size: 1.5rem;
+  padding: 0.7rem;
   white-space: nowrap;
   width: 8rem;
 }
@@ -306,9 +308,9 @@ justify-content: center;
 }
 
 .genre-badge {
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 0.25rem 0.55rem;
-  border-radius: 0.5rem;
+  border-radius: 0.9rem;
   color: white;
   font-family: "Inter", sans-serif;
   white-space: nowrap;
@@ -539,8 +541,8 @@ justify-content: center;
 }
 
 .star-container {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .star {
@@ -602,4 +604,48 @@ justify-content: center;
 
 .button-reset:hover .icon {
   transform: rotate(180deg);
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+.title-with-icon span {
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+
+.bookmark-icon {
+  width: 1.4rem;
+  height: 1.7rem;
+  flex-shrink: 0;
+ vertical-align: middle;
+
+}
+
+.bookmark-icon:hover {
+  filter: brightness(1.2);
+  transform: scale(1.1);
+  transition: 0.2s ease;
+}
+
+
+.movie-title {
+  vertical-align: middle;  /* aligns content within the cell */
+  padding: 0.75rem 1rem;
+  font-size: 1.4rem;
+  max-width: 20rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

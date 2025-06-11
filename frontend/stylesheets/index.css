@@ -136,11 +136,6 @@ input:checked + .slider:before {
     content: "TV Shows";
 }
 
-/* html for toggle
-<label class="switch">
-    <input type="checkbox">
-    <span class="slider"><span>Movies</span><span>TV Shows</span></span>
-</label> */
 
 .spinner-wrapper {
   display: flex;
@@ -164,3 +159,20 @@ input:checked + .slider:before {
   }
 }
 
+.spinner {
+  border: 0.6rem solid #3b3b3b;
+  border-top: 0.6rem solid #ffffff;
+  animation: spin 1s linear infinite;
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1c1c1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
