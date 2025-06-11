@@ -461,5 +461,7 @@ createApp({
         // check for cicks to stay logged in
         this.resetLogoutTime();
         document.addEventListener('mousemove', this.resetLogoutTime);
+        document.addEventListener('keypress', this.resetLogoutTime);
+        document.addEventListener('click', this.resetLogoutTime);
     }
 }).mount('#admin-dash');
