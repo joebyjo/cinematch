@@ -267,6 +267,10 @@ createApp({
                 pfp: this.newUser.pfp,
                 lastActive: 'Not active'
             });
+            this.resetForm();
+        },
+        resetForm() {
+            // discard last new user data
             this.newUser = {
                 username: '',
                 firstname: '',
@@ -276,7 +280,21 @@ createApp({
                 pfp: '',
                 pfpPreview: null
             };
+            // hide add user card
             this.showAddUser = false;
+            // reset errors shown
+            this.passError = '';
+            this.uploadError = '';
+            this.showPass = false;
+            // reset av select and upload input
+            const avSelect = document.querySelector('.av-options select');
+            if (avSelect) {
+                avSelect.value = '';
+            }
+            const fileInput = document.querySelector('.av-options input[type="file"]');
+            if (fileInput) {
+                fileInput.value = '';
+            }
         },
         imageUpload(event, isEditing) {
             const file = event.target.files[0];
