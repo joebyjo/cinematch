@@ -340,46 +340,40 @@ async function getRandomMovie() {
     }
 }
 
-/**
- * Checks if a specific movieId exists for a user in the USERPREFERENCES table.
- * @param {number|string} userId - The ID of the user.
- * @param {number|string} movieId - The ID of the movie.
- * @returns {Promise<boolean>} - Returns true if the movie is in the DB for the user, false otherwise.
- */
-async function checkInDB(userId, movieId) {
-    try {
-        const [rows] = await db.query(
-            'SELECT movie_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
-            [userId, movieId]
-        );
-
-        // console.log(rows);
-        // console.log(rows.length);
-        return rows.length > 0;
-    } catch (err) {
-        console.error(`Error checking DB for user ${userId} and movie ${movieId}:`, err);
-        return false;
-    }
-}
 
 /**
- * Filters movieIds that are not already present in the USERPREFERENCES table for the given user.
- * @param {number|string} userId - The ID of the user.
- * @param {Array<number|string>} movieIds - The array of movie IDs to filter.
- * @returns {Promise<Array<number|string>>} - Returns an array of movie IDs not present in the DB.
+ * Filters out movieIds that already exist in USERPREFERENCES for this user,
+ * using a single bulk SQL query.
+ *
+ * @param {number|string} userId
+ * @param {Array<number|string>} movieIds
+ * @returns {Promise<Array<number|string>>} – IDs not present yet
  */
 async function filterMovieIds(userId, movieIds) {
-    // Create an array of promises to check each movieId concurrently
-    const checkPromises = movieIds.map(async (movieId) => {
-        const exists = await checkInDB(userId, movieId);
-        return !exists ? movieId : null;
-    });
+    if (!movieIds.length) {
+        return [];
+    }
 
-    // Wait for all checks to complete
-    const results = await Promise.all(checkPromises);
+    try {
+        // Grab all movie_ids the user already has
+        const placeholders = movieIds.map(() => '?').join(',');
+        const sql = `
+      SELECT movie_id
+      FROM USERPREFERENCES
+      WHERE user_id = ?
+        AND movie_id IN (${placeholders})
+    `;
+        const params = [userId, ...movieIds];
+        const [rows] = await db.query(sql, params);
+        const existingIds = new Set(rows.map(r => r.movie_id));
 
-    // Filter out nulls (i.e., movieIds that already exist in the DB)
-    return results.filter((id) => id !== null);
+        // Return only those not in the DB
+        return movieIds.filter(id => !existingIds.has(id));
+    } catch (err) {
+        console.error(`[ERROR] filterMovieIds failed for user ${userId}`, err);
+        // Bubble up so we can return 500 to the client
+        throw err;
+    }
 }
 
 module.exports = {
