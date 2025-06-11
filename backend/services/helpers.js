@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 const db = require('./db');
 
@@ -338,7 +340,47 @@ async function getRandomMovie() {
     }
 }
 
+/**
+ * Checks if a specific movieId exists for a user in the USERPREFERENCES table.
+ * @param {number|string} userId - The ID of the user.
+ * @param {number|string} movieId - The ID of the movie.
+ * @returns {Promise<boolean>} - Returns true if the movie is in the DB for the user, false otherwise.
+ */
+async function checkInDB(userId, movieId) {
+    try {
+        const [rows] = await db.query(
+            'SELECT movie_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
+            [userId, movieId]
+        );
 
+        // console.log(rows);
+        // console.log(rows.length);
+        return rows.length > 0;
+    } catch (err) {
+        console.error(`Error checking DB for user ${userId} and movie ${movieId}:`, err);
+        return false;
+    }
+}
+
+/**
+ * Filters movieIds that are not already present in the USERPREFERENCES table for the given user.
+ * @param {number|string} userId - The ID of the user.
+ * @param {Array<number|string>} movieIds - The array of movie IDs to filter.
+ * @returns {Promise<Array<number|string>>} - Returns an array of movie IDs not present in the DB.
+ */
+async function filterMovieIds(userId, movieIds) {
+    // Create an array of promises to check each movieId concurrently
+    const checkPromises = movieIds.map(async (movieId) => {
+        const exists = await checkInDB(userId, movieId);
+        return !exists ? movieId : null;
+    });
+
+    // Wait for all checks to complete
+    const results = await Promise.all(checkPromises);
+
+    // Filter out nulls (i.e., movieIds that already exist in the DB)
+    return results.filter((id) => id !== null);
+}
 
 module.exports = {
     hashPassword,
@@ -353,5 +395,6 @@ module.exports = {
     getUserGenresLanguages,
     getUserRating,
     getRandomMovie,
-    getWatchStatus
+    getWatchStatus,
+    filterMovieIds
 };
