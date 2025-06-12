@@ -203,9 +203,25 @@ router.delete('/users/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await db.query('DELETE FROM USERS WHERE id = ?', [id]);
-        res.json({ msg: 'User deleted' });
+        res.status(200).json({ msg: 'User deleted' });
     } catch (err) {
         res.status(500).json({ msg: `Error deleting user: ${err}` });
+    }
+});
+
+// delete multiple users by array of IDs
+router.post('/users/delete-multiple', async (req, res) => {
+    const { user_ids } = req.body;
+
+    if (!Array.isArray(user_ids) || user_ids.length === 0) {
+        return res.status(400).json({ msg: 'Invalid or empty user_ids array.' });
+    }
+
+    try {
+        await db.query('DELETE FROM USERS WHERE id IN (?)', [user_ids]);
+        res.json({ msg: 'Users deleted successfully', deleted_ids: user_ids });
+    } catch (err) {
+        res.status(500).json({ msg: `Error deleting users: ${err}` });
     }
 });
 
