@@ -234,7 +234,7 @@ async function getTopMovie(userId) {
         );
 
         if (rows.length === 0 || rows[0].score === -1) {
-            return getRandomMovie(); // default fallback movie
+            return -1; // default fallback movie
         }
 
         const movieId = rows[0].movie_id;
@@ -261,7 +261,7 @@ async function getMoviesTMDB(movieId) {
         const movies = response.data;
 
         const movieIDs = [];
-        for (let i = 0; i < 10 && i < movies.results.length; i++) {
+        for (let i = 0; i < 5 && i < movies.results.length; i++) {
             movieIDs.push(movies.results[i].id);
         }
         return movieIDs;
