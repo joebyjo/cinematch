@@ -137,7 +137,9 @@
                         <div class="dropdown-toggle" @click="dropdownVisible = !dropdownVisible" id="dropdown-toggle">Select Languages</div>
 
                         <div class="dropdown-menu" v-show="dropdownVisible" ref="dropdownMenu" id="dropdown-menu">
-                            <label v-for="language in languages" :key="language.code">
+                            <input type="text" v-model="searchLang" class="d-search" placeholder="Search language..." @click.stop>
+                            <div v-if="filterLang.length === 0" class="no-result">No language found</div>
+                            <label v-for="language in filterLang" :key="language.code">
                                 <input type="checkbox" :value="language" v-model="selectedLanguages" name="input"/>
                                 {{ language.name }}
                             </label>
