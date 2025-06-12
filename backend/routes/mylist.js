@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 var express = require('express');
-const { isAuthenticated } = require('../services/validators');
+const { isAuthenticated, validateMyListQuery, validateAddMoviePreference, validateAddRating, validate } = require('../services/validators');
 const db = require('../services/db');
-const { formatMovies } = require('../services/helpers');
+const { formatMovies, addMoviePreference } = require('../services/helpers');
 
 var router = express.Router();
 
 router.use(isAuthenticated);
 
 
-router.get('/', async (req, res) => {
+router.get('/', validateMyListQuery, validate, async (req, res) => {
     try {
         const { genre, certification, status, my_rating, sort, page = 1, limit = 10 } = req.query;
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         if (sort) {
             const [field, direction] = sort.split('.');
 
-            if (!validFields.includes(field) || !validDirections.includes(direction.toLowerCase())){
+            if (!validFields.includes(field) || !validDirections.includes(direction.toLowerCase())) {
                 return res.status(400).json({ msg: 'Invalid sort parameter' });
             }
         }
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
         const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
         // initating variables to store filters and values
-        const filters = [];
+        const filters = [`watch_status IN (2, 3)`];
         const values = [req.user.id];
 
         // add genres to filters
@@ -95,7 +95,7 @@ router.get('/', async (req, res) => {
 
         // get full details of movies with movie_id we found using filtering
         let finalQuery = `
-            SELECT title, genre_id, genre_name, release_date, watch_status, certification, imdb_rating, my_rating
+            SELECT movie_id, title, genre_id, genre_name, release_date, watch_status, certification, imdb_rating, my_rating
             FROM MOVIELIST
             WHERE user_id = ? AND movie_id IN (${movieIds.map(() => '?').join(',')})
         `;
@@ -123,40 +123,12 @@ router.get('/', async (req, res) => {
 
 
 
-router.post('/', async (req, res) => {
+router.post('/',validateAddMoviePreference, validate, async (req, res) => {
 
     try {
         const { movie_id, is_liked, watch_status } = req.body;
 
-        // check if user already has preferences for this this movie
-        const [existing] = await db.query(
-            `SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?`,
-            [req.user.id, movie_id]
-        );
-
-
-        // get preference id that matches
-        const [prefRes] = await db.query(
-            'SELECT id FROM PREFERENCES WHERE is_liked=? AND watch_status=?',
-            [is_liked, watch_status]
-        );
-
-        if (existing.length > 0 && existing[0].preference_id) {
-
-            // update existing preference
-            await db.query(
-                `UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?`,
-                [prefRes[0].id, req.user.id, movie_id]
-            );
-
-        } else {
-            // insert new preference for movie
-            await db.query(
-                'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
-                [req.user.id, prefRes[0].id, movie_id]
-            );
-
-        }
+        addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
 
         res.status(200).json({
             msg: "Successfully added"
@@ -168,7 +140,7 @@ router.post('/', async (req, res) => {
 
 });
 
-router.post('/add-rating', async (req, res) => {
+router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
     try {
         // getting request body
@@ -180,16 +152,31 @@ router.post('/add-rating', async (req, res) => {
             [req.user.id, movie_id]
         );
 
+        if (existing.length > 0) {
 
-        if (existing.length > 0 && existing[0].user_rating_id) {
+            if (!existing[0].user_rating_id) {
+                const [ratingsRes] = await db.query(
+                    'INSERT INTO USERRATINGS (rating, review, modified_at) VALUES (?, ?, CURRENT_DATE())',
+                    [rating, review]
+                );
 
-            // update existing rating
-            await db.query(
-                `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
-                [rating, review, existing[0].user_rating_id]
-            );
+                // getting id of user rating that just got inserted
+                const { insertId } = ratingsRes;
+
+                // updating user preferences with new user rating id
+                await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+            } else {
+                // update existing rating
+                await db.query(
+                    `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
+                    [rating, review, existing[0].user_rating_id]
+                );
+            }
 
         } else {
+
+            // adding movie preference if doesnt exist
+            await addMoviePreference(movie_id, true, 0, req.user.id);
 
             // inserting user ratings
             const [ratingsRes] = await db.query(

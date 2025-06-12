@@ -52,7 +52,7 @@
 }
 
 .personalise-main {
-    margin-bottom: 3rem 2rem;
+    margin: 1rem 3rem 4rem 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -186,7 +186,7 @@
     justify-content: flex-start; /* align to left */
     gap: 1rem 1rem;
     padding: 1rem;
-  }
+}
 
 /* Keep ::before even when selected (but it gets hidden behind the fill) */
 .pill.selected::before {
