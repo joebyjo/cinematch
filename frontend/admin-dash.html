@@ -349,7 +349,7 @@
                 <div class="page-controls">
                     <!--delete selected button-->
                     <button type="button" class="control" v-show="isSelectOn"
-                      :disabled="selectedUsers.length === 0">Delete Selected</button>
+                      :disabled="selectedUsers.length === 0" @click="deleteUsers()">Delete Selected</button>
 
                     <!--switch page buttons-->
                     <button type="button" class="control" :disabled="currentPage === 1" @click="currentPage--">←</button>
