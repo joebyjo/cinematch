@@ -96,9 +96,10 @@ const app = Vue.createApp({
         },
         formatDescription(description) {
             if (!description) return 'N/A';
-            return this.isDescExpanded || description.length <= 215
-                ? description
-                : description.substring(0, 212) + '...';
+            return description;
+            // return this.isDescExpanded || description.length <= 215
+            //     ? description
+            //     : description.substring(0, 212) + '...';
         },
         // Open YouTube trailer
         openTrailer() {
