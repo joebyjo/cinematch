@@ -15,18 +15,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
 
     <!-- Linking CSS Files -->
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/nav-bar.css">
 
     <!-- Linking Java Script Files -->
-    <script src="https://unpkg.com/vue@3.0.2"></script>
-    <script src="javascripts/nav-bar.js" defer></script>
-    <script src="javascripts/index.js" defer></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="/javascripts/nav-bar.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
 
     <title>Home Page</title>
 </head>
 
-<body class="dark primary-bg-color" style="display: none">
+<body class="primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -42,18 +42,22 @@
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
-                <a v-if="!isLogin" href="/home" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+                <a v-if="!isLogin && !inProcess" href="/login" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
 
                 <!-- else -->
-                <div v-else class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
-                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
+                    <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @click="redirect('/setting')">
+                    <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'" src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
+                    </div>
+                    <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
+                        <img src="images/admin-icon.png" alt="admin icon">
+                        Admin Dashboard
                     </div>
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'" src="./images/dark-on-icon.png" alt="theme off icon">

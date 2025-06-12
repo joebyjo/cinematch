@@ -113,3 +113,8 @@ dist
 
 # Database dump
 backend/db/dump.sql
+
+# Profile picture uploads
+backend/uploads/*.png
+backend/uploads/*.jpg
+backend/uploads/*.jpeg

@@ -13,14 +13,16 @@ async function helperGetMovieData(url) {
 
 function helperDrawStatus(s) {
     if (s === 0) {
-        return "/images/my-lists/eye-slash-solid 1.png";
-    } if (s === 1) {
+        return "/images/my-lists/eye-slash-solid.png";
+    } else if (s === 1) {
         return "/images/my-lists/eye.png";
-    } if (s === 2) {
-        return "/images/my-lists/bookmarked.png";
+    } else if (s === 2) {
+        return "/images/my-lists/eye-slash-solid.png";
+    } else if (s === 3) {
+        return "/images/my-lists/eye.png";
     }
 
-    return "/";
+    return "";
 }
 
 function helperDraw(n, status) { // drawing the star ratings
@@ -62,20 +64,172 @@ function helperLoadLimitArray(len) {
 const movieTable = Vue.createApp({
     data() {
         return {
+
+            showSort: false,
             load: 10,
             page: 1,
+            totalPages: 3,
+            totalMovies: 26,
             sort: "",
-            filter: [],
-            movies: []
+            filter: {
+                genre: [],
+                status: [],
+                ageRating: []
+            },
+            movies: [],
+            showFilter: false,
+            showGenres: false,
+            showAgeRating: false,
+            showStatus: false,
+            showLoadLimit: false,
+            activeAccordion: null,
+
+
+            genres: [],
+            ageRatings: ["NR", "M", "PG"],
+            statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
+
+
         };
+
+
     },
     methods: {
+        resetFiltersAndSort() {
+            this.filter.genre = [];
+            this.filter.status = [];
+            this.filter.ageRating = [];
+            this.sort = "";
+            this.page = 1;
+
+            // Optional: Close dropdowns if needed
+            this.showFilter = false;
+            this.showSort = false;
+
+            // Fetch unfiltered data
+            const url = this.createUrl();
+            // this.getMovieData(url);
+        },
+
+        getMouseX(event) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            return (event.clientX - rect.left) / rect.width;
+        },
+
+        async setUserRating(movie, rating) {
+            movie.my_rating = rating;
+
+            console.log(movie);
+
+            try {
+                await axios.post('/api/mylist/add-rating', {
+                    movie_id: movie.movie_id,
+                    rating: rating
+                });
+                console.log("Rating updated to", rating);
+            } catch (error) {
+                console.error("Failed to update rating:", error);
+            }
+        },
+
+        async toggleStatus(movie) {
+
+            switch (movie.watch_status) {
+                case 3:
+                    movie.watch_status = 2;
+                    break;
+                case 2:
+                    movie.watch_status = 3;
+                    break;
+                case 1:
+                    movie.watch_status = 0;
+                    break;
+                case 0:
+                    movie.watch_status = 1;
+                    break;
+            }
+
+            try {
+                await axios.post('/api/mylist/', {
+                    movie_id: movie.movie_id,
+                    is_liked: 1, // fallback default (e.g., liked)
+                    watch_status: movie.watch_status
+                });
+            } catch (error) {
+                console.error("Failed to update status:", error);
+                // Optionally revert the change if API call fails
+            }
+        },
+
+        async toggleBookmark(movie) {
+            movie.bookmarked = !movie.bookmarked;
+            movie.watch_status = movie.watch_status === 2 || movie.watch_status === 3 ? movie.watch_status-2 : movie.watch_status+2;
+
+            try {
+                await axios.post('/api/mylist/', {
+                    movie_id: movie.movie_id,
+                    is_liked: 1, // fallback default (e.g., liked)
+                    watch_status: movie.watch_status
+                });
+            } catch (error) {
+                console.error("Failed to update status:", error);
+                // Optionally revert the change if API call fails
+            }
+        },
+
+        toggleFilter() {
+            this.showFilter = !this.showFilter;
+            this.showSort = false; // close other menu
+        },
+
+        toggleSort() {
+            this.showSort = !this.showSort;
+            this.showFilter = false; // close other menu
+        },
+        handleClickOutside(event) {
+            const filterBtn = this.$refs.filterBtn;
+            const filterMenu = this.$refs.filterMenu;
+
+            const sortBtn = this.$refs.sortBtn;
+            const sortMenu = this.$refs.sortMenu;
+
+            const loadLimitWrapper = this.$refs.loadLimitWrapper;
+
+            const clickedEl = event.target;
+
+            const clickedInsideFilter = filterBtn?.contains(clickedEl) || filterMenu?.contains(clickedEl);
+            const clickedInsideSort = sortBtn?.contains(clickedEl) || sortMenu?.contains(clickedEl);
+            const clickedInsideLoadLimit = loadLimitWrapper?.contains(clickedEl);
+
+            if (!clickedInsideFilter) this.showFilter = false;
+            if (!clickedInsideSort) this.showSort = false;
+            if (!clickedInsideLoadLimit) this.showLoadLimit = false;
+        },
+
+
+        toggleAccordion(section) {
+            this.activeAccordion = this.activeAccordion === section ? null : section;
+        },
+        selectAllGenres() {
+            this.filter.genre = this.genres.map(g => g.id);
+        },
+        clearAllGenres() {
+            this.filter.genre = [];
+        },
+
         loadLimitArray() {
             return helperLoadLimitArray(100);
         },
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
-            this.movies = res.data || [];
+
+
+            this.movies = (res.data || []).map(movie => ({
+                ...movie,
+                hoverRating: 0 // add temporary field for hover effect
+            }));
+            this.totalMovies = res.data.total || 0;
+            this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
         createUrl() {
             // base url
@@ -88,6 +242,18 @@ const movieTable = Vue.createApp({
             if (this.sort) {
                 url.searchParams.set("sort", this.sort);
             }
+
+            this.filter.genre.forEach((genre) => {
+                url.searchParams.append("genre", genre);
+            });
+
+            this.filter.status.forEach((status) => {
+                url.searchParams.append("status", status);
+            });
+
+            this.filter.ageRating.forEach((ageRating) => {
+                url.searchParams.append("certification", ageRating);
+            });
 
             return url;
         },
@@ -119,32 +285,59 @@ const movieTable = Vue.createApp({
             return helperDraw(r);
         },
         helperMovieStatus(s) {
-            if (!s) return "/";
             return helperDrawStatus(s);
+        },
+        goToMovie(movie_id) {
+            console.log(movie_id);
+            window.location.href = `/movie/${movie_id}`;
+        },
+        async getGenres(url) {
+            const res = await helperGetMovieData(url);
+            this.genres = res.data || [];
         }
     },
     computed: {
         SortorFilterMovies() {
             return {
                 load: this.load,
-                sort: this.sort
+                sort: this.sort,
+                'filter.genre': this.filter.genre,
+                'filter.status': this.filter.status,
+                'filter.ageRating': this.filter.ageRating
             };
-        }
+        },
+
     },
     watch: {
+        page() {
+            const url = this.createUrl();
+            this.getMovieData(url);
+        },
+
         SortorFilterMovies: {
             handler() {
+                this.page = 1;
                 const url = this.createUrl();
                 this.getMovieData(url);
             },
             deep: false,
             immediate: false
         }
+
     },
     mounted() {
+
         this.getMovieData('/api/mylist');
+        this.getGenres('/api/movies/genres');
+        window.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+        window.removeEventListener("click", this.handleClickOutside);
     }
 });
 
 movieTable.mount('.main-mylists');
 // End of Vue Script
+
+
+

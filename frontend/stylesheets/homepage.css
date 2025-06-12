@@ -12,6 +12,9 @@
     --border-homepage: #ffffff
 }
 
+
+
+
 .primary-bg-color-homepage {
     background-color: var(--primary-color-homepage);
 }
@@ -134,7 +137,8 @@ main .heading3 {
     font-family: "Cantarell";
     font-size: 1.3rem;
     white-space: nowrap;
-    overflow: scroll;
+    overflow-x: scroll;
+    scrollbar-width: none;
 }
 
 .search-results>div:hover {
@@ -174,6 +178,12 @@ main .heading3 {
     width: 13rem;
 
     cursor: pointer;
+}
+
+.boxes div:hover {
+    transform: scale(1.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.3); */
 }
 
 .boxes img {
@@ -231,6 +241,10 @@ button.green svg {
   color: #75A976;
 }
 
+button:hover{
+  transform: scale(1.11);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 .poster-personalise-page {
   margin-top: 10rem;
 }
@@ -243,7 +257,7 @@ button.green svg {
   border-radius: 2rem;
   padding: 2.5rem;
   box-shadow: var(--box-shadow-homepage);
-  max-width: 65%;
+  max-width: 75rem;
   margin: 0 auto;
   position: relative;
   overflow: visible;

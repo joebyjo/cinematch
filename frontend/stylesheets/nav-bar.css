@@ -19,8 +19,20 @@
     --user-menu-color: #2B2B2B;
     --box-shadow-nav-bar: rgba(102, 102, 102, 0.4);
     --user-menu-text-color-nav-bar: white;
-    --theme-color: whtie;
+    --theme-color: white;
 }
+
+.theme-transition .primary-bg-color-nav-bar,
+.theme-transition .secondary-bg-color-nav-bar,
+.theme-transition .primary-color-nav-bar,
+.theme-transition .secondary-color-nav-bar,
+.theme-transition .user-container-nav-bar,
+.theme-transition .user-menu,
+.theme-transition .theme,
+.theme-transition .logout-nav-bar {
+    transition: background-color 0.7s ease, color 0.7s ease, border-color 0.7s ease;
+}
+
 
 .primary-bg-color-nav-bar {
     background-color: var(--primary-color-nav-bar);
@@ -49,7 +61,6 @@ nav {
     display: flex;
     flex-direction: row;
     height: 4.5rem;
-
     justify-content: space-evenly;
 }
 
@@ -58,6 +69,29 @@ nav a {
     font-size: 1.5rem;
     font-weight: 500;
     font-family: "Cantarell";
+
+
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 0.19rem;
+    bottom: 0.70rem;
+    left: 0;
+    background-color: var(--primary-color-nav-bar); /* Or any highlight color */
+    transition: width 0.3s ease;
+}
+
+
+nav a:hover {
+    transform: translateY(-2px) scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
 }
 
 .nav {
@@ -94,6 +128,7 @@ nav a {
 .logo-nav-bar a {
     font-size: 1.7rem;
     font-family: "Chango", sans-serif;
+    pointer-events: none;
 }
 
 
@@ -139,10 +174,10 @@ nav a {
 
 .user-container-nav-bar>img {
     width: 2.5rem;
-    height: 3rem;
+    height: 2.5rem;
     border-radius: 50%;
     border: 0.125rem solid var(--user-container-img-border);
-    transform: perspective(3rem) rotateY(7deg);
+    transform: perspective(-3rem) rotateY(8deg);
 }
 
 .user-menu {
@@ -155,7 +190,7 @@ nav a {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-top: 16rem;
+    margin-top: 17rem;
     margin-left: 1rem;
     z-index: 3;
 }
@@ -166,7 +201,6 @@ nav a {
     color: var(--user-menu-text-color-nav-bar);
     font-family: "Cantarell";
     font-size: 1.3rem;
-    cursor: pointer;
 }
 
 .user-menu img {
@@ -175,7 +209,9 @@ nav a {
 }
 
 .user-menu div:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .theme {

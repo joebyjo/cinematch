@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking External Files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Linking CSS Files -->
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/settings.css">
+
+    <!-- Linking Java Script Files -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/index.js" defer></script>
+    <script src="/javascripts/settings.js" defer></script>
+
+    <title>Home Page</title>
+</head>
+
+<body id="settings" style="display: none">
+    <div class="page-layout">
+        <div class="popup" :class="{show: popup.show}">{{ popup.text }}</div>
+
+        <!--close button-->
+        <div class="esc">
+            <button type="button"  @click="goHome"></button>
+            <p>ESC</p>
+        </div>
+
+        <!--sidebar-->
+        <div class="sidebar">
+            <div class="sidebar-icon">
+                <a href="#acc"><img class="icon-img" src="images/settings/account-settings.svg" alt="Account"></a>
+            </div>
+            <div class="sidebar-icon">
+                <a href="#profile"><img class="icon-img" src="images/settings/profile-settings.svg" alt="Profile"></a>
+            </div>
+            <div class="sidebar-icon">
+                <a href="#pref"><img class="icon-img" src="images/settings/pref-settings.svg" alt="Preferences"></a>
+            </div>
+            <div class="sidebar-icon logout" @click="redirect('/logout')">
+                <img class="icon-img" src="images/logout-icon.png" alt="Logout">
+            </div>
+        </div>
+
+        <div class="container">
+
+            <!--account-->
+            <h1 id="acc">Account Settings</h1>
+            <div class="row">
+                <div class="card change-name">
+                    <h2 class="card-title">Change name</h2>
+                    <p class="info-text">Current name: <span>{{ fullName }}</span></p>
+
+                    <input type="text" v-model="nameChangeRequest.firstName" placeholder="Enter new first name...">
+                    <input type="text" v-model="nameChangeRequest.lastName" placeholder="Enter new last name...">
+                    <input :type="showPass?'text':'password'" v-model="nameChangeRequest.password" placeholder="Enter your password...">
+
+                    <p class="error-message" v-if="nameChangeRequest.passMatch">Incorrect Password</p>
+                    <button type="button" class="confirm" @click="changeName">Done</button>
+                </div>
+
+                <div class="card change-password">
+                    <h2 class="card-title">Change password</h2>
+
+                    <input :type="showPass?'text':'password'" placeholder="Enter current password..." v-model="curPass">
+                    <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password...">
+                    <input :type="showPass?'text':'password'" v-model="confirmPass" placeholder="Confirm new password...">
+
+                    <p class="error-message" v-if="!checkMatch">Passwords do not match</p>
+                    <p class="error-message" v-if="!passMatch">{{ passwordError }}</p>
+                    <button type="button" class="confirm" @click="changePassword()">Done</button>
+                </div>
+            </div>
+            <div class="show-hide-pass">
+                <button type="button" @click="showPass = !showPass" :class="showPass?'hide-icon':'show-icon'"></button>
+            </div>
+            <div class="row">
+                <div class="card delete-account">
+                    <h2 class="card-title">Delete account</h2>
+                    <p class="info-text">IMPORTANT!<br>
+                        This action cannot be undone</p>
+
+                    <input :type="showPass?'text':'password'" v-model="deleteRequest.password" placeholder="Enter your password...">
+                    <p class="error-message" v-if="!deleteRequest.isPass">Incorrect Password</p>
+                    <button type="button" class="confirm" @click="deleteAccount()">Done</button>
+                </div>
+
+                <div class="card password-check">
+                    <h2 class="card-title">Password check</h2>
+                    <p class="info-text">Your new password must have :</p>
+
+                    <div class="req-tags">
+                        <span :class="{ valid: passReq.length, invalid: !passReq.length }">8 - 16 characters</span>
+                        <span :class="{ valid: passReq.uppercase, invalid: !passReq.uppercase }">at least 1 UPPERCASE character</span>
+                        <span :class="{ valid: passReq.lowercase, invalid: !passReq.lowercase }">at least 1 lowercase character</span>
+                        <span :class="{ valid: passReq.number, invalid: !passReq.number }">at least 1 number</span>
+                        <span :class="{ valid: passReq.noSpaces, invalid: !passReq.noSpaces }">no empty space or period</span>
+                        <span :class="{ valid: passReq.special, invalid: !passReq.special }">at least 1 special character</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--profile-->
+            <h1 id="profile">Profile Settings</h1>
+            <div class="select-avatar">
+                <div class="av-row">
+                    <div v-for="avatar in getAvatars()" :key="avatar.id" class="slot"
+                    :class="{'empty': !avatar.src,'large': avatar.isLarge,'selected': avatar.isSelected}">
+                        <img v-if="avatar.src" :src="avatar.src" :alt="'Avatar' + avatar.id">
+                    </div>
+                </div>
+
+                <div class="av-controls">
+                    <button type="button" class="av-button prev" @click="prevAv"></button>
+                    <button type="button" class="select-button" @click="selectAv()" :class="{selected: isCurrAvSelected()}">
+                        {{ isCurrAvSelected() ? 'Selected' : 'Select this avatar' }}</button>
+                    <button type="button" class="av-button next" @click="nextAv"></button>
+                </div>
+            </div>
+
+            <div class="upload-avatar">
+                <div class="upload-section">
+                    <input type="file" id="av-upload" accept=".jpg,.jpeg,.png" @change="fileUpload" style="display: none;">
+                    <label for="av-upload" class="upload-button">Upload my own</label>
+                    <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
+                </div>
+                <div class="preview">
+                    <p>Preview</p>
+                    <div class="preview-av">
+                        <img v-if="uploadedImage" :src="uploadedImage" alt="Preview Avatar">
+                        <img v-else src="images/settings/dummy-upload.svg" alt="Preview Avatar">
+                    </div>
+                    <button v-if="uploadedImage" type="button" class="select-button" @click="selectUpload()"
+                        :class="{selected: isUploadAvSelected()}">
+                        {{ isUploadAvSelected() ? 'Selected' : 'Select my image' }}</button>
+                </div>
+            </div>
+
+            <!--preferences-->
+            <h1 id="pref">Preferences</h1>
+            <div class="preferences">
+
+                <!--theme-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('theme')">
+                        <span>Change theme</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.theme }">▼</span>
+                    </div>
+                    <div class="d-content" :class="{ show: dropdowns.theme }">
+                        <div class="d-option" @click="selectTheme('light')">
+                            <div class="checkbox circle" :class="{ checked: selectedTheme === 'light' }"></div>
+                            <span class="option-text">Light theme</span>
+                        </div>
+                        <div class="d-option" @click="selectTheme('dark')">
+                            <div class="checkbox circle" :class="{ checked: selectedTheme === 'dark' }"></div>
+                            <span class="option-text">Dark theme</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--lang-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('languages')">
+                        <span>Select movie languages</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.languages }">▼</span>
+                    </div>
+                    <div class="d-content" :class="{ show: dropdowns.languages }">
+                        <input type="text" v-model="search.languages" class="d-search" placeholder="Search language..." @click.stop>
+                        <div v-if="filterLang.length === 0" class="no-result">No language found</div>
+                        <div class="lang-results">
+                            <div class="d-option" v-for="language in filterLang" :key="language.id" @click="toggleLanguage(language.id)">
+                            <div class="checkbox" :class="{ checked: language.selected }"></div>
+                            <span class="option-text">{{ language.name }}</span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--genre-->
+                <div class="dropdown">
+                    <div class="d-placeholder" @click="toggleDropdown('genres')">
+                        <span>Search movie genres</span>
+                        <span class="d-arrow" :class="{ open: dropdowns.genres }">▼</span>
+                    </div>
+                    <div class="d-content genre" :class="{ show: dropdowns.genres }">
+                        <div class="d-option" v-for="genre in genres" :key="genre.id" :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
+                            <div class="checkbox" :class="{ checked: genre.selected }"></div>
+                            <span class="option-text">{{ genre.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
