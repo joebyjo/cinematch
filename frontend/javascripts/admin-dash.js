@@ -24,6 +24,7 @@ async function addNewUser(userPayload) {
     try {
         const response = await axios.post('/api/admin/users', userPayload);
 
+        return response.data
 
     } catch (error) {
         if (error.response?.status === 409) {
@@ -132,11 +133,11 @@ createApp({
                 role: this.newUser.role
             };
 
-            await addNewUser(userPayload);
-
+            const newUserDetails = await addNewUser(userPayload);
 
             // add new user to UI list
             this.users.push({
+                user_id: newUserDetails.user_id,
                 user_name: this.newUser.user_name,
                 first_name: this.newUser.first_name,
                 last_name: this.newUser.last_name,
