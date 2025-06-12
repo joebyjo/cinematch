@@ -190,7 +190,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-top: 18rem;
+    margin-top: 17rem;
     margin-left: 1rem;
     z-index: 3;
 }
