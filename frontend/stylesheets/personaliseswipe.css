@@ -260,7 +260,7 @@ main {
     position: relative;
 }
 
-.heading>span:hover::after {
+.title:hover::after {
     content: attr(data-title);
     position: fixed;
     top: 50%;
