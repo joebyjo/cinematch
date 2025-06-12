@@ -276,9 +276,9 @@ main {
     font-family: Cantarell;
     font-size: 1.2rem;
     z-index: 2;
-    white-space: nowrap;
     box-shadow: 0 0.2rem 0.5rem var(--shadow-color);
 }
+
 
 .heading>div {
     width: 85%;
