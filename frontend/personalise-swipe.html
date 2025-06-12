@@ -99,14 +99,17 @@
                         </div>
                     </div>
 
-                    <div class="cast-info">
-                        <div class="ratings">
-                            <p><strong class="gradient-text">Ratings:</strong></p>
-                            <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
-                                    class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span></div>
-                            <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
-                                    class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span></div>
+                    <div class="ratings">
+                        <p><strong class="gradient-text">Ratings:</strong></p>
+                        <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
+                            class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span>
                         </div>
+                        <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
+                            class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="cast-info">
                         <p><strong class="gradient-text">Genres:</strong> {{ formatGenres(movie.genres) }}</p>
                         <p><strong class="gradient-text">Director:</strong> {{ formatDirector(movie.director) }}</p>
                         <p><strong class="gradient-text">Casting:</strong> {{ formatCast(movie.cast) }}</p>
