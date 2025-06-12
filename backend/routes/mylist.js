@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         if (sort) {
             const [field, direction] = sort.split('.');
 
-            if (!validFields.includes(field) || !validDirections.includes(direction.toLowerCase())){
+            if (!validFields.includes(field) || !validDirections.includes(direction.toLowerCase())) {
                 return res.status(400).json({ msg: 'Invalid sort parameter' });
             }
         }
@@ -152,14 +152,26 @@ router.post('/add-rating', async (req, res) => {
             [req.user.id, movie_id]
         );
 
+        if (existing.length > 0) {
 
-        if (existing.length > 0 && existing[0].user_rating_id) {
+            if (!existing[0].user_rating_id) {
+                const [ratingsRes] = await db.query(
+                    'INSERT INTO USERRATINGS (rating, review, modified_at) VALUES (?, ?, CURRENT_DATE())',
+                    [rating, review]
+                );
 
-            // update existing rating
-            await db.query(
-                `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
-                [rating, review, existing[0].user_rating_id]
-            );
+                // getting id of user rating that just got inserted
+                const { insertId } = ratingsRes;
+
+                // updating user preferences with new user rating id
+                await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+            } else {
+                // update existing rating
+                await db.query(
+                    `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
+                    [rating, review, existing[0].user_rating_id]
+                );
+            }
 
         } else {
 
