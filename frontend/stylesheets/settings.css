@@ -1,35 +1,56 @@
 .light{
 --body-background:white;
 --primary-color:black;
---sidebar-background:#7D7979;
---container-background:#CFCDCD;
---container-border:#888787;
---container-boxshadow: #7d7d7d;
---heading-color:#5A5A5A;
+--sidebar-background:#ffffff;
+--container-background:#DEDEDE;
+--container-border:#F5F5F5;
+--container-boxshadow: #B0B0B0;
+--heading-color:#404040;
 --infotext-color: #7c7c7c;
 --done-button: rgba(255, 255, 255, 0.29);
---changename-background: #CDE9FF;
+--changename-background: #E8F5FF;
 --changename-border:#5994C4;
+--input-field-textcolor: #414141;
 --infotextspan-gradientleft:#D34BE8 ;
 --infotextspan-gradientright:#27D3DF;
 --done-button-text:#7c7c7c;
 --done-button-border:#afafaf;
 --done-button-hovergradient-left:#ef8aff89 ;
 --done-button-hovergradient-right:#6ed6df89;
---changename-input-background: #a5cee5;
---changename-input-border:#8eccffb9;
+--changename-input-background: #DBF2FF;
+--changename-input-border-focus:#487F88;
+--changename-input-border:#487F88;
 --changepassword-background:rgba(255, 237, 183, 0.66);
 --changepassword-border:#C19F41;
 --changepassword-title:#BBA66D;
---changepassword-input-background:#9D9467;
---deleteaccount-background:rgba(255, 200, 200, 0.81);;
---deleteaccount-border:#EE6363;
+--changepassword-input-background:#FAF0C2;
+--changepassword-input-border: #AE9A1D;
+--deleteaccount-background:rgba(255, 216, 216, 0.81);
+--deleteaccount-border:#FF7B7B;
 --deleteaccount-title:#ED8080;
---deleteaccount-input-background:rgba(109, 62, 62, 0.67);
+--deleteaccount-input-background:rgba(255, 187, 187, 0.67);
 --deleteaccount-input-border:#EE6363;
---passwordcheck-background:rgba(224, 202, 255, 0.56);
+--del-account-input-border:#EE6363;
+--passwordcheck-background:rgba(229, 211, 255, 0.56);
 --passwordcheck-border:#BD80FE;
---passwordcheck-title:rgba(188, 126, 224, 1);
+--passwordcheck-title:#BC7EE0;
+--reqtags-background:#D6C9EB;
+--reqtags-border:#BD80FE;
+--slot-border:#8E8E8E;
+--slot-shadow:black;
+--select-button-text:#636363;
+--placeholder-background:#F6F6F6;
+--placeholder-border:#414141;
+--placeholder-text:#414141;
+--preferences-dropdowncontent-background:#CBCBCB;
+--preferences-dropdowncontent-border:#8D8D8D;
+--preferences-dropdowncontent-hoverbg:#dadada;
+--sidebar-border:#b7b7b7;
+
+--sidebar-icon-acc: url("../images/settings/account-settings-dark.svg");
+--sidebar-icon-profile: url("../images/settings/profile-settings-dark.svg");
+--sidebar-icon-pref: url("../images/settings/pref-settings-dark.svg");
+--sidebar-icon-logout: url("../images/logout-icon.png");
 
 }
 .dark{
@@ -44,6 +65,7 @@
 --done-button: transparent;
 --changename-background: #3e4449;
 --changename-border:#8eccffb9;
+--input-field-textcolor:#ffffff;
 --infotextspan-gradientleft:#EB68FF 13%;
 --infotextspan-gradientright:#8FF7FF 92%;
 --done-button-text:white;
@@ -51,19 +73,39 @@
 --done-button-hovergradient-left:#eb68ff89 13%;
 --done-button-hovergradient-right:#8ff8ff89 92%;
 --changename-input-background: #3F535E;
---changename-input-border:#053f6eb9;
+--changename-input-border-focus:#053f6eb9;
+--changename-input-border:#cccccc;
 --changepassword-background:#ffe49432;
 --changepassword-border:#FFE59E90;
 --changepassword-title:#D1BE8B;
 --changepassword-input-background:#6B6545;
+--changepassword-input-border: #CCCCCC;
 --deleteaccount-background:#6d3e3ea9;;
 --deleteaccount-border:#ED8080;
 --deleteaccount-title:#ED8080;
 --deleteaccount-input-background:#784343;
 --deleteaccount-input-border:#ED8080;
+--del-account-input-border:#cccccc;
 --passwordcheck-background:#d98efc29;
 --passwordcheck-border:#a87ee0;
 --passwordcheck-title:#a87ee0;
+--reqtags-background:#8b789760;
+--reqtags-border:#8d8d8d7a;
+--slot-border:#FFFFFF;
+--slot-shadow:#ffffff4b;
+--select-button-text:#ffffff;
+--placeholder-background:#4a4a4a;
+--placeholder-border:#8d8d8d;
+--placeholder-text:#ffffff;
+--preferences-dropdowncontent-background:#3e3e3e;
+--preferences-dropdowncontent-border:#6d6d6d;
+--preferences-dropdowncontent-hoverbg:#4a4a4a;
+--sidebar-border:transparent;
+
+--sidebar-icon-acc: url("../images/settings/account-settings.svg");
+--sidebar-icon-profile: url("../images/settings/profile-settings.svg");
+--sidebar-icon-pref: url("../images/settings/pref-settings.svg");
+--sidebar-icon-logout: url("../images/logout-icon.png");
 }
 
 * {
@@ -113,6 +155,13 @@ body {
     color: #8d8d8d;
     text-align: center;
 }
+.input-field::placeholder{
+    color: var(--input-field-textcolor);
+}
+
+.input-field{
+ color: var(--input-field-textcolor) !important;
+}
 
 .sidebar {
     position: fixed;
@@ -120,6 +169,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: var(--sidebar-background);
+    border: 0.3rem solid var(--sidebar-border);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -128,16 +178,33 @@ body {
     box-shadow: 0.625rem 1.125rem 1.25rem rgba(0, 0, 0, 0.25);
     z-index: 1;
 }
-
 .icon-img {
-    width: 3.125rem;
-    height: 3.125rem;
-    opacity: 0.5;
-    transition: all 0.3s ease;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
 }
 
+/* Use the correct variable per icon */
+.acc-icon {
+  background-image: var(--sidebar-icon-acc);
+}
+.profile-icon {
+  background-image: var(--sidebar-icon-profile);
+}
+.pref-icon {
+  background-image: var(--sidebar-icon-pref);
+}
+.logout-icon {
+  background-image: var(--sidebar-icon-logout);
+}
+
+
 .icon-img:hover {
-    opacity: 1;
+    opacity: 0.5;
     transform: scale(1.1);
     cursor: pointer;
 }
@@ -157,8 +224,8 @@ body {
     padding: 3rem;
     padding-top: 0;
     max-width: 70%;
-    border: 0.15rem solid var(--container-border);
-    box-shadow: 0 0 0 0.4rem var(--container-boxshadow);
+    border: 0.25rem solid var(--container-border);
+    box-shadow: 0 0 0 0.15rem var(--container-boxshadow);
 }
 
 h1 {
@@ -168,6 +235,9 @@ h1 {
     color: var(--heading-color);
 }
 
+h1.profile{
+margin-bottom: 0;
+}
 .card {
     width: 50%;
     border-radius: 2rem;
@@ -217,7 +287,7 @@ input {
     padding: 1rem;
     border: 0.1rem solid #a0a0a0;
     border-radius: 0.5rem;
-    color: white;
+    color: var(--primary-color);
     font-size: 1.3rem;
     transition: all 0.3s ease;
 }
@@ -263,7 +333,10 @@ input::placeholder {
 }
 
 .change-name>input:focus {
-    border-color: var(--changename-input-border);
+    border-color: var(--changename-input-border-focus);
+}
+.changename-input-border {
+    border:  0.1rem solid var(--changename-input-border) !important;
 }
 
 .change-password {
@@ -283,6 +356,9 @@ input::placeholder {
 .change-password>input:focus {
     border-color: #FFE59E90;
 }
+.changepassword-input-border{
+    border: 0.1rem solid var(--changepassword-input-border) !important;
+}
 
 .delete-account {
     background: var(--deleteaccount-background);
@@ -300,6 +376,9 @@ input::placeholder {
 
 .delete-account>input:focus {
     border-color: var(--deleteaccount-input-border);
+}
+.del-account-input-border{
+    border: 0.1rem solid var(--del-account-input-border) !important;
 }
 
 .show-hide-pass {
@@ -337,8 +416,8 @@ input::placeholder {
 }
 
 .req-tags>span {
-    background: #8b789760;
-    border: 0.15rem solid #8d8d8d7a;
+    background: var(--reqtags-background);
+    border: 0.15rem solid var(--reqtags-border);
     padding: 0.5rem 1rem;
     border-radius: 1.5rem;
     font-size: 1.1rem;
@@ -378,14 +457,17 @@ input::placeholder {
     gap: clamp(2rem, 3vw, 4rem);
     flex-wrap: wrap;
     justify-content: center;
+       z-index: 10;
+       margin-top: 1.2rem;
 }
 
 .slot {
     width: 7rem;
     height: 7rem;
     border-radius: 50%;
-    border: 0.2rem solid #8d8d8d;
+    border: 0.2rem solid var(--slot-border);
     align-items: center;
+
 }
 
 .slot img {
@@ -402,8 +484,8 @@ input::placeholder {
 .slot.selected {
     width: 17rem;
     height: 17rem;
-    border: 0.2rem solid #ffffff;
-    box-shadow: 0 1rem 2rem #ffffff4b;
+    border: 0.2rem solid var(--slot-border);
+    box-shadow: 0 1rem 2rem var(--slot-shadow);
 }
 
 .slot.empty {
@@ -441,12 +523,11 @@ input::placeholder {
     border: 0.2rem solid #959595;
     border-radius: 2rem;
     font-size: 1.5rem;
-    color: #ffffff;
+    color: var(--select-button-text);
     padding: 1rem 2rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 .select-button:hover, .upload-button:hover,
 .select-button.selected, .upload-button.selected {
     background: #7f67aa;
@@ -518,11 +599,11 @@ input::placeholder {
 }
 
 .d-placeholder {
-    background: #4a4a4a;
-    border: 0.1rem solid #8d8d8d;
+    background: var(--placeholder-background);
+    border: 0.1rem solid var(--placeholder-border);
     border-radius: 2rem;
     padding: 1rem 2rem;
-    color: #ffffff;
+    color: var(--placeholder-text);
     font-size: 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -542,8 +623,8 @@ input::placeholder {
     display: none;
     flex-direction: column;
     gap: 0.75rem;
-    background: #3e3e3e;
-    border: 0.1rem solid #6d6d6d;
+    background: var(--preferences-dropdowncontent-background);
+    border: 0.1rem solid var(--preferences-dropdowncontent-border);
     border-radius: 1rem;
     padding: 1rem;
     max-height: 25rem;
@@ -567,7 +648,7 @@ input::placeholder {
 }
 
 .d-option:hover {
-    background: #4a4a4a;
+    background: var(--preferences-dropdowncontent-hoverbg);
     cursor: pointer;
 }
 
@@ -590,7 +671,7 @@ input::placeholder {
 
 .option-text {
     font-size: 1.25rem;
-    color: #ffffff;
+    color: var(--placeholder-text);
 }
 
 .popup {
@@ -608,6 +689,7 @@ input::placeholder {
 .popup.show {
     opacity: 1;
     background: rgb(102, 141, 102);
+    color:white;
 }
 
 .d-search {
