@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-use-before-define */
@@ -5,7 +6,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { addMoviePreference } = require('../services/helpers');
+const { addMoviePreference, getRandomMovie, filterMovieIds } = require('../services/helpers');
 const {
     createMovieVector,
     calculateScore,
@@ -20,25 +21,70 @@ const router = express.Router();
 
 router.use(isAuthenticated);
 
-router.get('/movies', async (req, res) => {
+router.post('/createUserVector', async (req, res) => {
     try {
         const userId = req.user.id;
         // console.log(`[INFO] Fetching movie for user ID: ${userId}`);
 
-        let movieIds = [];
-        let len = 0;
-        while (len === 0) {
-            const movieId = await getTopMovie(userId);
-            movieIds = await getMoviesTMDB(movieId);
-            len = movieIds.length;
-        }
+        const vec = await getUserVector(userId);
+
+        // console.table(vec);
 
         return res.status(200).json({
-            msg: "Movies fetched successfully",
-            movieIds
+            msg: "Vector Created Succeffully"
         });
     } catch (err) {
         console.error('[ERROR] Failed to get movies:', err);
+        return res.status(500).json({ msg: 'Internal server error while fetching movies' });
+    }
+});
+
+const MAX_FETCH_ATTEMPTS = 10;
+// GET /movies – Fetches recommendations but avoids infinite loops
+router.get('/movies', async (req, res) => {
+    const userId = req.user.id;
+    if (!userId) {
+        return res.status(401).json({ msg: 'Unauthenticated' });
+    }
+
+    let movieIds = [];
+    let attempt = 0;
+
+    try {
+        while (attempt < MAX_FETCH_ATTEMPTS && movieIds.length === 0) {
+            attempt++;
+            // console.log(`[INFO] Attempt #${attempt} for user ${userId}`);
+
+            const topMovie = await getTopMovie(userId);
+            // console.log(`[DEBUG] getTopMovie returned:`, topMovie);
+
+            let candidates;
+            if (topMovie === -1) {
+                // No personalized seed—grab some randoms
+                const randomPromises = Array.from({ length: 10 }, () => getRandomMovie());
+                candidates = await Promise.all(randomPromises);
+                // console.log(`[DEBUG] Random candidates:`, candidates);
+            } else {
+                // Use TMDB recommendations
+                candidates = await getMoviesTMDB(topMovie);
+                // console.log(`[DEBUG] TMDB recommendations for ${topMovie}:`, candidates);
+            }
+
+            movieIds = await filterMovieIds(userId, candidates);
+            // console.log(`[DEBUG] After filtering, new movieIds:`, movieIds);
+        }
+
+        if (movieIds.length === 0) {
+            // Ran out of attempts with no fresh movies
+            return res.status(204).json({ msg: 'No new movies found at this time' });
+        }
+
+        return res.status(200).json({
+            msg: 'Movies fetched successfully',
+            movieIds
+        });
+    } catch (err) {
+        console.error('[ERROR] /movies handler:', err);
         return res.status(500).json({ msg: 'Internal server error while fetching movies' });
     }
 });
@@ -118,6 +164,8 @@ router.post('/genres-id', async (req, res) => {
     const userId = req.user.id;
     const genreIds = req.body;
 
+    // console.log(genreIds);
+
     if (!Array.isArray(genreIds)) {
         return res.status(400).json({ msg: "Invalid input. Expected an array of genre IDs." });
     }
@@ -139,6 +187,8 @@ router.post('/genres-id', async (req, res) => {
 router.post('/languages-id', async (req, res) => {
     const userId = req.user.id;
     const languageIds = req.body;
+
+    // console.log(languageIds);
 
     if (!Array.isArray(languageIds)) {
         return res.status(400).json({ msg: "Invalid input. Expected an array of language IDs." });
