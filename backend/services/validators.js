@@ -4,17 +4,20 @@ const { query, param, body, validationResult } = require('express-validator');
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ msg: errors.array()[0].msg });
     }
     return next();
 };
 
 // admin authorization middleware
 const isAdmin = (req, res, next) => {
-    const { user } = req.session;
+    const { user } = req;
 
     if (!user || user.role !== 'admin') {
-        return res.status(404);
+        // sending error to be handled by error handler
+        const err = new Error('You do not have permission to access this resource.');
+        err.status = 401;
+        return next(err);
     }
 
     return next();
@@ -26,7 +29,10 @@ function isAuthenticated(req, res, next) {
         return next();
     }
 
-    return res.status(401).json({ msg: 'You must be logged in to access this resource.' });
+    // sending error to be handled by error handler
+    const err = new Error('You must be logged in to access this resource.');
+    err.status = 401;
+    return next(err);
 }
 
 
@@ -63,10 +69,8 @@ const validateSignup = [
         .escape()
         .notEmpty()
         .withMessage('Username is required')
-        .isLength({ min: 3, max: 10 })
-        .withMessage('Username must be 3–10 characters long')
-        .matches(/^[a-zA-Z0-9_]+$/)
-        .withMessage('Username must only contain letters, numbers, and underscores'),
+        .isLength({ min: 3, max: 20 })
+        .withMessage('Username must be between 3 and 20 characters long'),
 
     body('password')
         .trim()
@@ -81,9 +85,7 @@ const validateSignup = [
         .matches(/[0-9]/)
         .withMessage('Password must contain a digit')
         .matches(/[\W_]/)
-        .withMessage('Password must contain a special character')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid or dangerous characters'),
+        .withMessage('Password must contain a special character'),
 
     body('firstName')
         .trim()
@@ -107,27 +109,146 @@ const validateSignup = [
 ];
 
 
+// change password validation
+const validateChangePassword = [
+    body('current_password')
+        .trim()
+        .notEmpty()
+        .withMessage('Current password is required'),
+
+    body('new_password')
+        .trim()
+        .notEmpty()
+        .withMessage('New password is required')
+        .isLength({ min: 8 })
+        .withMessage('New password must be at least 8 characters long')
+        .matches(/[a-z]/)
+        .withMessage('New password must contain a lowercase letter')
+        .matches(/[A-Z]/)
+        .withMessage('New password must contain an uppercase letter')
+        .matches(/[0-9]/)
+        .withMessage('New password must contain a digit')
+        .matches(/[\W_]/)
+        .withMessage('New password must contain a special character')
+];
+
+
 // login validation
 const validateLogin = [
     body('username')
         .trim()
+        .escape()
         .notEmpty()
         .withMessage('Username is required')
-        .isLength({ min: 3, max: 10 })
-        .withMessage('Username must be between 3 and 10 characters')
-        .isAlphanumeric()
-        .withMessage('Username should only contain letters and numbers'),
+        .isLength({ min: 3 })
+        .withMessage('Username must be minimum 3 letters long'),
 
     body('password')
         .trim()
         .notEmpty()
         .withMessage('Password is required')
-        .isLength({ min: 3, max: 100 })
-        .withMessage('Password must be at least 3 characters long')
-        .matches(/^[^\s'"`;\\]+$/)
-        .withMessage('Password contains invalid characters')
 ];
 
+
+
+const validateMyListQuery = [
+    // page (optional, must be integer ≥ 1)
+    query('page')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Page must be a positive integer'),
+
+    // limit (optional, must be integer ≥ 1)
+    query('limit')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Limit must be a positive integer'),
+
+    // sort (optional, must be in form field.direction)
+    query('sort')
+        .optional()
+        .custom((value) => {
+            const [field, direction] = value.split('.');
+            const validFields = ['release_date', 'imdb_rating', 'my_rating'];
+            const validDirections = ['asc', 'desc'];
+            if (!field || !direction || !validFields.includes(field) || !validDirections.includes(direction.toLowerCase())) {
+                throw new Error('Sort must be in the format field.direction using valid fields and directions');
+            }
+            return true;
+        }),
+
+    // genre (optional, can be single or array of integers)
+    query('genre')
+        .optional()
+        .customSanitizer((value) => Array.isArray(value) ? value : [value])
+        .custom((arr) => arr.every((g) => !isNaN(parseInt(g))))
+        .withMessage('Genre values must be numeric'),
+
+    // certification (optional, can be single or array of strings)
+    query('certification')
+        .optional()
+        .customSanitizer((value) => Array.isArray(value) ? value : [value])
+        .custom((arr) => arr.every((c) => typeof c === 'string' && c.length <= 10))
+        .withMessage('Certifications must be short strings'),
+
+    // status (optional, must be a valid watch status integer)
+    query('status')
+        .optional()
+        .isInt({ min: 0, max: 3 })
+        .withMessage('Status must be a valid watch status (0–3)'),
+
+    // my_rating (optional, must be float between 0–10)
+    query('my_rating')
+        .optional()
+        .isFloat({ min: 0, max: 10 })
+        .withMessage('My rating must be a number between 0 and 10')
+];
+
+
+const validateAddMoviePreference = [
+    body('movie_id')
+        .notEmpty()
+        .withMessage('Movie ID is required')
+        .isInt({ min: 1 })
+        .withMessage('Movie ID must be a positive integer'),
+
+    body('is_liked')
+        .notEmpty()
+        .withMessage('is_liked is required')
+        .isBoolean()
+        .withMessage('is_liked must be a boolean'),
+
+    body('watch_status')
+        .notEmpty()
+        .withMessage('watch_status is required')
+        .isInt({ min: 0, max: 3 })
+        .withMessage('watch_status must be an integer between 0 and 3')
+];
+
+const validateAddRating = [
+    body('movie_id')
+        .notEmpty()
+        .withMessage('Movie ID is required')
+        .isInt({ min: 1 })
+        .withMessage('Movie ID must be a positive integer'),
+
+    body('rating')
+        .notEmpty()
+        .withMessage('Rating is required')
+        .custom(value => {
+            const num = parseFloat(value);
+            if (isNaN(num) || num < 0 || num > 5 || num * 2 !== Math.floor(num * 2)) {
+                throw new Error('Rating must be 0 to 5');
+            }
+            return true;
+        }),
+    body('review')
+        .optional({ checkFalsy: true }) // allows empty or null
+        .isString()
+        .withMessage('Review must be a string')
+        .isLength({ max: 1000 })
+        .withMessage('Review must be at most 1000 characters long')
+];
 
 module.exports = {
     validate,
@@ -136,5 +257,9 @@ module.exports = {
     validateSearchQuery,
     validateId,
     validateSignup,
-    validateLogin
+    validateLogin,
+    validateChangePassword,
+    validateMyListQuery,
+    validateAddMoviePreference,
+    validateAddRating
 };

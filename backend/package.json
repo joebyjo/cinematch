@@ -14,13 +14,16 @@
     "dotenv": "^16.5.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-mysql-session": "^3.0.3",
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "multer": "^2.0.0",
     "mysql2": "^3.14.0",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
