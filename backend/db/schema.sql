@@ -110,7 +110,7 @@ INSERT INTO `PREFERENCES` VALUES
 -- create users table
 CREATE TABLE `USERS` (
     `id` int NOT NULL AUTO_INCREMENT,
-    `user_name` varchar(10) NOT NULL,
+    `user_name` varchar(20) NOT NULL,
     `password` varchar(256) NOT NULL,
     `first_name` varchar(20) NOT NULL,
     `last_name` varchar(20) NOT NULL,
