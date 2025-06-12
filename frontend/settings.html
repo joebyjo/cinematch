@@ -168,16 +168,20 @@
 
                 <!--theme-->
                 <div class="dropdown">
-                    <div class="d-placeholder" @click="toggleDropdown('theme')">
+                    <div class="d-placeholder" @click="toggleDropdown('theme')" tabindex="0" role="button"
+                        aria-expanded="dropdowns.theme" @keydown.enter="toggleDropdown('theme')"
+                        @keydown.space.prevent="toggleDropdown('theme')">
                         <span>Change theme</span>
                         <span class="d-arrow" :class="{ open: dropdowns.theme }">▼</span>
                     </div>
                     <div class="d-content" :class="{ show: dropdowns.theme }">
-                        <div class="d-option" @click="selectTheme('light')">
+                        <div class="d-option" @click="selectTheme('light')" tabindex="0" role="button"
+                            @keydown.enter="selectTheme('light')">
                             <div class="checkbox circle" :class="{ checked: selectedTheme === 'light' }"></div>
                             <span class="option-text">Light theme</span>
                         </div>
-                        <div class="d-option" @click="selectTheme('dark')">
+                        <div class="d-option" @click="selectTheme('dark')" tabindex="0" role="button"
+                            @keydown.enter="selectTheme('dark')">
                             <div class="checkbox circle" :class="{ checked: selectedTheme === 'dark' }"></div>
                             <span class="option-text">Dark theme</span>
                         </div>
@@ -186,17 +190,21 @@
 
                 <!--lang-->
                 <div class="dropdown">
-                    <div class="d-placeholder" @click="toggleDropdown('languages')">
+                    <div class="d-placeholder" @click="toggleDropdown('languages')" tabindex="0" role="button"
+                        aria-expanded="dropdowns.languages" @keydown.enter="toggleDropdown('languages')"
+                        @keydown.space.prevent="toggleDropdown('languages')">
                         <span>Select movie languages</span>
                         <span class="d-arrow" :class="{ open: dropdowns.languages }">▼</span>
                     </div>
                     <div class="d-content" :class="{ show: dropdowns.languages }">
                         <input type="text" v-model="search.languages" class="d-search" placeholder="Search language..."
-                            @click.stop>
+                            @click.stop aria-label="Search language">
                         <div v-if="filterLang.length === 0" class="no-result">No language found</div>
                         <div class="lang-results">
                             <div class="d-option" v-for="language in filterLang" :key="language.id"
-                                @click="toggleLanguage(language.id)">
+                                @click="toggleLanguage(language.id)" tabindex="0" role="button"
+                                @keydown.enter="toggleLanguage(language.id)"
+                                @keydown.space.prevent="toggleLanguage(language.id)">
                                 <div class="checkbox" :class="{ checked: language.selected }"></div>
                                 <span class="option-text">{{ language.name }}</span>
                             </div>
@@ -206,13 +214,17 @@
 
                 <!--genre-->
                 <div class="dropdown">
-                    <div class="d-placeholder" @click="toggleDropdown('genres')">
+                    <div class="d-placeholder" @click="toggleDropdown('genres')" tabindex="0" role="button"
+                        @keydown.enter="toggleDropdown('genres')" @keydown.space.prevent="toggleDropdown('genres')"
+                        aria-expanded="dropdowns.genres">
                         <span>Search movie genres</span>
                         <span class="d-arrow" :class="{ open: dropdowns.genres }">▼</span>
                     </div>
                     <div class="d-content genre" :class="{ show: dropdowns.genres }">
                         <div class="d-option" v-for="genre in genres" :key="genre.id"
-                            :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
+                            :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)" tabindex="0"
+                            role="button" @keydown.enter="toggleGenre(genre.id)"
+                            @keydown.space.prevent="toggleGenre(genre.id)">
                             <div class="checkbox" :class="{ checked: genre.selected }"></div>
                             <span class="option-text">{{ genre.name }}</span>
                         </div>
