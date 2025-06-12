@@ -122,9 +122,12 @@
                     </div>
                 </section>
             </div>
-            <div class="middle-box box">
-                <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
-                    :alt="movie.title" />
+            <div class="middle-box-section">
+                <div class="middle-box-bg box"></div>
+                <div class="middle-box box">
+                    <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
+                        :alt="movie.title" />
+                </div>
             </div>
             <div class="side-box box">
                 <section class="right-box">

@@ -151,12 +151,28 @@ main {
     min-width: 0;
 }
 
-.middle-box {
+.middle-box-section {
     width: 25%;
+    position: relative;
     /* height: 47rem; */
+}
+
+.middle-box-bg {
+    width: 100%;
     border-radius: 2.5rem;
     box-shadow: 0rem 0rem 2rem var(--poster-shadow-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0.2rem solid var(--text-color);
+    background-color: var(--info-panel-bg-color);
+    z-index: 1;
+}
 
+.middle-box {
+    width: 100%;
+    border-radius: 2.5rem;
+    box-shadow: 0rem 0rem 2rem var(--poster-shadow-color);
     position: relative;
     display: flex;
     justify-content: center;
@@ -164,6 +180,7 @@ main {
     overflow: hidden;
     border: 0.2rem solid var(--text-color);
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    z-index: 2;
 }
 
 .middle-box.curr-swiped-l {
