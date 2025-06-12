@@ -30,7 +30,11 @@ async function getImdbData(movieId) {
 
     } catch (error) {
         console.error(`OMDB fetch failed: ${error.message}`);
-        return null;
+        return {
+            ratings: null,
+            director: null,
+            cast: null
+        };
     }
 }
 
