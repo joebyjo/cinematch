@@ -45,7 +45,8 @@ createApp({
             userName: "guest",
             firstName: "guest",
             lastName: "user",
-            profilePic: '/uploads/avatar3.svg' // add default profile pic path
+            profilePic: '/uploads/avatar3.svg', // add default profile pic path
+            isAdmin: false
         };
     },
     methods: {
@@ -55,6 +56,7 @@ createApp({
             if (this.isLogin) {
                 const { data } = await axios.get('api/users/me');
                 this.isDark = data.theme==='dark';
+                this.isAdmin = data.role === 'admin';
                 helperChangeDark(this.isDark);
                 this.userName = data.user_name;
                 this.firstName = data.first_name;

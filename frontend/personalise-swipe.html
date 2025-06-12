@@ -64,6 +64,10 @@
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
+                    <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
+                        <img src="./images/admin-lock-icon.png" alt="admin icon">
+                        Admin Dashboard
+                    </div>
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
                             src="./images/dark-on-icon.png" alt="theme off icon">
@@ -100,12 +104,14 @@
                     </div>
 
                     <div class="ratings">
-                        <p><strong class="gradient-text">Ratings:</strong></p>
-                        <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
-                            class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span>
-                        </div>
-                        <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
-                            class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                        <strong class="gradient-text">Ratings:</strong>
+                        <div>
+                            <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
+                                class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span>
+                            </div>
+                            <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
+                                class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -131,7 +137,11 @@
 
                     <div class="stream-info">
                         <div class="watch-trailer">
+<<<<<<< HEAD
+                            <button type="button" @click="openTrailer">Watch trailer</button>
+=======
                             <button type="button" href="" @click="openTrailer" :disabled="!movie.trailer" :class="{ 'disabled': !movie.trailer }">Watch trailer</button>
+>>>>>>> e3dc72be73071de85aa2dd59ae55f068d65eb12c
 
                             <div class="icon-bar">
                                 <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'"

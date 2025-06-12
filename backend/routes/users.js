@@ -28,7 +28,7 @@ router.get('/me', async (req, res) => {
 
         // getting details of user
         const [[user]] = await db.query(
-            `SELECT user_name, first_name, last_name, profile_picture_url, theme
+            `SELECT user_name, first_name, last_name, profile_picture_url, theme, role
        FROM USERS u
        JOIN USERSETTINGS us ON us.user_id=u.id
        WHERE id = ?`,

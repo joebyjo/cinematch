@@ -1,4 +1,4 @@
-/* Defining Theme */
+/* Defining Theme
 @media (min-width: 1550px) {
     :root {
         --size: 16px;
@@ -15,7 +15,60 @@
     :root {
         --size: 8px;
     }
+} */
+/* Extra-big screens */
+@media (min-width: 1800px) {
+  :root {
+    --size: 18px;
+  }
 }
+
+@media (min-width: 1650px) and (max-width: 1799px) {
+  :root {
+    --size: 17px;
+  }
+}
+
+
+/* Your originals—exactly the same */
+@media (min-width: 1550px) {
+  :root {
+    --size: 16px;
+  }
+}
+
+@media (max-width: 1550px) {
+  :root {
+    --size: 12px;
+  }
+}
+
+@media (max-width: 950px) {
+  :root {
+    --size: 8px;
+  }
+}
+
+
+/* Smaller screens beyond your 950px breakpoint */
+@media (max-width: 800px) {
+  :root {
+    --size: 7px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --size: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --size: 5px;
+  }
+}
+
 
 .light {
     --primary-color: white;
