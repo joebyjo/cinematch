@@ -108,7 +108,7 @@ const movieTable = Vue.createApp({
 
             // Fetch unfiltered data
             const url = this.createUrl();
-            this.getMovieData(url);
+            // this.getMovieData(url);
         },
 
         getMouseX(event) {
