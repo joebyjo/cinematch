@@ -64,6 +64,10 @@
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
+                    <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
+                        <img src="./images/admin-lock-icon.png" alt="admin icon">
+                        Admin Dashboard
+                    </div>
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
                             src="./images/dark-on-icon.png" alt="theme off icon">
@@ -125,7 +129,7 @@
             <div class="side-box box">
                 <section class="right-box">
                     <div class="heading">
-                        <span :data-title="movie.title">{{ formatTitle(movie.title) }}</span>
+                        <span class="title" :data-title="movie.title">{{ formatTitle(movie.title) }}</span>
                         <div class="heading-underline"></div>
                     </div>
 
@@ -133,7 +137,11 @@
 
                     <div class="stream-info">
                         <div class="watch-trailer">
+<<<<<<< HEAD
                             <button type="button" @click="openTrailer">Watch trailer</button>
+=======
+                            <button type="button" href="" @click="openTrailer" :disabled="!movie.trailer" :class="{ 'disabled': !movie.trailer }">Watch trailer</button>
+>>>>>>> e3dc72be73071de85aa2dd59ae55f068d65eb12c
 
                             <div class="icon-bar">
                                 <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'"
