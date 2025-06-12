@@ -141,16 +141,114 @@ const validateLogin = [
         .notEmpty()
         .withMessage('Username is required')
         .isLength({ min: 3 })
-        .withMessage('Username must be minimum 2 letters long'),
+        .withMessage('Username must be minimum 3 letters long'),
 
     body('password')
         .trim()
         .notEmpty()
         .withMessage('Password is required')
-        .isLength({ min: 3 })
-        .withMessage('Password must be at least 3 characters long')
 ];
 
+
+
+const validateMyListQuery = [
+    // page (optional, must be integer ≥ 1)
+    query('page')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Page must be a positive integer'),
+
+    // limit (optional, must be integer ≥ 1)
+    query('limit')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Limit must be a positive integer'),
+
+    // sort (optional, must be in form field.direction)
+    query('sort')
+        .optional()
+        .custom((value) => {
+            const [field, direction] = value.split('.');
+            const validFields = ['release_date', 'imdb_rating', 'my_rating'];
+            const validDirections = ['asc', 'desc'];
+            if (!field || !direction || !validFields.includes(field) || !validDirections.includes(direction.toLowerCase())) {
+                throw new Error('Sort must be in the format field.direction using valid fields and directions');
+            }
+            return true;
+        }),
+
+    // genre (optional, can be single or array of integers)
+    query('genre')
+        .optional()
+        .customSanitizer((value) => Array.isArray(value) ? value : [value])
+        .custom((arr) => arr.every((g) => !isNaN(parseInt(g))))
+        .withMessage('Genre values must be numeric'),
+
+    // certification (optional, can be single or array of strings)
+    query('certification')
+        .optional()
+        .customSanitizer((value) => Array.isArray(value) ? value : [value])
+        .custom((arr) => arr.every((c) => typeof c === 'string' && c.length <= 10))
+        .withMessage('Certifications must be short strings'),
+
+    // status (optional, must be a valid watch status integer)
+    query('status')
+        .optional()
+        .isInt({ min: 0, max: 3 })
+        .withMessage('Status must be a valid watch status (0–3)'),
+
+    // my_rating (optional, must be float between 0–10)
+    query('my_rating')
+        .optional()
+        .isFloat({ min: 0, max: 10 })
+        .withMessage('My rating must be a number between 0 and 10')
+];
+
+
+const validateAddMoviePreference = [
+    body('movie_id')
+        .notEmpty()
+        .withMessage('Movie ID is required')
+        .isInt({ min: 1 })
+        .withMessage('Movie ID must be a positive integer'),
+
+    body('is_liked')
+        .notEmpty()
+        .withMessage('is_liked is required')
+        .isBoolean()
+        .withMessage('is_liked must be a boolean'),
+
+    body('watch_status')
+        .notEmpty()
+        .withMessage('watch_status is required')
+        .isInt({ min: 0, max: 3 })
+        .withMessage('watch_status must be an integer between 0 and 3')
+];
+
+const validateAddRating = [
+    body('movie_id')
+        .notEmpty()
+        .withMessage('Movie ID is required')
+        .isInt({ min: 1 })
+        .withMessage('Movie ID must be a positive integer'),
+
+    body('rating')
+        .notEmpty()
+        .withMessage('Rating is required')
+        .custom(value => {
+            const num = parseFloat(value);
+            if (isNaN(num) || num < 0 || num > 5 || num * 2 !== Math.floor(num * 2)) {
+                throw new Error('Rating must be 0 to 5');
+            }
+            return true;
+        }),
+    body('review')
+        .optional({ checkFalsy: true }) // allows empty or null
+        .isString()
+        .withMessage('Review must be a string')
+        .isLength({ max: 1000 })
+        .withMessage('Review must be at most 1000 characters long')
+];
 
 module.exports = {
     validate,
@@ -160,5 +258,8 @@ module.exports = {
     validateId,
     validateSignup,
     validateLogin,
-    validateChangePassword
+    validateChangePassword,
+    validateMyListQuery,
+    validateAddMoviePreference,
+    validateAddRating
 };

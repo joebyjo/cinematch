@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 var express = require('express');
-const { isAuthenticated } = require('../services/validators');
+const { isAuthenticated, validateMyListQuery, validateAddMoviePreference, validateAddRating, validate } = require('../services/validators');
 const db = require('../services/db');
 const { formatMovies, addMoviePreference } = require('../services/helpers');
 
@@ -9,7 +9,7 @@ var router = express.Router();
 router.use(isAuthenticated);
 
 
-router.get('/', async (req, res) => {
+router.get('/', validateMyListQuery, validate, async (req, res) => {
     try {
         const { genre, certification, status, my_rating, sort, page = 1, limit = 10 } = req.query;
 
@@ -123,7 +123,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.post('/', async (req, res) => {
+router.post('/',validateAddMoviePreference, validate, async (req, res) => {
 
     try {
         const { movie_id, is_liked, watch_status } = req.body;
@@ -140,7 +140,7 @@ router.post('/', async (req, res) => {
 
 });
 
-router.post('/add-rating', async (req, res) => {
+router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
     try {
         // getting request body
