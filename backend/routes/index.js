@@ -1,6 +1,6 @@
 var express = require('express');
 const path = require('path');
-const { isAuthenticated } = require('../services/validators');
+const { isAuthenticated, isAdmin } = require('../services/validators');
 var router = express.Router();
 const db = require('../services/db');
 
@@ -96,6 +96,14 @@ router.get('/settings', isAuthenticated, function (req, res, next) {
 
     // console.log(req.session.id);
 });
+
+
+router.get('/admin-dashboard', isAdmin, function (req, res, next) {
+    res.sendFile(path.join(__dirname, '../../frontend/admin-dash.html'));
+
+    req.session.visited = true;
+});
+
 
 router.get(['/movie/:id', '/tv/:id'], (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/moviepage.html'));

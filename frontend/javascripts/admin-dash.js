@@ -1,11 +1,70 @@
+
+async function getMethod(url) {
+    try {
+        const res = await axios.get(url);
+        return res.data;
+    } catch (e) {
+        console.error("Error retrieving data from server", e);
+        return [];
+    }
+}
+
+async function editUser(user_id, updates) {
+    try {
+        const res = await axios.put(`/api/admin/users/${user_id}`, updates);
+        return res.data;
+    } catch (e) {
+        console.error("Error updating user", e);
+        return { msg: "Failed to update user" };
+    }
+}
+
+
+async function addNewUser(userPayload) {
+    try {
+        const response = await axios.post('/api/admin/users', userPayload);
+
+        return response.data
+
+    } catch (error) {
+        if (error.response?.status === 409) {
+            alert('Username already exists.');
+        } else {
+            console.error(error);
+            alert('Failed to add user.');
+        }
+    }
+}
+
+async function deleteUsersHelper(user_ids) {
+    try {
+        const res = await axios.post('/api/admin/users/delete-multiple', { user_ids });
+        return res.data;
+    } catch (e) {
+        console.error("Failed to delete users:", e);
+        return { msg: "Failed to delete users" };
+    }
+}
+
+
 createApp({
     data() {
         return {
             showSort: false,
             showFilters: false,
             showLoadLimit: false,
+            totalUsers: 0,
+            totalActive: 0,
+            totalContent: 0,
+            totalVisits: 0,
             loadLimit: 10,
+            sort: "",
+            search: "",
+            filter: {
+                roles: []
+            },
             currentPage: 1,
+            totalPages: 1,
             isSelectOn: false,
             selectedUsers: [],
             showAddUser: false,
@@ -14,30 +73,21 @@ createApp({
             showPass: false,
             passError: '',
             newUser: {
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 password: '',
-                role: '',
-                pfp: '',
-                pfpPreview: null
+                role: 'user',
+                profile_picture_url: '/uploads/avatar3.svg'
             },
             editingUser: {
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_id: 0,
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 role: '',
-                pfp: '',
+                profile_picture_url: '',
                 pfpPreview: null
-            },
-            currAdmin: {
-                username: 'josheen_1',
-                firstname: 'Josheen',
-                lastname: 'Kour',
-                role: 'Administrator',
-                dateJoined: '01/01/2025',
-                pfp: 'avatar1',
-                lastActive: '15/03/2024 14:30'
             },
             passReq: {
                 length: false,
@@ -51,188 +101,7 @@ createApp({
             inactiveTime: 180000, // 3 minutes in milliseconds
 
             // dummy data
-            users: [
-                {
-                    username: 'josheen_1',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'Administrator',
-                    dateJoined: '01/01/2025',
-                    pfp: 'avatar1',
-                    lastActive: '15/03/2024 14:30'
-                },
-                {
-                    username: 'liri_1',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '02/02/2025',
-                    pfp: 'https://camo.githubusercontent.com/238055d74a4a963ecc573726f31395a1d523e264c3f17ed5316ca13e21c8a3dc/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f32302e706e67',
-                    lastActive: '15/03/2024 15:45'
-                },
-                {
-                    username: 'joe_1',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'Administrator',
-                    dateJoined: '03/03/2025',
-                    pfp: 'avatar2',
-                    lastActive: '14/03/2024 09:15'
-                },
-                {
-                    username: 'hiten_1',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'User',
-                    dateJoined: '04/04/2025',
-                    pfp: 'avatar5',
-                    lastActive: '15/03/2024 11:20'
-                },
-                {
-                    username: 'josheen_2',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '05/01/2025',
-                    pfp: 'https://camo.githubusercontent.com/d8c6127ca1b58383265a1e073b925f75e9f81096c683ff43fb46a8fc4f2cd4e3/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f616c6f68652f617661746172732f706e672f6d656d6f5f382e706e67',
-                    lastActive: '15/03/2024 16:00'
-                },
-                {
-                    username: 'liri_2',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'Administrator',
-                    dateJoined: '06/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 15:30'
-                },
-                {
-                    username: 'joe_2',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'User',
-                    dateJoined: '07/03/2025',
-                    pfp: 'avatar3',
-                    lastActive: '13/03/2024 18:45'
-                },
-                {
-                    username: 'hiten_2',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'Administrator',
-                    dateJoined: '08/04/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 14:15'
-                },
-                {
-                    username: 'josheen_3',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '09/01/2025',
-                    pfp: 'avatar4',
-                    lastActive: '15/03/2024 12:30'
-                },
-                {
-                    username: 'liri_3',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '10/02/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 15:45'
-                },
-                {
-                    username: 'josheen_4',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'Administrator',
-                    dateJoined: '01/01/2025',
-                    pfp: 'avatar1',
-                    lastActive: '08/03/2024 10:20'
-                },
-                {
-                    username: 'liri_4',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '02/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '13/03/2024 16:30'
-                },
-                {
-                    username: 'joe_3',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'Administrator',
-                    dateJoined: '03/03/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 13:15'
-                },
-                {
-                    username: 'hiten_3',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'User',
-                    dateJoined: '04/04/2025',
-                    pfp: 'avatar5',
-                    lastActive: '15/03/2024 16:00'
-                },
-                {
-                    username: 'josheen_5',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '05/01/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '14/03/2024 20:45'
-                },
-                {
-                    username: 'liri_5',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'Administrator',
-                    dateJoined: '06/02/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/03/2024 11:30'
-                },
-                {
-                    username: 'joe_4',
-                    firstname: 'Joe Byjo',
-                    lastname: 'Puthussery',
-                    role: 'User',
-                    dateJoined: '07/03/2025',
-                    pfp: 'avatar3',
-                    lastActive: '15/03/2024 14:30'
-                },
-                {
-                    username: 'hiten_4',
-                    firstname: 'Hiten',
-                    lastname: 'Gupta',
-                    role: 'Administrator',
-                    dateJoined: '08/04/2025',
-                    pfp: 'uploaded image',
-                    lastActive: '15/02/2024 09:15'
-                },
-                {
-                    username: 'josheen_6',
-                    firstname: 'Josheen',
-                    lastname: 'Kour',
-                    role: 'User',
-                    dateJoined: '09/01/2025',
-                    pfp: 'avatar4',
-                    lastActive: '12/03/2024 17:30'
-                },
-                {
-                    username: 'liri_6',
-                    firstname: 'Subhashree',
-                    lastname: 'Das',
-                    role: 'User',
-                    dateJoined: '10/02/2025',
-                    pfp: 'avatar2',
-                    lastActive: '15/03/2024 15:00'
-                }
-            ]
+            users: []
         };
     },
     methods: {
@@ -243,51 +112,63 @@ createApp({
                 this.selectedUsers = [];
             }
         },
-        // select users
-        selectUser(username) {
-            const index = this.selectedUsers.indexOf(username);
+        SelectUser(id) {
+            const index = this.selectedUsers.indexOf(id);
             if (index === -1) {
-                this.selectedUsers.push(username);
+                this.selectedUsers.push(id);
             } else {
                 this.selectedUsers.splice(index, 1);
             }
         },
         // add a new user to the table
-        addUser() {
-            // check if all fields are filled
-            if (Object.values(this.newUser).some((val) => !val)) {
+        async addUser() {
+            // Check if all fields are filled
+            if (Object.values(this.newUser).some(val => !val)) {
                 alert('Please fill all fields.');
                 return;
             }
+
             // validate password
             this.validatePass(this.newUser.password);
             if (!this.isPassValid()) {
                 this.passError = 'Password did not meet requirements';
                 return;
             }
-            // push added data
+
+            const userPayload = {
+                username: this.newUser.user_name,
+                password: this.newUser.password,
+                firstName: this.newUser.first_name,
+                lastName: this.newUser.last_name,
+                role: this.newUser.role
+            };
+
+            const newUserDetails = await addNewUser(userPayload);
+
+            // add new user to UI list
             this.users.push({
-                username: this.newUser.username,
-                firstname: this.newUser.firstname,
-                lastname: this.newUser.lastname,
+                user_id: newUserDetails.user_id,
+                user_name: this.newUser.user_name,
+                first_name: this.newUser.first_name,
+                last_name: this.newUser.last_name,
                 role: this.newUser.role,
-                dateJoined: new Date().toLocaleDateString(),
-                pfp: this.newUser.pfp,
-                lastActive: 'Not active'
+                registration_date: new Date().toLocaleDateString(),
+                profile_picture_url: this.newUser.profile_picture_url,
+                last_login: 'Not active'
             });
-            // reset add form once done
+
             this.resetForm();
+
         },
         resetForm() {
             // discard last new user data
             this.newUser = {
-                username: '',
-                firstname: '',
-                lastname: '',
+                user_name: '',
+                first_name: '',
+                last_name: '',
                 password: '',
-                role: '',
-                pfp: '',
-                pfpPreview: null
+                role: 'user',
+                profile_picture_url: '/uploads/avatar3.svg'
             };
             // hide add user card
             this.showAddUser = false;
@@ -306,82 +187,134 @@ createApp({
             }
         },
         // upload image
-        imageUpload(event, isEditing) {
+        async imageUpload(event, isEditing) {
             const file = event.target.files[0];
             this.uploadError = '';
 
             if (!file) {
                 return;
             }
-            // check if file type is valid
+
+            // Validate file type
             if (!file.type.match('image/jpg') && !file.type.match('image/jpeg') && !file.type.match('image/png')) {
                 this.uploadError = 'Please upload a JPG/JPEG/PNG file';
                 return;
             }
-            // check if file size is valid
-            if (file.size > 1024*1024) {
+
+            // Validate file size
+            if (file.size > 1024 * 1024) {
                 this.uploadError = 'Max file size allowed is 1MB';
                 return;
             }
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                // check if upload is for editing user or adding new
+
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+
+            // Get target user ID
+            const userId = isEditing ? this.editingUser.user_id : null;
+            if (!userId) {
+                this.uploadError = 'User ID not found for upload';
+                return;
+            }
+
+            try {
+                const response = await axios.post(`/api/admin/users/${userId}/profile-picture`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                const uploadedUrl = response.data.profile_picture_url;
+
                 if (isEditing) {
-                    this.editingUser.pfpPreview = e.target.result;
-                    this.editingUser.pfp = 'uploaded image';
+                    this.editingUser.pfpPreview = uploadedUrl;
+                    this.editingUser.profile_picture_url = uploadedUrl;
                 } else {
-                    this.newUser.pfpPreview = e.target.result;
-                    this.newUser.pfp = 'uploaded image';
+                    this.newUser.pfpPreview = uploadedUrl;
+                    this.newUser.profile_picture_url = uploadedUrl;
                 }
-            };
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Upload failed:', error);
+                this.uploadError = 'Failed to upload profile picture';
+            }
         },
         // select pre made avatars
         selectAv(avatar, isEditing) {
             // set avatar 3 as default if no av input entered
             if (!avatar) {
                 if (isEditing) {
-                    this.editingUser.pfp = 'avatar3';
-                    this.editingUser.pfpPreview = `./images/settings/avatar3.svg`;
+                    this.editingUser.profile_picture_url = `/uploads/avatar3.svg`;
+                    this.editingUser.pfpPreview = `/uploads/avatar3.svg`;
                 } else {
-                    this.newUser.pfp = 'avatar3';
-                    this.newUser.pfpPreview = `./images/settings/avatar3.svg`;
+                    this.newUser.profile_picture_url = `/uploads/avatar3.svg`;
+                    this.newUser.pfpPreview = `/uploads/avatar3.svg`;
                 }
                 return;
             }
             // check if selection is for editing or adding new user
             if (isEditing) {
-                this.editingUser.pfp = avatar;
-                this.editingUser.pfpPreview = `./images/settings/${avatar}.svg`;
+                this.editingUser.profile_picture_url = `/uploads/${avatar}.svg`;
+                this.editingUser.pfpPreview = `/uploads/${avatar}.svg`;
             } else {
-                this.newUser.pfp = avatar;
-                this.newUser.pfpPreview = `./images/settings/${avatar}.svg`;
+                this.newUser.profile_picture_url = `/uploads/${avatar}.svg`;
+                this.newUser.pfpPreview = `/uploads/${avatar}.svg`;
             }
         },
         // edit an existing user
         editUser(user) {
             this.editingUser = {
-                username: user.username,
-                firstname: user.firstname,
-                lastname: user.lastname,
+                user_id: user.user_id,
+                user_name: user.user_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 role: user.role,
-                pfp: user.pfp,
-                pfpPreview: user.pfp.includes('avatar') ? `./images/settings/${user.pfp}.svg` : user.pfp
+                profile_picture_url: user.profile_picture_url,
+                pfpPreview: user.profile_picture_url.includes('avatar') ? `${user.profile_picture_url}` : user.profile_picture_url
             };
+            console.log('Editing user role:', this.editingUser.role);
             this.showEditUser = true;
         },
         // save edits made to existing user
-        saveEdits() {
-            const userIdx = this.users.findIndex((u) => u.username === this.editingUser.username);
-            if (userIdx!== -1) {
-                this.users[userIdx] = {
-                    ...this.users[userIdx],
-                    firstname: this.editingUser.firstname,
-                    lastname: this.editingUser.lastname,
-                    role: this.editingUser.role,
-                    pfp: this.editingUser.pfp
-                };
+        async saveEdits() {
+            const userIdx = this.users.findIndex((u) => u.user_id === this.editingUser.user_id);
+
+            if (userIdx !== -1) {
+                const originalUserData = { ...this.users[userIdx] };
+
+                const updates = {};
+
+                if (this.editingUser.first_name !== originalUserData.first_name) {
+                    updates.firstName = this.editingUser.first_name;
+                }
+                if (this.editingUser.last_name !== originalUserData.last_name) {
+                    updates.lastName = this.editingUser.last_name;
+                }
+                if (this.editingUser.user_name !== originalUserData.user_name) {
+                    updates.userName = this.editingUser.user_name;
+                }
+                if (this.editingUser.role !== originalUserData.role) {
+                    updates.role = this.editingUser.role;
+                }
+                if (this.editingUser.profile_picture_url !== originalUserData.profile_picture_url) {
+                    updates.profile_picture_url = this.editingUser.profile_picture_url;
+                }
+
+                const response = await editUser(originalUserData.user_id, updates);
+                if (response.msg === "User updated") {
+                    // Update only modified fields in local state
+                    this.users[userIdx] = {
+                        ...this.users[userIdx],
+                        first_name: updates.firstName || originalUserData.first_name,
+                        last_name: updates.lastName || originalUserData.last_name,
+                        user_name: updates.userName || originalUserData.user_name,
+                        role: updates.role || originalUserData.role,
+                        profile_picture_url: this.editingUser.profile_picture_url
+                    };
+                } else {
+                    alert("Failed to update user.");
+                }
             }
+
             this.showEditUser = false;
         },
         // check if password meets req while adding new user
@@ -398,29 +331,126 @@ createApp({
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
         },
+
         // logout user for being inactive over 3 mins
         logoutUser() {
-            helperLogout('api/auth/logout');
-            window.location.href = '/home';
+            // helperLogout('api/auth/logout');
+            // window.location.href = '/home';
             alert('You were logged out due to inactivity.');
         },
+
         // reset the timer
         resetLogoutTime() {
             clearTimeout(this.logoutTime);
             this.logoutTime = setTimeout(() => {
                 this.logoutUser();
             }, this.inactiveTime);
-        }
+        },
+        helperProfilePicture(profile_picture_url) {
+
+            if (profile_picture_url.includes('avatar')) {
+                const fileName = profile_picture_url.replace("/upload/", "").replace(".svg", "");
+
+                // Step 2: Extract number using regex
+                const match = fileName.match(/\d+/); // \d+ = one or more digits
+                const number = match ? parseInt(match[0], 10) : 0;
+
+                return "Avatar " + number;
+            } else {
+                return 'Uploaded Image'
+            }
+        },
+        async getStats() {
+            const stats = await getMethod('api/admin/stats');
+
+            this.totalUsers = stats.total_users;
+            this.totalActive = stats.total_active;
+            this.totalContent = stats.total_movies;
+            this.totalVisits = stats.total_visits;
+        },
+        createUrl() {
+            // base url
+            const url = new URL("/api/admin/users", window.location.origin);
+
+            // Set query parameters
+            url.searchParams.set("page", this.currentPage);
+            url.searchParams.set("limit", this.loadLimit);
+
+            if (this.sort) {
+                url.searchParams.set("sort", this.sort + ".asc");
+            }
+
+            this.filter.roles.forEach((role) => {
+                url.searchParams.append("role", role);
+            });
+
+            if (this.search) {
+                url.searchParams.set("username", this.search);
+            }
+
+
+            return url;
+        },
+        async getUsers(url) {
+            const res = await getMethod(url);
+
+            if (!res) {
+                console.error("getMethod returned nothing.");
+                return;
+            }
+
+            const data = res;
+
+            this.users = data.users || [];
+            this.loadLimit = data.limit || 0;
+            this.totalPages = data.total_pages || 0;
+        },
+        async deleteUsers() {
+            if (this.selectedUsers.length === 0) {
+                alert("No users selected for deletion.");
+                return;
+            }
+
+            const confirmDelete = confirm("Are you sure you want to delete the selected users?");
+            if (!confirmDelete) return;
+
+            const resp = await deleteUsersHelper(this.selectedUsers);
+
+            if (resp.deleted_ids && Array.isArray(resp.deleted_ids)) {
+                // remove the deleted users from local list
+                this.users = this.users.filter(user => !resp.deleted_ids.includes(user.user_id));
+
+                // clear selection
+                this.selectedUsers = [];
+                this.isSelectOn = false;
+
+                alert("Selected users have been deleted.");
+            } else {
+                alert(resp.msg || "Failed to delete users.");
+            }
+
+            this.currentPage = 1;
+        },
+        toggleRole(role) {
+            const idx = this.filter.roles.indexOf(role);
+            if (idx === -1) {
+                this.filter.roles.push(role);
+            } else {
+                this.filter.roles.splice(idx, 1);
+            }
+
+            showFilters = false;
+        },
     },
     computed: {
-        totalPages() {
-            return Math.ceil(this.users.length/this.loadLimit);
-        },
-        currPageUsers() {
-            const start = (this.currentPage-1) * this.loadLimit;
-            const end = start + this.loadLimit;
-            return this.users.slice(start, end);
-        },
+        // totalPages() {
+        //     return Math.ceil(this.users.length/this.loadLimit);
+        // },
+        // currPageUsers() {
+        //     const start = (this.currentPage-1) * this.loadLimit;
+        //     const end = start + this.loadLimit;
+        //     return this.users.slice(start, end);
+        // },
         visiblePages() {
             const pages = [];
             const maxVisible = 3;
@@ -436,11 +466,28 @@ createApp({
         }
     },
     watch: {
+        sort() {
+            this.getUsers(this.createUrl());
+        },
+        currentPage() {
+            this.getUsers(this.createUrl());
+        },
         loadLimit() {
-            this.currentPage = 1;
+            this.getUsers(this.createUrl());
+        },
+        'filter.roles': {
+            handler() {
+                this.getUsers(this.createUrl());
+            },
+            deep: true
+        },
+        search() {
+            this.getUsers(this.createUrl());
         }
     },
     mounted() {
+        this.getStats();
+        this.getUsers('/api/admin/users');
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.dropdown')) {
                 this.showSort = false;
