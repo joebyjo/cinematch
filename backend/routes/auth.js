@@ -1,8 +1,8 @@
 var express = require('express');
 const passport = require('passport');
-const { validateSignup, validateLogin, validate } = require('../services/validators');
+const { validateSignup, validateLogin, validateChangePassword, isAuthenticated, validate } = require('../services/validators');
 const localStrategy = require('../services/local-strategy');
-const { hashPassword } = require('../services/helpers');
+const { hashPassword, comparePassword } = require('../services/helpers');
 const db = require('../services/db');
 
 var router = express.Router();
@@ -24,34 +24,89 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
         const hashedPassword = hashPassword(password);
 
         // inserting into db
-        await db.query(
+        const [result] = await db.query(
             'INSERT INTO USERS (user_name, password, first_name, last_name, registration_date) VALUES (?, ?, ?, ?, CURDATE())',
             [username, hashedPassword, firstName, lastName]
         );
 
-        res.status(201).json({ msg: 'User created' });
+        const userId = result.insertId;
+
+        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId] );
+
+        return res.status(201).json({ msg: 'User created' });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
 
 
-router.post('/login', validateLogin, validate, passport.authenticate("local"), async (req, res) => {
+router.post('/login', validateLogin, validate, (req, res, next) => {
+    passport.authenticate('local', async (err, user, info) => {
+        if (err) return res.status(500).json({ msg: 'Internal server error' });
+        if (!user) return res.status(401).json({ msg: info?.message || 'Invalid credentials' });
 
-    // updating last login time to database
-    db.query('UPDATE USERS SET last_login=NOW() WHERE id=?',[req.user.id]);
+        req.logIn(user, async (err) => {
+            if (err) return res.status(500).json({ msg: 'Login failed' });
 
-    res.status(200).json({ msg: 'Login successful' });
+            try {
+                await db.query('UPDATE USERS SET last_login = NOW() WHERE id = ?', [user.id]);
+
+                await db.query(
+                    `UPDATE SESSIONS SET user_id = ?, ip_address = ? WHERE id = ?`,
+                    [user.id, req.ip, req.sessionID]
+                );
+
+                return res.status(200).json({ msg: 'Login successful' });
+            } catch (dbErr) {
+                console.error(dbErr);
+                return res.status(500).json({ msg: 'Login session failed' });
+            }
+        });
+    })(req, res, next);
 });
+
+// route to change password
+router.post('/change-password', isAuthenticated, validateChangePassword, validate, async (req, res) => {
+    const { current_password, new_password } = req.body;
+
+    try {
+        // get current password
+        const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
+        const user = queryResult[0];
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        // verify current password
+        const isMatch = comparePassword(current_password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ msg: 'Current password is incorrect' });
+        }
+
+        // hash new password
+        const hashedNewPassword = hashPassword(new_password);
+
+        // update new password
+        await db.query('UPDATE USERS SET password = ? WHERE id = ?', [hashedNewPassword, req.user.id]);
+
+        return res.status(200).json({ msg: 'Password updated successfully' });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Failed to update password' });
+    }
+});
+
 
 router.post('/logout', (req, res) => {
     req.session.destroy(() => {
         // clearing cookies to logout user
         res.clearCookie('sessionId');
-        res.json({ msg: 'Logged out' });
+        return res.json({ msg: 'Logged out' });
     });
 });
 

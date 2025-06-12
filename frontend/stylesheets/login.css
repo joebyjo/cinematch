@@ -37,6 +37,16 @@ main>div {
     height: 100vh;
 }
 
+.logo-home a {
+    position: absolute;
+    left: 5.7rem;
+    top: 1.5rem;
+    font-size: 1.7rem;
+    font-family: "Chango", sans-serif;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -70,6 +80,7 @@ main>div {
     padding: 0.5rem 0rem 0.5rem 0rem;
     background-color: #28725A;
     color: #ffffff;
+    cursor: pointer;
 }
 
 .login-button>span {

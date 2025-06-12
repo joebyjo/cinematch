@@ -34,15 +34,15 @@ passport.use(
             const [queryResult] = await db.query('SELECT id,user_name,password FROM USERS WHERE user_name = ?', [username]);
             const findUser = queryResult[0];
 
-            if (!findUser) throw new Error('User not found');
+            if (!findUser) return done(null, false, { msg: 'Invalid credentials' });
 
             const isMatch = comparePassword(password, findUser.password);
-            if (!isMatch) throw new Error('Incorrect credentials');
+            if (!isMatch) return done(null, false, { msg: 'Invalid credentials' });
 
-            done(null,findUser);
+            return done(null, findUser);
 
         } catch (err) {
-            done(err,null);
+            return done(err,null);
         }
     })
 );
