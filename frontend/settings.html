@@ -36,25 +36,26 @@
 
         <!--close button-->
         <div class="esc">
-            <button type="button"  @click="goHome"></button>
+            <button type="button" @click="goHome"></button>
             <p>ESC</p>
         </div>
 
         <!--sidebar-->
         <div class="sidebar">
             <div class="sidebar-icon">
-                <a href="#acc"><img class="icon-img" src="images/settings/account-settings.svg" alt="Account"></a>
+                <a href="#acc" class="icon-img acc-icon" aria-label="Account"></a>
             </div>
             <div class="sidebar-icon">
-                <a href="#profile"><img class="icon-img" src="images/settings/profile-settings.svg" alt="Profile"></a>
+                <a href="#profile" class="icon-img profile-icon" aria-label="Profile"></a>
             </div>
             <div class="sidebar-icon">
-                <a href="#pref"><img class="icon-img" src="images/settings/pref-settings.svg" alt="Preferences"></a>
+                <a href="#pref" class="icon-img pref-icon" aria-label="Preferences"></a>
             </div>
             <div class="sidebar-icon logout">
-                <img class="icon-img" src="images/logout-icon.png" alt="Logout">
+                <a href="#logout" class="icon-img logout-icon" aria-label="Logout"></a>
             </div>
         </div>
+
 
         <div class="container">
 
@@ -65,9 +66,11 @@
                     <h2 class="card-title">Change name</h2>
                     <p class="info-text">Current name: <span>Josheen Kour</span></p>
 
-                    <input type="text" placeholder="Enter new first name...">
-                    <input type="text" placeholder="Enter new last name...">
-                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
+                    <input type="text" placeholder="Enter new first name..."
+                        class="input-field changename-input-border">
+                    <input type="text" placeholder="Enter new last name..." class="input-field changename-input-border">
+                    <input :type="showPass?'text':'password'" placeholder="Enter your password..."
+                        class="input-field changename-input-border">
 
                     <button type="button" class="confirm">Done</button>
                 </div>
@@ -75,9 +78,12 @@
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
 
-                    <input :type="showPass?'text':'password'" placeholder="Enter current password...">
-                    <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password...">
-                    <input :type="showPass?'text':'password'" v-model="confirmPass" placeholder="Confirm new password...">
+                    <input :type="showPass?'text':'password'" placeholder="Enter current password..."
+                        class="input-field changepassword-input-border">
+                    <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password..."
+                        class="input-field changepassword-input-border">
+                    <input :type="showPass?'text':'password'" v-model="confirmPass"
+                        placeholder="Confirm new password..." class="input-field changepassword-input-border">
 
                     <p class="error-message" v-if="!passMatch">Passwords do not match</p>
                     <button type="button" class="confirm">Done</button>
@@ -92,7 +98,8 @@
                     <p class="info-text">IMPORTANT!<br>
                         This action cannot be undone</p>
 
-                    <input :type="showPass?'text':'password'" placeholder="Enter your password...">
+                    <input :type="showPass?'text':'password'" placeholder="Enter your password..."
+                        class="input-field del-account-input-border">
                     <button type="button" class="confirm">Done</button>
                 </div>
 
@@ -101,29 +108,36 @@
                     <p class="info-text">Your new password must have :</p>
 
                     <div class="req-tags">
-                        <span :class="{ valid: passReq.length, invalid: !passReq.length }">8 - 16 characters</span>
-                        <span :class="{ valid: passReq.uppercase, invalid: !passReq.uppercase }">at least 1 UPPERCASE character</span>
-                        <span :class="{ valid: passReq.lowercase, invalid: !passReq.lowercase }">at least 1 lowercase character</span>
-                        <span :class="{ valid: passReq.number, invalid: !passReq.number }">at least 1 number</span>
-                        <span :class="{ valid: passReq.noSpaces, invalid: !passReq.noSpaces }">no empty space or period</span>
-                        <span :class="{ valid: passReq.special, invalid: !passReq.special }">at least 1 special character</span>
+                        <span :class="['input-field', { valid: passReq.length, invalid: !passReq.length }]">8 - 16
+                            characters</span>
+                        <span :class="['input-field',{ valid: passReq.uppercase, invalid: !passReq.uppercase }]">at
+                            least 1 UPPERCASE character</span>
+                        <span :class="['input-field', { valid: passReq.lowercase, invalid: !passReq.lowercase }]">at
+                            least 1 lowercase character</span>
+                        <span :class="['input-field', { valid: passReq.number, invalid: !passReq.number }]">at least 1
+                            number</span>
+                        <span :class="['input-field', { valid: passReq.noSpaces, invalid: !passReq.noSpaces }]">no empty
+                            space or period</span>
+                        <span :class="['input-field', { valid: passReq.special, invalid: !passReq.special }]">at least 1
+                            special character</span>
                     </div>
                 </div>
             </div>
 
             <!--profile-->
-            <h1 id="profile">Profile Settings</h1>
+            <h1 id="profile" class="h1profile">Profile Settings</h1>
             <div class="select-avatar">
                 <div class="av-row">
                     <div v-for="avatar in getAvatars()" :key="avatar.id" class="slot"
-                    :class="{'empty': !avatar.src,'large': avatar.isLarge,'selected': avatar.isSelected}">
+                        :class="{'empty': !avatar.src,'large': avatar.isLarge,'selected': avatar.isSelected}">
                         <img v-if="avatar.src" :src="avatar.src" :alt="'Avatar' + avatar.id">
                     </div>
                 </div>
 
                 <div class="av-controls">
                     <button type="button" class="av-button prev" @click="prevAv"></button>
-                    <button type="button" class="select-button" @click="selectAv()" :class="{selected: isCurrAvSelected()}">
+                    <button type="button" class="select-button" @click="selectAv()"
+                        :class="{selected: isCurrAvSelected()}">
                         {{ isCurrAvSelected() ? 'Selected' : 'Select this avatar' }}</button>
                     <button type="button" class="av-button next" @click="nextAv"></button>
                 </div>
@@ -131,7 +145,8 @@
 
             <div class="upload-avatar">
                 <div class="upload-section">
-                    <input type="file" id="av-upload" accept=".jpg,.jpeg,.png" @change="fileUpload" style="display: none;">
+                    <input type="file" id="av-upload" accept=".jpg,.jpeg,.png" @change="fileUpload"
+                        style="display: none;">
                     <label for="av-upload" class="upload-button">Upload my own</label>
                     <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
                 </div>
@@ -176,13 +191,15 @@
                         <span class="d-arrow" :class="{ open: dropdowns.languages }">▼</span>
                     </div>
                     <div class="d-content" :class="{ show: dropdowns.languages }">
-                        <input type="text" v-model="search.languages" class="d-search" placeholder="Search language..." @click.stop>
+                        <input type="text" v-model="search.languages" class="d-search" placeholder="Search language..."
+                            @click.stop>
                         <div v-if="filterLang.length === 0" class="no-result">No language found</div>
                         <div class="lang-results">
-                            <div class="d-option" v-for="language in filterLang" :key="language.id" @click="toggleLanguage(language.id)">
-                            <div class="checkbox" :class="{ checked: language.selected }"></div>
-                            <span class="option-text">{{ language.name }}</span>
-                        </div>
+                            <div class="d-option" v-for="language in filterLang" :key="language.id"
+                                @click="toggleLanguage(language.id)">
+                                <div class="checkbox" :class="{ checked: language.selected }"></div>
+                                <span class="option-text">{{ language.name }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -194,7 +211,8 @@
                         <span class="d-arrow" :class="{ open: dropdowns.genres }">▼</span>
                     </div>
                     <div class="d-content genre" :class="{ show: dropdowns.genres }">
-                        <div class="d-option" v-for="genre in genres" :key="genre.id" :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
+                        <div class="d-option" v-for="genre in genres" :key="genre.id"
+                            :class="{ selected: genre.selected }" @click="toggleGenre(genre.id)">
                             <div class="checkbox" :class="{ checked: genre.selected }"></div>
                             <span class="option-text">{{ genre.name }}</span>
                         </div>
