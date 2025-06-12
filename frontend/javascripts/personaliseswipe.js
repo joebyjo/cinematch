@@ -96,9 +96,10 @@ const app = Vue.createApp({
         },
         formatDescription(description) {
             if (!description) return 'N/A';
-            return this.isDescExpanded || description.length <= 215
-                ? description
-                : description.substring(0, 212) + '...';
+            return description;
+            // return this.isDescExpanded || description.length <= 215
+            //     ? description
+            //     : description.substring(0, 212) + '...';
         },
         // Open YouTube trailer
         openTrailer() {
@@ -126,10 +127,25 @@ const app = Vue.createApp({
 
         // Movie Stuff
         async nextMovie(isLiked) {
+            const middleBox = document.querySelector('.middle-box'); // select middle box
+
+            if (isLiked) {
+                middleBox.classList.add('curr-swiped-r'); // add swiped right class for curr movie if isLiked=true
+            } else {
+                middleBox.classList.add('curr-swiped-l'); // add  swiped left class for curr movie if isLiked=false
+            }
+            // wait for like/dislike animation
+            await new Promise((resolve) => { setTimeout(resolve, 300); });
+
             sendMovieData(this.movie.id, isLiked, this.calculateWatchStatus());
+            middleBox.classList.remove('curr-swiped-l', 'curr-swiped-r'); // remove swiped classes
             this.movie = this.movies.shift() || null;
             this.isSaved = false;
             this.isWatched = false;
+
+            middleBox.classList.add('next-fade-in'); // add  fade in class for next movie
+            await new Promise((resolve) => { setTimeout(resolve, 300); }); // wait for fade animation
+            middleBox.classList.remove('next-fade-in'); // remove fade class
         },
         async appendMovie() {
             this.loadError = false;

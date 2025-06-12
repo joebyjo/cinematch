@@ -54,8 +54,19 @@ createApp({
             // Languages Page
             languages: [],
             selectedLanguages: [],
-            dropdownVisible: false
+            dropdownVisible: false,
+            searchLang: ''
         };
+    },
+    computed: {
+        filterLang() {
+            if (!this.searchLang) {
+                return this.languages;
+            }
+            return this.languages.filter((lang) =>
+                lang.name.toLowerCase().includes(this.searchLang.toLowerCase())
+            );
+        }
     },
     methods: {
         redirect(path) {
@@ -135,7 +146,7 @@ createApp({
             }
         }
     },
-    computed: {},
+    // computed: {},
     mounted() {
         this.init();
     }
