@@ -454,9 +454,15 @@ main {
     white-space: nowrap;
 }
 
-.watch-trailer button:hover {
+.watch-trailer button:hover:not(:disabled) {
     transform: translateY(-0.2rem);
     box-shadow: 0 0.4rem 0.5rem var(--tagpill-box-shadow);
+}
+
+.watch-trailer button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .watch-trailer>a {
