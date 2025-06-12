@@ -214,8 +214,7 @@ main {
     border-color: var(--gradient-left-color);
     border-radius: 2rem 0rem 0rem 2rem;
     box-shadow: -0.2rem 0.5rem 1rem 0.2rem var(--shadow-color);
-    justify-content: flex-start;
-    gap: 3rem;
+    justify-content: space-around;
 }
 
 .right-box {
@@ -224,8 +223,7 @@ main {
     border-color: var(--gradient-right-color);
     border-radius: 0rem 2rem 2rem 0rem;
     box-shadow: 0.4rem 0.5rem 1rem 0.2rem var(--shadow-color);
-    justify-content: flex-start;
-    gap: 3rem;
+    justify-content: space-around;
 }
 
 /* Image inside the Middle Div */
@@ -273,12 +271,11 @@ main {
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     border: 0.05rem solid var(--outline-color);
-    font-family: Cantarell;
+    font-family: "Cantarell", sans-serif;
     font-size: 1.2rem;
     z-index: 2;
     box-shadow: 0 0.2rem 0.5rem var(--shadow-color);
 }
-
 
 .heading>div {
     width: 85%;
