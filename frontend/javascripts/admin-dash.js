@@ -24,6 +24,7 @@ async function addNewUser(userPayload) {
     try {
         const response = await axios.post('/api/admin/users', userPayload);
 
+        return response.data
 
     } catch (error) {
         if (error.response?.status === 409) {
@@ -32,6 +33,16 @@ async function addNewUser(userPayload) {
             console.error(error);
             alert('Failed to add user.');
         }
+    }
+}
+
+async function deleteUsersHelper(user_ids) {
+    try {
+        const res = await axios.post('/api/admin/users/delete-multiple', { user_ids });
+        return res.data;
+    } catch (e) {
+        console.error("Failed to delete users:", e);
+        return { msg: "Failed to delete users" };
     }
 }
 
@@ -132,11 +143,11 @@ createApp({
                 role: this.newUser.role
             };
 
-            await addNewUser(userPayload);
-
+            const newUserDetails = await addNewUser(userPayload);
 
             // add new user to UI list
             this.users.push({
+                user_id: newUserDetails.user_id,
                 user_name: this.newUser.user_name,
                 first_name: this.newUser.first_name,
                 last_name: this.newUser.last_name,
@@ -338,9 +349,15 @@ createApp({
         helperProfilePicture(profile_picture_url) {
 
             if (profile_picture_url.includes('avatar')) {
-                return profile_picture_url.replace("/uploads/", "");
+                const fileName = profile_picture_url.replace("/upload/", "").replace(".svg", "");
+
+                // Step 2: Extract number using regex
+                const match = fileName.match(/\d+/); // \d+ = one or more digits
+                const number = match ? parseInt(match[0], 10) : 0;
+
+                return "Avatar " + number;
             } else {
-                return 'Uploaded image'
+                return 'Uploaded Image'
             }
         },
         async getStats() {
@@ -387,6 +404,30 @@ createApp({
             this.users = data.users || [];
             this.loadLimit = data.limit || 0;
             this.totalPages = data.total_pages || 0;
+        },
+        async deleteUsers() {
+            if (this.selectedUsers.length === 0) {
+                alert("No users selected for deletion.");
+                return;
+            }
+
+            const confirmDelete = confirm("Are you sure you want to delete the selected users?");
+            if (!confirmDelete) return;
+
+            const resp = await deleteUsersHelper(this.selectedUsers);
+
+            if (resp.deleted_ids && Array.isArray(resp.deleted_ids)) {
+                // remove the deleted users from local list
+                this.users = this.users.filter(user => !resp.deleted_ids.includes(user.user_id));
+
+                // clear selection
+                this.selectedUsers = [];
+                this.isSelectOn = false;
+
+                alert("Selected users have been deleted.");
+            } else {
+                alert(resp.msg || "Failed to delete users.");
+            }
 
             this.currentPage = 1;
         },
