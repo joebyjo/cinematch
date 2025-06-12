@@ -69,8 +69,8 @@ const validateSignup = [
         .escape()
         .notEmpty()
         .withMessage('Username is required')
-        .isLength({ min: 3 })
-        .withMessage('Username must be minimum 3 letters long'),
+        .isLength({ min: 3, max: 20 })
+        .withMessage('Username must be between 3 and 20 characters long'),
 
     body('password')
         .trim()
@@ -93,7 +93,9 @@ const validateSignup = [
         .notEmpty()
         .withMessage('First name is required')
         .isAlpha()
-        .withMessage('First name must contain only letters'),
+        .withMessage('First name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('First name must be at most 20 characters long'),
 
     body('lastName')
         .trim()
@@ -102,6 +104,8 @@ const validateSignup = [
         .withMessage('Last name is required')
         .isAlpha()
         .withMessage('Last name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('Last name must be at most 20 characters long')
 ];
 
 
