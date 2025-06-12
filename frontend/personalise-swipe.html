@@ -137,11 +137,7 @@
 
                     <div class="stream-info">
                         <div class="watch-trailer">
-<<<<<<< HEAD
-                            <button type="button" @click="openTrailer">Watch trailer</button>
-=======
                             <button type="button" href="" @click="openTrailer" :disabled="!movie.trailer" :class="{ 'disabled': !movie.trailer }">Watch trailer</button>
->>>>>>> e3dc72be73071de85aa2dd59ae55f068d65eb12c
 
                             <div class="icon-bar">
                                 <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'"
