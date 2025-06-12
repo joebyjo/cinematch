@@ -187,6 +187,7 @@ main {
     border-color: var(--gradient-left-color);
     border-radius: 2rem 0rem 0rem 2rem;
     box-shadow: -0.2rem 0.5rem 1rem 0.2rem var(--shadow-color);
+    justify-content: space-between;
 }
 
 .right-box {
@@ -196,7 +197,7 @@ main {
     border-radius: 0rem 2rem 2rem 0rem;
     box-shadow: 0.4rem 0.5rem 1rem 0.2rem var(--shadow-color);
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 0rem;
 }
 
 /* Image inside the Middle Div */
