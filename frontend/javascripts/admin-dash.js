@@ -9,7 +9,7 @@ async function getMethod(url) {
     }
 }
 
-async function editUser(user_id,updates) {
+async function editUser(user_id, updates) {
     try {
         const res = await axios.put(`/api/admin/users/${user_id}`, updates);
         return res.data;
@@ -43,9 +43,9 @@ createApp({
             showFilters: false,
             showLoadLimit: false,
             totalUsers: 0,
-            totalActive:0,
-            totalContent:0,
-            totalVisits:0,
+            totalActive: 0,
+            totalContent: 0,
+            totalVisits: 0,
             loadLimit: 10,
             sort: "",
             search: "",
@@ -288,7 +288,7 @@ createApp({
                     updates.profile_picture_url = this.editingUser.profile_picture_url;
                 }
 
-                const response = await editUser(originalUserData.user_id,updates);
+                const response = await editUser(originalUserData.user_id, updates);
                 if (response.msg === "User updated") {
                     // Update only modified fields in local state
                     this.users[userIdx] = {
@@ -344,7 +344,7 @@ createApp({
             }
         },
         async getStats() {
-            const stats =  await getMethod('api/admin/stats');
+            const stats = await getMethod('api/admin/stats');
 
             this.totalUsers = stats.total_users;
             this.totalActive = stats.total_active;
@@ -360,14 +360,16 @@ createApp({
             url.searchParams.set("limit", this.loadLimit);
 
             if (this.sort) {
-                url.searchParams.set("sort", this.sort);
+                url.searchParams.set("sort", this.sort + ".asc");
             }
 
             this.filter.roles.forEach((role) => {
                 url.searchParams.append("role", role);
             });
 
-            url.searchParams.set("username", this.search);
+            if (this.search) {
+                url.searchParams.set("username", this.search);
+            }
 
 
             return url;
@@ -385,7 +387,19 @@ createApp({
             this.users = data.users || [];
             this.loadLimit = data.limit || 0;
             this.totalPages = data.total_pages || 0;
-        }
+
+            this.currentPage = 1;
+        },
+        toggleRole(role) {
+            const idx = this.filter.roles.indexOf(role);
+            if (idx === -1) {
+                this.filter.roles.push(role);
+            } else {
+                this.filter.roles.splice(idx, 1);
+            }
+
+            showFilters = false;
+        },
     },
     computed: {
         // totalPages() {
@@ -411,8 +425,23 @@ createApp({
         }
     },
     watch: {
+        sort() {
+            this.getUsers(this.createUrl());
+        },
+        currentPage() {
+            this.getUsers(this.createUrl());
+        },
         loadLimit() {
-            this.currentPage = 1;
+            this.getUsers(this.createUrl());
+        },
+        'filter.roles': {
+            handler() {
+                this.getUsers(this.createUrl());
+            },
+            deep: true
+        },
+        search() {
+            this.getUsers(this.createUrl());
         }
     },
     mounted() {

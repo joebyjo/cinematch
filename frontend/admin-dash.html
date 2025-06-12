@@ -133,8 +133,10 @@
                     <div class="dropdown">
                         <button type="button" class="control filter" @click="showFilters=!showFilters">Add filter</button>
                         <div v-show="showFilters" class="dd-menu" @click.stop>
-                            <div class="dd-option">Users only</div>
-                            <div class="dd-option">Admins only</div>
+                            <div class="dd-option" :class="{ selected: filter.roles.includes('user') }"
+                            @click="toggleRole('user')">Users only</div>
+                            <div class="dd-option" :class="{ selected: filter.roles.includes('admin') }"
+                            @click="toggleRole('admin')">Admins only</div>
                         </div>
                     </div>
 
@@ -144,16 +146,21 @@
                             Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>
                         </button>
                         <div v-show="showSort" class="dd-menu" @click.stop>
-                            <div class="dd-option">Username</div>
-                            <div class="dd-option">First Name</div>
-                            <div class="dd-option">Last Name</div>
-                            <div class="dd-option">Date Joined</div>
-                            <div class="dd-option">Last Active</div>
+                            <div class="dd-option" :class="{ selected: sort === 'user_name' }"
+                            @click="sort = 'user_name'; showSort = false">Username</div>
+                            <div class="dd-option" :class="{ selected: sort === 'first_name' }"
+                            @click="sort = 'first_name'; showSort = false">First Name</div>
+                            <div class="dd-option" :class="{ selected: sort === 'last_name' }"
+                            @click="sort = 'last_name'; showSort = false">Last Name</div>
+                            <div class="dd-option" :class="{ selected: sort === 'registration_date' }"
+                            @click="sort = 'registration_date'; showSort = false">Date Joined</div>
+                            <div class="dd-option" :class="{ selected: sort === 'last_login' }"
+                            @click="sort = 'last_login'; showSort = false">Last Active</div>
                         </div>
                     </div>
 
                     <!--search button-->
-                    <input class="control search" type="text" placeholder="Search user...">
+                    <input class="control search" type="text" placeholder="Search user..." v-model="search">
 
                     <!--add new user button-->
                     <button type="button" class="control" @click="showAddUser=true">Add new</button>
@@ -324,7 +331,7 @@
                         <td><span :class="['role-pill', user.role === 'admin' ? 'admin' : 'user']">
                             <span class="circle"></span> {{ user.role === 'admin' ? 'Administrator' : 'User' }}</span></td>
                         <td>{{ new Date(user.last_login).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) }}</td>
-                        <td><a style="" :href="user.profile_picture_url">{{ helperProfilePicture(user.profile_picture_url) }}</a></td>
+                        <td><a class="fancy-link" :href="user.profile_picture_url" target="_blank" href="">{{ helperProfilePicture(user.profile_picture_url) }}</a></td>
                     </tr>
                 </tbody>
             </table>

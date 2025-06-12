@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-use-before-define */
 const express = require('express');
 const db = require('../services/db');
 const { hashPassword } = require('../services/helpers');
@@ -42,7 +44,7 @@ router.get('/users', async (req, res) => {
         let roleArray = [];
         if (role) {
             if (Array.isArray(role)) {
-                roleArray = role.filter(r => validRoles.includes(r.toLowerCase()));
+                roleArray = role.filter((r) => validRoles.includes(r.toLowerCase()));
             } else if (typeof role === 'string') {
                 if (validRoles.includes(role.toLowerCase())) {
                     roleArray = [role.toLowerCase()];
@@ -117,7 +119,9 @@ router.get('/stats', async (req, res) => {
             getUserCount(),
             getTotalVisits()
         ]);
-        res.json({ total_movies, total_active, total_users, total_visits });
+        res.json({
+ total_movies, total_active, total_users, total_visits
+});
     } catch (err) {
         console.error('Error in /stats route:', err);
         res.status(500).json({ msg: 'Error fetching statistics' });
@@ -178,7 +182,9 @@ router.get('/active', async (req, res) => {
 
 // add new users into db
 router.post('/users', async (req, res) => {
-    const { username: user_name, password, firstName: first_name, lastName: last_name, role } = req.body;
+    const {
+ username: user_name, password, firstName: first_name, lastName: last_name, role
+} = req.body;
     try {
         const [existing] = await db.query('SELECT id FROM USERS WHERE user_name = ?', [user_name]);
         if (existing.length > 0) {
@@ -212,7 +218,9 @@ router.delete('/users/:id', async (req, res) => {
 // edit user details
 router.put('/users/:id', async (req, res) => {
     const { id } = req.params;
-    const { firstName: first_name, lastName: last_name, userName: user_name, role, profile_picture_url } = req.body;
+    const {
+ firstName: first_name, lastName: last_name, userName: user_name, role, profile_picture_url
+} = req.body;
 
     try {
         const updates = [];
