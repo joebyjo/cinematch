@@ -12,7 +12,11 @@ createApp({
             currAvIdx: 2,
             selectedAv: null,
             showPass: false,
-
+               firstName: '',
+               deletePassword: '',
+        lastName: '',
+        namePassword: '',
+        currentPassword: '',
             dropdowns: {
                 theme: false,
                 languages: false,
@@ -71,12 +75,24 @@ createApp({
         };
     },
     computed: {
+isChangeNameValid() {
+    return this.firstName.trim() && this.lastName.trim() && this.namePassword.trim();
+},
+
+isDeleteAccountValid() {
+    return this.deletePassword.trim() !== '';
+},
+
+      isChangePasswordValid() {
+    return this.currentPassword && this.newPass && this.confirmPass && this.passMatch;
+},
+
         filterLang() {
             if (!this.search.languages) {
                 return this.languages;
             }
             return this.languages.filter((lang) =>
-            lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
+                lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
         }
     },
     methods: {
@@ -141,7 +157,7 @@ createApp({
                 this.uploadError = 'Please upload a JPG/JPEG/PNG file';
                 return;
             }
-            if (file.size> 1024*1024) {
+            if (file.size > 1024 * 1024) {
                 this.uploadError = 'Max file size allowed is 1MB';
                 return;
             }
@@ -162,38 +178,38 @@ createApp({
             }
         },
         nextAv() {
-          this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
+            this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
         },
         prevAv() {
-          this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
-          % this.avatars.length;
+            this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
+                % this.avatars.length;
         },
         selectAv() {
-          if (this.isCurrAvSelected()) return;
-          this.selectedAv = this.avatars[this.currAvIdx];
-          this.showPopup('Avatar updated successfully');
+            if (this.isCurrAvSelected()) return;
+            this.selectedAv = this.avatars[this.currAvIdx];
+            this.showPopup('Avatar updated successfully');
         },
         getAvatars() {
-        const total = this.avatars.length;
-        const avatars = [];
+            const total = this.avatars.length;
+            const avatars = [];
 
-        for (let i = -2; i <= 2; i++) {
-            let id = this.currAvIdx + i;
+            for (let i = -2; i <= 2; i++) {
+                let id = this.currAvIdx + i;
 
-            if (id < 0) {
-            id += total;
-            } else if (id >= total) {
-            id -= total;
+                if (id < 0) {
+                    id += total;
+                } else if (id >= total) {
+                    id -= total;
+                }
+
+                const avatar = {
+                    ...this.avatars[id],
+                    isSelected: i === 0,
+                    isLarge: i === -1 || i === 1
+                };
+                avatars.push(avatar);
             }
-
-            const avatar = {
-            ...this.avatars[id],
-            isSelected: i === 0,
-            isLarge: i === -1 || i === 1
-            };
-            avatars.push(avatar);
-        }
-        return avatars;
+            return avatars;
         },
         isCurrAvSelected() {
             if (!this.selectedAv) return false;
@@ -205,12 +221,12 @@ createApp({
             return this.selectedAv.isUploaded && this.selectedAv.src === this.uploadedImage;
         }
     },
-        mounted() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-        this.selectedTheme = savedTheme;
-    }
-},
+    mounted() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+            this.selectedTheme = savedTheme;
+        }
+    },
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
@@ -219,10 +235,10 @@ createApp({
             this.checkMatch();
         },
         selectedTheme(newTheme) {
-    localStorage.setItem('theme', newTheme);
-       document.body.classList.remove('dark', 'light');
-    document.body.classList.add(newTheme);
-  }
+            localStorage.setItem('theme', newTheme);
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(newTheme);
+        }
     }
 
 }).mount('#settings');
