@@ -259,6 +259,25 @@ main {
     margin-bottom: 0.5rem;
     overflow-x: auto;
     scrollbar-width: none;
+    position: relative;
+}
+
+.heading>span:hover::after {
+    content: attr(data-title);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 0.05rem solid var(--outline-color);
+    font-family: Cantarell;
+    font-size: 1.2rem;
+    z-index: 2;
+    white-space: nowrap;
+    box-shadow: 0 0.2rem 0.5rem var(--shadow-color);
 }
 
 .heading>div {
