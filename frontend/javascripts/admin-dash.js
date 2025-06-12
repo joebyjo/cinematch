@@ -66,7 +66,7 @@ createApp({
                 first_name: '',
                 last_name: '',
                 password: '',
-                role: '',
+                role: 'user',
                 profile_picture_url: '/uploads/avatar3.svg'
             },
             editingUser: {
@@ -156,8 +156,8 @@ createApp({
                 first_name: '',
                 last_name: '',
                 password: '',
-                role: '',
-                profile_picture_url: ''
+                role: 'user',
+                profile_picture_url: '/uploads/avatar3.svg'
             };
             // hide add user card
             this.showAddUser = false;
