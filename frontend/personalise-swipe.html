@@ -59,10 +59,14 @@
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @click="redirect('/setting')">
+                    <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
+                    </div>
+                    <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
+                        <img src="./images/admin-lock-icon.png" alt="admin icon">
+                        Admin Dashboard
                     </div>
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
@@ -100,12 +104,14 @@
                     </div>
 
                     <div class="ratings">
-                        <p><strong class="gradient-text">Ratings:</strong></p>
-                        <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
-                            class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span>
-                        </div>
-                        <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
-                            class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                        <strong class="gradient-text">Ratings:</strong>
+                        <div>
+                            <div class="rating-styling-imdb"> <img src="./images/IMDB-icon.png" alt="IMDb"
+                                class="rating-icon-IMDB"><span>{{ formatImdbRating(movie.imdb_rating) }}</span>
+                            </div>
+                            <div class="rating-styling-tomato"><img src="./images/Rotten_Tomatoes.png" alt="Rotten Tomatoes"
+                                class="rating-icon-tomato"><span>{{ formatRottenRating(movie.rotten_rating) }}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -116,14 +122,17 @@
                     </div>
                 </section>
             </div>
-            <div class="middle-box box">
-                <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
-                    :alt="movie.title" />
+            <div class="middle-box-section">
+                <div class="middle-box-bg box"></div>
+                <div class="middle-box box">
+                    <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
+                        :alt="movie.title" />
+                </div>
             </div>
             <div class="side-box box">
                 <section class="right-box">
                     <div class="heading">
-                        <span :data-title="movie.title">{{ formatTitle(movie.title) }}</span>
+                        <span class="title" :data-title="movie.title">{{ formatTitle(movie.title) }}</span>
                         <div class="heading-underline"></div>
                     </div>
 
@@ -131,7 +140,7 @@
 
                     <div class="stream-info">
                         <div class="watch-trailer">
-                            <button type="button" href="" @click="openTrailer">Watch trailer</button>
+                            <button type="button" href="" @click="openTrailer" :disabled="!movie.trailer" :class="{ 'disabled': !movie.trailer }">Watch trailer</button>
 
                             <div class="icon-bar">
                                 <img :src="isSaved ? '/images/saved.svg' : '/images/not-saved.svg'"

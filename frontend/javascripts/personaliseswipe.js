@@ -229,7 +229,7 @@ const app = Vue.createApp({
     watch: {
         // whenever movies.length changes:
         'movies.length'(newLen) {
-            if (newLen <= 5) {
+            if (newLen <= 3) {
                 this.appendMovie();
             }
         }
