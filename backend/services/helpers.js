@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 const db = require('./db');
 
@@ -339,6 +341,40 @@ async function getRandomMovie() {
 }
 
 
+/**
+ * Filters out movieIds that already exist in USERPREFERENCES for this user,
+ * using a single bulk SQL query.
+ *
+ * @param {number|string} userId
+ * @param {Array<number|string>} movieIds
+ * @returns {Promise<Array<number|string>>} – IDs not present yet
+ */
+async function filterMovieIds(userId, movieIds) {
+    if (!movieIds.length) {
+        return [];
+    }
+
+    try {
+        // Grab all movie_ids the user already has
+        const placeholders = movieIds.map(() => '?').join(',');
+        const sql = `
+      SELECT movie_id
+      FROM USERPREFERENCES
+      WHERE user_id = ?
+        AND movie_id IN (${placeholders})
+    `;
+        const params = [userId, ...movieIds];
+        const [rows] = await db.query(sql, params);
+        const existingIds = new Set(rows.map(r => r.movie_id));
+
+        // Return only those not in the DB
+        return movieIds.filter(id => !existingIds.has(id));
+    } catch (err) {
+        console.error(`[ERROR] filterMovieIds failed for user ${userId}`, err);
+        // Bubble up so we can return 500 to the client
+        throw err;
+    }
+}
 
 module.exports = {
     hashPassword,
@@ -353,5 +389,6 @@ module.exports = {
     getUserGenresLanguages,
     getUserRating,
     getRandomMovie,
-    getWatchStatus
+    getWatchStatus,
+    filterMovieIds
 };

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-use-before-define */
@@ -5,7 +6,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
-const { addMoviePreference, getRandomMovie } = require('../services/helpers');
+const { addMoviePreference, getRandomMovie, filterMovieIds } = require('../services/helpers');
 const {
     createMovieVector,
     calculateScore,
@@ -38,35 +39,52 @@ router.post('/createUserVector', async (req, res) => {
     }
 });
 
+const MAX_FETCH_ATTEMPTS = 10;
+// GET /movies – Fetches recommendations but avoids infinite loops
 router.get('/movies', async (req, res) => {
+    const userId = req.user.id;
+    if (!userId) {
+        return res.status(401).json({ msg: 'Unauthenticated' });
+    }
+
+    let movieIds = [];
+    let attempt = 0;
+
     try {
-        const userId = req.user.id;
-        // console.log(`[INFO] Fetching movie for user ID: ${userId}`);
+        while (attempt < MAX_FETCH_ATTEMPTS && movieIds.length === 0) {
+            attempt++;
+            // console.log(`[INFO] Attempt #${attempt} for user ${userId}`);
 
-        let movieIds = [];
-        let len = 0;
-        while (len === 0) {
-            const movieId = await getTopMovie(userId);
+            const topMovie = await getTopMovie(userId);
+            // console.log(`[DEBUG] getTopMovie returned:`, topMovie);
 
-            if (movieId === -1) {
-                for (let i = 0; i < 10; i++) {
-                    const id = await getRandomMovie()
-                    movieIds.push(id);
-                }
-
+            let candidates;
+            if (topMovie === -1) {
+                // No personalized seed—grab some randoms
+                const randomPromises = Array.from({ length: 10 }, () => getRandomMovie());
+                candidates = await Promise.all(randomPromises);
+                // console.log(`[DEBUG] Random candidates:`, candidates);
             } else {
-                movieIds = await getMoviesTMDB(movieId);
+                // Use TMDB recommendations
+                candidates = await getMoviesTMDB(topMovie);
+                // console.log(`[DEBUG] TMDB recommendations for ${topMovie}:`, candidates);
             }
 
-            len = movieIds.length;
+            movieIds = await filterMovieIds(userId, candidates);
+            // console.log(`[DEBUG] After filtering, new movieIds:`, movieIds);
+        }
+
+        if (movieIds.length === 0) {
+            // Ran out of attempts with no fresh movies
+            return res.status(204).json({ msg: 'No new movies found at this time' });
         }
 
         return res.status(200).json({
-            msg: "Movies fetched successfully",
+            msg: 'Movies fetched successfully',
             movieIds
         });
     } catch (err) {
-        console.error('[ERROR] Failed to get movies:', err);
+        console.error('[ERROR] /movies handler:', err);
         return res.status(500).json({ msg: 'Internal server error while fetching movies' });
     }
 });

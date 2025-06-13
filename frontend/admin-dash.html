@@ -19,16 +19,16 @@
         rel="stylesheet">
 
     <!-- Linking CSS Files -->
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/nav-bar.css">
-    <link rel="stylesheet" href="stylesheets/admin-dash.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/nav-bar.css">
+    <link rel="stylesheet" href="/stylesheets/admin-dash.css">
 
     <!-- Linking Java Script Files -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="javascripts/nav-bar.js" defer></script>
-    <script src="javascripts/admin-dash.js" defer></script>
-    <script src="javascripts/index.js" defer></script>
+    <script src="/javascripts/nav-bar.js" defer></script>
+    <script src="/javascripts/admin-dash.js" defer></script>
+    <script src="/javascripts/index.js" defer></script>
 
     <title>Admin Dashboard</title>
 </head>
@@ -53,15 +53,19 @@
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
-                    <div>Welcome, <strong>J.K</strong>!</div>
-                    <img src="images/profile-pic.jpg" alt="User avatar" @click="onMenu">
+                    <div>Welcome, <strong>{{ initials }}</strong>!</div>
+                    <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
                 <div v-show="showMenu" class="user-menu">
-                    <div @click="redirect('/setting')">
+                    <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
+                    </div>
+                    <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
+                        <img src="./images/admin-lock-icon.png" alt="admin icon">
+                        Admin Dashboard
                     </div>
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
@@ -79,14 +83,14 @@
 
     <main id="admin-dash">
         <!--display admin name-->
-        <h1>{{ currAdmin.firstname }}'s Dashboard</h1>
+        <h1>Admin Dashboard</h1>
 
         <!--show site stats-->
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/users-reg.svg" alt="User icon">
-                    <div class="stat-num dark">201</div>
+                    <div class="stat-num dark">{{ totalUsers }}</div>
                 </div>
                 <p>total users<br>registered</p>
             </div>
@@ -94,7 +98,7 @@
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/timeline.svg" alt="Timeline icon">
-                    <div class="stat-num">18</div>
+                    <div class="stat-num">{{ totalActive }}</div>
                 </div>
                 <p>active users in<br>last 24 hours</p>
             </div>
@@ -102,7 +106,7 @@
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/movies-saved.svg" alt="Movie icon">
-                    <div class="stat-num dark">700</div>
+                    <div class="stat-num dark">{{ totalContent }}</div>
                 </div>
                 <p>total movies<br>stored</p>
             </div>
@@ -110,7 +114,7 @@
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/site-views.svg" alt="Movie icon">
-                    <div class="stat-num">1k</div>
+                    <div class="stat-num">{{ totalVisits }}</div>
                 </div>
                 <p>total visits to<br>the site</p>
             </div>
@@ -133,8 +137,10 @@
                     <div class="dropdown">
                         <button type="button" class="control filter" @click="showFilters=!showFilters">Add filter</button>
                         <div v-show="showFilters" class="dd-menu" @click.stop>
-                            <div class="dd-option">Users only</div>
-                            <div class="dd-option">Admins only</div>
+                            <div class="dd-option" :class="{ selected: filter.roles.includes('user') }"
+                            @click="toggleRole('user')">Users only</div>
+                            <div class="dd-option" :class="{ selected: filter.roles.includes('admin') }"
+                            @click="toggleRole('admin')">Admins only</div>
                         </div>
                     </div>
 
@@ -144,16 +150,21 @@
                             Sort by <span class="dd-arrow" :class="{open: showSort}">▼</span>
                         </button>
                         <div v-show="showSort" class="dd-menu" @click.stop>
-                            <div class="dd-option">Username</div>
-                            <div class="dd-option">First Name</div>
-                            <div class="dd-option">Last Name</div>
-                            <div class="dd-option">Date Joined</div>
-                            <div class="dd-option">Last Active</div>
+                            <div class="dd-option" :class="{ selected: sort === 'user_name' }"
+                            @click="sort = 'user_name'; showSort = false">Username</div>
+                            <div class="dd-option" :class="{ selected: sort === 'first_name' }"
+                            @click="sort = 'first_name'; showSort = false">First Name</div>
+                            <div class="dd-option" :class="{ selected: sort === 'last_name' }"
+                            @click="sort = 'last_name'; showSort = false">Last Name</div>
+                            <div class="dd-option" :class="{ selected: sort === 'registration_date' }"
+                            @click="sort = 'registration_date'; showSort = false">Date Joined</div>
+                            <div class="dd-option" :class="{ selected: sort === 'last_login' }"
+                            @click="sort = 'last_login'; showSort = false">Last Active</div>
                         </div>
                     </div>
 
                     <!--search button-->
-                    <input class="control search" type="text" placeholder="Search user...">
+                    <input class="control search" type="text" placeholder="Search user..." v-model="search">
 
                     <!--add new user button-->
                     <button type="button" class="control" @click="showAddUser=true">Add new</button>
@@ -165,24 +176,24 @@
                 <div class="card">
                     <h3>Add New User</h3>
 
-                    <div class="av-preview">
-                        <img v-if="newUser.pfpPreview" :src="newUser.pfpPreview" alt="Avatar">
+                    <!-- <div class="av-preview">
+                        <img v-if="newUser.profile_picture_url" :src="newUser.profile_picture_url" alt="Avatar">
                         <img v-else src="./images/settings/dummy-upload.svg" alt="Empty Avatar">
-                    </div>
+                    </div> -->
 
                     <div class="form">
                         <label for="new-username">Username:</label>
-                        <input type="text" id="new-username" v-model="newUser.username">
+                        <input type="text" id="new-username" v-model="newUser.user_name">
                     </div>
 
                     <div class="form">
                         <label for="new-firstname">First Name:</label>
-                        <input type="text" id="new-firstname" v-model="newUser.firstname">
+                        <input type="text" id="new-firstname" v-model="newUser.first_name">
                     </div>
 
                     <div class="form">
                         <label for="new-lastname">Last Name:</label>
-                        <input type="text" id="new-lastname" v-model="newUser.lastname">
+                        <input type="text" id="new-lastname" v-model="newUser.last_name">
                     </div>
 
                     <div class="form">
@@ -199,13 +210,12 @@
                     <div class="form">
                         <label for="new-role">Role:</label>
                         <select id="new-role" v-model="newUser.role">
-                            <option value="">Select role</option>
-                            <option value="User">User</option>
-                            <option value="Administrator">Administrator</option>
+                            <option value="user">User</option>
+                            <option value="admin">Administrator</option>
                         </select>
                     </div>
 
-                    <div class="form">
+                    <!-- <div class="form">
                         <label>Avatar:</label>
                         <div class="av-options">
                             <input type="file" @change="imageUpload"><span>or</span>
@@ -219,7 +229,7 @@
                             </select>
                         </div>
                         <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
-                    </div>
+                    </div> -->
 
                     <div class="card-controls">
                         <button type="button" class="control" @click="resetForm()">Cancel</button>
@@ -240,24 +250,24 @@
 
                     <div class="form">
                         <label for="edit-username">Username:</label>
-                        <input type="text" id="edit-username" v-model="editingUser.username" disabled>
+                        <input type="text" id="edit-username" v-model="editingUser.user_name">
                     </div>
 
                     <div class="form">
                         <label for="edit-firstname">First Name:</label>
-                        <input type="text" id="edit-firstname" v-model="editingUser.firstname">
+                        <input type="text" id="edit-firstname" v-model="editingUser.first_name">
                     </div>
 
                     <div class="form">
                         <label for="edit-lastname">Last Name:</label>
-                        <input type="text" id="edit-lastname" v-model="editingUser.lastname">
+                        <input type="text" id="edit-lastname" v-model="editingUser.last_name">
                     </div>
 
                     <div class="form">
                         <label for="edit-role">Role:</label>
                         <select id="edit-role" v-model="editingUser.role">
-                            <option value="User">User</option>
-                            <option value="Administrator">Administrator</option>
+                            <option value="user" >User</option>
+                            <option value="admin" >Administrator</option>
                         </select>
                     </div>
 
@@ -311,21 +321,21 @@
                     </tr>
 
                     <!--user info-->
-                    <tr v-for="user in currPageUsers" :key="user.username">
+                    <tr v-for="user in users" :key="user.user_name">
                         <td>
                             <div class="checkbox-col">
                                 <input v-if="isSelectOn" type="checkbox"
-                                  :checked="selectedUsers.includes(user.username)" @change="SelectUser(user.username)">
-                                <span class="username" @click="editUser(user)">{{ user.username }}</span>
+                                  :checked="selectedUsers.includes(user.user_id)" @change="SelectUser(user.user_id)">
+                                <span class="username" @click="editUser(user)">{{ user.user_name }}</span>
                             </div>
                         </td>
-                        <td>{{ user.firstname }}</td>
-                        <td>{{ user.lastname }}</td>
-                        <td>{{ user.dateJoined }}</td>
-                        <td><span :class="['role-pill', user.role === 'Administrator' ? 'admin' : 'user']">
-                            <span class="circle"></span> {{ user.role }}</span></td>
-                        <td>{{ user.lastActive }}</td>
-                        <td>{{ user.pfp.startsWith('avatar') ? user.pfp:'uploaded image' }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ new Date(user.registration_date).toLocaleDateString('en-GB') }}</td>
+                        <td><span :class="['role-pill', user.role === 'admin' ? 'admin' : 'user']">
+                            <span class="circle"></span> {{ user.role === 'admin' ? 'Administrator' : 'User' }}</span></td>
+                        <td>{{ new Date(user.last_login).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) }}</td>
+                        <td><a class="fancy-link" :href="user.profile_picture_url" target="_blank" href="">{{ helperProfilePicture(user.profile_picture_url) }}</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -350,7 +360,7 @@
                 <div class="page-controls">
                     <!--delete selected button-->
                     <button type="button" class="control" v-show="isSelectOn"
-                      :disabled="selectedUsers.length === 0">Delete Selected</button>
+                      :disabled="selectedUsers.length === 0" @click="deleteUsers()">Delete Selected</button>
 
                     <!--switch page buttons-->
                     <button type="button" class="control" :disabled="currentPage === 1" @click="currentPage--">←</button>
