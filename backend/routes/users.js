@@ -6,32 +6,29 @@ const { isAuthenticated } = require('../services/validators');
 const db = require('../services/db');
 const { comparePassword, getUserGenresLanguages } = require('../services/helpers');
 
-
+// middleware to ensure user is logged in
 router.use(isAuthenticated);
 
-// get selected languages and genres
+// get selected user genres and languages
 router.get('/languages-genres', async (req, res) => {
     try {
         const result = await getUserGenresLanguages(req.user.id);
         return res.status(200).json(result);
-    } catch (e) {
+    } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: 'Database error' });
     }
 });
 
-
-// get my details
+// get logged-in user's details
 router.get('/me', async (req, res) => {
-
     try {
-
-        // getting details of user
+        // fetch user details from joined USERS and USERSETTINGS tables
         const [[user]] = await db.query(
             `SELECT user_name, first_name, last_name, profile_picture_url, theme, role
-       FROM USERS u
-       JOIN USERSETTINGS us ON us.user_id=u.id
-       WHERE id = ?`,
+             FROM USERS u
+             JOIN USERSETTINGS us ON us.user_id=u.id
+             WHERE u.id = ?`,
             [req.user.id]
         );
 
@@ -45,19 +42,17 @@ router.get('/me', async (req, res) => {
     }
 });
 
-
-// route to update user settings
+// update first name and/or last name (password required for confirmation)
 router.put('/me', async (req, res) => {
     const { id } = req.user;
     const { first_name, last_name, password } = req.body;
 
-    // get current password
+    // get current hashed password
     const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
     const findUser = queryResult[0];
 
-    // verify current password
+    // verify password
     const isMatch = comparePassword(password, findUser.password);
-
     if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
     try {
@@ -87,29 +82,24 @@ router.put('/me', async (req, res) => {
     }
 });
 
-
-
-// route to delete users
+// delete user account with password confirmation
 router.delete('/me', async (req, res) => {
     try {
-
         const { password } = req.body;
-
         if (!password) return res.status(401).json({ msg: 'Password is required' });
 
-        // checking if password matches
+        // verify password
         const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
         const findUser = queryResult[0];
-
         const isMatch = comparePassword(password, findUser.password);
 
         if (!isMatch) return res.status(401).json({ msg: "Password incorrect" });
 
-        // deleting user
+        // delete user from database
         await db.query(`DELETE FROM USERS WHERE id = ?`, [req.user.id]);
 
+        // destroy session and clear cookie
         req.session.destroy(() => {
-            // clearing cookies to logout user
             res.clearCookie('sessionId');
             return res.status(200).json({ msg: 'User deleted and logged out' });
         });
@@ -120,13 +110,9 @@ router.delete('/me', async (req, res) => {
     }
 });
 
-
-// route to update theme
+// update theme setting
 router.post('/me/theme', async (req, res) => {
     const { theme } = req.body;
-    console.log(req.body);
-
-    // validate input
     if (!theme) {
         return res.status(400).json({ msg: 'Theme is required' });
     }
@@ -148,8 +134,7 @@ router.post('/me/theme', async (req, res) => {
     }
 });
 
-
-// TODO need to be tested
+// upload custom profile picture (file upload handled by multer)
 router.post('/me/profile-picture', upload.single('profile_picture'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ msg: 'No file uploaded or invalid file type' });
@@ -167,6 +152,7 @@ router.post('/me/profile-picture', upload.single('profile_picture'), async (req,
     }
 });
 
+// set predefined avatar as profile picture
 router.post('/me/profile-avatar', async (req, res) => {
     const { id } = req.body;
     const profilePictureUrl = `/uploads/avatar${id}.svg`;
@@ -180,6 +166,5 @@ router.post('/me/profile-avatar', async (req, res) => {
         return res.status(500).json({ msg: 'Failed to update profile picture' });
     }
 });
-
 
 module.exports = router;
