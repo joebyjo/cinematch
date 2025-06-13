@@ -41,7 +41,6 @@ const sessionStore = new MySQLStore(
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -53,7 +52,10 @@ app.use(session({ // for sessions
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // stay logged in for 24 hours
+        maxAge: 1000 * 60 * 60 * 24, // stay logged in for 24 hours
+        httpOnly: true, // prevent client-side script access to cookie
+        sameSite: 'lax', // mitigate csrf risk
+        secure: process.env.NODE_ENV === 'prod' // enforce https in production
     }
 }));
 app.use(passport.initialize()); // for user authentication
@@ -70,11 +72,10 @@ app.use(async (req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); // use /frontend directory as default directory for static files.
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // serve uploaded files
 
 // update sessions
 app.use(async (req, res, next) => {
-
     // checking if it is a page and not static assets
     const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i);
 
@@ -85,7 +86,6 @@ app.use(async (req, res, next) => {
                 `UPDATE SESSIONS SET last_seen = NOW() WHERE id = ?`,
                 [req.sessionID]
             );
-
         } catch (err) {
             console.error('Error updating session metadata:', err);
         }
@@ -119,7 +119,6 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(res.locals.status);
-
     res.render('error');
 });
 
