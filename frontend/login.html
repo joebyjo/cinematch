@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
-<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,13 +45,13 @@
             <div class="input">
                 <div>
                     <span>Enter Username</span>
-                    <input type="text" v-model="username">
+                    <input type="text" v-model="username"  @keyup.enter="login">
                     <span></span>
                 </div>
                 <div class="input-password">
                     <span>Enter Password</span>
                     <div>
-                        <input :type="showPass ? 'text' : 'password'" type="text" v-model="password">
+                        <input :type="showPass ? 'text' : 'password'" type="text" v-model="password"  @keyup.enter="login">
                         <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
                     </div>
                 </div>
