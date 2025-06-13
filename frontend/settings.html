@@ -67,10 +67,10 @@
                     <p class="info-text">Current name: <span>Josheen Kour</span></p>
 
                     <input type="text" placeholder="Enter new first name..."
-                         v-model="firstName" class="input-field changename-input-border">
-                    <input type="text" placeholder="Enter new last name..." v-model="lastName" class="input-field changename-input-border">
+                         v-model="firstName" class="input-field changename-input-border" @keyup.enter="changeName">
+                    <input type="text" placeholder="Enter new last name..." v-model="lastName" class="input-field changename-input-border" @keyup.enter="changeName">
                     <input :type="showPass?'text':'password'" placeholder="Enter your password..."
-                        v-model="namePassword" class="input-field changename-input-border">
+                        v-model="namePassword" class="input-field changename-input-border" @keyup.enter="changeName">
 
                     <button type="button" class="confirm" :disabled="!isChangeNameValid">Done</button>
                 </div>
@@ -79,11 +79,11 @@
                     <h2 class="card-title">Change password</h2>
 
                     <input :type="showPass?'text':'password'" v-model="currentPassword" placeholder="Enter current password..."
-                        class="input-field changepassword-input-border">
+                        class="input-field changepassword-input-border" @keyup.enter="changePassword">
                     <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password..."
-                        class="input-field changepassword-input-border">
+                        class="input-field changepassword-input-border" @keyup.enter="changePassword">
                     <input :type="showPass?'text':'password'" v-model="confirmPass"
-                        placeholder="Confirm new password..." class="input-field changepassword-input-border">
+                        placeholder="Confirm new password..." class="input-field changepassword-input-border" @keyup.enter="changePassword">
 
                     <p class="error-message" v-if="!passMatch">Passwords do not match</p>
                     <button type="button" class="confirm" :disabled="!isChangePasswordValid" >Done</button>
@@ -99,7 +99,7 @@
                         This action cannot be undone</p>
 
                     <input :type="showPass?'text':'password'" v-model="deletePassword" placeholder="Enter your password..."
-                        class="input-field del-account-input-border">
+                        class="input-field del-account-input-border" @keyup.enter="deleteAccount">
                     <button type="button" class="confirm":disabled="!isDeleteAccountValid" >Done</button>
                 </div>
 
