@@ -82,6 +82,8 @@ createApp({
             curPass: '',
             passMatch: true,
             passwordError: '',
+            isAdmin: false,
+            countAdmin: 0,
 
             deleteRequest: {
                 password: '',
@@ -147,6 +149,9 @@ createApp({
         },
         checkMatch() {
             return this.newPass === this.confirmPass;
+        },
+        isOnlyAdmin() {
+            return this.isAdmin && this.countAdmin <= 1;
         }
     },
     methods: {
@@ -343,7 +348,7 @@ createApp({
         },
 
         async deleteAccount() {
-            if (!this.deleteRequest.password) return;
+            if (!this.deleteRequest.password || this.isOnlyAdmin) return;
             try {
                 await axios.delete("api/users/me", {
                     data: {
@@ -462,6 +467,13 @@ createApp({
                 this.user.lastName = (data.last_name || "").toUpperCase();
                 this.user.profilePic = data.profile_picture_url || "";
                 this.selectedTheme = (data.theme || "dark").toLowerCase();
+                this.isAdmin = data.role === 'admin';
+
+                // count for admin
+                if (this.isAdmin) {
+                    const adminUsers = await getMethod("api/admin/users");
+                    this.countAdmin = adminUsers.users.filter(user => user.role === 'admin').length;
+                }
 
                 // console.log("[INFO] User details loaded successfully");
             } catch (error) {
