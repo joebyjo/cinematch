@@ -145,8 +145,11 @@
                         <div class="stream-button">
                             <span>Stream here</span>
                             <div class="icon-bar">
-                                <img src="./images/primeVideo.png" alt="Prime" class="stream-icon icon">
-                                <img src="./images/Netflix.png" alt="Netflix" class="stream-icon icon">
+                                <div v-for="provider in topProvider" :key="provider.id">
+                                    <img :src="`https://image.tmdb.org/t/p/original${provider.logo_path}`"
+                                         :alt="provider.provider_name" class="stream-icon">
+                                </div>
+                                <span v-if="!hasProvider">No providers</span>
                             </div>
                         </div>
                     </div>
