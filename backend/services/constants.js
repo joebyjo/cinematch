@@ -6,4 +6,4 @@ const preferredProviders = [8, 9, 2, 10, 337, 531, 15, 350, 1968, 386, 1770, 189
 const preferredCountries = ['AU', 'US', 'GB', 'IN'];
 
 
-module.exports = [preferredProviders, preferredCountries, SALT_ROUNDS];
+module.exports = { preferredProviders, preferredCountries, SALT_ROUNDS };

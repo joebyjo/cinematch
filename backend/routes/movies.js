@@ -3,7 +3,7 @@ const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
 const { validate, validateSearchQuery, validateId } = require('../services/validators');
 const { insertMovie, getMovieData, getGenreData, getUserRating, getWatchStatus, getLangData } = require('../services/helpers');
-const [preferredProviders, preferredCountries] = require('../services/constants');
+const { preferredProviders, preferredCountries } = require('../services/constants');
 
 const router = express.Router();
 

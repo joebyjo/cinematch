@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const db = require('./db');
-const [SALT_ROUNDS] = require('../services/constants');
+const { SALT_ROUNDS } = require('../services/constants');
 
 function hashPassword(password) {
     return bcrypt.hashSync(password, SALT_ROUNDS); // hash password
