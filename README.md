@@ -1,13 +1,43 @@
-# Group Repository for COMP SCI 2207/7207 Web & Database Computing Web Application Project (2023 Semester 1)
+# 🎬 Cinematch
 
-Your group's shared repository for the WDC 2023 Web App Project.
+Cinematch is a web application designed to simplify the process of discovering movies and TV shows. Aimed at casual viewers and entertainment enthusiasts who are overwhelmed by endless options, the app offers a fast, fun, and personalised experience using a Tinder-style swipe interface. Users can like or dislike content, and Cinematch learns their preferences to provide tailored recommendations. With features like easy sign-up/login, trending content exploration, search functionality, swipe-based discovery, personal watchlists, and user ratings, the app delivers a seamless and engaging way to find what to watch next, perfect for those who want less browsing and more watching.
 
-Auto commit/push/sync to Github is disabled by default in this repository.
-- Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
 
-See [HERE](https://myuni.adelaide.edu.au/courses/85266/pages/2023-web-application-group-project-specification) for the project specification.
+---
 
-We recommend using the 'Shared Repository Model (Branch & Pull)' to collaborate on your work in this single repostory.
-- You can read more about collaborating on GitHub repositories [HERE](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
-- When working on the same file at the same time, the 'Live Share' feature in VSCode can also help.
+## 🧰 Project Structure
+
+```
+├── .devcontainer.json
+├── .gitignore
+├── Makefile            # Useful commands for setup and dev
+├── README.md
+├── backend/            # Express backend with routes, services, db
+│   ├── app.js
+│   ├── bin/
+│   ├── db/             # Contains schema.sql, seed.sql, views.sql
+│   ├── .env            # Environment variables for DB and backend
+│   ├── package.json
+│   ├── routes/
+│   ├── services/
+│   ├── uploads/
+│   └── views/
+└── frontend/           # Static frontend files (HTML, CSS, JS)
+```
+
+---
+
+## 🚀 Usage
+
+Follow these steps to clone and run the app locally.
+
+### 🔧 Initial Setup
+
+run the following commands on your terminal
+
+1. `make install`
+2. `make db-reset`
+3. `make start`
+4. navigate to `localhost:8080` on your browser
+
 
