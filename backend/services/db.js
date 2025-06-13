@@ -8,6 +8,9 @@ const pool = mysql.createPool({
   user: DB_USER,
   password: DB_PASS,
   database: DB_NAME,
+  waitForConnections: true, // allow queueing of connections
+  connectionLimit: 10, // limit concurrent connections
+  queueLimit: 0 // unlimited queue
 });
 
 module.exports = pool;
