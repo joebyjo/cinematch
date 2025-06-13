@@ -26,7 +26,9 @@ createApp({
             nowPlayingSi: 0,
 
             topRated: [],
-            topRatedSi: 0
+            topRatedSi: 0,
+
+            isLoading: true
         };
     },
     methods: {
@@ -79,8 +81,6 @@ createApp({
             let si = this.trendingSi;
             let en = this.mod(si + 5, this.trending.length);
 
-            // console.log(si, en, this.trending.length);
-
             if (si < en) {
                 return this.trending.slice(si, en);
             }
@@ -98,11 +98,17 @@ createApp({
             const si = this.mod(this.topRatedSi, len); const en = this.mod(si + 5, len);
             // eslint-disable-next-line max-len
             return si < en ? this.topRated.slice(si, en) : this.topRated.slice(si).concat(this.topRated.slice(0, en));
+        },
+
+        async init() {
+            this.isLoading = true;
+            await this.getTrending();
+            await this.getNowPlaying();
+            await this.getTopRated();
+            this.isLoading = false;
         }
     },
     mounted() {
-        this.getTrending();
-        this.getNowPlaying();
-        this.getTopRated();
+        this.init();
     }
 }).mount('#homepage');
