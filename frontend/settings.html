@@ -89,14 +89,16 @@
                 <button type="button" @click="showPass = !showPass" :class="showPass?'hide-icon':'show-icon'"></button>
             </div>
             <div class="row">
-                <div class="card delete-account">
+                <div class="card delete-account" :class="{'disabled': isOnlyAdmin}">
                     <h2 class="card-title">Delete account</h2>
                     <p class="info-text">IMPORTANT!<br>
                         This action cannot be undone</p>
 
-                    <input :type="showPass?'text':'password'" v-model="deleteRequest.password" placeholder="Enter your password...">
+                    <input :type="showPass?'text':'password'" v-model="deleteRequest.password" placeholder="Enter your password..."
+                    :disabled="isOnlyAdmin">
                     <p class="error-message" v-if="!deleteRequest.isPass">Incorrect Password</p>
-                    <button type="button" class="confirm" @click="deleteAccount()">Done</button>
+                    <p class="error-message" v-if="isOnlyAdmin">Cannot delete account as you are the only admin</p>
+                    <button type="button" class="confirm" @click="deleteAccount()" :disabled="isOnlyAdmin">Done</button>
                 </div>
 
                 <div class="card password-check">
