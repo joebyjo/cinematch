@@ -30,7 +30,7 @@ INSERT INTO `GENRES` VALUES (12,'Adventure'),(14,'Fantasy'),(16,'Animation'),(18
 -- create languages table
 CREATE TABLE `LANGUAGES` (
     `id` int NOT NULL AUTO_INCREMENT,
-    `code` char(2) NOT NULL,  -- ISO 639-1 codes like 'en', 'hi', etc.
+    `code` char(2) UNIQUE NOT NULL,  -- ISO 639-1 codes like 'en', 'hi', etc.
     `name` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 );

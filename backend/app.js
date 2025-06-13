@@ -53,9 +53,6 @@ app.use(session({ // for sessions
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // stay logged in for 24 hours
-        httpOnly: true, // prevent client-side script access to cookie
-        sameSite: 'lax', // mitigate csrf risk
-        secure: process.env.NODE_ENV === 'prod' // enforce https in production
     }
 }));
 app.use(passport.initialize()); // for user authentication
