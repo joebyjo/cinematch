@@ -41,10 +41,13 @@
 
 <body class="primary-bg-color" style="display: none">
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
+
+        <!-- logo section -->
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
         </div>
 
+        <!-- clickable site logo/text -->
         <div class="nav secondary-bg-color-nav-bar">
             <a class="primary-color-nav-bar" href="/home">HOME</a>
             <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
@@ -52,6 +55,7 @@
             <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
         </div>
 
+        <!-- login/profile section -->
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
@@ -64,21 +68,32 @@
                     <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
+                <!-- dropdown menu shown on avatar click -->
                 <div v-show="showMenu" class="user-menu">
                     <div @click="redirect('/settings')">
+
+                        <!-- icon changes based on theme -->
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
+
+                    <!-- show admin dashboard only if user is admin -->
                     <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
                         <img src="./images/admin-lock-icon.png" alt="admin icon">
                         Admin Dashboard
                     </div>
+
+                    <!-- toggle dark theme -->
                     <div @click="changeDark()">
+
+                        <!-- icon updates on theme toggle -->
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
                             src="./images/dark-on-icon.png" alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
+
+                    <!-- logout option -->
                     <div @click="redirect('/logout')">
                         <img src="images/logout-icon.png" alt="logout icon">
                         <span class="logout-nav-bar">Log out</span>
@@ -90,9 +105,13 @@
 
     <main ref="mainContainer" class="main-mylists">
         <div class="hero-section">
+
+            <!-- page main heading -->
             <div class="heading-text"> My Movie List
             </div>
             <div class="filter-sort-section">
+
+                <!-- reset filters button -->
                 <button type="button" class=" button-reset button-reset" @click="resetFiltersAndSort">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 2 24 20" width="1rem" height="1rem"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -106,15 +125,21 @@
                 <!-- Filter Option: Done-->
                 <button ref="filterBtn" type="button" class="filter-button" @click="showFilter = !showFilter">Add
                     Filters</button>
+
+                <!-- filter dropdown menu, stops click propagation to avoid closing -->
                 <div v-show="showFilter" ref="filterMenu" class="filter-menu-accordion" @click.stop>
                     <!-- Genres Accordion -->
                     <div class="accordion-section">
                         <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
                         <div class="accordion-body" v-show="activeAccordion === 'genres'">
+
+                            <!-- buttons to select/clear all genres -->
                             <div class="genre-controls">
                                 <button class="genre-btn" @click="selectAllGenres">Select All</button>
                                 <button class="genre-btn" @click="clearAllGenres">Clear All</button>
                             </div>
+
+                            <!-- list of genres with checkboxes -->
                             <div class="genre-grid">
                                 <label v-for="genre in genres" class="filter-option" :id="genre.name">
                                     <input type="checkbox" :value="genre.id" v-model="filter.genre"> {{ genre.name }}
@@ -127,6 +152,8 @@
                     <div class="accordion-section">
                         <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
                         <div class="accordion-body" v-show="activeAccordion === 'age'">
+
+                            <!-- checkboxes for each age rating -->
                             <label v-for="age in ageRatings" class="filter-option" :id="age">
                                 <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
                             </label>
@@ -137,6 +164,7 @@
                     <div class="accordion-section">
                         <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
                         <div class="accordion-body" v-show="activeAccordion === 'status'">
+                            <!-- checkboxes for each status -->
                             <label v-for="status in statuses" class="filter-option" :id="status">
                                 <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
                             </label>
@@ -155,10 +183,12 @@
                     <option value="imdb_rating.asc">IMDB Rating: Low to High</option>
                 </select> -->
 
+                <!-- sorting dropdown button -->
                 <div class="custom-dropdown">
                     <button ref="sortBtn" type="button" class="filter-button" @click="showSort = !showSort">
                         Sort By
                     </button>
+                    <!-- sorting options dropdown, click stops propagation -->
                     <div ref="sortMenu" v-show="showSort" class="custom-dropdown-menu" @click.stop>
                         <div class="dropdown-option" :class="{ selected: sort === 'my_rating.desc' }"
                             @click="sort = 'my_rating.desc'; showSort = false">
@@ -184,11 +214,12 @@
             </div>
         </div>
 
-        <!-- Table Option: CSS Need to be done -->
+        <!-- movie list table -->
         <div class="movie-table">
             <table>
                 <thead>
                     <tr>
+                        <!-- table headers -->
                         <th>Name</th>
                         <th>Genre</th>
                         <th>Release Date</th>
@@ -199,7 +230,7 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    <!-- placeholder empty row -->
                     <tr>
                         <td></td>
                         <td></td>
@@ -210,12 +241,19 @@
                         <td></td>
                     </tr>
 
+                    <!-- rows for each movie -->
                     <tr v-for="movie in movies">
-                        <td class="movie-title movie-name"><div class="title-with-icon"> <img class="bookmark-icon" :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'" alt="Bookmark" @click.stop="toggleBookmark(movie)" />
-                            <span @click="goToMovie(movie.movie_id)" >{{ helperCheckEmpty(movie.title) }} </span>
+                        <td class="movie-title movie-name">
+                            <div class="title-with-icon"> <img class="bookmark-icon"
+                                    :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'"
+                                    alt="Bookmark" @click.stop="toggleBookmark(movie)" />
+                                <!-- clicking title navigates to movie page -->
+                                <span @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }} </span>
 
-  </div> </td>
+                            </div>
+                        </td>
                         <td>
+                            <!-- genre badges with dynamic classes -->
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
                                     :class="['genre-badge', 'genre-' + g.name.toLowerCase().replace(/\s+/g, '-')]">
@@ -224,12 +262,16 @@
                             </div>
                         </td>
                         <td class="release-date">{{ helperMovieDate(movie.release_date) }}</td>
-                        <td><img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"
+                        <td>
+                            <!-- status icon toggles watch status on click -->
+                            <img :src="helperMovieStatus(movie.watch_status)" :alt="movie.watch_status"
                                 class="status-icon" @click="toggleStatus(movie)"></td>
                         <td class="age-rating">{{ helperCheckEmpty(movie.certification) }}</td>
                         <td class="imdb-rating">{{ helperImdbRating(movie.imdb_rating) }}</td>
                         <td class="rating-cell">
+                            <!-- star rating interaction, resets on mouse leave -->
                             <div class="star-rating" @mouseleave="movie.hoverRating = 0">
+                                <!-- renders 5 stars -->
                                 <template v-for="i in 5">
                                     <div class="star-container"
                                         @mousemove="movie.hoverRating = (getMouseX($event) < 0.5 ? i - 0.5 : i)"
@@ -237,11 +279,13 @@
                                         <svg viewBox="0 0 24 24" class="star" :class="{ filled: (movie.hoverRating || movie.my_rating) >= i,
                        half: (movie.hoverRating || movie.my_rating) === i - 0.5 }">
                                             <defs>
+                                                <!-- gradient for half stars -->
                                                 <linearGradient id="half-grad" x1="0" x2="1" y1="0" y2="0">
                                                     <stop offset="50%" stop-color="gold" />
                                                     <stop offset="50%" stop-color="#444" />
                                                 </linearGradient>
                                             </defs>
+                                            <!-- star polygon with dynamic fill based on rating -->
                                             <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10"
                                                 :fill="(movie.hoverRating || movie.my_rating) >= i
     ? 'gold'
@@ -251,15 +295,15 @@
                                         </svg>
                                     </div>
                                 </template>
+                        </div>
                         </td>
-                        </td>
-
-
                     </tr>
                 </tbody>
             </table>
             <!-- Table Ends -->
 
+
+            <!-- table footer with load limit dropdown -->
             <!-- Below Buttons star -->
             <div class="table-footer">
                 <div class="custom-dropdown" ref="loadLimitWrapper">
@@ -298,6 +342,7 @@
     </main>
 
     <footer class="footer">
+        
         <!-- Floating Content on top of background -->
         <div class="footer-floating-content">
             <div>
