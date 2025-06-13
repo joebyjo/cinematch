@@ -2,7 +2,13 @@ var express = require('express');
 var router = express.Router();
 const path = require('path');
 const upload = require('../services/upload');
-const { isAuthenticated } = require('../services/validators');
+const {
+    isAuthenticated,
+    validateUpdateUser,
+    validateDeleteUser,
+    validateTheme,
+    validateProfileAvatar,
+    validate } = require('../services/validators');
 const db = require('../services/db');
 const { comparePassword, getUserGenresLanguages } = require('../services/helpers');
 
@@ -43,7 +49,7 @@ router.get('/me', async (req, res) => {
 });
 
 // update first name and/or last name (password required for confirmation)
-router.put('/me', async (req, res) => {
+router.put('/me', validateUpdateUser, validate, async (req, res) => {
     const { id } = req.user;
     const { first_name, last_name, password } = req.body;
 
@@ -83,7 +89,7 @@ router.put('/me', async (req, res) => {
 });
 
 // delete user account with password confirmation
-router.delete('/me', async (req, res) => {
+router.delete('/me', validateDeleteUser, validate, async (req, res) => {
     try {
         const { password } = req.body;
         if (!password) return res.status(401).json({ msg: 'Password is required' });
@@ -111,7 +117,7 @@ router.delete('/me', async (req, res) => {
 });
 
 // update theme setting
-router.post('/me/theme', async (req, res) => {
+router.post('/me/theme', validateTheme, validate, async (req, res) => {
     const { theme } = req.body;
     if (!theme) {
         return res.status(400).json({ msg: 'Theme is required' });
@@ -153,7 +159,7 @@ router.post('/me/profile-picture', upload.single('profile_picture'), async (req,
 });
 
 // set predefined avatar as profile picture
-router.post('/me/profile-avatar', async (req, res) => {
+router.post('/me/profile-avatar', validateProfileAvatar, validate, async (req, res) => {
     const { id } = req.body;
     const profilePictureUrl = `/uploads/avatar${id}.svg`;
 
