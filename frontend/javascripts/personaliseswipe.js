@@ -37,10 +37,24 @@ const app = Vue.createApp({
             errorMessage: '',
 
             isSaved: false,
-            isWatched: false
+            isWatched: false,
+            hasProvider: true
         };
     },
-    computed: {},
+    computed: {
+        topProvider() {
+            const providers = (this.movie && this.movie.watch_providers) || [];
+
+            if (providers.length === 0) {
+                this.hasProvider = false;
+                return [];
+            }
+
+            const sorted = providers.sort((i, j) => i.display_priority - j.display_priority);
+            this.hasProvider = true;
+            return sorted.slice(0, 2);
+        }
+    },
     methods: {
         async fetchMovieData(movieId) {
             try {

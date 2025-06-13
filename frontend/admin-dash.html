@@ -324,8 +324,8 @@
                     <tr v-for="user in users" :key="user.user_name">
                         <td>
                             <div class="checkbox-col">
-                                <input v-if="isSelectOn" type="checkbox"
-                                  :checked="selectedUsers.includes(user.user_id)" @change="SelectUser(user.user_id)">
+                                <input v-if="isSelectOn" type="checkbox" :checked="selectedUsers.includes(user.user_id)"
+                                @change="SelectUser(user.user_id)" :disabled="user.role === 'admin'">
                                 <span class="username" @click="editUser(user)">{{ user.user_name }}</span>
                             </div>
                         </td>
