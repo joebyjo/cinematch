@@ -60,24 +60,31 @@
         <div class="container">
 
             <!--account-->
+            <!-- Account Settings Section -->
             <h1 id="acc">Account Settings</h1>
             <div class="row">
+
+                 <!-- Change Name Card -->
                 <div class="card change-name">
                     <h2 class="card-title">Change name</h2>
                     <p class="info-text">Current name: <span>Josheen Kour</span></p>
 
+                    <!-- Name input fields -->
                     <input type="text" placeholder="Enter new first name..."
                          v-model="firstName" class="input-field changename-input-border" @keyup.enter="changeName">
                     <input type="text" placeholder="Enter new last name..." v-model="lastName" class="input-field changename-input-border" @keyup.enter="changeName">
                     <input :type="showPass?'text':'password'" placeholder="Enter your password..."
                         v-model="namePassword" class="input-field changename-input-border" @keyup.enter="changeName">
 
+                    <!-- Done button -->
                     <button type="button" class="confirm" :disabled="!isChangeNameValid">Done</button>
                 </div>
 
+                <!-- Change Password Card -->
                 <div class="card change-password">
                     <h2 class="card-title">Change password</h2>
 
+                    <!-- Password input fields -->
                     <input :type="showPass?'text':'password'" v-model="currentPassword" placeholder="Enter current password..."
                         class="input-field changepassword-input-border" @keyup.enter="changePassword">
                     <input :type="showPass?'text':'password'" v-model="newPass" placeholder="Enter new password..."
@@ -85,28 +92,37 @@
                     <input :type="showPass?'text':'password'" v-model="confirmPass"
                         placeholder="Confirm new password..." class="input-field changepassword-input-border" @keyup.enter="changePassword">
 
+                    <!-- Password mismatch error message -->
                     <p class="error-message" v-if="!passMatch">Passwords do not match</p>
                     <button type="button" class="confirm" :disabled="!isChangePasswordValid" >Done</button>
                 </div>
             </div>
+
+            <!-- Toggle show/hide password button -->
             <div class="show-hide-pass">
                 <button type="button" @click="showPass = !showPass" :class="showPass?'hide-icon':'show-icon'"></button>
             </div>
+
+
             <div class="row">
+                <!-- Delete Account Card -->
                 <div class="card delete-account">
                     <h2 class="card-title">Delete account</h2>
                     <p class="info-text">IMPORTANT!<br>
                         This action cannot be undone</p>
 
+                    <!-- Password input for account deletion -->
                     <input :type="showPass?'text':'password'" v-model="deletePassword" placeholder="Enter your password..."
                         class="input-field del-account-input-border" @keyup.enter="deleteAccount">
                     <button type="button" class="confirm":disabled="!isDeleteAccountValid" >Done</button>
                 </div>
 
+                <!-- Password Requirement Checker -->
                 <div class="card password-check">
                     <h2 class="card-title">Password check</h2>
                     <p class="info-text">Your new password must have :</p>
 
+                    <!-- Password rules with validation styles -->
                     <div class="req-tags">
                         <span :class="['input-field', { valid: passReq.length, invalid: !passReq.length }]">8 - 16
                             characters</span>
@@ -128,12 +144,14 @@
             <h1 id="profile" class="h1profile">Profile Settings</h1>
             <div class="select-avatar">
                 <div class="av-row">
+                    <!-- Avatar selection grid -->
                     <div v-for="avatar in getAvatars()" :key="avatar.id" class="slot"
                         :class="{'empty': !avatar.src,'large': avatar.isLarge,'selected': avatar.isSelected}">
                         <img v-if="avatar.src" :src="avatar.src" :alt="'Avatar' + avatar.id">
                     </div>
                 </div>
 
+                <!-- Avatar control buttons -->
                 <div class="av-controls">
                     <button type="button" class="av-button prev" @click="prevAv"></button>
                     <button type="button" class="select-button" @click="selectAv()"
@@ -143,6 +161,7 @@
                 </div>
             </div>
 
+            <!-- Avatar upload and preview section -->
             <div class="upload-avatar">
                 <div class="upload-section">
                     <input type="file" id="av-upload" accept=".jpg,.jpeg,.png" @change="fileUpload"
@@ -212,7 +231,7 @@
                     </div>
                 </div>
 
-                <!--genre-->
+                <!-- Genre dropdown selector -->
                 <div class="dropdown">
                     <div class="d-placeholder" @click="toggleDropdown('genres')" tabindex="0" role="button"
                         @keydown.enter="toggleDropdown('genres')" @keydown.space.prevent="toggleDropdown('genres')"
