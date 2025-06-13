@@ -66,7 +66,8 @@ CREATE TABLE `MOVIES` (
     `trailer_url` varchar(256) DEFAULT NULL,
     `run_time` smallint DEFAULT NULL,
     `certification` varchar(15) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`original_language`) REFERENCES `LANGUAGES` (`code`) ON DELETE SET NULL
 );
 
 -- create moviesgenres table
@@ -97,6 +98,10 @@ CREATE TABLE `PREFERENCES` (
     PRIMARY KEY (`id`)
 );
 
+-- 0 - not bookmarked and not watched
+-- 1 - watched and not bookmarked
+-- 2 - bookmarked and not watched
+-- 3 - watched and bookmarked
 INSERT INTO `PREFERENCES` VALUES
 (1, 0, 0),
 (2, 0, 1),
