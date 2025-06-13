@@ -123,6 +123,7 @@
                 </section>
             </div>
             <div class="middle-box box">
+                <img v-show="false" :src="preloadBackdrop" />
                 <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
                     :alt="movie.title" />
             </div>
