@@ -193,7 +193,11 @@ router.post('/users', async (req, res) => {
             [user_name, hashed, first_name, last_name, role]
         );
 
-        res.status(201).json({ msg: 'User created successfully', user_id: result.insertId });
+        const userId = result.insertId
+
+        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId]);
+
+        res.status(201).json({ msg: 'User created successfully', user_id: userId });
     } catch (err) {
         res.status(500).json({ msg: `Failed to create user: ${err}` });
     }
