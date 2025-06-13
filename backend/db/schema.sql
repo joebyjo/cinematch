@@ -122,8 +122,7 @@ CREATE TABLE `USERS` (
     UNIQUE KEY `user_name` (`user_name`)
 );
 
-
--- create users table
+-- create usersettings table
 CREATE TABLE `USERSETTINGS` (
     `user_id` int NOT NULL,
     `theme` enum('dark','light') NOT NULL DEFAULT 'dark',

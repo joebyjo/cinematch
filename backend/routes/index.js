@@ -4,7 +4,7 @@ const { isAuthenticated, isAdmin } = require('../services/validators');
 var router = express.Router();
 const db = require('../services/db');
 
-/* GET home page. */
+
 router.get('/', function (req, res, next) {
     res.redirect('/home');
 });
@@ -13,9 +13,6 @@ router.get('/home', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/homepage.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 router.get('/personalise', isAuthenticated, async function (req, res, next) {
@@ -47,54 +44,36 @@ router.get('/personalise', isAuthenticated, async function (req, res, next) {
     }
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 router.get('/login', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/login.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 router.get('/signup', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/signup.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
-router.get('/mylists', isAuthenticated,  function (req, res, next) {
+router.get('/mylists', isAuthenticated, function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/mylists.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 router.get('/aboutus', function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/about-us.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 router.get('/settings', isAuthenticated, function (req, res, next) {
     res.sendFile(path.join(__dirname, '../../frontend/settings.html'));
 
     req.session.visited = true;
-    // res.send('works');
-
-    // console.log(req.session.id);
 });
 
 
