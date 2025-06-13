@@ -86,6 +86,7 @@
     </nav>
 
     <main id="about-us">
+        <!--curved svg header-->
         <svg viewBox="0 0 500 70" class="curved-svg">
             <path id="curve" d="M60,100 Q250,-50 450,100" fill="transparent" />
             <text class="curved-text">
@@ -94,11 +95,16 @@
                 </textPath>
             </text>
         </svg>
+
+        <!--creator cards-->
         <div class="cards-box">
+
+            <!--card 1-->
             <div class="card" :class="{ flipped: isFlipped1 }" @click="flipCard(1, $event)">
                 <div class="card-frontside">
                     <img src="images/creator1.PNG" alt="Creator 1 : Josheen" class="creator-img">
                 </div>
+
                 <div class="card-backside">
                     <div class="backside-content">
                         <p><b>JOSHEEN</b></p><br>
@@ -108,10 +114,12 @@
                 </div>
             </div>
 
+            <!--card 2-->
             <div class="card" :class="{ flipped: isFlipped2 }" @click="flipCard(2, $event)">
                 <div class="card-frontside">
                     <img src="images/creator2.PNG" alt="Creator 2 : Joe" class="creator-img">
                 </div>
+
                 <div class="card-backside">
                     <div class="backside-content">
                         <p><b>JOE</b></p><br>
@@ -121,10 +129,12 @@
                 </div>
             </div>
 
+            <!--card 3-->
             <div class="card" :class="{ flipped: isFlipped3 }" @click="flipCard(3, $event)">
                 <div class="card-frontside">
                     <img src="images/creator3.PNG" alt="Creator 3 : Liri" class="creator-img">
                 </div>
+
                 <div class="card-backside">
                     <div class="backside-content">
                         <p><b>LIRI</b></p><br>
@@ -134,10 +144,12 @@
                 </div>
             </div>
 
+            <!--card 4-->
             <div class="card" :class="{ flipped: isFlipped4 }" @click="flipCard(4, $event)">
                 <div class="card-frontside">
                     <img src="images/creator4.PNG" alt="Creator 4 : Hiten" class="creator-img">
                 </div>
+
                 <div class="card-backside">
                     <div class="backside-content">
                         <p><b>HITEN</b></p><br>
@@ -147,19 +159,20 @@
                 </div>
             </div>
         </div>
+
+        <!--message from creators-->
         <div class="member-box">
-            <div class="top-left-member"></div>
-            <div class="top-right-member"></div>
-            <div class="bottom-left-member"></div>
-            <div class="bottom-right-member"></div>
             <div class="message-box">
                 <h2>Hello Stranger!</h2>
                 <p>We are a team of four passionate students (and friends) who collaborated on this project as part of
                     our university course on Web and Database Design (UoA).</p>
+
                 <p>Cinematch is like that friend who always knows what movie you're in the mood for. No more scrolling
                     for hours. We kept things simple, smooth and <span class="emphasis">hopefully</span> bug-free.</p>
+
                 <p>Some of us worked on the front-end, others on the back-end and database but in the end, we built
                     something that's fun and easy to use.</p>
+                    
                 <p>Thank you for visiting Cinematch — we hope you enjoy exploring it as much as we enjoyed building it!
                 </p>
             </div>

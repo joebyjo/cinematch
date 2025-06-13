@@ -12,6 +12,7 @@ async function helperGetMovieData(url) {
 }
 
 function helperDrawStatus(s) {
+    // choose icon based on status
     if (s === 0) {
         return "/images/my-lists/eye-slash-solid.png";
     } else if (s === 1) {
@@ -96,6 +97,7 @@ const movieTable = Vue.createApp({
     },
     methods: {
         resetFiltersAndSort() {
+            // reset all filters
             this.filter.genre = [];
             this.filter.status = [];
             this.filter.ageRating = [];
@@ -112,10 +114,12 @@ const movieTable = Vue.createApp({
         },
 
         getMouseX(event) {
+            // relative x pos
             const rect = event.currentTarget.getBoundingClientRect();
             return (event.clientX - rect.left) / rect.width;
         },
 
+        // sends user's personal rating to server
         async setUserRating(movie, rating) {
             movie.my_rating = rating;
 
@@ -132,6 +136,7 @@ const movieTable = Vue.createApp({
             }
         },
 
+        // toggles watch status and updates server
         async toggleStatus(movie) {
 
             switch (movie.watch_status) {
@@ -177,15 +182,18 @@ const movieTable = Vue.createApp({
             }
         },
 
+        // toggles filter dropdown
         toggleFilter() {
             this.showFilter = !this.showFilter;
             this.showSort = false; // close other menu
         },
 
+        // toggles sort dropdown
         toggleSort() {
             this.showSort = !this.showSort;
             this.showFilter = false; // close other menu
         },
+        // closes dropdowns if user clicks outside
         handleClickOutside(event) {
             const filterBtn = this.$refs.filterBtn;
             const filterMenu = this.$refs.filterMenu;
@@ -206,20 +214,23 @@ const movieTable = Vue.createApp({
             if (!clickedInsideLoadLimit) this.showLoadLimit = false;
         },
 
-
+        // handles single open/close behaviour
         toggleAccordion(section) {
             this.activeAccordion = this.activeAccordion === section ? null : section;
         },
+        // sets all genres to selected
         selectAllGenres() {
             this.filter.genre = this.genres.map(g => g.id);
         },
+        // clears all selected genres
         clearAllGenres() {
             this.filter.genre = [];
         },
-
+         // returns array of values for load-limit dropdown
         loadLimitArray() {
             return helperLoadLimitArray(100);
         },
+        // gets movie data and updates local list
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
 
@@ -231,6 +242,7 @@ const movieTable = Vue.createApp({
             this.totalMovies = res.data.total || 0;
             this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
+        // builds API URL with current page, sort, and filter settings
         createUrl() {
             // base url
             const url = new URL("/api/mylist", window.location.origin);
@@ -272,10 +284,12 @@ const movieTable = Vue.createApp({
                 year: 'numeric'
             });
         },
+        // fallback to N/A if field is empty
         helperCheckEmpty(input) {
             if (!input) return "N/A";
             return input;
         },
+        // adds /10 to IMDb rating
         helperImdbRating(r) {
             if (!r) return "N/A";
             return r + "/10";
@@ -284,13 +298,16 @@ const movieTable = Vue.createApp({
             if (!r) return "N/A";
             return helperDraw(r);
         },
+         // picks icon based on movie status
         helperMovieStatus(s) {
             return helperDrawStatus(s);
         },
+        // redirects to movie page
         goToMovie(movie_id) {
             console.log(movie_id);
             window.location.href = `/movie/${movie_id}`;
         },
+        // fetches genre list from API
         async getGenres(url) {
             const res = await helperGetMovieData(url);
             this.genres = res.data || [];
@@ -309,12 +326,14 @@ const movieTable = Vue.createApp({
 
     },
     watch: {
+        // refetches data when page changes
         page() {
             const url = this.createUrl();
             this.getMovieData(url);
         },
 
         SortorFilterMovies: {
+            // refetches data when sort/filter value change
             handler() {
                 this.page = 1;
                 const url = this.createUrl();

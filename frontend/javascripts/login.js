@@ -1,3 +1,4 @@
+// handle login request
 async function helperLogin(username, password) {
     try {
         // eslint-disable-next-line no-undef
@@ -24,9 +25,11 @@ createApp({
         };
     },
     methods: {
+        // go to another page
         redirect(path) {
             window.location.href = path;
         },
+        // handle login logic
         async login() {
             const res = await helperLogin(this.username, this.password);
             if (res === 0) {

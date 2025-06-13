@@ -1,6 +1,8 @@
+// handle signup request
 async function helperSignup(firstName, lastName, email, password) {
     try {
         // eslint-disable-next-line no-undef
+        // send post request
         const res = await axios.post('/api/auth/signup', {
             username: email,
             password: password,
@@ -33,9 +35,11 @@ createApp({
         };
     },
     methods: {
+        // go to another page
         redirect(path) {
             window.location.href = path;
         },
+        // handle signup logic
         async signup() {
             // eslint-disable-next-line max-len
             const res = await helperSignup(this.firstName, this.lastName, this.email, this.password);
