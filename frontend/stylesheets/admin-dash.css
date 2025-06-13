@@ -379,6 +379,11 @@ h1 {
     cursor: pointer;
 }
 
+.checkbox-col input[type="checkbox"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .role-pill {
   display: inline-flex;
   align-items: center;
