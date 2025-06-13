@@ -30,7 +30,7 @@
     <script src="javascripts/personaliseswipe.js" defer></script>
     <script src="javascripts/index.js" defer></script>
 
-    <title>Home Page</title>
+    <title>Personalise</title>
 </head>
 
 <body class="light primary-bg-color" style="display: none">
@@ -122,9 +122,12 @@
                     </div>
                 </section>
             </div>
-            <div class="middle-box box">
-                <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
-                    :alt="movie.title" />
+            <div class="middle-box-section">
+                <div class="middle-box-bg box"></div>
+                <div class="middle-box box">
+                    <img :src="movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : '/images/unavailable-poster.svg'"
+                        :alt="movie.title" />
+                </div>
             </div>
             <div class="side-box box">
                 <section class="right-box">
@@ -151,8 +154,11 @@
                         <div class="stream-button">
                             <span>Stream here</span>
                             <div class="icon-bar">
-                                <img src="./images/primeVideo.png" alt="Prime" class="stream-icon icon">
-                                <img src="./images/Netflix.png" alt="Netflix" class="stream-icon icon">
+                                <div v-for="provider in topProvider" :key="provider.id">
+                                    <img :src="`https://image.tmdb.org/t/p/original${provider.logo_path}`"
+                                         :alt="provider.provider_name" class="stream-icon">
+                                </div>
+                                <span v-if="!hasProvider">No providers</span>
                             </div>
                         </div>
                     </div>
