@@ -36,6 +36,8 @@
 </head>
 
 <body class="primary-bg-color" style="display: none">
+
+    <!-- nav bar with logo, nav links, and user login/info -->
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
@@ -59,12 +61,16 @@
                     <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
+                <!-- dropdown user menu -->
                 <div v-show="showMenu" class="user-menu">
                     <div @click="redirect('/settings')">
+                        <!-- icon changes based on theme -->
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
+
+                    <!-- show admin dashboard if user is admin -->
                     <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
                         <img src="./images/admin-lock-icon.png" alt="admin icon">
                         Admin Dashboard
@@ -83,6 +89,7 @@
     </nav>
 
     <main id="about-us">
+        <!-- svg for curved text heading -->
         <svg viewBox="0 0 500 70" class="curved-svg">
             <path id="curve" d="M60,100 Q250,-50 450,100" fill="transparent"/>
             <text class="curved-text">
@@ -91,7 +98,10 @@
               </textPath>
             </text>
           </svg>
+
+        <!-- flipping cards with creator info -->
         <div class="cards-box">
+            <!-- creator 1 card -->
             <div class="card" :class="{ flipped: isFlipped1 }" @click="flipCard(1, $event)">
                 <div class="card-frontside">
                     <img src="images/creator1.PNG" alt="Creator 1 : Josheen" class="creator-img">
@@ -105,6 +115,7 @@
                 </div>
             </div>
 
+            <!-- creator 2 card -->
             <div class="card" :class="{ flipped: isFlipped2 }" @click="flipCard(2, $event)">
                 <div class="card-frontside">
                     <img src="images/creator2.PNG" alt="Creator 2 : Joe" class="creator-img">
@@ -118,6 +129,7 @@
                 </div>
             </div>
 
+            <!-- creator 3 card -->
             <div class="card" :class="{ flipped: isFlipped3 }" @click="flipCard(3, $event)">
                 <div class="card-frontside">
                     <img src="images/creator3.PNG" alt="Creator 3 : Liri" class="creator-img">
@@ -131,6 +143,7 @@
                 </div>
             </div>
 
+            <!-- creator 4 card -->
             <div class="card" :class="{ flipped: isFlipped4 }" @click="flipCard(4, $event)">
                 <div class="card-frontside">
                     <img src="images/creator4.PNG" alt="Creator 4 : Hiten" class="creator-img">
@@ -144,6 +157,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- message from the team -->
         <div class="member-box">
             <div class="top-left-member"></div>
             <div class="top-right-member"></div>
@@ -159,6 +174,8 @@
         </div>
     </main>
 
+
+    <!-- Floating Content on top of background -->
     <footer class="footer">
         <!-- Floating Content on top of background -->
         <div class="footer-floating-content">
