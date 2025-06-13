@@ -483,13 +483,19 @@ main {
 
 .stream-icon {
     border-radius: 0.7rem;
+    border: 0.1rem solid var(--title-color);
     pointer-events: none;
+    height: 3rem;
+    width: 3rem;
     /* padding-left: 0.3rem; */
 }
 
 .stream-button>div {
     box-sizing: border-box;
     padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 1.5rem;
 }
 
@@ -502,10 +508,4 @@ main {
     margin-top: -0.5rem;
     padding: 0.5rem 0;
     background-color: var(--buttomform-section);
-}
-
-.icon {
-    height: 3rem;
-    width: 3rem;
-    cursor: pointer;
 }
