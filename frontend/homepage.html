@@ -38,11 +38,14 @@
 </head>
 
 <body class="primary-bg-color" style="display: none">
+
+     <!-- navigation bar -->
     <nav class="primary-bg-color-nav-bar" id="nav-bar">
         <div class="logo-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar"><a class="secondary-color-nav-bar">CINEMATCH</a></div>
         </div>
 
+        <!-- navigation links -->
         <div class="nav secondary-bg-color-nav-bar">
             <a class="primary-color-nav-bar underline-nav-bar" href="/home">HOME</a>
             <a class="primary-color-nav-bar" href="/personalise">PERSONALISE</a>
@@ -50,8 +53,10 @@
             <a class="primary-color-nav-bar" href="/aboutus">ABOUT US</a>
         </div>
 
+        <!-- user login and settings -->
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
+
                 <!-- if not login -->
                 <a v-if="!isLogin && !inProcess" href="/login"
                     class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
@@ -62,21 +67,30 @@
                     <img :src="profilePic" alt="User avatar" @click="onMenu">
                 </div>
 
+
+                <!-- user dropdown menu -->
                 <div v-show="showMenu" class="user-menu">
+                    <!-- link to settings -->
                     <div @click="redirect('/settings')">
                         <img :src="isDark ? './images/dark-mode-sett-icon.png' : './images/light-mode-sett-icon.png'"
                             src="./images/dark-mode-sett-icon.png" alt="settings icon">
                         Account Settings
                     </div>
+
+                    <!-- visible only to admin users -->
                     <div v-if="isAdmin" @click="redirect('/admin-dashboard')">
                         <img src="./images/admin-lock-icon.png" alt="admin icon">
                         Admin Dashboard
                     </div>
+
+                    <!-- toggle theme -->
                     <div @click="changeDark()">
                         <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
                             src="./images/dark-on-icon.png" alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
+
+                    <!-- log out -->
                     <div @click="redirect('/logout')">
                         <img src="images/logout-icon.png" alt="logout icon">
                         <span class="logout-nav-bar">Log out</span>
@@ -86,14 +100,17 @@
         </div>
     </nav>
 
+    <!-- main homepage content -->
     <main id="homepage">
+
+        <!-- banner poster with call to action -->
         <section class="poster-personalise-page">
             <div class="banner">
-                <div class="bg-blur"></div>
+                <div class="bg-blur"></div><!-- blurred background overlay -->
                 <div class="text-content">
                     <h1>
                         Personalise your<br>
-                        <span class="highlight-images">
+                        <span class="highlight-images"> <!-- each letter is an image -->
                             <img src="images/letters/W.png" alt="W">
                             <img src="images/letters/A.png" alt="A">
                             <img src="images/letters/T.png" alt="T">
@@ -105,29 +122,33 @@
                         </span><br>
                         experience today
                     </h1>
-                    <a href="/personalise" class="start-button">Start now</a>
+                    <a href="/personalise" class="start-button">Start now</a> <!-- button to go to personalise page -->
                 </div>
                 <div class="characters">
-                    <img src="images/chars.png" alt="harry & joe">
+                    <img src="images/chars.png" alt="harry & joe"> <!-- decorative character art -->
                 </div>
             </div>
         </section>
 
+        <!-- intro to browsing content -->
         <section class="middle-section">
             <span class="heading1">OR</span><br><br>
             <span class="heading2">Browse through our collection of movies & TV shows</span><br>
             <span class="heading3"><em>(Click on the thumbnails to see more details)</em></span><br><br>
         </section>
 
+        <!-- trending section -->
         <section class="heading-div">
             <span class="heading1">TRENDING</span>
 
+            <!-- toggle between movies and tv shows -->
             <label class="switch">
                 <input type="checkbox" v-model="isTVShows">
                 <span class="slider"><span class="toggle-text">Movies</span><span class="toggle-text">TV
                         Shows</span></span>
             </label>
 
+            <!-- search bar -->
             <div class="search-container" tabindex="0" @focusout="focusOut()">
                 <div class="search-container-div">
                     <img src="./images/search.png" alt="Search Icon" class="search-icon">
@@ -138,6 +159,7 @@
                         placeholder="Search here..." />
                 </div>
 
+                <!-- search results shown dynamically -->
                 <div class="search-results" v-show="showSearchResult">
                     <div v-for="sr in searchResults" @click="redirect(sr.id)">{{sr.title}}</div>
                 </div>
@@ -146,16 +168,20 @@
 
         <!-- Trending -->
         <div class="boxes" id="trending">
+            <!-- scroll left -->
             <button type="button" @click="trendingSi = mod(this.trendingSi - 1, this.trending.length)" class="purple">
                 <svg width="53" height="52">
                     <use xlink:href="#arrow-left"></use>
                 </svg>
             </button>
 
+            <!-- show trending items -->
             <div v-for="t in loadTrending" @click="redirect(t.id)">
                 <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
+
+            <!-- scroll right button -->
 
             <button type="button" @click="trendingSi = mod(this.trendingSi + 1, this.trending.length)" class="purple">
                 <svg width="53" height="52">
@@ -167,15 +193,21 @@
         <!-- Top Rated -->
         <div class="heading1 heading-div">TOP RATED</div>
         <div class="boxes" id="top-rated">
+
+            <!-- scroll left -->
             <button type="button" @click="topRatedSi = mod(this.topRatedSi - 1, this.topRated.length)" class="blue">
                 <svg width="53" height="52">
                     <use xlink:href="#arrow-left"></use>
                 </svg>
             </button>
+
+            <!-- display top rated -->
             <div v-for="t in loadTopRated" @click="redirect(t.id)">
                 <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
+
+            <!-- scroll right -->
             <button type="button" @click="topRatedSi = mod(this.topRatedSi + 1, this.topRated.length)" class="blue">
                 <svg width="53" height="52">
                     <use xlink:href="#arrow-right"></use>
@@ -186,16 +218,23 @@
         <!-- Now Playing in Cinemas -->
         <div class="heading1 heading-div">{{ isTVShows ? "NOW AIRING" : "NOW PLAYING IN CINEMAS" }}</div>
         <div class="boxes" id="now-pic">
+
+            <!-- scroll left -->
             <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi - 1, this.nowPlaying.length)"
                 class="green">
                 <svg width="53" height="52">
                     <use xlink:href="#arrow-left"></use>
                 </svg>
             </button>
+
+            <!-- loop through now playing -->
             <div v-for="t in loadNowPlaying" @click="redirect(t.id)">
                 <img :src="`https://image.tmdb.org/t/p/w500/${t.poster_path}`" :alt="t.title" alt="">
                 <span>{{t.title}}</span>
             </div>
+
+            <!-- scroll right -->
+
             <button type="button" @click="nowPlayingSi = mod(this.nowPlayingSi + 1, this.nowPlaying.length)"
                 class="green">
                 <svg width="53" height="52">
@@ -205,6 +244,8 @@
         </div>
     </main>
 
+
+<!-- footer section -->
     <footer class="footer">
         <!-- Floating Content on top of background -->
         <div class="footer-floating-content">
