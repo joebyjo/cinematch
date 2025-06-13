@@ -96,6 +96,35 @@ isDeleteAccountValid() {
         }
     },
     methods: {
+        changeName() {
+  if (this.isChangeNameValid) {
+    // Send API request or show popup
+    this.showPopup("Name changed successfully!");
+  } else {
+    this.showPopup("Please enter your first name, last name, and password.");
+  }
+},
+
+changePassword() {
+  if (this.isChangePasswordValid) {
+    // API call or logic to change password
+    this.showPopup("Password changed successfully!");
+  } else {
+    this.showPopup("Please fill in all fields correctly.");
+  }
+},
+
+deleteAccount() {
+  if (this.isDeleteAccountValid) {
+    // Delete account logic
+    this.showPopup("Account deleted.");
+  } else {
+    this.showPopup("Please enter your password to delete the account.");
+  }
+},
+
+
+
         toggleDropdown(type) {
             this.dropdowns[type] = !this.dropdowns[type];
             if (!this.dropdowns[type]) {
