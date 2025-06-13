@@ -40,7 +40,18 @@ const app = Vue.createApp({
             isWatched: false
         };
     },
-    computed: {},
+    computed: {
+        preloadBackdrop() {
+            if (this.movies.length === 0 || !this.movies[0].poster_path) {
+                return "./";
+            }
+
+            const posterPath = this.movies[0].poster_path;
+            const fullUrl = `https://image.tmdb.org/t/p/original${posterPath}`;
+
+            return fullUrl;
+        }
+    },
     methods: {
         async fetchMovieData(movieId) {
             try {
