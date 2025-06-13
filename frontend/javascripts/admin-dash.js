@@ -451,6 +451,9 @@ createApp({
         //     const end = start + this.loadLimit;
         //     return this.users.slice(start, end);
         // },
+        adminCount() {
+            return this.users.filter(user => user.role === 'admin').length;
+        },
         visiblePages() {
             const pages = [];
             const maxVisible = 3;
