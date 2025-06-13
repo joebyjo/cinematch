@@ -234,6 +234,11 @@ input::placeholder {
     border-color: #ED8080;
 }
 
+.delete-account.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .show-hide-pass {
     display: flex;
     align-items: center;
