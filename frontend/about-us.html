@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
-<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,8 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chango&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <!-- Linking CSS Files -->
     <link rel="stylesheet" href="/stylesheets/index.css">
@@ -51,7 +52,8 @@
         <div class="login-nav-bar secondary-bg-color-nav-bar">
             <div class="primary-bg-color-nav-bar" id="profile">
                 <!-- if not login -->
-                <a v-if="!isLogin && !inProcess" href="/login" class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
+                <a v-if="!isLogin && !inProcess" href="/login"
+                    class="primary-color-nav-bar secondary-bg-color-nav-bar">SIGN IN/UP</a>
 
                 <!-- else -->
                 <div v-if="isLogin && !inProcess" class="user-container-nav-bar">
@@ -70,7 +72,8 @@
                         Admin Dashboard
                     </div>
                     <div @click="changeDark()">
-                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"  alt="theme off icon">
+                        <img :src="isDark ? 'images/dark-on-icon.png' : 'images/dark-off-icon.png'"
+                            alt="theme off icon">
                         <span class="theme">Dark Theme</span>
                     </div>
                     <div @click="redirect('/logout')">
@@ -84,13 +87,13 @@
 
     <main id="about-us">
         <svg viewBox="0 0 500 70" class="curved-svg">
-            <path id="curve" d="M60,100 Q250,-50 450,100" fill="transparent"/>
+            <path id="curve" d="M60,100 Q250,-50 450,100" fill="transparent" />
             <text class="curved-text">
-              <textPath href="#curve" startOffset="50%" text-anchor="middle">
-                MEET THE CREATORS
-              </textPath>
+                <textPath href="#curve" startOffset="50%" text-anchor="middle">
+                    MEET THE CREATORS
+                </textPath>
             </text>
-          </svg>
+        </svg>
         <div class="cards-box">
             <div class="card" :class="{ flipped: isFlipped1 }" @click="flipCard(1, $event)">
                 <div class="card-frontside">
@@ -151,10 +154,14 @@
             <div class="bottom-right-member"></div>
             <div class="message-box">
                 <h2>Hello Stranger!</h2>
-                <p>We are a team of four passionate students (and friends) who collaborated on this project as part of our university course on Web and Database Design (UoA).</p>
-                <p>Cinematch is like that friend who always knows what movie you're in the mood for. No more scrolling for hours. We kept things simple, smooth and <span class="emphasis">hopefully</span> bug-free.</p>
-                <p>Some of us worked on the front-end, others on the back-end and database but in the end, we built something that's fun and easy to use.</p>
-                <p>Thank you for visiting Cinematch — we hope you enjoy exploring it as much as we enjoyed building it!</p>
+                <p>We are a team of four passionate students (and friends) who collaborated on this project as part of
+                    our university course on Web and Database Design (UoA).</p>
+                <p>Cinematch is like that friend who always knows what movie you're in the mood for. No more scrolling
+                    for hours. We kept things simple, smooth and <span class="emphasis">hopefully</span> bug-free.</p>
+                <p>Some of us worked on the front-end, others on the back-end and database but in the end, we built
+                    something that's fun and easy to use.</p>
+                <p>Thank you for visiting Cinematch — we hope you enjoy exploring it as much as we enjoyed building it!
+                </p>
             </div>
         </div>
     </main>
@@ -167,7 +174,7 @@
                 <p>Jump back to the top</p>
             </div>
 
-            <div  id="backToTop" class="footer-button-padding">
+            <div id="backToTop" class="footer-button-padding">
                 <a class="footer-back-to-top" aria-label="Back to top">
                     <svg class="footer-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -184,7 +191,7 @@
             © Cinematch 2025
         </div>
 
-        <img class="wave" src="./images/footer-curve.svg" alt=""/>
+        <img class="wave" src="./images/footer-curve.svg" alt="" />
     </footer>
 
 </body>
