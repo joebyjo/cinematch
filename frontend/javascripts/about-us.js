@@ -8,7 +8,9 @@ createApp({
             isFlipped1: false,
             isFlipped2: false,
             isFlipped3: false,
-            isFlipped4: false
+            isFlipped4: false,
+            // initial credit popup hidden
+            showCredits: false
         };
     },
     methods: {
