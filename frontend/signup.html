@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
-<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,26 +48,27 @@
                 <div>
                     <div class="input-div">
                         <span>First Name</span>
-                        <input type="text" v-model="firstName">
+                        <input type="text" v-model="firstName" @keyup.enter="signup">
                     </div>
 
                     <div class="input-div">
                         <span>Last Name</span>
-                        <input type="text" v-model="lastName">
+                        <input type="text" v-model="lastName" @keyup.enter="signup">
                     </div>
                 </div>
                 <div>
                     <div class="input-div">
                         <span>Username</span>
-                        <input type="text" v-model="email">
+                        <input type="text" v-model="email" @keyup.enter="signup">
                     </div>
 
                     <div class="input-div">
                         <span>Create Password</span>
                         <div class="pass-info">
-                            <input type="text" v-model="password">
+                            <input type="text" v-model="password" @keyup.enter="signup">
                             <button type="button" class="info-icon"></button>
-                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase
+                            <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE
+                                + a lowercase
                                 letter, and a special character.</div>
                         </div>
                     </div>
@@ -76,7 +77,7 @@
 
             <div class="signup-button">
                 <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
-                <button type="button" @click="signup()">Sign up</button>
+                <button type="submit" @click="signup()" :disabled="!isSignupValid">Sign up</button>
                 <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
         </div>

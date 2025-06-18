@@ -64,19 +64,13 @@ async function helperLogout(path) {
 }
 
 createApp({
+    // Data properties: hold all reactive variables used in the app
     data() {
         return {
             isError: false,
-
+            // Theme selected by the user, default is dark
             selectedTheme: 'dark',
-
-            nameChangeRequest: {
-                firstName: '',
-                lastName: '',
-                password: '',
-                passMatch: false
-            },
-
+            // Password fields and validation flags
             newPass: '',
             confirmPass: '',
             curPass: '',
@@ -85,15 +79,25 @@ createApp({
             isAdmin: false,
             countAdmin: 0,
 
+            nameChangeRequest: {
+                firstName: '',
+                lastName: '',
+                password: '',
+                passMatch: false
+            },
+
             deleteRequest: {
                 password: '',
                 isPass: true
             },
 
+            // Uploaded image for avatar and related error message
             uploadedImage: null,
             uploadError: '',
+            // Current avatar index and selected avatar object
             currAvIdx: 2,
             selectedAv: null,
+            // Toggle for showing password fields
             showPass: false,
 
             user: {
@@ -103,11 +107,13 @@ createApp({
                 profilePic: ""
             },
 
+            // Dropdown visibility states for theme, languages, and genres
             dropdowns: {
                 theme: false,
                 languages: false,
                 genres: false
             },
+            // Password requirement checks
             passReq: {
                 length: false,
                 uppercase: false,
@@ -116,11 +122,13 @@ createApp({
                 special: false,
                 noSpaces: false
             },
+            // Popup message display state and timer
             popup: {
                 show: false,
                 text: '',
                 timeout: null
             },
+            // Search input for filtering languages and genres
             search: {
                 languages: '',
                 genres: ''
@@ -138,33 +146,128 @@ createApp({
         };
     },
     computed: {
+        // Checks if change name inputs are valid (non-empty trimmed)
+        isChangeNameValid() {
+            return this.nameChangeRequest.firstName.trim() &&
+                   this.nameChangeRequest.lastName.trim() &&
+                   this.nameChangeRequest.password.trim();
+        },
+
+        // Checks if delete account password is entered
+        isDeleteAccountValid() {
+            return this.deleteRequest.password.trim() !== '';
+        },
+
+        // Checks if password change fields are valid and passwords match
+        isChangePasswordValid() {
+            return this.curPass && this.newPass && this.confirmPass && this.passMatch;
+        },
+
+        // Filters languages list based on user search input (case-insensitive)
         filterLang() {
             if (!this.search.languages) {
                 return this.languages;
             }
             return this.languages.filter((lang) => lang.name.toLowerCase().includes(this.search.languages.toLowerCase()));
         },
+
         fullName() {
             return this.user.firstName + " " + this.user.lastName;
         },
+
         checkMatch() {
             return this.newPass === this.confirmPass;
         },
+
         isOnlyAdmin() {
             return this.isAdmin && this.countAdmin <= 1;
         }
     },
     methods: {
+        async changeName() {
+            if (!this.isChangeNameValid) {
+                this.showPopup("Please fill in all fields correctly.");
+                return;
+            }
+            try {
+                await axios.put("api/users/me", {
+                    first_name: this.nameChangeRequest.firstName,
+                    last_name: this.nameChangeRequest.lastName,
+                    password: this.nameChangeRequest.password
+                });
+                this.showPopup("Name updated successfully");
+                this.getUserDetails();
+
+                this.nameChangeRequest.firstName = '';
+                this.nameChangeRequest.lastName = '';
+                this.nameChangeRequest.password = '';
+
+                this.nameChangeRequest.passMatch = false;
+            } catch (error) {
+                this.nameChangeRequest.password = '';
+                this.nameChangeRequest.passMatch = true;
+            }
+        },
+
+        async changePassword() {
+            if (!this.isChangePasswordValid) {
+                this.showPopup("Please fill in all fields correctly.");
+                return;
+            }
+            try {
+                const res = await axios.post("api/auth/change-password", {
+                    current_password: this.curPass,
+                    new_password: this.newPass
+                });
+
+                this.showPopup("Password changed successfully");
+                this.passMatch = true;
+
+                this.curPass = '';
+                this.newPass = '';
+                this.confirmPass = '';
+            } catch (error) {
+                console.log(error);
+                this.passwordError = error.response.data.msg;
+                this.passMatch = false;
+            }
+        },
+
+        async deleteAccount() {
+            if (!this.isDeleteAccountValid || this.isOnlyAdmin) {
+                this.showPopup("Please enter your password to delete the account.");
+                return;
+            }
+            try {
+                await axios.delete("api/users/me", {
+                    data: {
+                        password: this.deleteRequest.password
+                    }
+                });
+                this.redirect("/home");
+            } catch (error) {
+                this.deleteRequest.isPass = false;
+            }
+        },
+
+        // Toggle visibility of dropdown menus and reset search input when closed
         toggleDropdown(type) {
             this.dropdowns[type] = !this.dropdowns[type];
             if (!this.dropdowns[type]) {
                 this.search[type] = '';
             }
         },
+
+        // Select theme and save preference to localStorage
         selectTheme(theme) {
             this.selectedTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(theme);
             axios.post("/api/users/me/theme", { theme: this.selectedTheme });
         },
+
+        // Toggle selection state of a language by id
         toggleLanguage(languageId) {
             const language = this.languages.find((lang) => lang.id === languageId);
             if (language) {
@@ -173,6 +276,8 @@ createApp({
 
             postLanguages(this.languages);
         },
+
+        // Toggle selection state of a genre by id
         toggleGenre(genreId) {
             const genre = this.genres.find((gen) => gen.id === genreId);
             if (genre) {
@@ -181,6 +286,8 @@ createApp({
 
             postGenres(this.genres);
         },
+
+        // Validate password against set requirements and update passReq object
         validatePass(password) {
             this.passReq = {
                 length: password.length >= 8 && password.length <= 16,
@@ -191,12 +298,23 @@ createApp({
                 noSpaces: !/\s/.test(password) && !password.includes('.') && password.length > 0
             };
         },
+
+        // Check if new password and confirm password fields match
+        checkMatch() {
+            this.passMatch = this.newPass === this.confirmPass;
+        },
+
+        // Returns true if all password requirements are met
         isPassValid() {
             return Object.values(this.passReq).every((req) => req);
         },
+
+        // Redirect user to home page
         goHome() {
             window.location.href = '/';
         },
+
+        // Show popup message for a limited time
         showPopup(message) {
             this.popup = {
                 show: true,
@@ -206,6 +324,8 @@ createApp({
                 }, 2500)
             };
         },
+
+        // Handle file upload for avatar, validate file type and size
         fileUpload(event) {
             const file = event.target.files[0];
             this.uploadError = '';
@@ -227,6 +347,7 @@ createApp({
             };
             reader.readAsDataURL(file);
         },
+
         async selectUpload() {
             if (this.uploadedImage) {
                 if (this.isUploadAvSelected()) return;
@@ -242,6 +363,7 @@ createApp({
                 this.showPopup('Avatar updated successfully');
             }
         },
+
         // Add this method to your Vue component
         async uploadProfilePictureToServer(base64Image) {
             try {
@@ -262,19 +384,27 @@ createApp({
                 return null;
             }
         },
+
+        // Cycle to the next avatar in the list
         nextAv() {
             this.currAvIdx = (this.currAvIdx + 1) % this.avatars.length;
         },
+
+        // Cycle to the previous avatar in the list
         prevAv() {
             this.currAvIdx = (this.currAvIdx - 1 + this.avatars.length)
                 % this.avatars.length;
         },
+
+        // Select the currently displayed avatar as the user's avatar
         selectAv() {
             if (this.isCurrAvSelected()) return;
             this.selectedAv = this.avatars[this.currAvIdx];
             this.uploadAvatar(this.avatars[this.currAvIdx].id);
             this.showPopup('Avatar updated successfully');
         },
+
+        // Get a list of avatars to display around the current selection with visual indicators
         getAvatars() {
             const total = this.avatars.length;
             const avatars = [];
@@ -297,15 +427,20 @@ createApp({
             }
             return avatars;
         },
+
+        // Check if the currently displayed avatar is selected (and not an uploaded image)
         isCurrAvSelected() {
             if (!this.selectedAv) return false;
             const currAv = this.avatars[this.currAvIdx];
             return this.selectedAv.src === currAv.src && !this.selectedAv.isUploaded;
         },
+
+        // Check if the uploaded image avatar is currently selected
         isUploadAvSelected() {
             if (!this.selectedAv || !this.uploadedImage) return false;
             return this.selectedAv.isUploaded && this.selectedAv.src === this.uploadedImage;
         },
+
         redirect(path) {
             if (path === "/logout") {
                 helperLogout('api/auth/logout');
@@ -322,63 +457,6 @@ createApp({
                 });
             } catch (error) {
                 console.error('Upload Failed!');
-            }
-        },
-
-        async changeName() {
-            if (!this.nameChangeRequest.firstName || !this.nameChangeRequest.lastName || !this.nameChangeRequest.password) return;
-            try {
-                await axios.put("api/users/me", {
-                    first_name: this.nameChangeRequest.firstName,
-                    last_name: this.nameChangeRequest.lastName,
-                    password: this.nameChangeRequest.password
-                });
-                this.showPopup("Name updated successfully");
-                this.getUserDetails();
-
-                this.nameChangeRequest.firstName = '';
-                this.nameChangeRequest.lastName = '';
-                this.nameChangeRequest.password = '';
-
-                this.nameChangeRequest.passMatch = false;
-            } catch (error) {
-                this.nameChangeRequest.password = '';
-                this.nameChangeRequest.passMatch = true;
-            }
-        },
-
-        async deleteAccount() {
-            if (!this.deleteRequest.password || this.isOnlyAdmin) return;
-            try {
-                await axios.delete("api/users/me", {
-                    data: {
-                        password: this.deleteRequest.password
-                    }
-                });
-                this.redirect("/home");
-            } catch (error) {
-                this.deleteRequest.isPass = false;
-            }
-        },
-
-        async changePassword() {
-            if (!this.checkMatch || !this.newPass || !this.curPass) return;
-            try {
-                const res = await axios.post("api/auth/change-password", {
-                    current_password: this.curPass,
-                    new_password: this.newPass
-                });
-
-                this.showPopup("Password changed successfully");
-                this.passMatch = true;
-
-                this.curPass = '';
-                this.newPass = '';
-                this.confirmPass = '';
-            } catch (error) {
-                console.log(error);
-                this.passwordError = error.response.data.msg;
-                this.passMatch = false;
             }
         },
 
@@ -412,6 +490,7 @@ createApp({
                 console.error("[ERROR] Initialization failed:", e.message || e);
             }
         },
+
         // Fetch genres and mark user's favorites as selected
         async fetchGenres(favoriteGenres) {
             try {
@@ -432,6 +511,7 @@ createApp({
                 throw error; // Propagate to init()
             }
         },
+
         // Fetch languages and mark user's preferences as selected
         async fetchLanguages(preferredLanguages) {
             try {
@@ -452,6 +532,7 @@ createApp({
                 throw error; // Propagate to init()
             }
         },
+
         // Fetch and populate user details
         async getUserDetails() {
             try {
@@ -481,6 +562,7 @@ createApp({
                 throw error; // Propagate to init()
             }
         },
+
         // Function to store image
         setProfilePic() {
             const url = this.user.profilePic;
@@ -493,18 +575,30 @@ createApp({
             } else {
                 this.uploadedImage = url;
                 this.selectedAv = {
-                    src: serverImageUrl,
+                    src: url,
                     isUploaded: true
                 };
             }
         }
     },
+    mounted() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+            this.selectedTheme = savedTheme;
+        }
+        this.init();
+    },
     watch: {
         newPass(newVal) {
             this.validatePass(newVal);
+        },
+        confirmPass() {
+            this.checkMatch();
+        },
+        selectedTheme(newTheme) {
+            localStorage.setItem('theme', newTheme);
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(newTheme);
         }
-    },
-    mounted() {
-        this.init();
     }
 }).mount('#settings');
