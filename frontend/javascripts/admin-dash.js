@@ -340,8 +340,8 @@ createApp({
 
         // logout user for being inactive over 3 mins
         logoutUser() {
-            // helperLogout('api/auth/logout');
-            // window.location.href = '/home';
+            helperLogout('api/auth/logout');
+            window.location.href = '/home';
             alert('You were logged out due to inactivity.');
         },
 
