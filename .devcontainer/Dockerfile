@@ -13,5 +13,3 @@ WORKDIR /workspace/backend
 COPY backend/package.json backend/package-lock.json ./
 RUN npm install
 
-# Fix ownership so 'node' user can write node_modules
-RUN chown -R node:node /workspace/backend/node_modules

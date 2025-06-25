@@ -16,6 +16,7 @@ services:
     build:
       context: ..          # one level up from .devcontainer
       dockerfile: .devcontainer/Dockerfile
+    user: root
     volumes:
       - ..:/workspace        # mount entire project root
       - backend_node_modules:/workspace/backend/node_modules
