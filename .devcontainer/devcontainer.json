@@ -1,7 +1,8 @@
 {
-  "name": "CineMatch Dev Container",
+  "name": "Cinematch Dev Container",
   "dockerComposeFile": ["docker-compose.yml"],
-  "service": "backend",
+  "service": "app",
+  "composeProjectName": "cinematch",
   "overrideCommand": true,
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",

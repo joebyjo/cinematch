@@ -12,7 +12,7 @@ services:
       - db_data:/var/lib/mysql
       - ../backend/db:/docker-entrypoint-initdb.d:ro
 
-  backend:
+  app:
     build:
       context: ..          # one level up from .devcontainer
       dockerfile: .devcontainer/Dockerfile

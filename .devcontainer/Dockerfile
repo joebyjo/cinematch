@@ -6,6 +6,9 @@ RUN apt-get update \
     && apt-get install -y default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy custom bash config for colorful, git-aware prompt
+COPY .devcontainer/dotfiles/.bashrc /root/.bashrc
+
 # Set working directory inside container
 WORKDIR /workspace/backend
 
