@@ -39,8 +39,8 @@ dev:
 	@cd $(BACKEND_DIR) && npm run dev
 
 db-create:
-	@mysql -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
 	@echo ' [*] Created database'
 
 db-start:
@@ -48,7 +48,7 @@ db-start:
 	@echo ' [*] Started mysql'
 
 db-seed:
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/seed.sql
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/seed.sql
 	@echo ' [*] Populated database'
 
 db-dump:
@@ -56,8 +56,7 @@ db-dump:
 	@echo ' [*] Dumped database'
 
 db-reset:
-	@make db-start
-	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
 	@echo ' [*] Reset the database'
 	@make db-create
 	@make db-seed
