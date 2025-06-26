@@ -6,6 +6,10 @@ const logger = require('morgan');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
+<<<<<<< HEAD
+=======
+const xss = require('xss-clean');
+>>>>>>> main
 const { COOKIE_SECRET } = process.env;
 
 const db = require('./services/db');
@@ -41,8 +45,15 @@ const sessionStore = new MySQLStore(
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+<<<<<<< HEAD
 app.use(logger('dev'));
 app.use(express.json());
+=======
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(xss());
+>>>>>>> main
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({ // for sessions
@@ -52,7 +63,11 @@ app.use(session({ // for sessions
     resave: false,
     saveUninitialized: false,
     cookie: {
+<<<<<<< HEAD
         maxAge: 1000 * 60 * 60 * 24, // stay logged in for 24 hours
+=======
+        maxAge: 1000 * 60 * 60 * 24 // stay logged in for 24 hours
+>>>>>>> main
     }
 }));
 app.use(passport.initialize()); // for user authentication
@@ -69,10 +84,18 @@ app.use(async (req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, '../frontend'), { index: false })); // use /frontend directory as default directory for static files.
+<<<<<<< HEAD
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // serve uploaded files
 
 // update sessions
 app.use(async (req, res, next) => {
+=======
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// update sessions
+app.use(async (req, res, next) => {
+
+>>>>>>> main
     // checking if it is a page and not static assets
     const isPage = req.method === 'GET' && !req.originalUrl.match(/\.(js|css|png|jpg|jpeg|svg|gif|ico)$/i);
 
@@ -83,6 +106,10 @@ app.use(async (req, res, next) => {
                 `UPDATE SESSIONS SET last_seen = NOW() WHERE id = ?`,
                 [req.sessionID]
             );
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         } catch (err) {
             console.error('Error updating session metadata:', err);
         }
@@ -116,6 +143,10 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(res.locals.status);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     res.render('error');
 });
 
