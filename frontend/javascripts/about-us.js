@@ -4,10 +4,13 @@
 createApp({
     data() {
         return {
+            // inital card states
             isFlipped1: false,
             isFlipped2: false,
             isFlipped3: false,
-            isFlipped4: false
+            isFlipped4: false,
+            // initial credit popup hidden
+            showCredits: false
         };
     },
     methods: {
@@ -25,6 +28,7 @@ createApp({
             if (cardNum === 3) this.isFlipped3 = true;
             if (cardNum === 4) this.isFlipped4 = true;
         },
+        // flip cards back if clicked outside
         flipAllBack() {
             this.isFlipped1 = false;
             this.isFlipped2 = false;
@@ -33,6 +37,7 @@ createApp({
         }
     },
     mounted() {
+        // listen for click
         document.addEventListener('click', () => {
             this.flipAllBack();
         });

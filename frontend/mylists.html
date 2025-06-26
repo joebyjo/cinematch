@@ -93,7 +93,7 @@
             <div class="heading-text"> My Movie List
             </div>
             <div class="filter-sort-section">
-                <button type="button" class=" button-reset button-reset" @click="resetFiltersAndSort">
+                <button type="button" class=" button-reset" @click="resetFiltersAndSort">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 2 24 20" width="1rem" height="1rem"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -109,11 +109,12 @@
                 <div v-show="showFilter" ref="filterMenu" class="filter-menu-accordion" @click.stop>
                     <!-- Genres Accordion -->
                     <div class="accordion-section">
-                        <button class="accordion-header" @click="toggleAccordion('genres')">Genres</button>
+                        <button type="button" class="accordion-header"
+                            @click="toggleAccordion('genres')">Genres</button>
                         <div class="accordion-body" v-show="activeAccordion === 'genres'">
                             <div class="genre-controls">
-                                <button class="genre-btn" @click="selectAllGenres">Select All</button>
-                                <button class="genre-btn" @click="clearAllGenres">Clear All</button>
+                                <button type="button" class="genre-btn" @click="selectAllGenres">Select All</button>
+                                <button type="button" class="genre-btn" @click="clearAllGenres">Clear All</button>
                             </div>
                             <div class="genre-grid">
                                 <label v-for="genre in genres" class="filter-option" :id="genre.name">
@@ -125,7 +126,8 @@
 
                     <!-- Age Rating Accordion -->
                     <div class="accordion-section">
-                        <button class="accordion-header" @click="toggleAccordion('age')">Age Rating</button>
+                        <button type="button" class="accordion-header" @click="toggleAccordion('age')">Age
+                            Rating</button>
                         <div class="accordion-body" v-show="activeAccordion === 'age'">
                             <label v-for="age in ageRatings" class="filter-option" :id="age">
                                 <input type="checkbox" :value="age" v-model="filter.ageRating"> {{ age }}
@@ -135,7 +137,8 @@
 
                     <!-- Status Accordion -->
                     <div class="accordion-section">
-                        <button class="accordion-header" @click="toggleAccordion('status')">Status</button>
+                        <button type="button" class="accordion-header"
+                            @click="toggleAccordion('status')">Status</button>
                         <div class="accordion-body" v-show="activeAccordion === 'status'">
                             <label v-for="status in statuses" class="filter-option" :id="status">
                                 <input type="checkbox" :value="status.id" v-model="filter.status"> {{ status.name }}
@@ -211,10 +214,14 @@
                     </tr>
 
                     <tr v-for="movie in movies">
-                        <td class="movie-title movie-name"><div class="title-with-icon"> <img class="bookmark-icon" :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'" alt="Bookmark" @click.stop="toggleBookmark(movie)" />
-                            <span @click="goToMovie(movie.movie_id)" >{{ helperCheckEmpty(movie.title) }} </span>
+                        <td class="movie-title movie-name">
+                            <div class="title-with-icon"> <img class="bookmark-icon"
+                                    :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'"
+                                    alt="Bookmark" @click.stop="toggleBookmark(movie)" />
+                                <span @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }} </span>
 
-  </div> </td>
+                            </div>
+                        </td>
                         <td>
                             <div class="genre-cell">
                                 <span v-for="g in movie.genres"
@@ -251,7 +258,7 @@
                                         </svg>
                                     </div>
                                 </template>
-                        </td>
+                            </div>
                         </td>
 
 
@@ -282,7 +289,7 @@
             <div class="pagination-controls">
                 <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
 
-                <button v-for="n in visiblePages" :key="n" :disabled="n === '...'"
+                <button type="button" v-for="n in visiblePages" :key="n" :disabled="n === '...'"
                     :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
                     @click="typeof n === 'number' && (page = n)">
                     {{ n }}

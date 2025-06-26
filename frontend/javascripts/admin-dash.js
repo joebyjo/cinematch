@@ -1,7 +1,7 @@
-
+// get data from api
 async function getMethod(url) {
     try {
-        const res = await axios.get(url);
+        const res = await axios.get(url); // send get request
         return res.data;
     } catch (e) {
         console.error("Error retrieving data from server", e);
@@ -9,8 +9,10 @@ async function getMethod(url) {
     }
 }
 
+// update user by id
 async function editUser(user_id, updates) {
     try {
+        // send put request with updates
         const res = await axios.put(`/api/admin/users/${user_id}`, updates);
         return res.data;
     } catch (e) {
@@ -19,7 +21,7 @@ async function editUser(user_id, updates) {
     }
 }
 
-
+// add a new user
 async function addNewUser(userPayload) {
     try {
         const response = await axios.post('/api/admin/users', userPayload);
@@ -27,6 +29,7 @@ async function addNewUser(userPayload) {
         return response.data
 
     } catch (error) {
+        // handle duplicate username
         if (error.response?.status === 409) {
             alert('Username already exists.');
         } else {
@@ -36,8 +39,11 @@ async function addNewUser(userPayload) {
     }
 }
 
+
+// delete multiple users
 async function deleteUsersHelper(user_ids) {
     try {
+        // send post request with list of ids to delete
         const res = await axios.post('/api/admin/users/delete-multiple', { user_ids });
         return res.data;
     } catch (e) {
@@ -334,8 +340,8 @@ createApp({
 
         // logout user for being inactive over 3 mins
         logoutUser() {
-            // helperLogout('api/auth/logout');
-            // window.location.href = '/home';
+            helperLogout('api/auth/logout');
+            window.location.href = '/home';
             alert('You were logged out due to inactivity.');
         },
 

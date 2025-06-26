@@ -6,6 +6,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
+const xss = require('xss-clean');
 const { COOKIE_SECRET } = process.env;
 
 const db = require('./services/db');
@@ -44,6 +45,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(xss());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({ // for sessions

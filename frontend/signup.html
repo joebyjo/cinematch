@@ -35,37 +35,45 @@
 </head>
 
 <body class="primary-bg-color" style="display: none">
+    <!--go to not logged in home-->
     <div class="logo-home">
         <a href="/home">CINEMATCH</a>
     </div>
     <main class="primary-bg-color-signup" id="signup-page">
         <div class="signup-img"></div>
 
+        <!--sign up title-->
         <div class="content">
             <span>Ready to join in?</span>
 
             <div class="input">
                 <div>
+                    <!--input for first name-->
                     <div class="input-div">
                         <span>First Name</span>
                         <input type="text" v-model="firstName" @keyup.enter="signup">
                     </div>
 
+                    <!--input for last name-->
                     <div class="input-div">
                         <span>Last Name</span>
                         <input type="text" v-model="lastName" @keyup.enter="signup">
                     </div>
                 </div>
+
                 <div>
+                    <!--input for username-->
                     <div class="input-div">
                         <span>Username</span>
                         <input type="text" v-model="email" @keyup.enter="signup">
                     </div>
 
+                    <!--input for password-->
                     <div class="input-div">
                         <span>Create Password</span>
                         <div class="pass-info">
                             <input type="text" v-model="password" @keyup.enter="signup">
+                            <!--pass requirements show up on hover-->
                             <button type="button" class="info-icon"></button>
                             <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE
                                 + a lowercase
@@ -75,9 +83,12 @@
                 </div>
             </div>
 
+            <!--sign up button-->
             <div class="signup-button">
+                <!--if sign up fails show error message-->
                 <span v-show="signupFailed" id="fail-signup">{{ message }}</span>
                 <button type="submit" @click="signup()" :disabled="!isSignupValid">Sign up</button>
+                <!--path to login to redirect to login-->
                 <span>Have an account already? <a href="/login">Login here</a></span>
             </div>
         </div>
