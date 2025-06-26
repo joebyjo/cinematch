@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Linking External Files -->
-<link rel="icon" type="image/svg+xml" href="./images/favicon.png" >
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,31 +36,41 @@
 
 <body class="primary-bg-color" style="display: none">
     <div class="logo-home">
+        <!--go to not logged in home-->
         <a href="/home">CINEMATCH</a>
     </div>
     <main class="primary-bg-color-login" id="login-page">
         <div class="content">
+            <!--login title-->
             <span>Welcome back!</span>
 
             <div class="input">
                 <div>
+                    <!--input for username-->
                     <span>Enter Username</span>
-                    <input type="text" v-model="username">
+                    <input type="text" v-model="username"  @keyup.enter="login">
                     <span></span>
                 </div>
+
+                <!--input for password-->
                 <div class="input-password">
                     <span>Enter Password</span>
                     <div>
-                        <input :type="showPass ? 'text' : 'password'" type="text" v-model="password">
+                        <!--show/hide pass button-->
+                        <input :type="showPass ? 'text' : 'password'" type="text" v-model="password"  @keyup.enter="login">
                         <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
                     </div>
                 </div>
                 <!-- <span>Forget Password</span> -->
             </div>
 
+            <!--login button-->
             <div class="login-button">
+                <!--if sign up fails show error message-->
                 <span v-show="loginFailed" id="fail-login">Username or password incorrect</span>
                 <button type="button" @click="login()">Login</button>
+
+                <!--path to signup to redirect to signup-->
                 <span>Don't have an account? <a href="/signup">Sign up here</a></span>
             </div>
         </div>

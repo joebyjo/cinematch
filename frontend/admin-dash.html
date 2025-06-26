@@ -87,6 +87,7 @@
 
         <!--show site stats-->
         <div class="stats">
+            <!--stat one-->
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/users-reg.svg" alt="User icon">
@@ -95,6 +96,7 @@
                 <p>total users<br>registered</p>
             </div>
 
+            <!--stat 2-->
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/timeline.svg" alt="Timeline icon">
@@ -103,6 +105,7 @@
                 <p>active users in<br>last 24 hours</p>
             </div>
 
+            <!--stat 3-->
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/movies-saved.svg" alt="Movie icon">
@@ -111,6 +114,7 @@
                 <p>total movies<br>stored</p>
             </div>
 
+            <!--stat 4-->
             <div class="stat-card">
                 <div class="stat-icon">
                     <img src="images/site-views.svg" alt="Movie icon">
@@ -181,32 +185,40 @@
                         <img v-else src="./images/settings/dummy-upload.svg" alt="Empty Avatar">
                     </div> -->
 
+                    <!--input new username-->
                     <div class="form">
                         <label for="new-username">Username:</label>
                         <input type="text" id="new-username" v-model="newUser.user_name">
                     </div>
 
+                    <!--input new firstname-->
                     <div class="form">
                         <label for="new-firstname">First Name:</label>
                         <input type="text" id="new-firstname" v-model="newUser.first_name">
                     </div>
 
+                    <!--input new lastnam6-->
                     <div class="form">
                         <label for="new-lastname">Last Name:</label>
                         <input type="text" id="new-lastname" v-model="newUser.last_name">
                     </div>
 
+                    <!--input new password-->
                     <div class="form">
                         <label for="new-pass">Password:</label>
                         <div class="pass-info">
+                            <!--show/pass hide pass button-->
                             <input :type="showPass ? 'text' : 'password'" id="new-pass" v-model="newUser.password">
                             <button type="button" @click="showPass = !showPass" :class="showPass ? 'hide-icon' : 'show-icon'"></button>
+
+                            <!--show pass req custom tooltip-->
                             <button type="button" class="info-icon"></button>
                             <div class="tooltip">Password must be 8-16 characters, including a number, an UPPERCASE + a lowercase letter, and a special character.</div>
                         </div>
                         <p class="error-message" v-if="passError">{{ passError }}</p>
                     </div>
 
+                    <!--add new role input-->
                     <div class="form">
                         <label for="new-role">Role:</label>
                         <select id="new-role" v-model="newUser.role">
@@ -231,6 +243,7 @@
                         <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
                     </div> -->
 
+                    <!--cancel/confirm buttons-->
                     <div class="card-controls">
                         <button type="button" class="control" @click="resetForm()">Cancel</button>
                         <button type="button" class="control" @click="addUser">Confirm</button>
@@ -243,26 +256,31 @@
                 <div class="card">
                     <h3>Edit User</h3>
 
+                    <!--preview avatar-->
                     <div class="av-preview">
                         <img v-if="editingUser.pfpPreview" :src="editingUser.pfpPreview" alt="Avatar">
                         <img v-else src="./images/settings/dummy-upload.svg" alt="Empty Avatar">
                     </div>
 
+                    <!--edit username of current user-->
                     <div class="form">
                         <label for="edit-username">Username:</label>
                         <input type="text" id="edit-username" v-model="editingUser.user_name">
                     </div>
 
+                    <!--edit first name of current user-->
                     <div class="form">
                         <label for="edit-firstname">First Name:</label>
                         <input type="text" id="edit-firstname" v-model="editingUser.first_name">
                     </div>
 
+                    <!--edit lastname of current user-->
                     <div class="form">
                         <label for="edit-lastname">Last Name:</label>
                         <input type="text" id="edit-lastname" v-model="editingUser.last_name">
                     </div>
 
+                    <!--edit role of current user-->
                     <div class="form">
                         <label for="edit-role">Role:</label>
                         <select id="edit-role" v-model="editingUser.role">
@@ -271,11 +289,16 @@
                         </select>
                     </div>
 
+                    <!--edit avatar of current user-->
                     <div class="form">
                         <label>Avatar:</label>
                         <div class="av-options">
+
+                            <!--upload avatar-->
                             <input type="file" @change="imageUpload($event, true)">
                             <span>or</span>
+
+                            <!--select premade avatar-->
                             <select @change="selectAv($event.target.value, true)">
                                 <option value="">Select avatar</option>
                                 <option value="avatar1">Avatar 1</option>
@@ -285,9 +308,11 @@
                                 <option value="avatar5">Avatar 5</option>
                             </select>
                         </div>
+                        <!--show error message if upload fails-->
                         <p class="error-message" v-if="uploadError">{{ uploadError }}</p>
                     </div>
 
+                    <!--confirm/cancel buttons-->
                     <div class="card-controls">
                         <button type="button" class="control" @click="showEditUser = false">Cancel</button>
                         <button type="button" class="control" @click="saveEdits">Save Changes</button>

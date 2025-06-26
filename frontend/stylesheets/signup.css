@@ -204,3 +204,8 @@ input[type="text"] {
 .input>div:nth-child(2) {
     margin-left: 3.25rem;
 }
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
