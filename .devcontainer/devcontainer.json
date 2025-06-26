@@ -1,0 +1,14 @@
+{
+  "name": "Cinematch Dev Container",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "composeProjectName": "cinematch",
+  "overrideCommand": true,
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [8080],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "remoteUser": "root"
+}

@@ -21,26 +21,23 @@ help:
 	@echo "    make db-reset          Drop and recreate database"
 
 install:
+	@echo " [*] Installing backend dependencies"
 	@cd $(BACKEND_DIR) && npm install
-	@service mysql start
-	@echo ' [*] Started mysql'
-	@mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$(DB_PASS)'; FLUSH PRIVILEGES;"
-	@echo ' [*] Set MySQL root password'
-
 
 start:
-	@make db-start
 	@echo ' [*] Starting Prod'
 	@cd $(BACKEND_DIR) && npm start
 
 dev:
-	@make db-start
 	@echo ' [*] Starting Dev'
 	@cd $(BACKEND_DIR) && npm run dev
 
+mysql:
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS)
+
 db-create:
-	@mysql -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/views.sql
 	@echo ' [*] Created database'
 
 db-start:
@@ -48,16 +45,21 @@ db-start:
 	@echo ' [*] Started mysql'
 
 db-seed:
-	@mysql -u$(DB_USER) -p$(DB_PASS) $(DB_NAME) < $(DB_DIR)/seed.sql
-	@echo ' [*] Populated database'
+	@echo "[*] Importing seed data..."
+	@if [ -f "$(DB_DIR)/seed.sql" ]; then \
+		mysql -h "$(DB_HOST)" -u"$(DB_USER)" -p"$(DB_PASS)" "$(DB_NAME)" < "$(DB_DIR)/seed.sql"; \
+		echo "[*] Seed data imported."; \
+	else \
+		echo "[!] No seed.sql found at $(DB_DIR)/seed.sql."; \
+	fi
 
 db-dump:
-	@mysqldump -u$(DB_USER) -p$(DB_PASS) --databases $(DB_NAME) > $(DB_DIR)/dump.sql
+	@mysqldump -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) --databases $(DB_NAME) > $(DB_DIR)/dump.sql
 	@echo ' [*] Dumped database'
 
 db-reset:
-	@make db-start
-	@mysql -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
+	@echo "[*] Dropping and recreating database $(DB_NAME)..."
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) -e "DROP DATABASE IF EXISTS $(DB_NAME);"
 	@echo ' [*] Reset the database'
 	@make db-create
 	@make db-seed
