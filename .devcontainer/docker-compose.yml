@@ -28,7 +28,6 @@ services:
     depends_on:
       - db
     command: npm run dev    # uses nodemon for live reload
-    # Optionally: user: node  (but default root is OK in dev)
 
 volumes:
   db_data:

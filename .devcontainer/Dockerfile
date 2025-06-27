@@ -1,18 +1,18 @@
-# Use an official Node.js LTS image
+# using official nodejs
 FROM node:18-bullseye
 
-# Install MySQL client
+# installing mysql client
 RUN apt-get update \
     && apt-get install -y default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy custom bash config for colorful, git-aware prompt
+# using custom .bashrc
 COPY .devcontainer/dotfiles/.bashrc /root/.bashrc
 
-# Set working directory inside container
+# setting working directory
 WORKDIR /workspace/backend
 
-# Copy only package files from host into container for npm install
+# copying dependencies in to working directory to install
 COPY backend/package.json backend/package-lock.json ./
 RUN npm install
 
