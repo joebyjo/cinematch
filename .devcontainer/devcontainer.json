@@ -1,5 +1,5 @@
 {
-  "name": "Cinematch Dev Container",
+  "name": "Cinematch",
   "dockerComposeFile": ["docker-compose.yml"],
   "service": "app",
   "overrideCommand": true,
@@ -9,8 +9,14 @@
   "remoteUser": "root",
   "customizations": {
     "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash",
+      "editor.tabSize": 4,
       "files.trimTrailingWhitespace": true,
+      "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
     },
 		"vscode": {
 			"extensions": [
