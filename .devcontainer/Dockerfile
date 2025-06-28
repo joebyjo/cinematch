@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y zsh git curl \
 # making zsh default shell
 RUN chsh -s /usr/bin/zsh root
 
-# using custom .bashrc
-# COPY .devcontainer/dotfiles/.bashrc /root/.bashrc
+# using custom .zshrc and p10k configs
+COPY .devcontainer/dotfiles/.p10k.zsh /root/.p10k.zsh
 
 # setting working directory
 WORKDIR /workspace/backend
