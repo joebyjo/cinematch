@@ -2,13 +2,25 @@
   "name": "Cinematch Dev Container",
   "dockerComposeFile": ["docker-compose.yml"],
   "service": "app",
-  "composeProjectName": "cinematch",
   "overrideCommand": true,
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
   "forwardPorts": [8080],
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
-  },
-  "remoteUser": "root"
+  "remoteUser": "root",
+  "customizations": {
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash",
+      "files.trimTrailingWhitespace": true,
+    },
+		"vscode": {
+			"extensions": [
+				"html-validate.vscode-html-validate",
+				"dbaeumer.vscode-eslint",
+				"ritwickdey.LiveServer",
+				"DigitalBrainstem.javascript-ejs-support",
+				"mhutchie.git-graph",
+				"EditorConfig.EditorConfig"
+			]
+		}
+	},
 }
