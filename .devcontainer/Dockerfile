@@ -16,6 +16,8 @@ RUN chsh -s /usr/bin/zsh root
 
 # using custom .zshrc and p10k configs
 COPY .devcontainer/dotfiles/.p10k.zsh /root/.p10k.zsh
+COPY .devcontainer/dotfiles/.zshrc /root/.zshrc
+COPY .devcontainer/dotfiles/.bashrc /root/.bashrc
 
 # setting working directory
 WORKDIR /workspace/backend
