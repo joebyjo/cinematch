@@ -136,13 +136,8 @@ router.post('/', validateAddMoviePreference, validate, async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-router.post('/add-rating', validateAddRating, validate, async (req, res) => {
-
-=======
 // add or update rating and review
 router.post('/add-rating', validateAddRating, validate, async (req, res) => {
->>>>>>> main
     try {
         // getting request body
         const { movie_id, rating, review } = req.body;
