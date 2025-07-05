@@ -30,7 +30,7 @@ INSERT INTO `GENRES` VALUES (12,'Adventure'),(14,'Fantasy'),(16,'Animation'),(18
 -- create languages table
 CREATE TABLE `LANGUAGES` (
     `id` int NOT NULL AUTO_INCREMENT,
-    `code` char(2) NOT NULL,  -- ISO 639-1 codes like 'en', 'hi', etc.
+    `code` char(2) UNIQUE NOT NULL,  -- ISO 639-1 codes like 'en', 'hi', etc.
     `name` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -66,7 +66,8 @@ CREATE TABLE `MOVIES` (
     `trailer_url` varchar(256) DEFAULT NULL,
     `run_time` smallint DEFAULT NULL,
     `certification` varchar(15) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`original_language`) REFERENCES `LANGUAGES` (`code`) ON DELETE SET NULL
 );
 
 -- create moviesgenres table
@@ -97,6 +98,10 @@ CREATE TABLE `PREFERENCES` (
     PRIMARY KEY (`id`)
 );
 
+-- 0 - not bookmarked and not watched
+-- 1 - watched and not bookmarked
+-- 2 - bookmarked and not watched
+-- 3 - watched and bookmarked
 INSERT INTO `PREFERENCES` VALUES
 (1, 0, 0),
 (2, 0, 1),
@@ -122,8 +127,7 @@ CREATE TABLE `USERS` (
     UNIQUE KEY `user_name` (`user_name`)
 );
 
-
--- create users table
+-- create usersettings table
 CREATE TABLE `USERSETTINGS` (
     `user_id` int NOT NULL,
     `theme` enum('dark','light') NOT NULL DEFAULT 'dark',

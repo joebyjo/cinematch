@@ -87,7 +87,6 @@ app.use(async (req, res, next) => {
                 `UPDATE SESSIONS SET last_seen = NOW() WHERE id = ?`,
                 [req.sessionID]
             );
-
         } catch (err) {
             console.error('Error updating session metadata:', err);
         }
@@ -121,7 +120,6 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(res.locals.status);
-
     res.render('error');
 });
 

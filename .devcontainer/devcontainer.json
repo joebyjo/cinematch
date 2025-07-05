@@ -1,0 +1,32 @@
+{
+  "name": "Cinematch",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "overrideCommand": true,
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [8080],
+  "remoteUser": "root",
+  "customizations": {
+    "settings": {
+      "editor.tabSize": 4,
+      "files.trimTrailingWhitespace": true,
+      "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
+    },
+		"vscode": {
+			"extensions": [
+				"html-validate.vscode-html-validate",
+				"dbaeumer.vscode-eslint",
+				"ritwickdey.LiveServer",
+				"DigitalBrainstem.javascript-ejs-support",
+				"mhutchie.git-graph",
+				"EditorConfig.EditorConfig"
+			]
+		}
+	}
+}

@@ -1,16 +1,13 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 const db = require('./db');
-
-const SALT_ROUNDS = 10;
+const { SALT_ROUNDS } = require('../services/constants');
 
 function hashPassword(password) {
-    return bcrypt.hashSync(password, SALT_ROUNDS);
+    return bcrypt.hashSync(password, SALT_ROUNDS); // hash password
 }
 
 function comparePassword(plainText, hash) {
-    return bcrypt.compareSync(plainText, hash);
+    return bcrypt.compareSync(plainText, hash); // compare password with hash
 }
 
 async function insertMovie(movieData) {
@@ -45,19 +42,18 @@ async function insertMovie(movieData) {
             );
 
             // add corresponding genres to MOVIEGENRES table
-            movieData.genres.forEach(async (genre) => {
+            for (const genre of movieData.genres || []) {
                 db.query("INSERT INTO MOVIEGENRES (movie_id,genre_id) VALUES (?, ?)", [movieData.id, genre.id]);
-            });
+            }
 
             // add corresponding watch providers to MOVIEPROVIDERS table
             for (const provider of movieData.watch_providers || []) {
                 db.query("INSERT INTO MOVIEPROVIDERS (movie_id, provider_id) VALUES (?, ?)", [movieData.id, provider.provider_id]);
             }
-
         }
     } catch (err) {
         console.error('Error inserting movie:', err.message);
-        throw err;
+        throw err; // rethrow to propagate
     }
 }
 
@@ -66,7 +62,7 @@ async function getMovieData(movieId) {
         // get movie details
         const [movieRows] = await db.query('SELECT * FROM MOVIES WHERE id = ?', [movieId]);
         if (movieRows.length === 0) {
-            return false;
+            return false; // return false if not found
         }
         const movie = movieRows[0];
 
@@ -101,16 +97,16 @@ async function getMovieData(movieId) {
             runtime: movie.run_time,
             poster_path: movie.poster_url,
             backdrop_path: movie.backdrop_url,
-            genres: genreRows || null,
+            genres: genreRows || [],
             certification: movie.certification,
-            release_date: new Date(movie.release_date).toISOString().split('T')[0] || null,
+            release_date: movie.release_date ? new Date(movie.release_date).toISOString().split('T')[0] : null,
             trailer: movie.trailer_url,
             director: movie.director,
             cast: movie.cast,
             imdb_rating: movie.imdb_rating,
             rotten_rating: movie.rotten_rating,
             metacritic_rating: movie.metacritic_rating,
-            watch_providers: providerRows || null
+            watch_providers: providerRows || []
         };
 
         return movieData;
@@ -122,8 +118,7 @@ async function getMovieData(movieId) {
 
 async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
     try {
-
-        // check if user already has preferences for this this movie
+        // check if user already has preferences for this movie
         const [existing] = await db.query(
             'SELECT preference_id FROM USERPREFERENCES WHERE user_id = ? AND movie_id = ?',
             [userId, movie_id]
@@ -142,14 +137,14 @@ async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
         const preferenceId = prefRes[0].id;
 
         if (existing.length > 0) {
+            // update existing preference
             await db.query(
-                // update existing preference
                 'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
                 [preferenceId, userId, movie_id]
             );
         } else {
+            // insert new preference
             await db.query(
-                // insert new preference for movie
                 'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
                 [userId, preferenceId, movie_id]
             );
@@ -365,10 +360,10 @@ async function filterMovieIds(userId, movieIds) {
     `;
         const params = [userId, ...movieIds];
         const [rows] = await db.query(sql, params);
-        const existingIds = new Set(rows.map(r => r.movie_id));
+        const existingIds = new Set(rows.map((r) => r.movie_id));
 
         // Return only those not in the DB
-        return movieIds.filter(id => !existingIds.has(id));
+        return movieIds.filter((id) => !existingIds.has(id));
     } catch (err) {
         console.error(`[ERROR] filterMovieIds failed for user ${userId}`, err);
         // Bubble up so we can return 500 to the client

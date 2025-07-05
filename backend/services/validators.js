@@ -250,6 +250,56 @@ const validateAddRating = [
         .withMessage('Review must be at most 1000 characters long')
 ];
 
+
+const validateUpdateUser = [
+    body('first_name')
+        .optional()
+        .trim()
+        .escape()
+        .isAlpha()
+        .withMessage('First name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('First name must be at most 20 characters long'),
+
+    body('last_name')
+        .optional()
+        .trim()
+        .escape()
+        .isAlpha()
+        .withMessage('Last name must contain only letters')
+        .isLength({ max: 20 })
+        .withMessage('Last name must be at most 20 characters long'),
+
+    body('password')
+        .notEmpty()
+        .withMessage('Password is required')
+];
+
+const validateDeleteUser = [
+    body('password')
+        .notEmpty()
+        .withMessage('Password is required')
+        .isLength({ min: 8 })
+        .withMessage('Password must be at least 8 characters long')
+];
+
+const validateTheme = [
+    body('theme')
+        .notEmpty()
+        .withMessage('Theme is required')
+        .isIn(['light', 'dark'])
+        .withMessage('Invalid theme selected')
+];
+
+const validateProfileAvatar = [
+    body('id')
+        .notEmpty()
+        .withMessage('Avatar ID is required')
+        .isInt({ min: 1, max: 5 })
+        .withMessage('Avatar ID must be an integer between 1 and 5')
+];
+
+
 module.exports = {
     validate,
     isAdmin,
@@ -261,5 +311,9 @@ module.exports = {
     validateChangePassword,
     validateMyListQuery,
     validateAddMoviePreference,
-    validateAddRating
+    validateAddRating,
+    validateUpdateUser,
+    validateDeleteUser,
+    validateTheme,
+    validateProfileAvatar
 };

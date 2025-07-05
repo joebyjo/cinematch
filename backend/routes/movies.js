@@ -3,19 +3,17 @@ const express = require('express');
 const { tmdb, getImdbData } = require('../services/tmdb');
 const { validate, validateSearchQuery, validateId } = require('../services/validators');
 const { insertMovie, getMovieData, getGenreData, getUserRating, getWatchStatus, getLangData } = require('../services/helpers');
-const [preferredProviders, preferredCountries] = require('../services/constants');
+const { preferredProviders, preferredCountries } = require('../services/constants');
 
 const router = express.Router();
-
 
 // GET /api/movies/trending
 router.get('/trending', async (req, res) => {
     try {
-        // get trending movies
         const response = await tmdb.get('/movie/popular');
         const { results } = response.data;
 
-        // remove unnecessary data
+        // trim each movie object to only needed fields
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
             title: movie.title,
@@ -27,7 +25,6 @@ router.get('/trending', async (req, res) => {
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ msg: 'Failed to fetch trending movies' });
-
     }
 });
 
@@ -38,7 +35,7 @@ router.get('/top-rated', async (req, res) => {
         const response = await tmdb.get('/movie/top_rated');
         const { results } = response.data;
 
-        // remove unnecessary data
+        // trim each movie object to only needed fields
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
             title: movie.title,
@@ -50,7 +47,6 @@ router.get('/top-rated', async (req, res) => {
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ msg: 'Failed to fetch top rated movies' });
-
     }
 });
 
@@ -61,7 +57,7 @@ router.get('/now-playing', async (req, res) => {
         const response = await tmdb.get('/movie/now_playing');
         const { results } = response.data;
 
-        // remove unnecessary data
+        // trim each movie object to only needed fields
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
             title: movie.title,
@@ -73,31 +69,24 @@ router.get('/now-playing', async (req, res) => {
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ msg: 'Failed to fetch now playing movies' });
-
     }
 });
 
+// search for movies by query
 router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
-
     try {
-
         const { query } = req;
+        const url = "/search/movie";
 
-        const url = "/search/movie"; // `/search/movie?query=${query.q}&include_adult=true`;
-
-        const { data } = await tmdb.get(
-            url,
-            {
-                params: {
-                    query: query.q,
-                    include_adult: true
-                }
+        const { data } = await tmdb.get(url, {
+            params: {
+                query: query.q,
+                include_adult: false
             }
-        );
+        });
 
         var { results } = data;
-
-        results = results.slice(0, 5);
+        results = results.slice(0, 5); // limit results to 5
 
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
@@ -112,36 +101,29 @@ router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
     }
 });
 
-
+// get list of genres
 router.get('/genres', async (req, res) => {
     try {
-        // get genres
         const genres = await getGenreData();
-
         res.status(200).json(genres);
-
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ msg: 'Failed to fetch genres' });
-
     }
 });
 
+// get list of languages
 router.get('/languages', async (req, res) => {
     try {
-        // get genres
         const lang = await getLangData();
         res.status(200).json(lang);
-
     } catch (error) {
         console.error('TMDB error:', error.message);
         res.status(500).json({ msg: 'Failed to fetch genres' });
-
     }
 });
 
-
-// get movie details route
+// get full movie details from tmdb/imdb
 router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
     try {
         const movieId = req.params.id;
@@ -149,37 +131,34 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
         // check if movie already exists in db and return
         const dataFromDb = await getMovieData(movieId);
         if (dataFromDb) {
-            return res.status(200).json(dataFromDb);
+            return res.status(200).json(dataFromDb); // return cached data
         }
 
         const movieResp = await tmdb.get(`/movie/${movieId}?append_to_response=release_dates,videos,watch/providers`);
         const movie = movieResp?.data;
-        const videos = movie?.videos?.results ?? [];
-        const providers = movie?.['watch/providers']?.results ?? {};
+        const videos = movie?.videos?.results ?? []; // extract videos
+        const providers = movie?.['watch/providers']?.results ?? {}; // extract providers
 
         const result = getBasicInfo(movie);
         if (!result) throw new Error('Invalid movie data received from TMDB');
 
         const releaseResp = { data: movie?.release_dates ?? {} };
-        const releaseData = getReleaseInfo(movie, releaseResp);
+        const releaseData = getReleaseInfo(movie, releaseResp); // get cert + date
         result.certification = releaseData.certification;
         result.release_date = releaseData.release_date;
 
-        result.trailer = getTrailer(videos);
+        result.trailer = getTrailer(videos); // get trailer link
 
         const { ratings, director, cast } = await getImdbData(movie.imdb_id);
-        const ratingData = parseRatings(ratings);
+        const ratingData = parseRatings(ratings); // parse ratings
         result.imdb_rating = ratingData.imdb_rating;
         result.rotten_rating = ratingData.rotten_rating;
         result.metacritic_rating = ratingData.metacritic_rating;
-
         result.director = director;
         result.cast = cast;
+        result.watch_providers = getTopWatchProviders(providers); // pick top 2
 
-        result.watch_providers = getTopWatchProviders(providers);
-
-        // send results back to client
-        res.status(200).json(result);
+        res.status(200).json(result); // respond immediately
 
         // insert movie details into db (after sending response to avoid delay)
         insertMovie(result);
@@ -190,27 +169,24 @@ router.get('/movie/:id', validateId('id'), validate, async (req, res) => {
     }
 });
 
-
-// get user's movie ratings and preferences
+// get user-specific movie data (rating, status)
 router.get('/user-preferences/:id', validateId('id'), validate, async (req, res) => {
     try {
         const movieId = req.params.id;
-
         var result = {};
 
         // get and append user rating
         try {
             var userRating = await getUserRating(req.user.id, movieId);
-            result.user_rating = userRating;
+            result.user_rating = userRating; // user's rating for this movie
         } catch (err) {
             console.error('Error fetching user rating:', err.message);
-            result.user_rating = 0;
+            result.user_rating = 0; // default if none
         }
 
-        // get and append watch status
         try {
             const watch_status = await getWatchStatus(req.user.id, movieId);
-            result.watch_status = watch_status;
+            result.watch_status = watch_status; // watchlist status
         } catch (err) {
             console.error('[Error] fetching Watch Status:', err.message);
             result.watch_status = 0;
@@ -248,12 +224,12 @@ function getReleaseInfo(movie, releaseResp) {
     const result = {};
     try {
         const countryList = releaseResp?.data?.results || [];
-
         for (const country of countryList) {
             if (country?.iso_3166_1 === preferredCountries[0]) {
                 const releaseDate = country?.release_dates?.[0];
                 if (releaseDate) {
                     result.certification = releaseDate.certification || 'NR';
+                    // format date to yyyy-mm-dd
                     result.release_date = new Date(releaseDate.release_date).toISOString().split('T')[0];
                     return result;
                 }
@@ -268,11 +244,12 @@ function getReleaseInfo(movie, releaseResp) {
     return result;
 }
 
-// helper to get trailer
+// helper to find trailer link
 function getTrailer(videos) {
     if (!Array.isArray(videos)) return null;
 
     for (const video of videos) {
+        // check if youtube and of type trailer
         if (video?.site === 'YouTube' && ['Trailer', 'Official Trailer'].includes(video?.type)) {
             return `https://www.youtube.com/watch?v=${encodeURIComponent(video.key)}`;
         }
@@ -280,7 +257,7 @@ function getTrailer(videos) {
     return null;
 }
 
-// helper to parse critic ratings
+// helper to parse external ratings
 function parseRatings(ratings) {
     const parsed = {
         imdb_rating: null,
@@ -308,7 +285,7 @@ function parseRatings(ratings) {
     return parsed;
 }
 
-// helper to get top 2 watch providers
+// helper to select watch providers by priority
 function getTopWatchProviders(providers) {
     const all = [];
 
@@ -318,6 +295,7 @@ function getTopWatchProviders(providers) {
         const flatrate = providers?.[countryCode]?.flatrate;
         if (Array.isArray(flatrate)) {
             for (const p of flatrate) {
+                // avoid duplicates and check priority
                 if (
                     p?.provider_id &&
                     preferredProviders.includes(p.provider_id) &&
@@ -329,9 +307,9 @@ function getTopWatchProviders(providers) {
         }
     }
 
+    // sort based on preferred order
     all.sort((a, b) => preferredProviders.indexOf(a.provider_id) - preferredProviders.indexOf(b.provider_id));
-    return all.slice(0, 2);
+    return all.slice(0, 2); // return top 2 only
 }
-
 
 module.exports = router;

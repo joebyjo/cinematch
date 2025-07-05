@@ -1,29 +1,33 @@
 var express = require('express');
 const passport = require('passport');
-const { validateSignup, validateLogin, validateChangePassword, isAuthenticated, validate } = require('../services/validators');
+const {
+    validateSignup,
+    validateLogin,
+    validateChangePassword,
+    isAuthenticated,
+    validate
+} = require('../services/validators');
 const localStrategy = require('../services/local-strategy');
 const { hashPassword, comparePassword } = require('../services/helpers');
 const db = require('../services/db');
 
 var router = express.Router();
 
-
+// signup route
 router.post('/signup', validateSignup, validate, async (req, res) => {
-
     const { username, password, firstName, lastName } = req.body;
 
     try {
-        // check if username already exists
-        const [existingUser] = await db.query('SELECT id FROM USERS WHERE user_name = ?',[username]);
-
+        // check if username exists
+        const [existingUser] = await db.query('SELECT id FROM USERS WHERE user_name = ?', [username]);
         if (existingUser.length > 0) {
             return res.status(400).json({ msg: 'Username already taken' });
         }
 
-        // hashing password
+        // hash password before storing
         const hashedPassword = hashPassword(password);
 
-        // inserting into db
+        // insert user into USERS table
         const [result] = await db.query(
             'INSERT INTO USERS (user_name, password, first_name, last_name, registration_date) VALUES (?, ?, ?, ?, CURDATE())',
             [username, hashedPassword, firstName, lastName]
@@ -31,18 +35,17 @@ router.post('/signup', validateSignup, validate, async (req, res) => {
 
         const userId = result.insertId;
 
-        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId] );
+        // insert default settings for new user
+        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId]);
 
         return res.status(201).json({ msg: 'User created' });
-
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
-
-
+// login route
 router.post('/login', validateLogin, validate, (req, res, next) => {
     passport.authenticate('local', async (err, user, info) => {
         if (err) return res.status(500).json({ msg: 'Internal server error' });
@@ -52,8 +55,10 @@ router.post('/login', validateLogin, validate, (req, res, next) => {
             if (err) return res.status(500).json({ msg: 'Login failed' });
 
             try {
+                // update last login timestamp
                 await db.query('UPDATE USERS SET last_login = NOW() WHERE id = ?', [user.id]);
 
+                // update session with user id and ip
                 await db.query(
                     `UPDATE SESSIONS SET user_id = ?, ip_address = ? WHERE id = ?`,
                     [user.id, req.ip, req.sessionID]
@@ -68,12 +73,12 @@ router.post('/login', validateLogin, validate, (req, res, next) => {
     })(req, res, next);
 });
 
-// route to change password
+// change password route
 router.post('/change-password', isAuthenticated, validateChangePassword, validate, async (req, res) => {
     const { current_password, new_password } = req.body;
 
     try {
-        // get current password
+        // fetch hashed password from db
         const [queryResult] = await db.query('SELECT password FROM USERS WHERE id = ?', [req.user.id]);
         const user = queryResult[0];
 
@@ -87,38 +92,33 @@ router.post('/change-password', isAuthenticated, validateChangePassword, validat
             return res.status(401).json({ msg: 'Current password is incorrect' });
         }
 
-        // hash new password
+        // hash and update new password
         const hashedNewPassword = hashPassword(new_password);
-
-        // update new password
         await db.query('UPDATE USERS SET password = ? WHERE id = ?', [hashedNewPassword, req.user.id]);
 
         return res.status(200).json({ msg: 'Password updated successfully' });
-
     } catch (err) {
         console.error(err);
         return res.status(500).json({ msg: 'Failed to update password' });
     }
 });
 
-
+// logout route
 router.post('/logout', (req, res) => {
     req.session.destroy(() => {
-        // clearing cookies to logout user
+        // clear session cookie
         res.clearCookie('sessionId');
         return res.json({ msg: 'Logged out' });
     });
 });
 
-
+// check auth status
 router.get('/status', (req, res) => {
-
     if (req.user) {
-        res.status(200).send({ msg: "Authenticated" });
+        res.status(200).send({ msg: 'Authenticated' });
     } else {
-        res.status(401).send({ msg: "Not Authenticated" });
+        res.status(401).send({ msg: 'Not Authenticated' });
     }
-
 });
 
 module.exports = router;

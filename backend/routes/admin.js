@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-use-before-define */
 const express = require('express');
 const db = require('../services/db');
 const { hashPassword } = require('../services/helpers');
@@ -12,7 +10,7 @@ const router = express.Router();
 // only allow authorized users
 router.use(isAdmin);
 
-// get users
+// get list of users with optional filters and pagination
 router.get('/users', async (req, res) => {
     try {
         const {
@@ -27,7 +25,7 @@ router.get('/users', async (req, res) => {
         const validSortDirections = ['asc', 'desc'];
         const validRoles = ['admin', 'user'];
 
-        // validate pagination
+        // validate pagination inputs
         const pageNum = parseInt(page, 10);
         const limitNum = parseInt(limit, 10);
         if (isNaN(pageNum) || pageNum < 1 || isNaN(limitNum) || limitNum < 1) {
@@ -40,7 +38,7 @@ router.get('/users', async (req, res) => {
         const filters = [];
         const values = [];
 
-        // handle multiple roles: role=user&role=admin
+        // role filtering
         let roleArray = [];
         if (role) {
             if (Array.isArray(role)) {
@@ -60,17 +58,16 @@ router.get('/users', async (req, res) => {
             }
         }
 
-        // filter by username
+        // username filter
         if (username) {
             filters.push('user_name LIKE ?');
             values.push(`%${username}%`);
         }
 
-        // construct WHERE clause
-        let whereClause = filters.length > 0 ? 'WHERE ' + filters.join(' AND ') : '';
+        const whereClause = filters.length > 0 ? 'WHERE ' + filters.join(' AND ') : '';
 
-        // build sorting
-        let orderClause = 'ORDER BY registration_date DESC'; // default sort
+        // sorting
+        let orderClause = 'ORDER BY registration_date DESC';
         if (sort) {
             const [field, direction] = sort.split('.');
             if (!validSortFields.includes(field) || !validSortDirections.includes(direction.toLowerCase())) {
@@ -79,13 +76,13 @@ router.get('/users', async (req, res) => {
             orderClause = `ORDER BY ${field} ${direction.toUpperCase()}`;
         }
 
-        // query to count total users
+        // count query
         const countQuery = `SELECT COUNT(*) AS total FROM USERLIST ${whereClause}`;
         const [countRows] = await db.query(countQuery, values);
         const totalUsers = countRows[0].total;
         const totalPages = Math.ceil(totalUsers / limitNum);
 
-        // query to get paginated users
+        // user data query
         const dataQuery = `
             SELECT user_id, user_name, role, first_name, last_name, registration_date, last_login, profile_picture_url
             FROM USERLIST
@@ -110,7 +107,7 @@ router.get('/users', async (req, res) => {
     }
 });
 
-// get all stats
+// get combined stats
 router.get('/stats', async (req, res) => {
     try {
         const [total_movies, total_active, total_users, total_visits] = await Promise.all([
@@ -119,17 +116,14 @@ router.get('/stats', async (req, res) => {
             getUserCount(),
             getTotalVisits()
         ]);
-        res.json({
- total_movies, total_active, total_users, total_visits
-});
+        res.json({ total_movies, total_active, total_users, total_visits });
     } catch (err) {
         console.error('Error in /stats route:', err);
         res.status(500).json({ msg: 'Error fetching statistics' });
     }
 });
 
-
-// get number of users
+// total user count
 router.get('/stats/users-count', async (req, res) => {
     try {
         const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM USERS');
@@ -139,7 +133,7 @@ router.get('/stats/users-count', async (req, res) => {
     }
 });
 
-// get number of movies stored
+// total movie count
 router.get('/stats/movies-count', async (req, res) => {
     try {
         const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM MOVIES');
@@ -149,7 +143,7 @@ router.get('/stats/movies-count', async (req, res) => {
     }
 });
 
-// get number of active users within last 24hrs
+// active users in past 24 hrs
 router.get('/stats/active', async (req, res) => {
     try {
         const [[{ count }]] = await db.query(`
@@ -164,7 +158,7 @@ router.get('/stats/active', async (req, res) => {
     }
 });
 
-// get active sessions
+// get current sessions
 router.get('/active', async (req, res) => {
     try {
         const [rows] = await db.query(`
@@ -180,17 +174,18 @@ router.get('/active', async (req, res) => {
     }
 });
 
-// add new users into db
+// add a new user
 router.post('/users', async (req, res) => {
     const {
- username: user_name, password, firstName: first_name, lastName: last_name, role
-} = req.body;
+        username: user_name, password, firstName: first_name, lastName: last_name, role
+    } = req.body;
     try {
         const [existing] = await db.query('SELECT id FROM USERS WHERE user_name = ?', [user_name]);
         if (existing.length > 0) {
             return res.status(409).json({ msg: 'Username already exists' });
         }
 
+        // hash password before storing
         const hashed = hashPassword(password);
 
         const [result] = await db.query(
@@ -198,7 +193,11 @@ router.post('/users', async (req, res) => {
             [user_name, hashed, first_name, last_name, role]
         );
 
-        res.status(201).json({ msg: 'User created successfully', user_id: result.insertId });
+        const userId = result.insertId
+
+        await db.query('INSERT INTO USERSETTINGS (user_id) VALUES (?)', [userId]);
+
+        res.status(201).json({ msg: 'User created successfully', user_id: userId });
     } catch (err) {
         res.status(500).json({ msg: `Failed to create user: ${err}` });
     }
@@ -215,7 +214,7 @@ router.delete('/users/:id', async (req, res) => {
     }
 });
 
-// delete multiple users by array of IDs
+// delete multiple users
 router.post('/users/delete-multiple', async (req, res) => {
     const { user_ids } = req.body;
 
@@ -231,12 +230,12 @@ router.post('/users/delete-multiple', async (req, res) => {
     }
 });
 
-// edit user details
+// update user info
 router.put('/users/:id', async (req, res) => {
     const { id } = req.params;
     const {
- firstName: first_name, lastName: last_name, userName: user_name, role, profile_picture_url
-} = req.body;
+        firstName: first_name, lastName: last_name, userName: user_name, role, profile_picture_url
+    } = req.body;
 
     try {
         const updates = [];
@@ -277,7 +276,7 @@ router.put('/users/:id', async (req, res) => {
     }
 });
 
-
+// update profile picture
 router.post('/users/:id/profile-picture', upload.single('profile_picture'), async (req, res) => {
     const userId = req.params.id;
 
@@ -309,13 +308,8 @@ router.post('/users/:id/profile-picture', upload.single('profile_picture'), asyn
     }
 });
 
-
-
-// Helpers
-
-// get total user count
+// helper to get user count
 async function getUserCount() {
-
     try {
         const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM USERS');
         return count;
@@ -325,8 +319,7 @@ async function getUserCount() {
     }
 }
 
-
-// get total movie count
+// helper to get movie count
 async function getMovieCount() {
     try {
         const [[{ count }]] = await db.query('SELECT COUNT(*) AS count FROM MOVIES');
@@ -337,8 +330,7 @@ async function getMovieCount() {
     }
 }
 
-
-// get active users
+// helper to get recent active users
 async function getActiveUsersCount() {
     try {
         const [[{ count }]] = await db.query(`
@@ -354,8 +346,7 @@ async function getActiveUsersCount() {
     }
 }
 
-
-// get total visits
+// helper to get total session count
 async function getTotalVisits() {
     try {
         const [[{ count }]] = await db.query(`SELECT COUNT(*) AS count FROM SESSIONS`);
@@ -365,10 +356,5 @@ async function getTotalVisits() {
         throw new Error('Failed to fetch total visits');
     }
 }
-
-
-
-
-
 
 module.exports = router;
