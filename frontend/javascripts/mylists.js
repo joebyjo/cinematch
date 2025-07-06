@@ -123,7 +123,7 @@ const movieTable = Vue.createApp({
         async setUserRating(movie, rating) {
             movie.my_rating = rating;
 
-            console.log(movie);
+            // console.log(movie);
 
             try {
                 await axios.post('/api/mylist/add-rating', {
@@ -239,7 +239,7 @@ const movieTable = Vue.createApp({
                 ...movie,
                 hoverRating: 0 // add temporary field for hover effect
             }));
-            this.totalMovies = res.data.total || 0;
+            this.totalMovies = this.movies.length || 0;
             this.totalPages = Math.ceil(this.totalMovies / this.load);
         },
         // builds API URL with current page, sort, and filter settings
