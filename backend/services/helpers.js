@@ -142,12 +142,16 @@ async function addMoviePreference(movie_id, is_liked, watch_status, userId) {
                 'UPDATE USERPREFERENCES SET preference_id = ? WHERE user_id = ? AND movie_id = ?',
                 [preferenceId, userId, movie_id]
             );
+
+            return "successfully updated"
         } else {
             // insert new preference
             await db.query(
                 'INSERT INTO USERPREFERENCES (user_id, preference_id, movie_id) VALUES (?, ?, ?)',
                 [userId, preferenceId, movie_id]
             );
+
+            return "successfully added";
         }
     } catch (err) {
         console.error('[ERROR] Failed to add/update movie preference:', err);

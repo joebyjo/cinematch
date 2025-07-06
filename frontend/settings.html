@@ -94,7 +94,9 @@
                         placeholder="Confirm new password..." class="input-field changepassword-input-border" @keyup.enter="isChangePasswordValid && changePassword()">
 
                     <p class="error-message" v-if="!checkMatch">Passwords do not match</p>
-                    <p class="error-message" v-if="!passMatch">{{ passwordError }}</p>
+                    <p class="error-message" v-if="!passMatch && passwordError !== 'Current password is incorrect'">New password didn't meet requirements</p>
+                    <p class="error-message" v-if="curPass && newPass && curPass === newPass">New password can't be same as current password</p>
+                    <p class="error-message" v-if="!passMatch && passwordError === 'Current password is incorrect'">Current password is incorrect</p>
                     <button type="button" class="confirm" @click="changePassword" :disabled="!isChangePasswordValid">Done</button>
                 </div>
             </div>
