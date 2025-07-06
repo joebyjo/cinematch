@@ -160,7 +160,7 @@ createApp({
 
         // Checks if password change fields are valid and passwords match
         isChangePasswordValid() {
-            return this.curPass && this.newPass && this.confirmPass && this.passMatch;
+            return this.curPass && this.newPass && this.confirmPass && this.passMatch && !(this.curPass === this.newPass);;
         },
 
         // Filters languages list based on user search input (case-insensitive)
@@ -176,6 +176,10 @@ createApp({
         },
 
         checkMatch() {
+            // only check if both pass fields have content
+            if (!this.newPass || !this.confirmPass) {
+                return true;
+            }
             return this.newPass === this.confirmPass;
         },
 
@@ -301,6 +305,10 @@ createApp({
 
         // Check if new password and confirm password fields match
         checkMatch() {
+            // only check if both pass fields have content
+            if (!this.newPass || !this.confirmPass) {
+                return true;
+            }
             this.passMatch = this.newPass === this.confirmPass;
         },
 
