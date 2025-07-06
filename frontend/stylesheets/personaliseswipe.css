@@ -59,6 +59,9 @@
 
 
 body {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
     transition: background-color 0.7s ease, color 0.7s ease;
 }
 
@@ -83,10 +86,8 @@ html {
     font-size: var(--size);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: var(--text-color);
+#personalise {
+    overflow-x: hidden;
 }
 
 /* Buttons */
