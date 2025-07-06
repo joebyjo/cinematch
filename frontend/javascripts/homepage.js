@@ -74,6 +74,9 @@ createApp({
             setTimeout(() => {
                 this.showSearchResult = false;
             }, 300);
+        },
+        scrollToTop() {
+            window.scrollTo({top: 0,behavior: 'smooth'});
         }
     },
     watch: {
