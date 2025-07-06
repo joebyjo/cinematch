@@ -313,7 +313,11 @@ const movieTable = Vue.createApp({
         async getGenres(url) {
             const res = await helperGetMovieData(url);
             this.genres = res.data || [];
+        },
+        range(start, end) {
+            return Array.from({ length: end - start + 1 }, (_, i) => start + i);
         }
+
     },
     computed: {
         SortorFilterMovies() {
