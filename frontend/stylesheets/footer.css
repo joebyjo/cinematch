@@ -88,8 +88,9 @@ footer {
 }
 
 .footer-back-to-top:hover {
-    background-color: rgb(227, 234, 234);
+    background-color: transparent;
     size: 1rem;
+    cursor: pointer;
 }
 
 
