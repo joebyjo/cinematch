@@ -57,10 +57,14 @@ router.get('/', validateMyListQuery, validate, async (req, res) => {
             }
         }
 
-        // add watch status filter
+        // add watch status filters
         if (status) {
-            filters.push(`watch_status = ?`);
-            values.push(status);
+            const statusArray = Array.isArray(status) ? status : [status];
+            if (statusArray.length > 0) {
+                const placeholders = statusArray.map(() => '?').join(',');
+                filters.push(`watch_status IN (${placeholders})`);
+                values.push(...statusArray);
+            }
         }
 
         // add rating filter
@@ -110,10 +114,22 @@ router.get('/', validateMyListQuery, validate, async (req, res) => {
             }
         }
 
+        // Counting the total movies matching the filters
+        const countQuery = `
+            SELECT COUNT(DISTINCT movie_id) AS total
+            FROM MOVIELIST
+            WHERE user_id = ? ${filterClause}
+        `;
+        const [countRows] = await db.query(countQuery, values);
+        const total = countRows[0]?.total || 0;
+
         // return final data
         const [rows] = await db.query(finalQuery, finalValues);
         const formatted = formatMovies(rows);
-        return res.status(200).json(formatted);
+        return res.status(200).json({
+            total,
+            movies: formatted
+        });
 
     } catch (err) {
         console.error('Error retrieving mylist: ', err.message);
@@ -127,9 +143,9 @@ router.post('/', validateAddMoviePreference, validate, async (req, res) => {
         const { movie_id, is_liked, watch_status } = req.body;
 
         // helper handles insertion/updating of MOVIELIST and USERPREFERENCES
-        await addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
+        const message = await addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
 
-        res.status(200).json({ msg: "Successfully added" });
+        res.status(200).json({ msg: message });
     } catch (err) {
         console.error('Error adding/updating watch status and preference:', err.message);
         res.status(500).json({ msg: 'Internal server error' });
@@ -159,12 +175,16 @@ router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
                 // link new rating id to user preferences
                 await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+
+                res.status(200).json({ msg: "successfully added" });
             } else {
                 // update existing rating
                 await db.query(
                     `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
                     [rating, review, existing[0].user_rating_id]
                 );
+
+                res.status(200).json({ msg: "successfully updated" });
             }
         } else {
             // no preference yet, create default preference
@@ -179,9 +199,10 @@ router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
             // link new rating id
             await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+
+            res.status(200).json({ msg: "successfully added" });
         }
 
-        res.status(200).json({ msg: "Successfully added" });
     } catch (err) {
         console.error('Error adding/updating rating:', err.message);
         res.status(500).json({ msg: 'Internal server error' });

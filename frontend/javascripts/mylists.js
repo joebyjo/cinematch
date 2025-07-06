@@ -1,3 +1,9 @@
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    window.location.reload();
+  }
+});
+
 // helper funtions
 
 async function helperGetMovieData(url) {
@@ -88,9 +94,7 @@ const movieTable = Vue.createApp({
 
             genres: [],
             ageRatings: ["NR", "M", "PG"],
-            statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
-
-
+            statuses: [{ name: "Watched", id: 3 }, { name: "Not Watched", id: 2 }]
         };
 
 
@@ -112,7 +116,6 @@ const movieTable = Vue.createApp({
             const url = this.createUrl();
             // this.getMovieData(url);
         },
-
         getMouseX(event) {
             // relative x pos
             const rect = event.currentTarget.getBoundingClientRect();
@@ -123,7 +126,7 @@ const movieTable = Vue.createApp({
         async setUserRating(movie, rating) {
             movie.my_rating = rating;
 
-            console.log(movie);
+            // console.log(movie);
 
             try {
                 await axios.post('/api/mylist/add-rating', {
@@ -167,11 +170,11 @@ const movieTable = Vue.createApp({
         },
 
         async toggleBookmark(movie) {
-            movie.bookmarked = !movie.bookmarked;
+            // movie.bookmarked = !movie.bookmarked;
             movie.watch_status = movie.watch_status === 2 || movie.watch_status === 3 ? movie.watch_status-2 : movie.watch_status+2;
 
             try {
-                await axios.post('/api/mylist/', {
+                await axios.post('/api/mylist', {
                     movie_id: movie.movie_id,
                     is_liked: 1, // fallback default (e.g., liked)
                     watch_status: movie.watch_status
@@ -234,13 +237,16 @@ const movieTable = Vue.createApp({
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
 
-
-            this.movies = (res.data || []).map(movie => ({
+            this.movies = (res.data.movies || []).map(movie => ({
                 ...movie,
                 hoverRating: 0 // add temporary field for hover effect
             }));
+
             this.totalMovies = res.data.total || 0;
             this.totalPages = Math.ceil(this.totalMovies / this.load);
+            // console.log(this.totalPages);
+            // console.log(this.totalMovies);
+            // console.log("Movies fetched:", this.movies);
         },
         // builds API URL with current page, sort, and filter settings
         createUrl() {
@@ -311,12 +317,17 @@ const movieTable = Vue.createApp({
         async getGenres(url) {
             const res = await helperGetMovieData(url);
             this.genres = res.data || [];
+        },
+        range(start, end) {
+            return Array.from({ length: end - start + 1 }, (_, i) => start + i);
         }
+
     },
     computed: {
         SortorFilterMovies() {
             return {
                 load: this.load,
+                // totalPages: this.totalPages,
                 sort: this.sort,
                 'filter.genre': this.filter.genre,
                 'filter.status': this.filter.status,

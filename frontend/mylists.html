@@ -216,7 +216,7 @@
                     <tr v-for="movie in movies">
                         <td class="movie-title movie-name">
                             <div class="title-with-icon"> <img class="bookmark-icon"
-                                    :src="movie.bookmarked ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'"
+                                    :src="movie.watch_status === 1 || movie.watch_status === 0  ? '/images/my-lists/unbookmarked.svg' : '/images/my-lists/bookmarked.svg'"
                                     alt="Bookmark" @click.stop="toggleBookmark(movie)" />
                                 <span @click="goToMovie(movie.movie_id)">{{ helperCheckEmpty(movie.title) }} </span>
 
@@ -251,10 +251,10 @@
                                             </defs>
                                             <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10"
                                                 :fill="(movie.hoverRating || movie.my_rating) >= i
-    ? 'gold'
-    : (movie.hoverRating || movie.my_rating) === i - 0.5
-      ? 'url(#half-grad)'
-      : '#444'" />
+                                                        ? 'gold'
+                                                        : (movie.hoverRating || movie.my_rating) === i - 0.5
+                                                        ? 'url(#half-grad)'
+                                                        : '#444'" />
                                         </svg>
                                     </div>
                                 </template>
@@ -276,7 +276,7 @@
                     </button>
                     <div v-show="showLoadLimit" class="custom-dropdown-menu">
                         <div class="dropdown-option" v-for="limit in loadLimitArray()" :key="limit"
-                            @click="load = limit; showLoadLimit = false">
+                            @click="load = limit; showLoadLimit = false; totalPages = Math.ceil(totalMovies / load)">
                             Load Limit = {{ limit }}
                         </div>
                     </div>
@@ -287,16 +287,15 @@
             <!-- Next Page Functions & Buttons -->
             <div></div>
             <div class="pagination-controls">
-                <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
+                <button type="button" class="page-arrow" :disabled="page <= 1" @click="page--">←</button>
 
-                <button type="button" v-for="n in visiblePages" :key="n" :disabled="n === '...'"
+                <button type="button" v-for="n in range(1,totalPages)" :key="n" :disabled="n === '...'"
                     :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
                     @click="typeof n === 'number' && (page = n)">
                     {{ n }}
                 </button>
 
-
-                <button type="button" class="page-arrow" :disabled="page === totalPages" @click="page++">→</button>
+                <button type="button" class="page-arrow" :disabled="page >= totalPages" @click="page++">→</button>
 
             </div>
 
