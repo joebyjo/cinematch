@@ -170,11 +170,11 @@ const movieTable = Vue.createApp({
         },
 
         async toggleBookmark(movie) {
-            movie.bookmarked = !movie.bookmarked;
+            // movie.bookmarked = !movie.bookmarked;
             movie.watch_status = movie.watch_status === 2 || movie.watch_status === 3 ? movie.watch_status-2 : movie.watch_status+2;
 
             try {
-                await axios.post('/api/mylist/', {
+                await axios.post('/api/mylist', {
                     movie_id: movie.movie_id,
                     is_liked: 1, // fallback default (e.g., liked)
                     watch_status: movie.watch_status

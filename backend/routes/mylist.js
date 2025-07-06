@@ -143,9 +143,9 @@ router.post('/', validateAddMoviePreference, validate, async (req, res) => {
         const { movie_id, is_liked, watch_status } = req.body;
 
         // helper handles insertion/updating of MOVIELIST and USERPREFERENCES
-        await addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
+        const message = await addMoviePreference(movie_id, is_liked, watch_status, req.user.id);
 
-        res.status(200).json({ msg: "Successfully added" });
+        res.status(200).json({ msg: message });
     } catch (err) {
         console.error('Error adding/updating watch status and preference:', err.message);
         res.status(500).json({ msg: 'Internal server error' });
@@ -175,12 +175,16 @@ router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
                 // link new rating id to user preferences
                 await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+
+                res.status(200).json({ msg: "successfully added" });
             } else {
                 // update existing rating
                 await db.query(
                     `UPDATE USERRATINGS SET rating = ?, review = ?, modified_at = CURRENT_DATE() WHERE id = ?`,
                     [rating, review, existing[0].user_rating_id]
                 );
+
+                res.status(200).json({ msg: "successfully updated" });
             }
         } else {
             // no preference yet, create default preference
@@ -195,9 +199,10 @@ router.post('/add-rating', validateAddRating, validate, async (req, res) => {
 
             // link new rating id
             await db.query('UPDATE USERPREFERENCES SET user_rating_id=? WHERE user_id=? AND movie_id=?', [insertId, req.user.id, movie_id]);
+
+            res.status(200).json({ msg: "successfully added" });
         }
 
-        res.status(200).json({ msg: "Successfully added" });
     } catch (err) {
         console.error('Error adding/updating rating:', err.message);
         res.status(500).json({ msg: 'Internal server error' });
