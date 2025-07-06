@@ -57,10 +57,14 @@ router.get('/', validateMyListQuery, validate, async (req, res) => {
             }
         }
 
-        // add watch status filter
+        // add watch status filters
         if (status) {
-            filters.push(`watch_status = ?`);
-            values.push(status);
+            const statusArray = Array.isArray(status) ? status : [status];
+            if (statusArray.length > 0) {
+                const placeholders = statusArray.map(() => '?').join(',');
+                filters.push(`watch_status IN (${placeholders})`);
+                values.push(...statusArray);
+            }
         }
 
         // add rating filter

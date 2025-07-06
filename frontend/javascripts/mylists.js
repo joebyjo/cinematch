@@ -88,9 +88,7 @@ const movieTable = Vue.createApp({
 
             genres: [],
             ageRatings: ["NR", "M", "PG"],
-            statuses: [{ name: "Watched", id: 1 }, { name: "Not Watched", id: 0 }, { name: "Bookmarked", id: 2 }]
-
-
+            statuses: [{ name: "Watched", id: 3 }, { name: "Not Watched", id: 2 }]
         };
 
 
@@ -112,7 +110,6 @@ const movieTable = Vue.createApp({
             const url = this.createUrl();
             // this.getMovieData(url);
         },
-
         getMouseX(event) {
             // relative x pos
             const rect = event.currentTarget.getBoundingClientRect();
@@ -243,6 +240,7 @@ const movieTable = Vue.createApp({
             this.totalPages = Math.ceil(this.totalMovies / this.load);
             // console.log(this.totalPages);
             // console.log(this.totalMovies);
+            // console.log("Movies fetched:", this.movies);
         },
         // builds API URL with current page, sort, and filter settings
         createUrl() {
