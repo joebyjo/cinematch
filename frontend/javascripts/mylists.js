@@ -319,7 +319,7 @@ const movieTable = Vue.createApp({
         SortorFilterMovies() {
             return {
                 load: this.load,
-                totalPages: this.totalPages,
+                // totalPages: this.totalPages,
                 sort: this.sort,
                 'filter.genre': this.filter.genre,
                 'filter.status': this.filter.status,
