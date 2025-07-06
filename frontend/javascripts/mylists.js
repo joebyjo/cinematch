@@ -234,13 +234,15 @@ const movieTable = Vue.createApp({
         async getMovieData(url) {
             const res = await helperGetMovieData(url);
 
-
-            this.movies = (res.data || []).map(movie => ({
+            this.movies = (res.data.movies || []).map(movie => ({
                 ...movie,
                 hoverRating: 0 // add temporary field for hover effect
             }));
-            this.totalMovies = this.movies.length || 0;
+
+            this.totalMovies = res.data.total || 0;
             this.totalPages = Math.ceil(this.totalMovies / this.load);
+            // console.log(this.totalPages);
+            // console.log(this.totalMovies);
         },
         // builds API URL with current page, sort, and filter settings
         createUrl() {
@@ -317,6 +319,7 @@ const movieTable = Vue.createApp({
         SortorFilterMovies() {
             return {
                 load: this.load,
+                totalPages: this.totalPages,
                 sort: this.sort,
                 'filter.genre': this.filter.genre,
                 'filter.status': this.filter.status,

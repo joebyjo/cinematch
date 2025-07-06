@@ -110,10 +110,22 @@ router.get('/', validateMyListQuery, validate, async (req, res) => {
             }
         }
 
+        // Counting the total movies matching the filters
+        const countQuery = `
+            SELECT COUNT(DISTINCT movie_id) AS total
+            FROM MOVIELIST
+            WHERE user_id = ? ${filterClause}
+        `;
+        const [countRows] = await db.query(countQuery, values);
+        const total = countRows[0]?.total || 0;
+
         // return final data
         const [rows] = await db.query(finalQuery, finalValues);
         const formatted = formatMovies(rows);
-        return res.status(200).json(formatted);
+        return res.status(200).json({
+            total,
+            movies: formatted
+        });
 
     } catch (err) {
         console.error('Error retrieving mylist: ', err.message);

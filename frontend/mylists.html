@@ -276,7 +276,7 @@
                     </button>
                     <div v-show="showLoadLimit" class="custom-dropdown-menu">
                         <div class="dropdown-option" v-for="limit in loadLimitArray()" :key="limit"
-                            @click="load = limit; showLoadLimit = false">
+                            @click="load = limit; showLoadLimit = false; totalPages = Math.ceil(totalMovies / load)">
                             Load Limit = {{ limit }}
                         </div>
                     </div>
@@ -287,7 +287,7 @@
             <!-- Next Page Functions & Buttons -->
             <div></div>
             <div class="pagination-controls">
-                <button type="button" class="page-arrow" :disabled="page === 1" @click="page--">←</button>
+                <button type="button" class="page-arrow" :disabled="page <= 1" @click="page--">←</button>
 
                 <!-- <button type="button" v-for="n in visiblePages" :key="n" :disabled="n === '...'"
                     :class="['page-number', { active: n === page, ellipsis: n === '...' }]"
@@ -295,8 +295,7 @@
                     {{ n }}
                 </button> -->
 
-
-                <button type="button" class="page-arrow" :disabled="page === totalPages" @click="page++">→</button>
+                <button type="button" class="page-arrow" :disabled="page >= totalPages" @click="page++">→</button>
 
             </div>
 
