@@ -11,6 +11,8 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ../backend/db:/docker-entrypoint-initdb.d:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   app:
     build:
@@ -20,14 +22,16 @@ services:
     volumes:
       - ..:/workspace        # mount entire project root
       - backend_node_modules:/workspace/backend/node_modules
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     working_dir: /workspace/backend
     env_file:
-      - ../backend/.env      # ensure .env.example exists; instruct collaborators to copy
+      - ../backend/.env
     ports:
       - "8080:8080"
     depends_on:
       - db
-    command: npm run dev    # uses nodemon for live reload
+    command: npm run dev
 
 volumes:
   db_data:
