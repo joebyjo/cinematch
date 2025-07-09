@@ -120,7 +120,7 @@ const app = Vue.createApp({
         formatTitle(title) {
             if (!title) return 'N/A';
             this.fullTitle = title;
-            return title.length > 18 ? title.substring(0, 15) + '...' : title;
+            return title;
         },
         formatImdbRating(rating) {
             return rating ? `${rating} / 10` : 'N/A';
