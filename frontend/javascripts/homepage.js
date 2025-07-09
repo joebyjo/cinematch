@@ -19,6 +19,7 @@ createApp({
             searchResults: [],
             showSearchResult: false,
             isTVShows: false,
+            showAllPopup: false,
 
             trending: [],
             trendingSi: 0,
@@ -40,6 +41,12 @@ createApp({
             // build url and redirect for tv show and movie
             const searchLink = (this.isTVShows ? "/tv/" : "/movie/");
             window.location.href = searchLink + path;
+        },
+        openShowAllPopup() {
+            this.showAllPopup = true;
+        },
+        closeShowAllPopup() {
+            this.showAllPopup = false;
         },
         async searchMovies(searchQuery) {
             if (searchQuery.length <= 3) {

@@ -143,7 +143,24 @@
                     </div>
 
                     <div class="search-results" v-show="showSearchResult">
-                        <div v-for="sr in searchResults" @click="redirect(sr.id)">{{sr.title}}</div>
+                        <div v-for="(sr, i) in searchResults.slice(0, 5)" @click="redirect(sr.id)">{{sr.title}}</div>
+                        <button v-if="searchResults.length > 1" class="show-all-button" @click="openShowAllPopup">Show all</button>
+                    </div>
+
+                    <!--show all search results-->
+                    <div v-if="showAllPopup" class="search-results-overlay">
+                        <div class="results-popup">
+                            <h2>All results</h2>
+                            <button class="close-button" @click="closeShowAllPopup">x</button>
+
+                            <div class="results-popup-grid">
+                                <div v-for="sr in searchResults" class="popup-grid-item" @click="redirect(sr.id)">
+                                    <img :src="sr.poster_path ? `https://image.tmdb.org/t/p/w500${sr.poster_path}` : '/images/unavailable-poster.svg'"
+                                    :alt="sr.title"/>
+                                    <div class="popup-item-title">{{ sr.title }}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

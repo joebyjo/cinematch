@@ -86,11 +86,12 @@ router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
         });
 
         var { results } = data;
-        results = results.slice(0, 5); // limit results to 5
+        // results = results.slice(0, 5); // limit results to 5
 
         const trimmedResults = results.map((movie) => ({
             id: movie.id,
-            title: movie.title
+            title: movie.title,
+            poster_path: movie.poster_path
         }));
 
         res.status(200).json(trimmedResults);

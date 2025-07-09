@@ -85,11 +85,12 @@ router.get('/search', validateSearchQuery('q'), validate, async (req, res) => {
         var { results } = data;
 
         // limit to top 5 results
-        results = results.slice(0, 5);
+        // results = results.slice(0, 5);
 
         const trimmedResults = results.map((show) => ({
             id: show.id,
-            title: show.name
+            title: show.name,
+            poster_path: show.poster_path
         }));
 
         res.status(200).json(trimmedResults);

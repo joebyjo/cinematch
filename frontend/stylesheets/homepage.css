@@ -12,9 +12,6 @@
     --border-homepage: #ffffff
 }
 
-
-
-
 .primary-bg-color-homepage {
     background-color: var(--primary-color-homepage);
 }
@@ -89,6 +86,8 @@ main .heading3 {
     padding: 0rem 1rem 0rem 1rem;
     background-color: #F0F0F0;
     width: 15rem;
+     z-index: 3;
+    position: relative;
 
 }
 
@@ -116,9 +115,9 @@ main .heading3 {
 
 .search-results {
     position: absolute;
-    width: 14rem;
+    width: 15rem;
     background-color: var(--user-menu-color);
-    padding: 0.5rem 1rem 0.5rem 2rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 1.5rem;
     box-shadow: 0 0.5rem 1rem var(--box-shadow-nav-bar);
     gap: 1rem;
@@ -148,6 +147,103 @@ main .heading3 {
 
 .search-icon {
     pointer-events: none;
+}
+
+.show-all-button {
+    width: 90%;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    align-self: center;
+    background: #454545;
+    font-size: 1rem;
+    color: #ffffff;
+    border-radius: 0.4rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+.show-all-button:hover {
+    background: #696969;
+}
+
+.search-results-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0000009d;
+    z-index: 3;
+    backdrop-filter: blur(0.4rem);
+}
+
+.results-popup {
+    position: relative;
+    background: #222222;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 0.1rem solid #ffffff;
+    width: 60%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.close-button {
+    position: absolute;
+    top: 3rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    color: #ffffff;
+    background: none;
+    cursor: pointer;
+}
+
+.results-popup>h2 {
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.results-popup-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.popup-grid-item {
+    display: flex;
+    width: 15%;
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    background: #333333;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in;
+}
+
+.popup-grid-item:hover {
+    background: #444444;
+}
+
+.popup-grid-item>img {
+    width: 95%;
+    height: 15rem;
+    object-fit: cover;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.popup-item-title {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    white-space: wrap;
+    overflow-x: hidden;
 }
 
 /* Search Bar ends */
