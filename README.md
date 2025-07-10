@@ -11,18 +11,18 @@ Users can like or dislike content, and Cinematch learns their preferences to pro
 
 ## 📚 Table of Contents
   
-- [🎬 Cinematch](#cinematch)
-- [📚 Table of Contents](#table-of-contents)
-- [🧰 Project Structure](#project-structure)
-- [✨ Features](#features)
-- [🚀 Usage](#🚀usage)
-- [🔑 API Keys & .env Setup](#api-keys--env-setup)
-- [👨🏻‍💼 Dummy Data](#dummy-data)
-- [🛠️ Makefile Targets](#makefile-targets)
-- [🔒 Security Notes](#security-notes)
-- [📦 Technologies Used](#technologies-used)
-- [📈 Future Improvements](#future-improvements)
-- [📸 Screenshots](#screenshots)
+- [🎬 Cinematch](#-cinematch)
+- [📚 Table of Contents](#-table-of-contents)
+- [🧰 Project Structure](#-project-structure)
+- [✨ Features](#-features)
+- [🚀 Usage](#-usage)
+- [🔑 API Keys & .env Setup](#-api-keys--env-setup)
+- [👨🏻‍💼 Dummy Data](#-dummy-data)
+- [🛠️ Makefile Targets](#-makefile-targets)
+- [🔒 Security Notes](#-security-notes)
+- [📦 Technologies Used](#-technologies-used)
+- [📈 Future Improvements](#-future-improvements)
+- [📸 Screenshots](#-screenshots)
 
 
 ## 🧰 Project Structure
