@@ -1,7 +1,6 @@
 
 ![Logo](./docs/images/cinematch_logo.png)
 
----
 
 ## 🎬 Cinematch
 
@@ -12,20 +11,19 @@ Users can like or dislike content, and Cinematch learns their preferences to pro
 
 ## 📚 Table of Contents
   
-- [🎬 Cinematch](#🎬-cinematch)
-- [📚 Table of Contents](#📚-table-of-contents)
-- [🧰 Project Structure](#🧰-project-structure)
-- [✨ Features](#✨-features)
-- [🚀 Usage](#🚀-usage)
-- [🔑 API Keys & .env Setup](#🔑-api-keys--env-setup)
-- [👨🏻‍💼 Dummy Data](#👨🏻‍💼-dummy-data)
-- [🛠️ Makefile Targets](#🛠️-makefile-targets)
-- [🔒 Security Notes](#🔒-security-notes)
-- [📦 Technologies Used](#📦-technologies-used)
-- [📈 Future Improvements](#📈-future-improvements)
-- [📸 Screenshots](#📸-screenshots)
+- [🎬 Cinematch](#cinematch)
+- [📚 Table of Contents](#table-of-contents)
+- [🧰 Project Structure](#project-structure)
+- [✨ Features](#features)
+- [🚀 Usage](#🚀usage)
+- [🔑 API Keys & .env Setup](#api-keys--env-setup)
+- [👨🏻‍💼 Dummy Data](#dummy-data)
+- [🛠️ Makefile Targets](#makefile-targets)
+- [🔒 Security Notes](#security-notes)
+- [📦 Technologies Used](#technologies-used)
+- [📈 Future Improvements](#future-improvements)
+- [📸 Screenshots](#screenshots)
 
----
 
 ## 🧰 Project Structure
 
@@ -50,7 +48,6 @@ cinematch/
 
 ```
 
----
 
 ## ✨ Features
 
@@ -67,7 +64,6 @@ cinematch/
 - 🌗 Dark / Light mode
 
 
----
 
 ## 🚀 Usage
 
@@ -101,7 +97,6 @@ cinematch/
 
    🔗 `http://localhost:8080`
 
----
 
 ## 🔑 API Keys & .env Setup
 
@@ -134,7 +129,6 @@ You can obtain keys from:
 - 🔗 [TMDB API Key](https://www.themoviedb.org/settings/api)
 - 🔗 [OMDB API Key](https://www.omdbapi.com/apikey.aspx)
 
----
 
 ## 👨🏻‍💼 Dummy Data
 
@@ -147,7 +141,6 @@ Use the following credentials to explore the app’s functionality:
 | User  | josheen  | Ab_123456  |
 | User  | liri     | Ab_123456  |
 
----
 
 ## 🛠️ Makefile Targets
 
@@ -163,7 +156,6 @@ Use the following credentials to explore the app’s functionality:
 | `make db-dump`   | Dumps the current state of the database to `dump.sql`                   |
 | `make db-reset`  | Drops the DB, recreates schema/views, and seeds it all in one step      |
 
----
 
 ## 🔒 Security Notes
 
@@ -174,7 +166,6 @@ Use the following credentials to explore the app’s functionality:
 - 🧠 Session handling with `express-session` & `express-mysql-session`
 - 🔑 Authentication enforced via Passport.js middleware
 
----
 
 ## 📦 Technologies Used
 
@@ -192,7 +183,6 @@ Use the following credentials to explore the app’s functionality:
 - **HTML5**, **CSS3**, **Vue.js**
 - **Vanilla JavaScript** (modularised with ES6 modules)
 
----
 
 ## 📈 Future Improvements
 - add support for TV Shows
@@ -202,7 +192,6 @@ Use the following credentials to explore the app’s functionality:
 - Shareable playlists
 - Streaming
 
----
 
 ## 📸 Screenshots
 
