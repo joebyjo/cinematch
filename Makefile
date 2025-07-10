@@ -33,7 +33,7 @@ dev:
 	@cd $(BACKEND_DIR) && npm run dev
 
 mysql:
-	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS)
+	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) $(DB_NAME)
 
 db-create:
 	@mysql -h $(DB_HOST) -u$(DB_USER) -p$(DB_PASS) < $(DB_DIR)/schema.sql
