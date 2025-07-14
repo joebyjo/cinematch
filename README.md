@@ -82,8 +82,11 @@ cinematch/
     # fill in TMDB, OMDB keys, cookie secret, and DB credentials
     ```
 
-3. **Open in Dev Container in Visual Studio Code.**
-    - Use “Reopen in Container” if prompted, or manually open the folder in a Dev Container.
+3. **Open the Project in a Dev Container Using VS Code**
+
+   - If prompted, select **“Reopen in Container”** to launch the project inside the dev environment.
+   - Alternatively, open the folder in VS Code, then click the green corner icon (bottom-left) and choose **“Reopen in Container”** manually.
+   - New to Dev Containers? Follow this [official tutorial by VS Code](https://code.visualstudio.com/docs/devcontainers/tutorial) to get started.
 
 4. **Run the following commands:**
 
