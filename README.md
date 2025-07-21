@@ -117,7 +117,7 @@ OMDB_API_KEY=your_omdb_key_here
 COOKIE_SECRET=your_cookie_secret
 
 # database
-DB_HOST=localhost
+DB_HOST=db
 DB_PORT=3306
 DB_NAME=your_db_name
 DB_USER=your_mysql_user
@@ -198,6 +198,6 @@ Use the following credentials to explore the app’s functionality:
 
 ## 📸 Screenshots
 
-![Logo](./docs/images/cinematch_home.png)
-![Logo](./docs/images/cinematch_personalise.png)
-![Logo](./docs/images/cinematch_mylists.png)
+![Home Page](./docs/images/cinematch_home.png)
+![Personalise Page](./docs/images/cinematch_personalise.png)
+![Mylist page](./docs/images/cinematch_mylists.png)
