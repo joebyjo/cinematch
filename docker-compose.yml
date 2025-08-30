@@ -28,8 +28,7 @@ services:
     volumes:
       - backend_node_modules:/app/backend/node_modules
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     ports:
       - "8080:8080"
     command: ["sh", "-c", "wait-for-it.sh db:3306 -- npm run start"]
