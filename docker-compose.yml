@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: cinematch_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cinematch
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/db:/docker-entrypoint-initdb.d:ro
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: cinematch_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: cinematch
+      APP_PORT: 8080
+    volumes:
+      - backend_node_modules:/app/backend/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    command: ["sh", "-c", "wait-for-it.sh db:3306 -- npm run start"]
+
+volumes:
+  db_data:
+  backend_node_modules:
