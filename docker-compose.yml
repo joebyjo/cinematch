@@ -5,9 +5,11 @@ services:
     image: mysql:8.0
     container_name: cinematch_db
     restart: unless-stopped
+    env_file:
+      - ./backend/.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cinematch
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - db_data:/var/lib/mysql
       - ./backend/db:/docker-entrypoint-initdb.d:ro
@@ -18,13 +20,15 @@ services:
       dockerfile: ./Dockerfile
     container_name: cinematch_backend
     restart: unless-stopped
+    env_file:
+      - ./backend/.env
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
       DB_HOST: db
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: cinematch
-      APP_PORT: 8080
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      APP_PORT: ${APP_PORT}
     volumes:
       - backend_node_modules:/app/backend/node_modules
     depends_on:
