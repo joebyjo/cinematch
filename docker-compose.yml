@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     image: mysql:8.0
@@ -28,13 +26,13 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
-      APP_PORT: ${APP_PORT}
+      APP_PORT: 8080
     volumes:
       - backend_node_modules:/app/backend/node_modules
     depends_on:
       - db
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${APP_PORT}:8080"
     command: ["sh", "-c", "wait-for-it.sh db:3306 -- npm run start"]
 
 volumes:
