@@ -1,6 +1,5 @@
-CREATE DATABASE IF NOT EXISTS cinematch;
-
-USE cinematch;
+CREATE DATABASE IF NOT EXISTS defaultdb;
+USE defaultdb;
 
 DROP TABLE IF EXISTS `SESSIONS`;
 DROP TABLE IF EXISTS `USERPREFERENCES`;
@@ -72,9 +71,11 @@ CREATE TABLE `MOVIES` (
 
 -- create moviesgenres table
 CREATE TABLE `MOVIEGENRES` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `movie_id` int NOT NULL,
     `genre_id` int NOT NULL,
-    PRIMARY KEY (`movie_id`,`genre_id`),
+    PRIMARY KEY (`id`),
+    KEY `movie_id` (`movie_id`),
     KEY `genre_id` (`genre_id`),
     CONSTRAINT `MOVIEGENRES_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `MOVIES` (`id`) ON DELETE CASCADE,
     CONSTRAINT `MOVIEGENRES_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `GENRES` (`id`) ON DELETE CASCADE
@@ -82,9 +83,11 @@ CREATE TABLE `MOVIEGENRES` (
 
 -- create movieproviders table
 CREATE TABLE `MOVIEPROVIDERS` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `movie_id` int NOT NULL,
     `provider_id` int NOT NULL,
-    PRIMARY KEY (`movie_id`,`provider_id`),
+    PRIMARY KEY (`id`),
+    KEY `movie_id` (`movie_id`),
     KEY `provider_id` (`provider_id`),
     CONSTRAINT `MOVIEPROVIDERS_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `MOVIES` (`id`) ON DELETE CASCADE,
     CONSTRAINT `MOVIEPROVIDERS_ibfk_2` FOREIGN KEY (`provider_id`) REFERENCES `WATCHPROVIDERS` (`id`) ON DELETE CASCADE
@@ -129,9 +132,11 @@ CREATE TABLE `USERS` (
 
 -- create usersettings table
 CREATE TABLE `USERSETTINGS` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int NOT NULL,
     `theme` enum('dark','light') NOT NULL DEFAULT 'dark',
     `user_vector` json DEFAULT NULL,
+    PRIMARY KEY (`id`),
     KEY `user_id` (`user_id`),
     CONSTRAINT `USERSETTINGS_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE
 );
@@ -148,12 +153,14 @@ CREATE TABLE `USERRATINGS` (
 
 -- create userpreferences table
 CREATE TABLE `USERPREFERENCES` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int DEFAULT NULL,
     `preference_id` int NOT NULL,
     `movie_id` int NOT NULL,
     `user_rating_id` int DEFAULT NULL,
     `score`  DOUBLE PRECISION DEFAULT -1,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
     KEY `user_id` (`user_id`),
     KEY `preference_id` (`preference_id`),
     KEY `movie_id` (`movie_id`),
@@ -180,18 +187,20 @@ CREATE TABLE `SESSIONS` (
 
 -- create userlanguages table for user's lang preferences
 CREATE TABLE `USERLANGUAGES` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int NOT NULL,
     `language_id` int NOT NULL,
-    PRIMARY KEY (`user_id`, `language_id`),
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`language_id`) REFERENCES `LANGUAGES` (`id`) ON DELETE CASCADE
 );
 
 -- create usergenres table for user's genre preferences
 CREATE TABLE `USERGENRES` (
+    `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int NOT NULL,
     `genre_id` int NOT NULL,
-    PRIMARY KEY (`user_id`, `genre_id`),
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`genre_id`) REFERENCES `GENRES` (`id`) ON DELETE CASCADE
 );
